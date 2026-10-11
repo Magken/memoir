@@ -4,6 +4,7 @@
  * is parsed, framed, and drawing, so the loader leaves onto a finished scene.
  */
 import {
+  ArrowDownToDot,
   Bird,
   Bluetooth,
   Box,
@@ -11,16 +12,21 @@ import {
   ChevronDown,
   ChevronUp,
   Download,
+  House,
   Laptop,
   MessageSquare,
+  Mic,
+  MicOff,
   Mountain,
+  MoveLeft,
+  MoveRight,
   Send,
   Unplug,
   Usb,
   Volume2,
   VolumeX,
 } from 'lucide-react'
-import { useEffect, useRef, useState, type ReactNode, type RefObject } from 'react'
+import { useEffect, useRef, useState, type FormEvent, type ReactNode, type RefObject } from 'react'
 import { IconButton } from '../components/IconButton'
 import { LandingLoadOverlay } from '../components/LandingLoadOverlay'
 import { Tooltip } from '../components/Tooltip'
@@ -47,6 +53,29 @@ export const HOME_SPLAT_VIEW: SplatView = {
   fov: 50,
 }
 
+/** Saved camera spots for the Views menu; all orbit the same target as home. */
+const MEMOIR_VIEWS = [
+  { id: 'home', label: 'Home view', icon: House, view: HOME_SPLAT_VIEW },
+  {
+    id: 'left',
+    label: 'Left view',
+    icon: MoveLeft,
+    view: { camera: [-0.5855, -0.1266, -0.1309], target: HOME_SPLAT_VIEW.target, fov: 50 },
+  },
+  {
+    id: 'right',
+    label: 'Right view',
+    icon: MoveRight,
+    view: { camera: [0.8795, -0.1266, -0.3787], target: HOME_SPLAT_VIEW.target, fov: 50 },
+  },
+  {
+    id: 'top',
+    label: 'Top view',
+    icon: ArrowDownToDot,
+    view: { camera: [0.147, 0.6049, -0.2348], target: HOME_SPLAT_VIEW.target, fov: 50 },
+  },
+] as const satisfies readonly { id: string; label: string; icon: unknown; view: SplatView }[]
+
 export const MEMOIR_SIDE_OBJECT = '/3d/kps/ast_01M4NXV365JT1YZFEZDNEPG5PK/assets/memoir_capture/memoir_capture.glb'
 
 /** Objects the Object viewer can switch between; the first loads with the page. */
@@ -72,6 +101,8 @@ const COLLAPSE_MS = 320
 const SIDE_SHARE = 0.2
 
 type SideObject = { stage: typeof import('../lib/dotpad/objectStage'); model: Object3D; url: string }
+
+type ChatTurn = { role: 'user' | 'assistant'; text: string }
 
 /** Pane actions the Dot Pad keys reach; each pane registers its own. */
 type PadActions = {
@@ -438,68 +469,38 @@ function MemoirShotPane({
   crop,
   stageRef,
   onGenerated,
-  onDescription,
+  onShot,
+  onAsk,
+  asking,
   actionsRef,
 }: {
   cells: readonly LclCell[]
   crop: SplatCrop
   stageRef: RefObject<SplatStage | null>
   onGenerated: (glbUrl: string) => Promise<void>
-  onDescription: (text: string, pending: boolean) => void
+  onShot: (image: string) => void
+  onAsk: () => Promise<string | null>
+  asking: boolean
   actionsRef: RefObject<PadActions>
 }) {
   const [shot, setShot] = useState('')
   const [busy, setBusy] = useState(false)
   const [notice, setNotice] = useState('')
   const abortRef = useRef<AbortController | null>(null)
-  const [describing, setDescribing] = useState(false)
-  const shotRef = useRef('')
-  const describedRef = useRef({ shot: '', text: '' })
-  const describingRef = useRef(false)
 
   useEffect(() => () => abortRef.current?.abort(), [])
-
-  /** Describes the current photo once; asking again for the same photo returns the same text. */
-  async function sendToChat(): Promise<string | null> {
-    const current = shotRef.current
-    if (!current || describingRef.current) return null
-    if (describedRef.current.shot === current) return describedRef.current.text
-    describingRef.current = true
-    setDescribing(true)
-    onDescription('Describing the scene…', true)
-    try {
-      const reply = await fetch('/api/describe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image: current }),
-      })
-      const body = (await reply.json()) as { text?: string; error?: string }
-      onDescription(body.text ?? body.error ?? 'No description came back', false)
-      if (!body.text) return null
-      describedRef.current = { shot: current, text: body.text }
-      return body.text
-    } catch (reason) {
-      onDescription(reason instanceof Error ? reason.message : 'Describe failed', false)
-      return null
-    } finally {
-      describingRef.current = false
-      setDescribing(false)
-    }
-  }
 
   async function takePhoto() {
     const stage = stageRef.current
     if (!stage) return
     const next = await stage.capture(crop)
-    shotRef.current = next
     setShot(next)
+    onShot(next)
     if (!busy) setNotice('')
   }
 
   useEffect(() => {
-    const actions = actionsRef.current
-    actions.capture = takePhoto
-    actions.describe = sendToChat
+    actionsRef.current.capture = takePhoto
   })
 
   async function sendPhoto() {
@@ -542,8 +543,8 @@ function MemoirShotPane({
             aria-label="Send photo to chat"
             size="sm"
             variant="ghost"
-            disabled={!shot || describing}
-            onClick={() => void sendToChat()}
+            disabled={!shot || asking}
+            onClick={() => void onAsk()}
           />
         </Tooltip>
         <Tooltip content="Send the photo to ProjectSim to generate a 3D object">
@@ -575,19 +576,153 @@ function MemoirShotPane({
 /** Right column, bottom: the chat's scene description, scrollable, with read-aloud. */
 function MemoirDescPane({
   cells,
-  text,
+  turns,
   pending,
+  hasShot,
+  onAsk,
+  onCommand,
   actionsRef,
 }: {
   cells: readonly LclCell[]
-  text: string
+  turns: readonly ChatTurn[]
   pending: boolean
+  hasShot: boolean
+  onAsk: (question?: string) => Promise<string | null>
+  /** Returns true when the text was an action word (e.g. "left view") and was handled. */
+  onCommand: (text: string) => boolean
   actionsRef: RefObject<PadActions>
 }) {
   const [speaking, setSpeaking] = useState(false)
   const speakingRef = useRef(false)
-  const [reading, setReading] = useState<BraillePage | null>(null)
+  const [reading, setReading] = useState<(BraillePage & { copy: string }) | null>(null)
   const markRef = useRef<HTMLElement>(null)
+  const endRef = useRef<HTMLDivElement>(null)
+  const [question, setQuestion] = useState('')
+  const lastAnswer = turns.findLastIndex((turn) => turn.role === 'assistant')
+  const text = lastAnswer >= 0 ? turns[lastAnswer].text : ''
+  const readingTurn = reading
+    ? turns.findLastIndex((turn) => turn.role === 'assistant' && turn.text.trim() === reading.copy)
+    : -1
+
+  useEffect(() => {
+    endRef.current?.scrollIntoView({ block: 'end', behavior: 'smooth' })
+  }, [turns.length, pending])
+
+  async function askAloud(ask: string) {
+    if (!ask || pending || !hasShot) return
+    setQuestion('')
+    const answer = await onAsk(ask)
+    if (answer) await readAloud(answer)
+  }
+
+  async function submit(event: FormEvent) {
+    event.preventDefault()
+    const text = question.trim()
+    if (onCommand(text)) {
+      setQuestion('')
+      return
+    }
+    if (!hasShot) return
+    await askAloud(text)
+  }
+
+  const recordingRef = useRef<import('../lib/voice/recordWav').WavRecording | null>(null)
+  const liveRef = useRef<import('../lib/liveTranscribeApi').LiveTranscribeHandle | null>(null)
+  const [listening, setListening] = useState<'off' | 'on' | 'transcribing'>('off')
+  const setVoiceNote = (_note: string) => {}
+
+  useEffect(
+    () => () => {
+      recordingRef.current?.cancel()
+      liveRef.current?.stop()
+    },
+    [],
+  )
+
+  /**
+   * Streams the mic to OpenAI Realtime: words appear live in the input, and the first
+   * finished turn (a pause) is asked. A second press stops; falls back to record-then-transcribe.
+   */
+  async function toggleLiveVoice() {
+    if (liveRef.current) {
+      liveRef.current.commit()
+      window.setTimeout(() => {
+        liveRef.current?.stop()
+        liveRef.current = null
+        setListening('off')
+      }, 1200)
+      return
+    }
+    const { stopSpeaking } = await import('../lib/voice/speak')
+    stopSpeaking()
+    setQuestion('')
+    setListening('on')
+    try {
+      const { startLiveWs } = await import('../lib/voice/liveWs')
+      let asked = false
+      setVoiceNote('Connecting to live transcription…')
+      liveRef.current = await startLiveWs({
+        onNote: setVoiceNote,
+        onPartial: (text) => {
+          setQuestion(text)
+        },
+        onFinal: (text) => {
+          if (asked) return
+          asked = true
+          liveRef.current?.stop()
+          liveRef.current = null
+          setListening('off')
+          void askAloud(text)
+        },
+      })
+    } catch (error) {
+      liveRef.current = null
+      setListening('off')
+      setVoiceNote(
+        `Live failed (${error instanceof Error ? (error as Error & { detail?: string }).detail || error.message : 'unknown'}); recording instead`,
+      )
+      await toggleVoice()
+    }
+  }
+
+  /** First press listens (live words in the input); second press stops, transcribes with OpenAI, and asks. */
+  async function toggleVoice() {
+    if (listening === 'transcribing') return
+    if (listening === 'on') {
+      const recording = recordingRef.current
+      recordingRef.current = null
+      if (!recording) return
+      setListening('transcribing')
+      try {
+        const { wav, fallback } = await recording.stop()
+        let heard = ''
+        try {
+          const reply = await fetch('/api/transcribe', { method: 'POST', headers: { 'Content-Type': 'audio/wav' }, body: wav })
+          const body = (await reply.json()) as { text?: string }
+          heard = body.text?.trim() ?? ''
+        } catch {
+          heard = ''
+        }
+        heard ||= fallback
+        setListening('off')
+        if (heard) await askAloud(heard)
+        else setQuestion('')
+      } finally {
+        setListening('off')
+      }
+      return
+    }
+    try {
+      const { stopSpeaking } = await import('../lib/voice/speak')
+      stopSpeaking()
+      const { startWavRecording } = await import('../lib/voice/recordWav')
+      setQuestion('')
+      recordingRef.current = await startWavRecording((live) => setQuestion(live))
+      setListening('on')
+    } catch {
+      setListening('off')
+    }
+  }
 
   useEffect(() => () => void import('../lib/voice/speak').then(({ stopSpeaking }) => stopSpeaking()), [])
 
@@ -613,7 +748,7 @@ function MemoirDescPane({
     const show = (next: number) => {
       if (next === page || next >= pages.length) return
       page = next
-      setReading(pages[next])
+      setReading({ ...pages[next], copy: line })
       actionsRef.current.braille?.(pages[next].line)
     }
     speakingRef.current = true
@@ -644,11 +779,11 @@ function MemoirDescPane({
   return (
     <FrameTile id="description" cells={cells} className="theme-memoir-frame__pane">
       <div className="theme-memoir-frame__bar">
-        <span className="theme-memoir-frame__label font-mono">Description</span>
-        <Tooltip content={speaking ? 'Stop reading' : 'Read the description out loud'}>
+        <span className="theme-memoir-frame__label font-mono">Chat</span>
+        <Tooltip content={speaking ? 'Stop reading' : 'Read the last answer out loud'}>
           <IconButton
             icon={speaking ? VolumeX : Volume2}
-            aria-label={speaking ? 'Stop reading' : 'Read description'}
+            aria-label={speaking ? 'Stop reading' : 'Read last answer'}
             aria-pressed={speaking}
             size="sm"
             variant="ghost"
@@ -657,20 +792,101 @@ function MemoirDescPane({
           />
         </Tooltip>
       </div>
-      <div className="theme-memoir-frame__pane-body theme-memoir-frame__pane-body--tagged theme-memoir-frame__desc">
-        <p className="m-0 whitespace-pre-wrap font-mono text-[0.7rem] leading-relaxed text-white/80">
-          {reading && text ? (
-            <>
-              {text.slice(0, reading.start)}
-              <mark ref={markRef} className="theme-memoir-frame__reading">
-                {text.slice(reading.start, reading.end)}
-              </mark>
-              {text.slice(reading.end)}
-            </>
-          ) : (
-            text || 'Take a photo, then send it to chat to describe the scene.'
-          )}
-        </p>
+      <div className="theme-memoir-frame__pane-body theme-memoir-frame__pane-body--tagged theme-memoir-frame__chat">
+        <div className="theme-memoir-frame__desc" role="log" aria-live="polite">
+          {turns.length === 0 && !pending ? (
+            <p className="m-0 font-mono text-[0.7rem] leading-relaxed text-white/50">
+              {hasShot ? 'Send the photo to chat to describe it, or ask a question below.' : 'Take a photo to start a chat about it.'}
+            </p>
+          ) : null}
+          {turns.map((turn, index) => (
+            <p
+              key={index}
+              className={`m-0 border-b border-white/10 py-2 whitespace-pre-wrap font-mono text-[0.7rem] leading-relaxed last-of-type:border-b-0 ${
+                turn.role === 'user' ? 'text-right text-white/55' : 'text-white/85'
+              }`}
+            >
+              {reading && readingTurn === index ? (
+                <>
+                  {turn.text.slice(0, reading.start)}
+                  <mark ref={markRef} className="theme-memoir-frame__reading">
+                    {turn.text.slice(reading.start, reading.end)}
+                  </mark>
+                  {turn.text.slice(reading.end)}
+                </>
+              ) : (
+                turn.text
+              )}
+            </p>
+          ))}
+          {pending ? <p className="m-0 font-mono text-[0.7rem] text-white/50">Thinking…</p> : null}
+          <div ref={endRef} />
+        </div>
+        <form className="flex items-center gap-1 border-t border-white/10 px-2 py-1" onSubmit={(event) => void submit(event)}>
+          <input
+            value={question}
+            onChange={(event) => setQuestion(event.target.value)}
+            placeholder={
+              !hasShot
+                ? 'Try "left view", "right view", "top view", "home view"'
+                : listening === 'on'
+                  ? 'Listening… press the mic to stop'
+                  : listening === 'transcribing'
+                    ? 'Transcribing…'
+                    : 'Ask about this capture…'
+            }
+            aria-label="Ask about this capture"
+            disabled={listening !== 'off'}
+            className="min-w-0 flex-1 bg-transparent font-mono text-[0.7rem] text-white outline-none placeholder:text-white/35"
+          />
+          <IconButton
+            icon={Send}
+            aria-label="Ask"
+            size="sm"
+            variant="ghost"
+            type="submit"
+            disabled={pending || !question.trim()}
+          />
+        </form>
+      </div>
+    </FrameTile>
+  )
+}
+
+/** Left column, top: jump the splat camera to home, side, or top. */
+function MemoirViewsPane({
+  cells,
+  stageRef,
+  active,
+  setActive,
+}: {
+  cells: readonly LclCell[]
+  stageRef: RefObject<SplatStage | null>
+  active: string
+  setActive: (id: string) => void
+}) {
+  return (
+    <FrameTile id="views" cells={cells} className="theme-memoir-frame__pane">
+      <div className="theme-memoir-frame__bar">
+        <span className="theme-memoir-frame__label font-mono">Views</span>
+        <span className="flex items-center gap-1">
+          {MEMOIR_VIEWS.map((item) => (
+            <Tooltip key={item.id} content={item.label}>
+              <IconButton
+                icon={item.icon}
+                aria-label={item.label}
+                size="sm"
+                variant="ghost"
+                active={active === item.id}
+                aria-pressed={active === item.id}
+                onClick={() => {
+                  stageRef.current?.flyTo(item.view)
+                  setActive(item.id)
+                }}
+              />
+            </Tooltip>
+          ))}
+        </span>
       </div>
     </FrameTile>
   )
@@ -686,11 +902,77 @@ function MemoirFrame({
   stageRef: RefObject<SplatStage | null>
   onGenerated: (glbUrl: string) => Promise<void>
 }) {
-  const [frame, objectPane, padPane, shotPane, descPane] = lclScene('memoirFrame').sections
-  const [description, setDescription] = useState({ text: '', pending: false })
+  const [frame, objectPane, padPane, shotPane, descPane, viewsPane] = lclScene('memoirFrame').sections
   const actionsRef = useRef<PadActions>({})
+  const sessionsRef = useRef(new Map<string, ChatTurn[]>())
+  const shotRef = useRef('')
+  const pendingRef = useRef(false)
+  const [hasShot, setHasShot] = useState(false)
+  const [turns, setTurns] = useState<ChatTurn[]>([])
+  const [activeView, setActiveView] = useState<string>('home')
+  const [pending, setPending] = useState(false)
+
+  const sessionRef = useRef(0)
+
+  /** Every capture starts a fresh chat session, then describes itself out loud. */
+  function openSession(image: string) {
+    sessionRef.current += 1
+    shotRef.current = image
+    setHasShot(true)
+    setTurns([])
+    void import('../lib/voice/speak').then(({ stopSpeaking }) => stopSpeaking())
+    void describeAloud()
+  }
+
+  async function describeAloud() {
+    const text = await ask()
+    if (text) await actionsRef.current.read?.(text)
+  }
+
+  /**
+   * No question: describe the photo (once per session; later calls return the first answer).
+   * With a question: send the session's turns so the model remembers the conversation.
+   */
+  async function ask(question?: string): Promise<string | null> {
+    const image = shotRef.current
+    const session = sessionRef.current
+    if (!image || pendingRef.current) return null
+    const key = String(session)
+    const history = sessionsRef.current.get(key) ?? []
+    const described = history.find((turn) => turn.role === 'assistant')
+    if (!question && described) return described.text
+    const asked: ChatTurn[] = question ? [...history, { role: 'user', text: question }] : history
+    const save = (next: ChatTurn[]) => {
+      sessionsRef.current.set(key, next)
+      if (sessionRef.current === session) setTurns(next)
+    }
+    save(asked)
+    pendingRef.current = true
+    setPending(true)
+    try {
+      const reply = await fetch('/api/describe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image, history, question }),
+      })
+      const body = (await reply.json()) as { text?: string; error?: string }
+      save([...asked, { role: 'assistant', text: body.text ?? body.error ?? 'No answer came back' }])
+      return body.text ?? null
+    } catch (reason) {
+      save([...asked, { role: 'assistant', text: reason instanceof Error ? reason.message : 'Chat failed' }])
+      return null
+    } finally {
+      pendingRef.current = false
+      setPending(false)
+    }
+  }
+
+  useEffect(() => {
+    actionsRef.current.describe = () => ask()
+  })
+
   return (
-    <div className="theme-lcl-layout theme-memoir-frame" aria-hidden>
+    <div className="theme-lcl-layout theme-memoir-frame">
       {cellsOutside(frame.cells).map((strip) => (
         <FrameTile key={strip.id} id={`glass-${strip.id}`} cells={strip.cells} className="theme-memoir-frame__glass" />
       ))}
@@ -709,13 +991,29 @@ function MemoirFrame({
         crop={frame.bounds}
         stageRef={stageRef}
         onGenerated={onGenerated}
-        onDescription={(text, pending) => setDescription({ text, pending })}
+        onShot={openSession}
+        onAsk={async () => {
+          await describeAloud()
+          return null
+        }}
+        asking={pending}
         actionsRef={actionsRef}
       />
+      <MemoirViewsPane cells={viewsPane.cells} stageRef={stageRef} active={activeView} setActive={setActiveView} />
       <MemoirDescPane
         cells={descPane.cells}
-        text={description.text}
-        pending={description.pending}
+        turns={turns}
+        pending={pending}
+        hasShot={hasShot}
+        onAsk={ask}
+        onCommand={(text) => {
+          const words = text.toLowerCase()
+          const match = MEMOIR_VIEWS.find((item) => words.includes(item.id)) ?? (words.includes('side') ? MEMOIR_VIEWS[1] : null)
+          if (!match || words.split(/\s+/).length > 4) return false
+          stageRef.current?.flyTo(match.view)
+          setActiveView(match.id)
+          return true
+        }}
         actionsRef={actionsRef}
       />
     </div>

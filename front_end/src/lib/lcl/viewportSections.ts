@@ -245,6 +245,7 @@ export const LCL_MEMOIR_FRAME_FIXTURE: LclViewportSectionsPayload = {
     sectionFromCells('s3', 'Dot Pad', cellsRect(0, 4, 2, 3)),
     sectionFromCells('s4', 'Screenshot', cellsRect(6, 1, 2, 3)),
     sectionFromCells('s5', 'Description', cellsRect(6, 4, 2, 3)),
+    sectionFromCells('s6', 'Views', cellsRect(3, 0, 2, 1)),
   ],
 }
 

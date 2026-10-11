@@ -17,7 +17,29 @@ const DESCRIBE_PROMPT = [
   'Angle: camera height and tilt (eye level, looking down, looking up) and how far away things are.',
   'Objects: the main objects, each with its position in the frame and its rough size.',
   'Keep it under 180 words. Do not guess at things you cannot see.',
+  'After that, the reader may ask follow-up questions about this same view.',
+  'Answer those in one to three short sentences of plain prose, from what is visible.',
 ].join('\n')
+
+/** Turns kept per capture session; older turns are dropped first. */
+const MAX_TURNS = 20
+const MAX_TURN_CHARS = 2000
+
+type ChatTurn = { role: 'user' | 'assistant'; text: string }
+
+function chatTurns(value: unknown): ChatTurn[] {
+  if (!Array.isArray(value)) return []
+  return value
+    .filter(
+      (turn): turn is ChatTurn =>
+        Boolean(turn) &&
+        (turn.role === 'user' || turn.role === 'assistant') &&
+        typeof turn.text === 'string' &&
+        turn.text.trim().length > 0,
+    )
+    .slice(-MAX_TURNS)
+    .map((turn) => ({ role: turn.role, text: turn.text.slice(0, MAX_TURN_CHARS) }))
+}
 
 function send(res: ServerResponse, status: number, body: unknown) {
   res.statusCode = status
@@ -25,7 +47,7 @@ function send(res: ServerResponse, status: number, body: unknown) {
   res.end(JSON.stringify(body))
 }
 
-function readJson(req: Connect.IncomingMessage): Promise<{ image?: unknown }> {
+function readJson(req: Connect.IncomingMessage): Promise<{ image?: unknown; history?: unknown; question?: unknown }> {
   return new Promise((resolve, reject) => {
     const chunks: Buffer[] = []
     req.on('data', (chunk: Buffer) => chunks.push(chunk))
@@ -63,9 +85,17 @@ export function describeDevPlugin(envFile = path.resolve(process.cwd(), '.env'))
         const key = readOpenAiKey(envFile)
         if (!key) return send(res, 500, { error: 'OPENAI_API_KEY is not set in front_end/.env' })
         try {
-          const { image } = await readJson(req)
+          const { image, history, question } = await readJson(req)
           if (typeof image !== 'string' || !image.startsWith('data:image/')) {
             return send(res, 400, { error: 'image must be a data URL' })
+          }
+          const turns = chatTurns(history)
+          const ask = typeof question === 'string' ? question.trim().slice(0, MAX_TURN_CHARS) : ''
+          if (ask) {
+            turns.push({
+              role: 'user',
+              text: `Follow-up question. Answer only this, in one to three short sentences, without repeating the description: ${ask}`,
+            })
           }
           const reply = await fetch('https://api.openai.com/v1/chat/completions', {
             method: 'POST',
@@ -82,6 +112,7 @@ export function describeDevPlugin(envFile = path.resolve(process.cwd(), '.env'))
                     { type: 'image_url', image_url: { url: image } },
                   ],
                 },
+                ...turns.map((turn) => ({ role: turn.role, content: turn.text })),
               ],
             }),
           })

@@ -4,12 +4,13 @@ import tailwindcss from '@tailwindcss/vite'
 import { describeDevPlugin } from './src/lib/describe/describeDevPlugin'
 import { kpsDevPlugin } from './src/lib/kps/kpsDevPlugin'
 import { hapticsDevPlugin } from './src/lib/haptics/hapticsDevPlugin'
+import { transcribeDevPlugin } from './src/lib/voice/transcribeDevPlugin'
 import { yoloDevPlugin } from './src/lib/yolo/yoloDevPlugin'
 import { splatDevPlugin, threeR186Plugin } from './src/lib/webgl/splat/splatDevPlugin'
 
 // Dev server. Haptics requests are forwarded by hapticsDevPlugin.
 export default defineConfig({
-  plugins: [threeR186Plugin(), react(), tailwindcss(), kpsDevPlugin(), describeDevPlugin(), yoloDevPlugin(), hapticsDevPlugin(), splatDevPlugin()],
+  plugins: [threeR186Plugin(), react(), tailwindcss(), kpsDevPlugin(), describeDevPlugin(), transcribeDevPlugin(), yoloDevPlugin(), hapticsDevPlugin(), splatDevPlugin()],
   optimizeDeps: {
     exclude: ['three-r186'],
     include: [

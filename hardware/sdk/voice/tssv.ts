@@ -122,7 +122,7 @@ export function runTssv(tool: TssvTool, args: readonly string[], root = TSSV_ROO
 
 /** The `hypothesis :` line of a tssvSpeechRecognizer report ('' when nothing was heard). */
 export function parseTranscript(stdout: string): string {
-  const lines = [...stdout.matchAll(/^\s*hypothesis\s*:\s*(.*)$/gm)].map((match) => match[1].trim())
+  const lines = [...stdout.matchAll(/^[ \t]*hypothesis[ \t]*:[ \t]*(.*)$/gm)].map((match) => match[1].trim())
   return lines.join(' ').trim()
 }
 

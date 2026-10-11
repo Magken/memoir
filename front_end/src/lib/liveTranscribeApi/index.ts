@@ -8,7 +8,17 @@ import { getSupabase, getSupabasePublicKey, getSupabaseUrl, DataApiError } from 
 
 export type LiveTranscribeDelay = 'minimal' | 'low' | 'medium' | 'high' | 'xhigh'
 
+/** Dev server mint (`/api/realtime-secret`): no Supabase login, key stays on the server. */
+export async function createDevLiveTranscribeSession(): Promise<LiveTranscribeSession> {
+  const res = await fetch('/api/realtime-secret', { method: 'POST' })
+  const body = (await res.json().catch(() => ({}))) as { clientSecret?: string; expiresAt?: number | null; model?: string; error?: string }
+  if (!res.ok || !body.clientSecret) throw new Error(body.error ?? `live_transcribe_${res.status}`)
+  return { clientSecret: body.clientSecret, expiresAt: body.expiresAt ?? null, model: body.model ?? 'gpt-live-transcribe', sessionId: null }
+}
+
 export type LiveTranscribeSessionOptions = {
+  /** Replaces the Edge mint (e.g. `createDevLiveTranscribeSession`). */
+  mint?: () => Promise<LiveTranscribeSession>
   languages?: string[]
   prompt?: string
   keywords?: string[]
@@ -32,6 +42,8 @@ export type LiveTranscribeHandlers = {
   onFinal?: (text: string) => void
   onStatus?: (status: LiveTranscribeStatus) => void
   onError?: (err: unknown) => void
+  /** Every server event type, for diagnostics. */
+  onEvent?: (type: string) => void
   /**
    * Live mic voice energy (0–1) each animation frame — drive wave chrome.
    */
@@ -220,7 +232,7 @@ export async function startLiveTranscription(
   }
 
   try {
-    const session = await createLiveTranscribeSession({
+    const session = handlers.mint ? await handlers.mint() : await createLiveTranscribeSession({
       languages: handlers.languages,
       prompt: handlers.prompt,
       keywords: handlers.keywords,
@@ -399,6 +411,7 @@ function handleServerEvent(
   }
 
   const type = typeof payload.type === 'string' ? payload.type : ''
+  handlers.onEvent?.(type)
   const itemId = typeof payload.item_id === 'string' ? payload.item_id : null
 
   if (

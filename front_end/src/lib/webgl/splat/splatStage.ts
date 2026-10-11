@@ -23,6 +23,8 @@ export type SplatStage = {
   getView: () => SplatView
   getSession: () => SplatSessionStage
   setView: (view: SplatView) => void
+  /** Glides to `view`, arcing round the target; jumps when reduced motion is on. */
+  flyTo: (view: SplatView, ms?: number) => void
   setFov: (fov: number) => void
   /** JPEG data URL of the next frame, cropped to `crop` (fractions of the canvas), longest side ≤ `maxSide`. */
   capture: (crop?: SplatCrop, maxSide?: number) => Promise<string>
@@ -104,7 +106,9 @@ export async function createSplatStage(host: HTMLElement, onView: (view: SplatVi
   let pendingShots: (() => void)[] = []
   const samplers = new Set<() => void>()
   const extraControls = new Set<InstanceType<typeof OrbitControls>>()
-  renderer.setAnimationLoop(() => {
+  let flight: ((now: number) => void) | null = null
+  renderer.setAnimationLoop((now: number) => {
+    flight?.(now)
     controls.update()
     for (const extra of extraControls) extra.update()
     renderer.render(scene, camera)
@@ -162,6 +166,44 @@ export async function createSplatStage(host: HTMLElement, onView: (view: SplatVi
     camera.far = Math.max(radius * 10 + distance, 10)
     camera.updateProjectionMatrix()
     controls.update()
+  }
+
+  const flyTo = (view: SplatView, ms = 1100) => {
+    flight = null
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setView(view)
+      return
+    }
+    const fromTarget = controls.target.clone()
+    const toTarget = new THREE.Vector3(...view.target)
+    const from = new THREE.Spherical().setFromVector3(camera.position.clone().sub(fromTarget))
+    const to = new THREE.Spherical().setFromVector3(new THREE.Vector3(...view.camera).sub(toTarget))
+    let turn = to.theta - from.theta
+    turn = Math.atan2(Math.sin(turn), Math.cos(turn))
+    const fromFov = camera.fov
+    controls.enabled = false
+    let start = -1
+    flight = (now) => {
+      if (start < 0) start = now
+      const t = Math.min((now - start) / ms, 1)
+      const ease = t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2
+      const target = fromTarget.clone().lerp(toTarget, ease)
+      const offset = new THREE.Vector3().setFromSpherical(
+        new THREE.Spherical(
+          from.radius + (to.radius - from.radius) * ease,
+          from.phi + (to.phi - from.phi) * ease,
+          from.theta + turn * ease,
+        ),
+      )
+      controls.target.copy(target)
+      camera.position.copy(target).add(offset)
+      camera.fov = fromFov + (view.fov - fromFov) * ease
+      camera.updateProjectionMatrix()
+      if (t < 1) return
+      flight = null
+      controls.enabled = true
+      setView(view)
+    }
   }
 
   return {
@@ -223,6 +265,7 @@ export async function createSplatStage(host: HTMLElement, onView: (view: SplatVi
       }
     },
     setView,
+    flyTo,
     setFov(fov) {
       camera.fov = fov
       camera.updateProjectionMatrix()
