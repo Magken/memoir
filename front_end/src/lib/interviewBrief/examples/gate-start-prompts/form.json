@@ -1,0 +1,22 @@
+[
+  {
+    "id": "form.eligibility.open",
+    "kind": "form",
+    "startPrompt": "Complete this short eligibility screen before we continue."
+  },
+  {
+    "id": "form.workauth.open",
+    "kind": "form",
+    "startPrompt": "Answer the required screening items so we know we can proceed."
+  },
+  {
+    "id": "form.compliance.open",
+    "kind": "form",
+    "startPrompt": "Fill in the compliance questions. Required items gate the rest of the interview."
+  },
+  {
+    "id": "form.intake.open",
+    "kind": "form",
+    "startPrompt": "Start with this intake form. Submit when the required fields are done."
+  }
+]

@@ -1,0 +1,272 @@
+{
+  "id": "about",
+  "label": "About",
+  "notes": "About scene at `/` under Landing. Places the Statue of Liberty at identity and About Us at the copied scene pointer. Opens on the torch tip, holds, then cranes around into Home. Copy-role viewpoints hop Home ↔ either with ViewpointFly (live camera, no boom-arc). Canvas ↔ inset Play/View uses the copied arch (second still clears Liberty). Look matches landing (max Focus, tele 135 mm). ACM peek 0.3 locked around the seated pose.",
+  "objects": [
+    {
+      "id": "liberty",
+      "assetId": "statue-of-liberty",
+      "notes": "About sculpture. Identity placement — GltfSubject normalize sits it on y=0.",
+      "position": [0, 0, 0],
+      "rotation": [0, 0, 0],
+      "scale": [1, 1, 1]
+    },
+    {
+      "id": "about-us",
+      "assetId": "about-us-letters",
+      "notes": "Starts at the copied scene pointer (left of A, About above Us). Double GRAS scale. Euler from that pointer. Lamps start dark.",
+      "position": [
+        0.018141644917041178,
+        0.9648613595731209,
+        -0.10058973866037224
+      ],
+      "rotation": [
+        0,
+        0,
+        -0.2944309410156071
+      ],
+      "scale": [0.2, 0.2, 0.2],
+      "lightGain": 0
+    }
+  ],
+  "camera": {
+    "position": [0.44316723966014343, 0.6005845711566575, -0.03607445487032376],
+    "target": [0.10067221762804619, 0.9549275591404651, 0.021738758203960394],
+    "orbit": {
+      "azimuth": 1.7380201105522828,
+      "polar": 2.366174158409453,
+      "radius": 0.49618964202815863
+    },
+    "up": [0, 1, 0],
+    "quaternion": [0.2500269230069355, 0.7040906988621224, -0.2957685579296058, 0.5952006264174907],
+    "look": {
+      "focus": 1,
+      "focalLength": 135,
+      "focalDistance": 0,
+      "noise": "off",
+      "grain": 0
+    },
+    "acm": {
+      "intensity": 0.3,
+      "lock": true
+    }
+  },
+  "view": {
+    "lightColor": "#f2c48a",
+    "meshColor": "#000000",
+    "lightGain": 0.05,
+    "scatter": 1.5
+  },
+  "viewpoints": [
+    {
+      "id": "flame-top",
+      "label": "Flame top",
+      "notes": "Copied first Path still. Pin is the torch look-at; the entrance crane holds here before the around.",
+      "position": [
+        0.1847167963365849,
+        1.0586350730873595,
+        -0.10587715696988231
+      ],
+      "camera": [
+        -0.16109322610509452,
+        1.5122883519375998,
+        0.5405656155868853
+      ],
+      "target": [
+        0.1847167963365849,
+        1.0586350730873595,
+        -0.10587715696988231
+      ],
+      "orbit": {
+        "azimuth": -0.49120967284087874,
+        "polar": 1.0166725117645925,
+        "radius": 0.8621334741347012
+      },
+      "up": [0, 1, 0]
+    },
+    {
+      "id": "text-canvas",
+      "label": "Text canvas",
+      "notes": "Copy-role shot. Independently triggerable from Home or Text inset. Pin is the copied look-at; frames the scene as a text-display canvas.",
+      "role": "copy",
+      "position": [
+        0.7568047092651465,
+        1.0135431042301608,
+        0.24605962766185863
+      ],
+      "camera": [
+        0.7167296519745572,
+        0.7868880096216994,
+        -0.8694405139230431
+      ],
+      "target": [
+        0.7568047092651465,
+        1.0135431042301608,
+        0.24605962766185863
+      ],
+      "orbit": {
+        "azimuth": -3.1056824567583514,
+        "polar": 1.7711285905151035,
+        "radius": 1.1389991694486659
+      },
+      "up": [0, 1, 0]
+    },
+    {
+      "id": "text-inset",
+      "label": "Text inset",
+      "notes": "Copy-role shot. Independently triggerable from Home or Text canvas. Tighter, lower framing for a closer text panel.",
+      "role": "copy",
+      "position": [
+        0.5599142145328813,
+        0.4958234775036662,
+        0.18274284711028796
+      ],
+      "camera": [
+        0.5427667358550721,
+        0.14935737939606236,
+        0.3281765333534227
+      ],
+      "target": [
+        0.5599142145328813,
+        0.4958234775036662,
+        0.18274284711028796
+      ],
+      "orbit": {
+        "azimuth": -0.11736396987739227,
+        "polar": 2.7416965416568555,
+        "radius": 0.3761432576255757
+      },
+      "up": [0, 1, 0]
+    },
+    {
+      "id": "scene-pointer",
+      "label": "Scene pointer",
+      "notes": "Copied tag. Pin is the left of About (Us sits on the row below); selecting it looks at that origin from Home.",
+      "position": [
+        0.018141644917041178,
+        0.9648613595731209,
+        -0.10058973866037224
+      ],
+      "camera": [0.44316723966014343, 0.6005845711566575, -0.03607445487032376],
+      "target": [
+        0.018141644917041178,
+        0.9648613595731209,
+        -0.10058973866037224
+      ],
+      "up": [0, 1, 0]
+    }
+  ],
+  "transitions": [],
+  "cameraMotions": [
+    {
+      "id": "back-to-front",
+      "label": "Back to front",
+      "notes": "Hold on the torch tip, then one smooth crane around Liberty into Home. Copied Path stills are the shape. End is scene Home — the near-Home still is omitted so the drop does not jerk.",
+      "kind": "boom-arc",
+      "from": "flame-top",
+      "to": "home",
+      "duration": 4,
+      "hold": 0.7,
+      "slowMoAt": 0.72,
+      "impulseAt": 0,
+      "playOnLoad": true,
+      "waypoints": [
+        {
+          "target": [
+            0.14666098392975097,
+            0.9924914124941325,
+            -0.06603959905965377
+          ],
+          "orbit": {
+            "azimuth": -1.3802171278015745,
+            "polar": 0.8822512221138721,
+            "radius": 0.7168921115282261
+          }
+        },
+        {
+          "target": [
+            0.14666098358657575,
+            0.992491412141927,
+            -0.0660395993084772
+          ],
+          "orbit": {
+            "azimuth": -2.3422751054280777,
+            "polar": 1.3590233639774691,
+            "radius": 0.7168921115282298
+          }
+        }
+      ]
+    },
+    {
+      "id": "canvas-to-inset",
+      "label": "Canvas to inset",
+      "notes": "Copied Path. Second still is the arch that clears Liberty. The dolly into the inset is wider than landing, so the clock is longer and the settle starts at the peak. Play and View both use this boom-arc — not a lerpPose chord through the mesh.",
+      "kind": "boom-arc",
+      "from": "text-canvas",
+      "to": "text-inset",
+      "duration": 3.2,
+      "waypoints": [
+        {
+          "target": [
+            0.8642932548595391,
+            1.0288909506472417,
+            0.23908241024756707
+          ],
+          "orbit": {
+            "azimuth": -2.96097358044382,
+            "polar": 2.077620045776081,
+            "radius": 1.1389991690695902
+          }
+        },
+        {
+          "target": [
+            0.8642932548595391,
+            1.0288909506472417,
+            0.23908241024756707
+          ],
+          "orbit": {
+            "azimuth": 2.087710989527672,
+            "polar": 1.643416224442309,
+            "radius": 1.1389991690695853
+          }
+        }
+      ]
+    },
+    {
+      "id": "inset-to-canvas",
+      "label": "Inset to canvas",
+      "notes": "Same arch played backward so the tight inset expands onto the peak before yawing around. Same longer clock as Canvas to inset.",
+      "kind": "boom-arc",
+      "from": "text-inset",
+      "to": "text-canvas",
+      "duration": 3.2,
+      "reverse": true,
+      "waypoints": [
+        {
+          "target": [
+            0.8642932548595391,
+            1.0288909506472417,
+            0.23908241024756707
+          ],
+          "orbit": {
+            "azimuth": -2.96097358044382,
+            "polar": 2.077620045776081,
+            "radius": 1.1389991690695902
+          }
+        },
+        {
+          "target": [
+            0.8642932548595391,
+            1.0288909506472417,
+            0.23908241024756707
+          ],
+          "orbit": {
+            "azimuth": 2.087710989527672,
+            "polar": 1.643416224442309,
+            "radius": 1.1389991690695853
+          }
+        }
+      ]
+    }
+  ]
+}

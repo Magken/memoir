@@ -1,0 +1,59 @@
+/**
+ * Centered 404 illustration on the SceneMenuShell stack.
+ */
+
+@layer components {
+  .theme .page-scene--not-found {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100svh;
+    min-height: 100vh;
+    padding: 4.5rem 1.25rem 2.5rem;
+    box-sizing: border-box;
+  }
+
+  .theme .page-scene--not-found__center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.85rem;
+    width: min(36rem, 100%);
+    text-align: center;
+  }
+
+  .theme .page-scene--not-found__media {
+    position: relative;
+    width: min(28rem, 100%);
+    height: clamp(14rem, 42vh, 22rem);
+    min-height: clamp(14rem, 42vh, 22rem);
+  }
+
+  .theme .page-scene--not-found__follow.theme-pointer-follow-deck {
+    height: 100%;
+    min-height: 100%;
+  }
+
+  .theme .page-scene--not-found__image {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    margin-inline: auto;
+    object-fit: contain;
+  }
+
+  .theme .page-scene--not-found__title {
+    margin: 0.35rem 0 0;
+  }
+
+  .theme .page-scene--not-found__body {
+    margin: 0;
+    max-width: 28ch;
+  }
+
+  .theme .page-scene--not-found__cta {
+    margin-top: 0.45rem;
+  }
+}

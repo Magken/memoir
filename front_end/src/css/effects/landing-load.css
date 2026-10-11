@@ -1,0 +1,169 @@
+/* Landing load overlay — LCL sections on the black canvas. Enter is scroll-enter. */
+
+@layer components {
+  .theme .theme-landing-load {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: transparent;
+    overflow: visible;
+    pointer-events: none;
+    color: #ffffff;
+    --type-anim-duration: 1.2s;
+    --type-anim-ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --type-anim-unit-height: 1.35em;
+  }
+
+  .theme .theme-landing-load.theme-lcl-layout {
+    background: transparent;
+    overflow: visible;
+  }
+
+  .theme .theme-landing-load .theme-lcl-layout__tile {
+    justify-content: flex-start;
+    align-items: flex-start;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    cursor: default;
+    overflow: visible;
+    pointer-events: none;
+    color: #ffffff;
+  }
+
+  .theme .theme-landing-load__stack {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 0.75rem;
+  }
+
+  .theme .theme-landing-load .theme-lcl-preview__display-head {
+    width: 100%;
+    padding-bottom: 0.75rem;
+  }
+
+  .theme .theme-landing-load .theme-hairline-fx {
+    width: 100%;
+    padding-bottom: 0;
+  }
+
+  .theme .theme-landing-load__percent {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+  }
+
+  .theme .theme-landing-load .theme-scroll-enter,
+  .theme .theme-landing-load .theme-scroll-enter__line {
+    white-space: nowrap;
+    flex-wrap: nowrap;
+  }
+
+  .theme .theme-landing-load .type-display-lg {
+    color: #ffffff;
+  }
+
+  .theme .theme-landing-load__slot {
+    display: inline-grid;
+    vertical-align: baseline;
+  }
+
+  .theme .theme-landing-load__sizer,
+  .theme .theme-landing-load__glyph {
+    grid-area: 1 / 1;
+  }
+
+  .theme .theme-landing-load__sizer {
+    visibility: hidden;
+  }
+
+  /* The letter box is the sizer. A shape cannot grow the track. */
+  .theme .theme-landing-load__glyph {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .theme .theme-landing-load__shape {
+    width: 0.72em;
+    height: 0.72em;
+    display: block;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.75;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .theme .theme-landing-load .theme-hairline-fx__rule {
+    background: #ffffff;
+  }
+
+  .theme .theme-landing-load .type-anim--flip .type-anim__unit {
+    height: 100%;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .theme .theme-landing-load .type-anim__track,
+  .theme .theme-landing-load .type-anim__face {
+    overflow: visible;
+  }
+
+  .theme .theme-landing-load__flip .type-anim__unit-inner {
+    transition: none;
+  }
+
+  .theme .theme-landing-load__flip.is-in .type-anim__unit-inner {
+    transform: rotateX(88deg);
+    opacity: 0.2;
+    animation: type-anim-flip-in var(--type-anim-duration) var(--type-anim-ease) forwards;
+  }
+
+  .theme .theme-landing-load__flip.is-out .type-anim__unit-inner {
+    animation: vurify-menu-type-flip-out var(--type-anim-duration) var(--type-anim-ease) forwards;
+  }
+
+  .theme .theme-landing-load__flip[data-offset='1'].is-in .type-anim__unit-inner,
+  .theme .theme-landing-load__flip[data-offset='1'].is-out .type-anim__unit-inner {
+    animation-delay: 0.035s;
+  }
+
+  .theme .theme-landing-load__flip[data-offset='2'].is-in .type-anim__unit-inner,
+  .theme .theme-landing-load__flip[data-offset='2'].is-out .type-anim__unit-inner {
+    animation-delay: 0.07s;
+  }
+
+  .theme .theme-landing-load__flip[data-offset='3'].is-in .type-anim__unit-inner,
+  .theme .theme-landing-load__flip[data-offset='3'].is-out .type-anim__unit-inner {
+    animation-delay: 0.105s;
+  }
+
+  .theme .theme-landing-load__flip[data-offset='4'].is-in .type-anim__unit-inner,
+  .theme .theme-landing-load__flip[data-offset='4'].is-out .type-anim__unit-inner {
+    animation-delay: 0.14s;
+  }
+
+  .theme .theme-landing-load__flip[data-offset='5'].is-in .type-anim__unit-inner,
+  .theme .theme-landing-load__flip[data-offset='5'].is-out .type-anim__unit-inner {
+    animation-delay: 0.175s;
+  }
+
+  .theme .theme-landing-load__flip[data-offset='6'].is-in .type-anim__unit-inner,
+  .theme .theme-landing-load__flip[data-offset='6'].is-out .type-anim__unit-inner {
+    animation-delay: 0.21s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-landing-load__flip.is-in .type-anim__unit-inner,
+    .theme .theme-landing-load__flip.is-out .type-anim__unit-inner {
+      animation: none;
+      transform: none;
+      opacity: 1;
+    }
+  }
+}

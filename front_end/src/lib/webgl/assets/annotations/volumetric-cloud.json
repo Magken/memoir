@@ -1,0 +1,16 @@
+{
+  "assetId": "volumetric-cloud",
+  "units": "m",
+  "upAxis": "y",
+  "notes": "Nubis cloud at three.js volume cost (baked Perlin-Worley, 100 steps). Home-scale hull (~2.4 m); empty air does not fill with fog. No GLB. Poly 1–8 is march steps. Home looks at the hull center.",
+  "annotations": [
+    {
+      "id": "viewpoint-home",
+      "kind": "viewpoint",
+      "label": "Home",
+      "position": [0, 0.75, 0],
+      "camera": [1.6, 1.15, 2.2],
+      "target": [0, 0.75, 0]
+    }
+  ]
+}

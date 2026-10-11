@@ -1,0 +1,854 @@
+[
+  {
+    "id": "3dm-loader-display",
+    "kind": "Loader",
+    "layer": "AssetIO",
+    "summary": "3DMLoader imports Rhino .3dm models — parser black-boxed."
+  },
+  {
+    "id": "3mf-loader-display",
+    "kind": "Loader",
+    "layer": "AssetIO",
+    "summary": "3MFLoader imports 3D Manufacturing Format models (optionally with materials) — parser black-boxed."
+  },
+  {
+    "id": "advanced-postprocessing-stack",
+    "kind": "PostProcessPass",
+    "layer": "PostProcess",
+    "summary": "Multi-pass advanced post stack (bloom, DOF, etc. combinations) demonstrating pass ordering discipline."
+  },
+  {
+    "id": "ambient-hemisphere-fill",
+    "kind": "Light",
+    "layer": "SceneSetup",
+    "summary": "AmbientLight and/or HemisphereLight provide non-directional fill so PBR materials are not pure black in shadow."
+  },
+  {
+    "id": "animation-loop",
+    "kind": "Bootstrap",
+    "layer": "Simulation",
+    "summary": "Drives per-frame updates via renderer.setAnimationLoop (preferred) or an equivalent rAF loop, updating timers/stats before render."
+  },
+  {
+    "id": "animation-mixer-clip",
+    "kind": "Animation",
+    "layer": "Simulation",
+    "summary": "AnimationMixer advances glTF (or other) AnimationClips on a rooted Object3D each frame using a time delta."
+  },
+  {
+    "id": "ascii-effect",
+    "kind": "PostProcessPass",
+    "layer": "PostProcess",
+    "summary": "AsciiEffect (or similar) remaps the rendered frame into an ASCII character grid for a stylized overlay."
+  },
+  {
+    "id": "batch-lod-bvh",
+    "kind": "Performance",
+    "layer": "Culling",
+    "summary": "Batched LOD with BVH accelerates rendering/selection of many detailed assets by picking LOD and spatial queries."
+  },
+  {
+    "id": "batched-mesh-radix-sort",
+    "kind": "Performance",
+    "layer": "Culling",
+    "summary": "BatchedMesh radix/sort helpers reorder draws for better GPU coherency with BVH/LOD batches."
+  },
+  {
+    "id": "blurred-envmap-generator",
+    "kind": "Texture",
+    "layer": "AssetIO",
+    "summary": "BlurredEnvironmentMapGenerator softens env maps for path-tracer / diffuse IBL look."
+  },
+  {
+    "id": "boids-flocking-gpgpu",
+    "kind": "Compute",
+    "layer": "Simulation",
+    "summary": "GPGPU boids with separation/alignment/cohesion shader passes updating bird velocity/position textures."
+  },
+  {
+    "id": "buffer-geometry-attributes",
+    "kind": "Geometry",
+    "layer": "SceneSetup",
+    "summary": "Authoring or updating BufferGeometry attributes (position, color, etc.) on the CPU for custom meshes or particle systems."
+  },
+  {
+    "id": "buffergeometry-drawrange",
+    "kind": "Geometry",
+    "layer": "Draw",
+    "summary": "geometry.drawRange limits which indexed/non-indexed vertices are issued, enabling progressive reveal or culling."
+  },
+  {
+    "id": "buffergeometry-instancing-billboards",
+    "kind": "Performance",
+    "layer": "Draw",
+    "summary": "Instanced billboards combine InstancedMesh with camera-facing quad logic for dense sprite fields."
+  },
+  {
+    "id": "buffergeometry-lines",
+    "kind": "Geometry",
+    "layer": "Draw",
+    "summary": "Line / LineSegments from BufferGeometry for wire overlays and path visualization."
+  },
+  {
+    "id": "buffergeometry-selective-draw",
+    "kind": "Geometry",
+    "layer": "Draw",
+    "summary": "Selective enabling of draw groups or attributes to show subsets of a buffer without rebuilding it."
+  },
+  {
+    "id": "bvh-acceleration",
+    "kind": "Performance",
+    "layer": "Culling",
+    "summary": "BVH acceleration structures speed raycasting or LOD batching against dense meshes."
+  },
+  {
+    "id": "camera-array",
+    "kind": "Camera",
+    "layer": "Present",
+    "summary": "Camera array / multi-perspective setups sample a scene from a grid of viewpoints."
+  },
+  {
+    "id": "camera-helper-overlay",
+    "kind": "Helper",
+    "layer": "OverlayUI",
+    "summary": "CameraHelper visualizes another camera’s frustum in the scene so projection extents are visible while editing or comparing views."
+  },
+  {
+    "id": "camera-rig-group",
+    "kind": "SceneGraph",
+    "layer": "SceneSetup",
+    "summary": "Groups cameras (and markers) under a THREE.Group so they share transform/orientation while remaining separately configurable."
+  },
+  {
+    "id": "camera-type-toggle",
+    "kind": "Camera",
+    "layer": "SceneSetup",
+    "summary": "Runtime switch between PerspectiveCamera and OrthographicCamera as the active view camera, usually from keyboard input."
+  },
+  {
+    "id": "canvas-download-frame",
+    "kind": "DebugUI",
+    "layer": "OverlayUI",
+    "summary": "preserveDrawingBuffer plus download hooks export a PNG frame from the canvas."
+  },
+  {
+    "id": "clipping-planes",
+    "kind": "Material",
+    "layer": "Draw",
+    "summary": "Local/global clipping planes cut geometry in the fragment stage for sectional views."
+  },
+  {
+    "id": "collada-loader-display",
+    "kind": "Loader",
+    "layer": "AssetIO",
+    "summary": "ColladaLoader imports DAE scenes including kinematics/skinning demos — parser black-boxed."
+  },
+  {
+    "id": "csm-shadows",
+    "kind": "Shadow",
+    "layer": "Draw",
+    "summary": "Cascaded Shadow Maps split the view frustum into cascades for higher quality directional shadows over large ranges."
+  },
+  {
+    "id": "cubemap-environment",
+    "kind": "Texture",
+    "layer": "AssetIO",
+    "summary": "CubeTexture / cube render targets provide environment reflections and skyboxes."
+  },
+  {
+    "id": "cubemap-mipmaps",
+    "kind": "Texture",
+    "layer": "Resolve",
+    "summary": "Rendering into cubemap mip chains for filtered specular reflections."
+  },
+  {
+    "id": "curve-modifier-instanced",
+    "kind": "Geometry",
+    "layer": "SceneSetup",
+    "summary": "Flow/curve modifiers instance or deform geometry along a curve path."
+  },
+  {
+    "id": "depth-texture-target",
+    "kind": "RenderTarget",
+    "layer": "Resolve",
+    "summary": "Attaches a DepthTexture to a render target so depth can be sampled in a later pass or material."
+  },
+  {
+    "id": "draco-mesh-compression",
+    "kind": "Loader",
+    "layer": "AssetIO",
+    "summary": "DRACOLoader decodes Draco-compressed mesh buffers; usually attached to GLTFLoader — decoder internals black-boxed."
+  },
+  {
+    "id": "dynamic-cubemap",
+    "kind": "Texture",
+    "layer": "Resolve",
+    "summary": "Render-to-cubemap each frame (or on demand) for dynamic reflections of a moving scene."
+  },
+  {
+    "id": "edge-split-modifier",
+    "kind": "Geometry",
+    "layer": "SceneSetup",
+    "summary": "EdgeSplitModifier duplicates vertices along sharp edges to preserve hard normals."
+  },
+  {
+    "id": "effect-composer-chain",
+    "kind": "PostProcessPass",
+    "layer": "PostProcess",
+    "summary": "EffectComposer owns an ordered list of post-processing passes that replace direct renderer.render for the final image."
+  },
+  {
+    "id": "es-module-importmap-bootstrap",
+    "kind": "Bootstrap",
+    "layer": "Bootstrap",
+    "summary": "Browser import map remaps the `three` and `three/addons/` package names to local module URLs so examples run without a bundler."
+  },
+  {
+    "id": "exr-environment",
+    "kind": "Texture",
+    "layer": "AssetIO",
+    "summary": "EXRLoader loads OpenEXR environments for HDR IBL — decoder black-boxed."
+  },
+  {
+    "id": "fbx-loader-display",
+    "kind": "Loader",
+    "layer": "AssetIO",
+    "summary": "FBXLoader imports Autodesk FBX meshes/animations into an Object3D hierarchy — parser black-boxed."
+  },
+  {
+    "id": "first-person-controls",
+    "kind": "Interaction",
+    "layer": "OverlayUI",
+    "summary": "FirstPersonControls / PointerLock-style navigation moves the camera through the scene like a FPS view."
+  },
+  {
+    "id": "fog-atmosphere",
+    "kind": "SceneGraph",
+    "layer": "SceneSetup",
+    "summary": "Scene.fog (Fog / FogExp2) fades distant objects into a fog color for depth cueing."
+  },
+  {
+    "id": "font-text-geometry",
+    "kind": "Geometry",
+    "layer": "AssetIO",
+    "summary": "FontLoader + TextGeometry (or stroke text) builds extruded/shaped text meshes from typeface JSON."
+  },
+  {
+    "id": "gaussian-splat",
+    "kind": "Volume",
+    "layer": "Draw",
+    "summary": "Renders 3D Gaussian splat assets as a specialized volumetric/point representation (WebGPU sample path)."
+  },
+  {
+    "id": "gaussian-splat-loader",
+    "kind": "Loader",
+    "layer": "AssetIO",
+    "summary": "SPLATLoader / SPZLoader ingest Gaussian splat assets — decoder internals black-boxed."
+  },
+  {
+    "id": "gaussian-splat-sort",
+    "kind": "Performance",
+    "layer": "Simulation",
+    "summary": "Per-frame splat depth sort (splats.updateSort) keeps volumetric Gaussians ordered for blending."
+  },
+  {
+    "id": "geometry-colors",
+    "kind": "Geometry",
+    "layer": "SceneSetup",
+    "summary": "Per-vertex colors on BufferGeometry drive Mesh materials with vertexColors enabled."
+  },
+  {
+    "id": "geometry-modifiers",
+    "kind": "Geometry",
+    "layer": "SceneSetup",
+    "summary": "Geometry modifier utilities (simplifier, edge split, curve extrusion) transform BufferGeometry before mesh creation."
+  },
+  {
+    "id": "geometry-shapes-extrude",
+    "kind": "Geometry",
+    "layer": "SceneSetup",
+    "summary": "Shape / ExtrudeGeometry / parametric shapes build solid meshes from 2D contours."
+  },
+  {
+    "id": "gltf-loader-display",
+    "kind": "Loader",
+    "layer": "AssetIO",
+    "summary": "GLTFLoader asynchronously loads a glTF/GLB asset and returns a scene graph (and optional animations) for display — parser internals black-boxed."
+  },
+  {
+    "id": "gpgpu-compute",
+    "kind": "Compute",
+    "layer": "Simulation",
+    "summary": "GPU Computation Renderer or WebGPU compute pipelines update particle/state textures each frame for birds, fluids, or rasterization."
+  },
+  {
+    "id": "gpu-picking",
+    "kind": "Interaction",
+    "layer": "OverlayUI",
+    "summary": "GPU picking renders object IDs to an offscreen target for precise selection without CPU raycasts."
+  },
+  {
+    "id": "hdr-loader-env",
+    "kind": "Texture",
+    "layer": "AssetIO",
+    "summary": "HDRLoader / RGBE-style loaders import HDR environments for PMREM and background."
+  },
+  {
+    "id": "helper-overlays",
+    "kind": "Helper",
+    "layer": "OverlayUI",
+    "summary": "AxesHelper, GridHelper, PolarGridHelper, BoxHelper, etc. visualize scene structure during authoring."
+  },
+  {
+    "id": "hzb-occlusion-culling",
+    "kind": "Performance",
+    "layer": "Culling",
+    "summary": "Hierarchical Z-buffer occlusion culling skips invisible clusters before compute/draw."
+  },
+  {
+    "id": "inspector-overlay",
+    "kind": "DebugUI",
+    "layer": "OverlayUI",
+    "summary": "three.js Inspector overlay for runtime scene/material debugging in newer examples."
+  },
+  {
+    "id": "instanced-mesh",
+    "kind": "Performance",
+    "layer": "Draw",
+    "summary": "InstancedMesh draws many copies of one geometry/material with per-instance matrices (and optional colors) in few draw calls."
+  },
+  {
+    "id": "interactive-buffergeometry",
+    "kind": "Interaction",
+    "layer": "Simulation",
+    "summary": "Pointer-driven edits to BufferGeometry attributes (paint, extrude, or select regions)."
+  },
+  {
+    "id": "ldraw-loader-display",
+    "kind": "Loader",
+    "layer": "AssetIO",
+    "summary": "LDrawLoader imports LEGO-style LDraw models — parser black-boxed."
+  },
+  {
+    "id": "light-probe",
+    "kind": "Light",
+    "layer": "SceneSetup",
+    "summary": "LightProbe provides diffuse irradiance from an environment for image-based lighting without full specular IBL."
+  },
+  {
+    "id": "lights-hemisphere",
+    "kind": "Light",
+    "layer": "SceneSetup",
+    "summary": "HemisphereLight blends sky/ground colors for outdoor-style ambient fill."
+  },
+  {
+    "id": "lights-rectarea",
+    "kind": "Light",
+    "layer": "SceneSetup",
+    "summary": "RectAreaLight simulates area lighting from a rectangular emitter (needs uniform lib init)."
+  },
+  {
+    "id": "lights-spotlight",
+    "kind": "Light",
+    "layer": "SceneSetup",
+    "summary": "SpotLight with angle, penumbra, and optional maps creates focused conical illumination."
+  },
+  {
+    "id": "lil-gui-params",
+    "kind": "DebugUI",
+    "layer": "OverlayUI",
+    "summary": "lil-gui binds a plain params object to on-screen sliders/folders that write into materials, passes, or renderer settings at runtime."
+  },
+  {
+    "id": "logarithmic-depth-buffer",
+    "kind": "Renderer",
+    "layer": "Draw",
+    "summary": "Enables logarithmic depth buffer on the renderer to improve depth precision across large near/far ranges."
+  },
+  {
+    "id": "marching-cubes",
+    "kind": "Volume",
+    "layer": "Simulation",
+    "summary": "Marching cubes extract an isosurface mesh from a scalar field for metaballs/volumetric shapes."
+  },
+  {
+    "id": "material-basic-phong-standard",
+    "kind": "Material",
+    "layer": "Draw",
+    "summary": "Built-in materials MeshBasic/Phong/Standard/Lambert cover unlit and lit shading without custom shaders."
+  },
+  {
+    "id": "material-bump-normal",
+    "kind": "Material",
+    "layer": "Draw",
+    "summary": "Bump and normal maps perturb shading normals for fine surface detail without extra triangles."
+  },
+  {
+    "id": "material-channels-debug",
+    "kind": "Material",
+    "layer": "OverlayUI",
+    "summary": "Channel visualization materials isolate albedo/metalness/roughness/normals for debugging PBR maps."
+  },
+  {
+    "id": "material-physical-clearcoat",
+    "kind": "Material",
+    "layer": "Draw",
+    "summary": "MeshPhysicalMaterial clearcoat layer adds a secondary specular coat for car-paint-like surfaces."
+  },
+  {
+    "id": "material-physical-transmission",
+    "kind": "Material",
+    "layer": "Draw",
+    "summary": "MeshPhysicalMaterial transmission/ior/thickness enable refractive glass-like materials."
+  },
+  {
+    "id": "material-subsurface-scattering",
+    "kind": "Material",
+    "layer": "Draw",
+    "summary": "Subsurface scattering materials approximate light bleeding through translucent surfaces."
+  },
+  {
+    "id": "material-toon",
+    "kind": "Material",
+    "layer": "Draw",
+    "summary": "MeshToonMaterial with gradient maps produces cel-shaded lighting bands."
+  },
+  {
+    "id": "material-wireframe",
+    "kind": "Material",
+    "layer": "Draw",
+    "summary": "Wireframe rendering via material.wireframe or dedicated edge geometries for mesh structure views."
+  },
+  {
+    "id": "meshopt-meshlets",
+    "kind": "Performance",
+    "layer": "Culling",
+    "summary": "Meshopt clusterizer/simplifier builds meshlet LODs for compute rasterization pipelines."
+  },
+  {
+    "id": "meshopt-simplify-lod",
+    "kind": "Performance",
+    "layer": "AssetIO",
+    "summary": "meshopt simplifyGeometriesByErrorLOD builds error-bounded LOD chains for batched meshes."
+  },
+  {
+    "id": "mirror-reflector",
+    "kind": "Material",
+    "layer": "Draw",
+    "summary": "Reflector / refractive meshes render the scene into a texture for planar mirrors or refraction."
+  },
+  {
+    "id": "morph-targets",
+    "kind": "Animation",
+    "layer": "Simulation",
+    "summary": "Morph target influences blend between geometry targets for facial/body shape animation."
+  },
+  {
+    "id": "multi-viewport-scissor",
+    "kind": "Renderer",
+    "layer": "Present",
+    "summary": "Enables scissor test and sets viewport/scissor rectangles so multiple cameras can render into different screen regions in one frame."
+  },
+  {
+    "id": "multiple-views-cameras",
+    "kind": "Camera",
+    "layer": "Present",
+    "summary": "Multiple Camera instances render the same scene into distinct viewports (array/stereo-like layouts)."
+  },
+  {
+    "id": "multisampled-render-target",
+    "kind": "RenderTarget",
+    "layer": "Resolve",
+    "summary": "Multisample render targets / MSAA resolve improve edge quality before post-process or present."
+  },
+  {
+    "id": "node-material-webgpu",
+    "kind": "WebGPU",
+    "layer": "Draw",
+    "summary": "TSL/node materials build GPU graphs for WebGPURenderer materials and compute-adjacent shading."
+  },
+  {
+    "id": "obb-math",
+    "kind": "Math",
+    "layer": "Simulation",
+    "summary": "Oriented bounding box helpers/tests for collision or picking against rotated volumes."
+  },
+  {
+    "id": "obj-loader-display",
+    "kind": "Loader",
+    "layer": "AssetIO",
+    "summary": "OBJLoader imports Wavefront OBJ geometry into a Group — parser black-boxed."
+  },
+  {
+    "id": "ocean-shader",
+    "kind": "Material",
+    "layer": "Draw",
+    "summary": "Ocean/water shader with animated normals, reflections, and optionally refraction."
+  },
+  {
+    "id": "orbit-controls",
+    "kind": "Interaction",
+    "layer": "OverlayUI",
+    "summary": "OrbitControls orbits/pans/zooms a camera around a target using pointer input on the renderer canvas."
+  },
+  {
+    "id": "orientation-transform-math",
+    "kind": "Math",
+    "layer": "Simulation",
+    "summary": "Quaternion/Euler/matrix orientation utilities demonstrate stable object aiming and frame transforms."
+  },
+  {
+    "id": "orthographic-camera",
+    "kind": "Camera",
+    "layer": "SceneSetup",
+    "summary": "OrthographicCamera with left/right/top/bottom/near/far defines a parallel projection frustum (no perspective foreshortening)."
+  },
+  {
+    "id": "output-color-space",
+    "kind": "Renderer",
+    "layer": "Present",
+    "summary": "Sets renderer.outputColorSpace (e.g. SRGBColorSpace) so textures and tone-mapped results display with correct encoding."
+  },
+  {
+    "id": "output-pass",
+    "kind": "PostProcessPass",
+    "layer": "Present",
+    "summary": "OutputPass performs final color-space/tone-mapping friendly output inside an EffectComposer stack."
+  },
+  {
+    "id": "path-tracer-renderer",
+    "kind": "Renderer",
+    "layer": "Draw",
+    "summary": "WebGLPathTracer (addon) progressively path-traces the scene for offline-quality lighting at interactive accumulate rates."
+  },
+  {
+    "id": "pcd-loader-display",
+    "kind": "Loader",
+    "layer": "AssetIO",
+    "summary": "PCDLoader imports point-cloud data sets as Points — parser black-boxed."
+  },
+  {
+    "id": "pdb-loader-display",
+    "kind": "Loader",
+    "layer": "AssetIO",
+    "summary": "PDBLoader imports protein data bank structures for molecular visualization — parser black-boxed."
+  },
+  {
+    "id": "perspective-camera",
+    "kind": "Camera",
+    "layer": "SceneSetup",
+    "summary": "PerspectiveCamera instances define the overview camera and the toggled perspective view with animated fov/far tied to subject distance."
+  },
+  {
+    "id": "physical-lights",
+    "kind": "Light",
+    "layer": "SceneSetup",
+    "summary": "Physically based lights (Point/Spot/RectArea/Directional with intensity in physical units) illuminate MeshStandard/Physical materials."
+  },
+  {
+    "id": "pmrem-environment",
+    "kind": "Texture",
+    "layer": "AssetIO",
+    "summary": "PMREMGenerator converts equirectangular or cube env maps into a prefiltered mipmapped radiance environment for PBR reflections."
+  },
+  {
+    "id": "pointer-predator-force",
+    "kind": "Interaction",
+    "layer": "Simulation",
+    "summary": "Pointer position injected as a predator force into a GPGPU flocking simulation."
+  },
+  {
+    "id": "points-sprites",
+    "kind": "Geometry",
+    "layer": "Draw",
+    "summary": "Renders BufferGeometry vertices as Points with PointsMaterial (size, color, optional map) for particle/sprite clouds."
+  },
+  {
+    "id": "portal-stencil-scene",
+    "kind": "SceneGraph",
+    "layer": "Draw",
+    "summary": "Portal rendering uses stencil or layered cameras so a surface shows another viewpoint/scene."
+  },
+  {
+    "id": "postprocessing-masking",
+    "kind": "PostProcessPass",
+    "layer": "PostProcess",
+    "summary": "MaskPass / ClearMaskPass restrict subsequent composer passes to stencil-marked regions."
+  },
+  {
+    "id": "postprocessing-pixel",
+    "kind": "PostProcessPass",
+    "layer": "PostProcess",
+    "summary": "Pixelation pass downsamples then upsamples color to a blocky pixel-art look."
+  },
+  {
+    "id": "postprocessing-sobel",
+    "kind": "PostProcessPass",
+    "layer": "PostProcess",
+    "summary": "Sobel operator pass emphasizes edges from the color (or depth) buffer."
+  },
+  {
+    "id": "postprocessing-ssr",
+    "kind": "PostProcessPass",
+    "layer": "PostProcess",
+    "summary": "Screen-space reflections approximate glossy reflections from the depth/normal/color buffers."
+  },
+  {
+    "id": "progressive-shadows",
+    "kind": "Shadow",
+    "layer": "Draw",
+    "summary": "Progressive lightmap / shadow accumulation softens shadows over frames instead of a single hard shadow map sample."
+  },
+  {
+    "id": "random-uv",
+    "kind": "Material",
+    "layer": "Draw",
+    "summary": "Procedural or randomized UV assignment for texture variation without unique assets."
+  },
+  {
+    "id": "raycaster-interaction",
+    "kind": "Interaction",
+    "layer": "OverlayUI",
+    "summary": "Raycaster converts pointer NDC into world rays to pick meshes, points, or GPU-picked IDs for interaction."
+  },
+  {
+    "id": "refraction-transmission",
+    "kind": "Material",
+    "layer": "Draw",
+    "summary": "Refraction mapping / transmission pipelines show background through transparent meshes."
+  },
+  {
+    "id": "render-pass",
+    "kind": "PostProcessPass",
+    "layer": "PostProcess",
+    "summary": "RenderPass draws the scene into the composer’s read/write buffers as the first post-process stage."
+  },
+  {
+    "id": "resize-sync-camera-renderer",
+    "kind": "Bootstrap",
+    "layer": "Bootstrap",
+    "summary": "On window resize, updates renderer size (and composer size if present) and camera aspect/projection so the image stays undistorted."
+  },
+  {
+    "id": "reversed-depth-buffer",
+    "kind": "Renderer",
+    "layer": "Draw",
+    "summary": "Reversed-Z depth buffer configuration improves precision for distant geometry when supported."
+  },
+  {
+    "id": "room-environment",
+    "kind": "Texture",
+    "layer": "AssetIO",
+    "summary": "RoomEnvironment addon supplies a studio lighting environment map for quick PBR previews."
+  },
+  {
+    "id": "scene-graph-mesh",
+    "kind": "SceneGraph",
+    "layer": "SceneSetup",
+    "summary": "Nested wireframe SphereGeometry meshes and a point cloud provide a moving subject and depth cues for the camera demo."
+  },
+  {
+    "id": "sculpt-deform",
+    "kind": "Interaction",
+    "layer": "Simulation",
+    "summary": "Interactive mesh sculpting deforms vertex buffers from pointer strokes."
+  },
+  {
+    "id": "selective-lights-layers",
+    "kind": "Light",
+    "layer": "Draw",
+    "summary": "Object3D.layers / light layers restrict which lights affect which meshes for selective lighting setups."
+  },
+  {
+    "id": "shader-material-custom",
+    "kind": "Material",
+    "layer": "Draw",
+    "summary": "ShaderMaterial / RawShaderMaterial with custom vertex/fragment shaders and uniforms for effects not covered by built-ins."
+  },
+  {
+    "id": "shadow-maps",
+    "kind": "Shadow",
+    "layer": "Draw",
+    "summary": "Enables shadowMap on the renderer and cast/receive on lights/meshes so depth maps produce shadows."
+  },
+  {
+    "id": "simplifier-modifier",
+    "kind": "Geometry",
+    "layer": "SceneSetup",
+    "summary": "SimplifyModifier reduces triangle count while attempting to preserve shape."
+  },
+  {
+    "id": "spline-editor",
+    "kind": "Interaction",
+    "layer": "SceneSetup",
+    "summary": "Interactive spline/curve editing with control points that rebuild tube or line geometry."
+  },
+  {
+    "id": "stats-overlay",
+    "kind": "DebugUI",
+    "layer": "OverlayUI",
+    "summary": "Stats.js panel shows frame time / FPS for performance feedback during development."
+  },
+  {
+    "id": "stencil-clipping-portal",
+    "kind": "Material",
+    "layer": "Draw",
+    "summary": "Uses stencil buffer writes/tests with clipping to create portal-like or capped sectional rendering."
+  },
+  {
+    "id": "storage-indirect-draw",
+    "kind": "WebGPU",
+    "layer": "Draw",
+    "summary": "StorageBufferAttribute / IndirectStorageBufferAttribute drive indirect draws and atomics in WebGPU compute rasterizers."
+  },
+  {
+    "id": "sun-light",
+    "kind": "Light",
+    "layer": "SceneSetup",
+    "summary": "SunLight helper/addon configures a distant sun-like directional light with related sky parameters."
+  },
+  {
+    "id": "svg-loader-display",
+    "kind": "Loader",
+    "layer": "AssetIO",
+    "summary": "SVGLoader parses SVG paths into shapes/strokes for extrusion or line rendering — parser black-boxed."
+  },
+  {
+    "id": "tds-loader-display",
+    "kind": "Loader",
+    "layer": "AssetIO",
+    "summary": "TDSLoader imports 3DS Max .3ds models — parser black-boxed."
+  },
+  {
+    "id": "teapot-geometry",
+    "kind": "Geometry",
+    "layer": "SceneSetup",
+    "summary": "TeapotGeometry addon provides the classic Utah teapot parametric mesh for material tests."
+  },
+  {
+    "id": "texture-loading",
+    "kind": "Texture",
+    "layer": "AssetIO",
+    "summary": "TextureLoader / specialized loaders fetch image textures and apply colorSpace, wrapping, and filtering for materials."
+  },
+  {
+    "id": "timer-clock",
+    "kind": "Bootstrap",
+    "layer": "Simulation",
+    "summary": "THREE.Timer (or Clock) supplies frame delta/elapsed time for animation mixers and simulations."
+  },
+  {
+    "id": "tone-mapping-output",
+    "kind": "Renderer",
+    "layer": "Present",
+    "summary": "ACESFilmicToneMapping plus exposure (driven by a perceptual Math.pow slider) map HDR bloom results into displayable LDR."
+  },
+  {
+    "id": "trackball-controls",
+    "kind": "Interaction",
+    "layer": "OverlayUI",
+    "summary": "TrackballControls provide free camera orientation without a fixed up-axis orbit pole."
+  },
+  {
+    "id": "transform-controls",
+    "kind": "Interaction",
+    "layer": "OverlayUI",
+    "summary": "TransformControls gizmo edits object position/rotation/scale with pointer dragging."
+  },
+  {
+    "id": "tsl-fog-node",
+    "kind": "WebGPU",
+    "layer": "Draw",
+    "summary": "Scene.fogNode / rangeFogFactor style TSL fog instead of classic Fog alone."
+  },
+  {
+    "id": "tsl-light-displace",
+    "kind": "WebGPU",
+    "layer": "Simulation",
+    "summary": "TSL vertex displacement driven by light distances / effector fields for deformable meshes under WebGPU."
+  },
+  {
+    "id": "ultrahdr-texture",
+    "kind": "Texture",
+    "layer": "AssetIO",
+    "summary": "UltraHDRLoader loads Ultra HDR stills for high-dynamic-range texture display."
+  },
+  {
+    "id": "unreal-bloom-pass",
+    "kind": "PostProcessPass",
+    "layer": "PostProcess",
+    "summary": "UnrealBloomPass extracts bright regions above threshold and blurs them with strength/radius controls exposed in lil-gui."
+  },
+  {
+    "id": "volume-rendering",
+    "kind": "Volume",
+    "layer": "Draw",
+    "summary": "Raymarched or sliced volume rendering of 3D textures (perlin / instanced volume samples)."
+  },
+  {
+    "id": "webgl-renderer-canvas",
+    "kind": "Renderer",
+    "layer": "Draw",
+    "summary": "Antialiased WebGLRenderer provides the canvas; tone mapping is set on the renderer while presentation goes through the composer."
+  },
+  {
+    "id": "webgpu-capability-check",
+    "kind": "Bootstrap",
+    "layer": "Bootstrap",
+    "summary": "WebGPU.isAvailable (or equivalent) gates the demo before constructing WebGPURenderer."
+  },
+  {
+    "id": "webgpu-compute-particles",
+    "kind": "Compute",
+    "layer": "Simulation",
+    "summary": "WebGPU compute shaders update particle or fluid state buffers then draw the results."
+  },
+  {
+    "id": "webgpu-compute-rasterizer",
+    "kind": "Compute",
+    "layer": "Draw",
+    "summary": "Software/compute rasterizer path on WebGPU (including IBL variants) for experimental pipelines."
+  },
+  {
+    "id": "webgpu-cubemap-adjustments",
+    "kind": "Texture",
+    "layer": "AssetIO",
+    "summary": "Interactive cubemap intensity/orientation adjustments under WebGPU environment lighting."
+  },
+  {
+    "id": "webgpu-fog-height",
+    "kind": "WebGPU",
+    "layer": "Draw",
+    "summary": "Height-based or custom fog implemented in WebGPU/TSL rather than classic Scene.fog alone."
+  },
+  {
+    "id": "webgpu-instance-uniform",
+    "kind": "WebGPU",
+    "layer": "Draw",
+    "summary": "Per-instance uniforms/storage in WebGPU instancing for varying material parameters cheaply."
+  },
+  {
+    "id": "webgpu-lights-point",
+    "kind": "Light",
+    "layer": "SceneSetup",
+    "summary": "Point light shading path exercised under WebGPURenderer (important reference for studio lighting)."
+  },
+  {
+    "id": "webgpu-lights-selective",
+    "kind": "Light",
+    "layer": "Draw",
+    "summary": "Selective lighting under WebGPU using layers or per-object light lists."
+  },
+  {
+    "id": "webgpu-renderer-canvas",
+    "kind": "WebGPU",
+    "layer": "Draw",
+    "summary": "Creates a WebGPURenderer (often after a capability check) and presents frames through the WebGPU backend instead of WebGL."
+  },
+  {
+    "id": "webgpu-shadow-opacity",
+    "kind": "Shadow",
+    "layer": "Draw",
+    "summary": "WebGPU shadow mapping with opacity/transparency considerations for shadowed transparent surfaces."
+  }
+]

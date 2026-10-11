@@ -1,0 +1,414 @@
+/* Internal stage owns scrolling; remove the unused viewport gutter painted by scrollbar.css. */
+html[data-theme-palette][data-scene-scroll='internal'],
+html[data-theme-palette][data-scene-scroll='internal'] body {
+  overflow: hidden;
+  scrollbar-gutter: auto;
+}
+
+@layer components {
+  .theme .theme-scene-menu-shell {
+    --scene-menu-shell-radius: clamp(1rem, 2.4vw, 1.75rem);
+    --scene-menu-shell-deck-gap: 0.5rem;
+    /* Front lip dust; deeper cards grow by gap so they cascade away from the page. */
+    --scene-menu-shell-deck-dust: 0.4rem;
+    --scene-menu-shell-chrome-top: 1.25rem;
+    --scene-menu-shell-chrome-inline: clamp(1.25rem, 4vw, 3rem);
+    --scene-menu-shell-close-reserve: clamp(5.75rem, 11vw, 7.5rem);
+    /* Same centered column as SceneStackMenu — Close must dock here, not the viewport. */
+    --scene-menu-shell-column: min(
+      72rem,
+      calc(100% - var(--scene-menu-shell-chrome-inline) * 2)
+    );
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+    isolation: isolate;
+    background: color-mix(
+      in srgb,
+      var(--theme-complement) 14%,
+      var(--theme-page-bg)
+    );
+  }
+
+  .theme .theme-scene-menu-shell__menu {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    box-sizing: border-box;
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    height: 100vh;
+    height: 100svh;
+    padding: var(--scene-menu-shell-chrome-top) 0 0;
+    overflow: hidden;
+    background: color-mix(
+      in srgb,
+      var(--theme-complement) 16%,
+      var(--theme-page-bg)
+    );
+    color: var(--theme-text);
+    pointer-events: none;
+  }
+
+  /*
+   * Elevate for open AND closing (`data-*-surface`) so item animate-out stays visible
+   * above the sibling underlay. Pointer events only while fully open.
+   */
+  .theme .theme-scene-menu-shell[data-menu-surface='true'] .theme-scene-menu-shell__menu {
+    z-index: 1;
+  }
+
+  .theme .theme-scene-menu-shell[data-menu-open='true'] .theme-scene-menu-shell__menu {
+    pointer-events: auto;
+  }
+
+  /* Footer underlay — sibling of menu; content anchored to the bottom peel band. */
+  .theme .theme-scene-menu-shell__footer {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    box-sizing: border-box;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+    height: 100svh;
+    padding: 0 0 clamp(0.75rem, 1.8vw, 1.25rem);
+    overflow: hidden;
+    background: color-mix(
+      in srgb,
+      var(--theme-complement) 16%,
+      var(--theme-page-bg)
+    );
+    color: var(--theme-text);
+    pointer-events: none;
+  }
+
+  .theme .theme-scene-menu-shell[data-footer-surface='true'] .theme-scene-menu-shell__footer {
+    z-index: 1;
+  }
+
+  .theme .theme-scene-menu-shell[data-footer-open='true'] .theme-scene-menu-shell__footer {
+    pointer-events: auto;
+  }
+
+  .theme .theme-scene-menu-shell__trigger {
+    position: absolute;
+    top: var(--scene-menu-shell-chrome-top);
+    right: 0;
+    left: 0;
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    padding-inline: 0;
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  .theme .theme-scene-menu-shell__trigger-slot {
+    position: relative;
+    box-sizing: border-box;
+    display: grid;
+    justify-items: end;
+    width: var(--scene-menu-shell-column);
+  }
+
+  /* Reveal layer — stretch-rise on the label (VurifyMenuButton); no clip wipe. */
+  .theme .theme-scene-menu-shell__trigger-clip,
+  .theme .theme-scene-menu-shell__footer-trigger-clip {
+    grid-area: 1 / 1;
+    display: inline-flex;
+    align-items: flex-start;
+    /* Top pad = label hover lift (2px) so housing clears shell overflow:hidden. */
+    padding-top: 4px;
+    padding-bottom: 0.35em;
+    overflow: visible;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 220ms ease,
+      visibility 0s linear 220ms;
+  }
+
+  .theme
+    .theme-scene-menu-shell[data-trigger-visible='true']
+    .theme-scene-menu-shell__trigger-clip {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition-delay: 0s;
+  }
+
+  .theme
+    .theme-scene-menu-shell[data-footer-trigger-visible='true']
+    .theme-scene-menu-shell__footer-trigger-clip {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition-delay: 0s;
+  }
+
+  /* Whole page card + stack lips move together via GSAP on this frame.
+   * Use top/height (not transform) — transform on this ancestor resets the
+   * ThemeScroll / Lenis scrollport to the top and loses stack context. */
+  .theme .theme-scene-menu-shell__peel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 100%;
+    z-index: 1;
+    backface-visibility: hidden;
+  }
+
+  .theme .theme-scene-menu-shell__deck {
+    position: absolute;
+    inset: 0 auto auto 0;
+    z-index: 0;
+    width: 100%;
+    height: 0;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 160ms ease,
+      visibility 0s linear 160ms;
+  }
+
+  .theme
+    .theme-scene-menu-shell[data-menu-surface='true']
+    .theme-scene-menu-shell__deck--menu {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s;
+  }
+
+  .theme
+    .theme-scene-menu-shell[data-footer-surface='true']
+    .theme-scene-menu-shell__deck--footer {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s;
+  }
+
+  /*
+   * Cascade lips — each card’s near edge sits on the page; deeper cards are taller
+   * so they peek further away. Depth 1 = dust on top (paint order + z-index).
+   */
+  .theme .theme-scene-menu-shell__deck-card {
+    position: absolute;
+    left: 0;
+    right: 0;
+    box-sizing: border-box;
+    background: var(--theme-page-bg);
+  }
+
+  .theme .theme-scene-menu-shell__deck-card[data-edge='top'] {
+    top: 0;
+    border-top: 1px solid var(--theme-border-strong);
+    border-radius: var(--scene-menu-shell-radius) var(--scene-menu-shell-radius) 0 0;
+    box-shadow: 0 -0.35rem 0.9rem color-mix(in srgb, var(--theme-text) 10%, transparent);
+    transform: translateY(-100%);
+    transform-origin: 50% 100%;
+  }
+
+  .theme .theme-scene-menu-shell__deck-card[data-edge='bottom'] {
+    bottom: 0;
+    border-bottom: 1px solid var(--theme-border-strong);
+    border-radius: 0 0 var(--scene-menu-shell-radius) var(--scene-menu-shell-radius);
+    box-shadow: 0 0.35rem 0.9rem color-mix(in srgb, var(--theme-text) 10%, transparent);
+    transform: translateY(100%);
+    transform-origin: 50% 0%;
+  }
+
+  .theme .theme-scene-menu-shell__deck-card[data-edge='top'][data-depth='1'],
+  .theme .theme-scene-menu-shell__deck-card[data-edge='bottom'][data-depth='1'] {
+    z-index: 3;
+    left: 2%;
+    right: 2%;
+    height: var(--scene-menu-shell-deck-dust);
+  }
+
+  .theme .theme-scene-menu-shell__deck-card[data-edge='top'][data-depth='2'],
+  .theme .theme-scene-menu-shell__deck-card[data-edge='bottom'][data-depth='2'] {
+    z-index: 2;
+    left: 4%;
+    right: 4%;
+    height: calc(var(--scene-menu-shell-deck-gap) + var(--scene-menu-shell-deck-dust));
+  }
+
+  .theme .theme-scene-menu-shell__deck-card[data-edge='top'][data-depth='3'],
+  .theme .theme-scene-menu-shell__deck-card[data-edge='bottom'][data-depth='3'] {
+    z-index: 1;
+    left: 6%;
+    right: 6%;
+    height: calc(var(--scene-menu-shell-deck-gap) * 2 + var(--scene-menu-shell-deck-dust));
+  }
+
+  .theme .theme-scene-menu-shell__scroller {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+    background: var(--theme-page-bg);
+    backface-visibility: hidden;
+    transition:
+      border-radius 180ms ease,
+      box-shadow 180ms ease,
+      border-color 180ms ease;
+  }
+
+  .theme
+    .theme-scene-menu-shell__scroller[data-scroll-rail='mini']
+    .theme-scroll__viewport {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    /*
+     * Reserve equal gutters so the mini rail / classic scrollbar never shifts
+     * centered home scenes left (asymmetric padding-inline-end alone would).
+     * Keep this while menu/footer lock scroll — see overflow lock below.
+     */
+    scrollbar-gutter: stable both-edges;
+    padding-inline-end: 0;
+  }
+
+  /*
+   * Freeze scroll while an underlay owns the stage. Keep overflow-y: scroll so the
+   * scrollbar gutter does not appear/disappear (that was shifting the page left).
+   * Wheel is blocked via pointer-events + JS scrollTop freeze in SceneMenuShell.
+   */
+  .theme
+    .theme-scene-menu-shell[data-menu-surface='true']
+    .theme-scene-menu-shell__scroller[data-scroll-rail='mini']
+    .theme-scroll__viewport,
+  .theme
+    .theme-scene-menu-shell[data-footer-surface='true']
+    .theme-scene-menu-shell__scroller[data-scroll-rail='mini']
+    .theme-scroll__viewport,
+  .theme
+    .theme-scene-menu-shell[data-menu-surface='true']
+    .theme-scene-menu-shell__scroller
+    .theme-scroll__viewport,
+  .theme
+    .theme-scene-menu-shell[data-footer-surface='true']
+    .theme-scene-menu-shell__scroller
+    .theme-scroll__viewport,
+  .theme
+    .theme-scene-menu-shell[data-scroll-locked='true']
+    .theme-scene-menu-shell__scroller[data-scroll-rail='mini']
+    .theme-scroll__viewport,
+  .theme
+    .theme-scene-menu-shell[data-scroll-locked='true']
+    .theme-scene-menu-shell__scroller
+    .theme-scroll__viewport {
+    pointer-events: none;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+
+  /*
+   * Hide Menu / Close instantly while load or App Stage nav locks the shell.
+   * data-trigger-visible fade is 220ms — that would leave the dock on screen
+   * during the curtain. Keep the clip in the tree; only skip the fade.
+   */
+  .theme
+    .theme-scene-menu-shell[data-scroll-locked='true']
+    .theme-scene-menu-shell__trigger-clip,
+  .theme
+    .theme-scene-menu-shell[data-scroll-locked='true']
+    .theme-scene-menu-shell__footer-trigger-clip {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: none;
+  }
+
+  /*
+   * Hide the mini rail thumb during load / nav. Keep overflow-y + gutter so
+   * centered scenes do not shift when the thumb returns.
+   */
+  .theme
+    .theme-scene-menu-shell[data-scroll-locked='true']
+    .theme-scene-menu-shell__scroller[data-scroll-rail='mini']
+    .theme-scroll__viewport {
+    scrollbar-width: none;
+  }
+
+  .theme
+    .theme-scene-menu-shell[data-scroll-locked='true']
+    .theme-scene-menu-shell__scroller[data-scroll-rail='mini']
+    .theme-scroll__viewport::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+
+  .theme .theme-scene-menu-shell__surface {
+    position: relative;
+    width: 100%;
+  }
+
+  .theme .theme-scene-menu-shell__scenes {
+    position: relative;
+    background: var(--theme-page-bg);
+  }
+
+  .theme
+    .theme-scene-menu-shell[data-menu-surface='true']
+    .theme-scene-menu-shell__scroller {
+    border-top: 1px solid var(--theme-border-strong);
+    border-radius: var(--scene-menu-shell-radius) var(--scene-menu-shell-radius) 0 0;
+    box-shadow:
+      0 -1px 0 color-mix(in srgb, var(--theme-text) 10%, transparent),
+      0 -1.5rem 4rem color-mix(in srgb, var(--theme-text) 18%, transparent);
+  }
+
+  .theme
+    .theme-scene-menu-shell[data-footer-surface='true']
+    .theme-scene-menu-shell__scroller {
+    border-bottom: 1px solid var(--theme-border-strong);
+    border-radius: 0 0 var(--scene-menu-shell-radius) var(--scene-menu-shell-radius);
+    box-shadow:
+      0 1px 0 color-mix(in srgb, var(--theme-text) 10%, transparent),
+      0 1.5rem 4rem color-mix(in srgb, var(--theme-text) 18%, transparent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-scene-menu-shell__deck,
+    .theme .theme-scene-menu-shell__scroller {
+      transition: none;
+    }
+
+    .theme .theme-scene-menu-shell__trigger-clip,
+    .theme .theme-scene-menu-shell__footer-trigger-clip {
+      opacity: 0;
+      visibility: hidden;
+      transition: none;
+    }
+
+    .theme
+      .theme-scene-menu-shell[data-trigger-visible='true']
+      .theme-scene-menu-shell__trigger-clip,
+    .theme
+      .theme-scene-menu-shell[data-footer-trigger-visible='true']
+      .theme-scene-menu-shell__footer-trigger-clip {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  /* Compact chrome — narrower Close reserve so Home is not squeezed beside it. */
+  @media (max-width: 48rem) {
+    .theme .theme-scene-menu-shell {
+      --scene-menu-shell-chrome-inline: clamp(1rem, 4vw, 1.5rem);
+      --scene-menu-shell-close-reserve: clamp(4.75rem, 20vw, 6rem);
+    }
+  }
+}

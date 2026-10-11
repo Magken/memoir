@@ -1,0 +1,583 @@
+/**
+ * Nano anchor menu — Doc-reference table-of-contents pattern.
+ * Host ::after dot tracks active link via anchor-position (:target-current or .link--active).
+ */
+
+@layer components {
+  .theme .theme-namenu-host {
+    position: relative;
+    width: 100%;
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    font-weight: 400;
+    letter-spacing: 0.005em;
+    line-height: 1.45;
+  }
+
+  .theme .theme-namenu-host.theme-namenu--scroll-targets {
+    scroll-target-group: auto;
+  }
+
+  .theme .theme-namenu {
+    position: relative;
+    width: 100%;
+  }
+
+  .theme .theme-namenu--list {
+    padding: 1rem 1.125rem;
+    border-radius: 0.125rem;
+    border: 2px solid var(--theme-border-strong);
+    background-color: var(--theme-surface);
+    box-shadow: 2px 2px 0 color-mix(in srgb, var(--theme-shadow-brutal) 70%, transparent);
+  }
+
+  .theme .theme-namenu--anchor {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .theme .theme-namenu--sticky {
+    position: sticky;
+    top: 0.75rem;
+    align-self: start;
+    max-height: min(calc(100dvh - 2.5rem), 38rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+
+  /* Micro rail — denser text TOC (DocArticleToc `micro-anchor`) */
+  .theme .theme-namenu--micro {
+    font-size: 0.75rem;
+    letter-spacing: 0.03em;
+  }
+
+  .theme .theme-namenu--micro .theme-namenu__link {
+    padding-block: 0.125rem;
+    line-height: 1.35;
+    font-weight: 500;
+  }
+
+  .theme .theme-namenu--micro .theme-namenu__split {
+    margin-top: 1rem;
+  }
+
+  .theme .theme-namenu--micro .theme-namenu__footer-meta {
+    max-width: 11rem;
+    font-size: 0.625rem;
+  }
+
+  .theme .theme-namenu--micro .theme-namenu__back {
+    font-size: 0.5625rem;
+  }
+
+  .theme .theme-namenu--micro .theme-namenu__branch {
+    --namenu-indent-step: 0.28rem;
+    --namenu-chrome-w: 0.7rem;
+  }
+
+  .theme .theme-namenu--micro .theme-namenu__grip,
+  .theme .theme-namenu--micro .theme-namenu__toggle {
+    width: 0.7rem;
+  }
+
+  /* Title — in-flow above list (type-overline tokens) */
+  .theme .theme-namenu__title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.35rem;
+    margin: 0 0 0.75rem;
+    min-width: 0;
+  }
+
+  .theme .theme-namenu--micro .theme-namenu__title-row {
+    margin-bottom: 0.5rem;
+  }
+
+  .theme .theme-namenu__title-end {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: 0.15rem;
+  }
+
+  .theme .theme-namenu--anchor .theme-namenu__title {
+    position: static;
+    flex: 1 1 auto;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.35;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--type-faint, var(--theme-text));
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .theme .theme-namenu--micro .theme-namenu__title {
+    margin-bottom: 0;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+  }
+
+  .theme .theme-namenu--list .theme-namenu__title {
+    position: static;
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: inherit;
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: 0.03em;
+  }
+
+  .theme .theme-namenu__tree {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /*
+   * Nested branch — modest indent past the toggle column (not full grip+toggle stack).
+   * Height animates open/close via grid-template-rows.
+   */
+  .theme .theme-namenu__branch {
+    --namenu-indent-step: 0.35rem;
+    --namenu-chrome-w: 0.75rem;
+    display: grid;
+    grid-template-rows: 0fr;
+    margin: 0;
+    padding-inline-start: calc(var(--namenu-chrome-w) + var(--namenu-indent-step));
+    transition: grid-template-rows 220ms cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+
+  .theme .theme-namenu__branch.is-open {
+    grid-template-rows: 1fr;
+  }
+
+  .theme .theme-namenu__branch-inner {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .theme .theme-namenu__branch > .theme-namenu__branch-inner > .theme-namenu__tree {
+    padding-left: 0;
+  }
+
+  /* Optional sortable grip — sits before the unchanged link chrome */
+  .theme .theme-namenu__item-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.125rem;
+    min-width: 0;
+  }
+
+  /* Active marker sits left of the grip — leave a gutter + clearer handle↔label gap. */
+  .theme .theme-namenu-host:has(.theme-namenu__grip) {
+    padding-inline-start: 0.7rem;
+  }
+
+  .theme .theme-namenu__item-row:has(.theme-namenu__grip) {
+    gap: 0.45rem;
+  }
+
+  .theme .theme-namenu--micro .theme-namenu__item-row:has(.theme-namenu__grip) {
+    gap: 0.4rem;
+  }
+
+  /* Non-sortable rows in a sortable TOC — match grip column so markers line up. */
+  .theme
+    .theme-namenu-host:has(.theme-namenu__grip)
+    .theme-namenu__item-row:not(:has(.theme-namenu__grip)) {
+    padding-inline-start: calc(0.875rem + 0.45rem);
+  }
+
+  .theme
+    .theme-namenu-host:has(.theme-namenu__grip)
+    .theme-namenu--micro
+    .theme-namenu__item-row:not(:has(.theme-namenu__grip)) {
+    padding-inline-start: calc(0.7rem + 0.4rem);
+  }
+
+  .theme .theme-namenu__grip {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 0.875rem;
+    margin-top: 0.15rem;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: color-mix(in oklab, var(--theme-text) 38%, transparent);
+    cursor: grab;
+    touch-action: none;
+    line-height: 0;
+    opacity: 0;
+    transition: opacity 120ms ease;
+  }
+
+  .theme .theme-namenu__item-row:hover .theme-namenu__grip,
+  .theme .theme-namenu__item-row:focus-within .theme-namenu__grip,
+  .theme .theme-namenu__grip:focus-visible,
+  .theme .theme-namenu__item.is-dragging .theme-namenu__grip {
+    opacity: 1;
+  }
+
+  .theme .theme-namenu__grip:active {
+    cursor: grabbing;
+  }
+
+  @media (hover: none) {
+    .theme .theme-namenu__grip {
+      opacity: 0.55;
+    }
+  }
+
+  .theme .theme-namenu__toggle {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 0.875rem;
+    margin-top: 0.15rem;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: color-mix(in oklab, var(--theme-text) 48%, transparent);
+    cursor: pointer;
+    line-height: 0;
+  }
+
+  @media (hover: hover) {
+    .theme .theme-namenu__toggle:hover,
+    .theme .theme-namenu__toggle:focus-visible {
+      color: var(--theme-text);
+    }
+  }
+
+  .theme .theme-namenu__item-row .theme-namenu__link {
+    flex: 1 1 auto;
+    min-width: 0;
+    width: auto;
+  }
+
+  .theme .theme-namenu__item.is-dragging {
+    opacity: 0.35;
+  }
+
+  .theme.theme-namenu__overlay-portal {
+    width: auto;
+    height: auto;
+  }
+
+  /* Floating ghost — same text as TOC rows, no card/button chrome (portal is off-host). */
+  .theme .theme-namenu__drag-overlay {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.125rem;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    color: var(--theme-text);
+    pointer-events: none;
+    cursor: grabbing;
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    line-height: 1.45;
+  }
+
+  .theme.theme-namenu__overlay-portal.theme-namenu--micro .theme-namenu__drag-overlay {
+    font-size: 0.75rem;
+    line-height: 1.35;
+  }
+
+  .theme .theme-namenu__drag-overlay .theme-namenu__link-label {
+    display: inline;
+    overflow: visible;
+    text-overflow: clip;
+    white-space: nowrap;
+  }
+
+  .theme .theme-namenu__link {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding-block: 0.25rem;
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    line-height: inherit;
+    text-align: left;
+    text-decoration: none;
+    color: color-mix(in srgb, var(--theme-text) 62%, transparent);
+    cursor: pointer;
+    transition-property: color;
+    transition-duration: 0.26s;
+    transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+
+  .theme .theme-namenu__link-title {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .theme .theme-namenu__link-icon {
+    flex-shrink: 0;
+    width: 0.75rem;
+    height: 0.75rem;
+    color: color-mix(in srgb, var(--theme-text-muted) 88%, transparent);
+  }
+
+  .theme .theme-namenu__link-label {
+    display: block;
+    min-width: 0;
+    flex: 1 1 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .theme .theme-namenu__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem 0.3rem;
+    margin-block-start: 0.2rem;
+  }
+
+  .theme .theme-namenu__tag {
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
+    padding: 0.05rem 0.35rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--theme-border) 88%, transparent);
+    background: color-mix(in srgb, var(--theme-surface) 88%, var(--theme-border));
+    color: var(--theme-text-muted);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    line-height: 1.35;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .theme .theme-namenu__link--active .theme-namenu__tag {
+    border-color: color-mix(in srgb, var(--theme-accent) 42%, var(--theme-border));
+    color: color-mix(in srgb, var(--theme-accent) 72%, var(--theme-ink));
+  }
+
+  /* Animated underline — clipped label width (ellipsis keeps a single line) */
+  .theme .theme-namenu__link--anchor .theme-namenu__link-label {
+    background-image: linear-gradient(var(--type-accent), var(--type-accent));
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% 1px;
+    transition-property: background-size;
+    transition-duration: 0.26s;
+    transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+
+  @media (hover: hover) {
+    .theme .theme-namenu__link:hover,
+    .theme .theme-namenu__link:focus-visible {
+      color: var(--theme-text);
+    }
+  }
+
+  .theme .theme-namenu__link--active {
+    color: var(--type-accent);
+  }
+
+  .theme .theme-namenu__link--active .theme-namenu__link-icon {
+    color: color-mix(in srgb, var(--theme-accent) 72%, var(--theme-ink));
+  }
+
+  .theme .theme-namenu__link--active .theme-namenu__link-label {
+    background-size: 100% 1px;
+  }
+
+  /* Marker — link-height box at scale 0.25 (Doc-reference squircle dot) */
+  .theme .theme-namenu-host::after {
+    content: '';
+    position: absolute;
+    translate: -100% 0;
+    scale: 0.25;
+    border-radius: 0;
+    background: var(--type-accent);
+    opacity: 0;
+    pointer-events: none;
+    transition-property: top, left, opacity;
+    transition-duration: 0.26s;
+    transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+
+  @supports (corner-shape: squircle) {
+    .theme .theme-namenu-host::after {
+      corner-shape: squircle;
+      border-radius: 100px;
+    }
+  }
+
+  /* JS fallback when anchor-position is unavailable */
+  .theme .theme-namenu-host--js-indicator::after {
+    left: var(--namenu-indicator-left, 0px);
+    top: var(--namenu-indicator-top, 0px);
+    width: var(--namenu-indicator-size, 1em);
+    height: var(--namenu-indicator-size, 1em);
+  }
+
+  .theme .theme-namenu-host[data-indicator-visible='true']::after {
+    opacity: 1;
+  }
+
+  .theme .theme-namenu-host[data-indicator-land='true']::after {
+    animation: theme-namenu-indicator-land 0.38s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes theme-namenu-indicator-land {
+    0% {
+      scale: 0.18;
+    }
+
+    45% {
+      scale: 0.34;
+    }
+
+    72% {
+      scale: 0.22;
+    }
+
+    100% {
+      scale: 0.25;
+    }
+  }
+
+  .theme .theme-namenu__split {
+    margin: 2rem 0 0;
+    border: none;
+    border-top: 1px solid var(--theme-border);
+    opacity: 0;
+    transition: opacity 0.26s cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+
+  .theme .theme-namenu--anchor:has(.theme-namenu__link--active) .theme-namenu__split {
+    opacity: 0.5;
+  }
+
+  .theme .theme-namenu__footer {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.26s cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+
+  .theme .theme-namenu--anchor:has(.theme-namenu__link--active) .theme-namenu__footer {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .theme .theme-namenu__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin: 0;
+    padding: 0.25rem 0.5rem 0.25rem 0;
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    color: var(--theme-text);
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+
+  .theme .theme-namenu__footer-meta {
+    display: block;
+    margin-top: 0.375rem;
+    max-width: 12rem;
+    text-wrap: balance;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-namenu__link,
+    .theme .theme-namenu__link-label,
+    .theme .theme-namenu-host::after,
+    .theme .theme-namenu__split,
+    .theme .theme-namenu__footer,
+    .theme .theme-namenu__branch {
+      transition: none;
+    }
+
+    .theme .theme-namenu-host[data-indicator-land='true']::after {
+      animation: none;
+    }
+  }
+}
+
+/* Anchor-position marker + scroll-target (Doc-reference transitions layer) */
+@layer components {
+  @supports (anchor-name: --namenu-active) and (position-anchor: --namenu-active) {
+    .theme
+      .theme-namenu-host.theme-namenu--scroll-targets:not(
+        :has(.theme-namenu__link--active, .theme-namenu__link--anchor:target-current)
+      )
+      .theme-namenu__tree
+      > .theme-namenu__item:first-child
+      > .theme-namenu__link--anchor {
+      anchor-name: --namenu-active;
+    }
+
+    .theme .theme-namenu-host.theme-namenu--scroll-targets .theme-namenu__link--active {
+      anchor-name: --namenu-active;
+    }
+
+    .theme .theme-namenu-host.theme-namenu--scroll-targets .theme-namenu__link--anchor:target-current {
+      anchor-name: --namenu-active;
+      color: var(--type-accent);
+    }
+
+    .theme
+      .theme-namenu-host.theme-namenu--scroll-targets
+      .theme-namenu__link--anchor:target-current
+      .theme-namenu__link-label {
+      background-size: 100% 1px;
+    }
+
+    .theme .theme-namenu-host.theme-namenu--scroll-targets::after {
+      left: anchor(left);
+      top: anchor(top);
+      width: anchor-size(height);
+      height: anchor-size(height);
+      position-anchor: --namenu-active;
+    }
+
+    .theme .theme-namenu-host.theme-namenu--scroll-targets:has(
+        .theme-namenu__link--active,
+        .theme-namenu__link--anchor:target-current
+      )::after {
+      opacity: 1;
+    }
+  }
+}

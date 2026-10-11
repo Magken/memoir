@@ -1,0 +1,50 @@
+/**
+ * Band gallery — WebGL horizontal band carousel (ref.image-carousel-5).
+ */
+
+@layer components {
+  .theme .theme-band-gallery {
+    position: relative;
+    width: 100%;
+  }
+
+  .theme .theme-band-gallery__root {
+    position: relative;
+    width: 100%;
+    height: min(72vh, 40rem);
+    overflow: hidden;
+    touch-action: none;
+    user-select: none;
+    cursor: grab;
+    border-radius: 0.125rem;
+    border: 2px solid var(--theme-border-strong);
+    background-color: var(--theme-page-bg);
+    box-shadow: var(--theme-shadow-brutal);
+    outline: none;
+  }
+
+  .theme .theme-band-gallery__root--dragging {
+    cursor: grabbing;
+  }
+
+  .theme .theme-band-gallery__root:focus-visible {
+    outline: 2px solid var(--theme-focus);
+    outline-offset: 2px;
+  }
+
+  .theme .theme-band-gallery--expanded-open .theme-band-gallery__root {
+    pointer-events: none;
+    cursor: default;
+  }
+
+  .theme .theme-band-gallery__canvas-host {
+    position: absolute;
+    inset: 0;
+  }
+
+  .theme .theme-band-gallery__canvas-host canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}

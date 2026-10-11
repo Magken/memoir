@@ -1,0 +1,88 @@
+/**
+ * LCL type specimens: marker sweep, strike, pull quote, decode host.
+ */
+@layer components {
+  .theme .theme-lcl-mark {
+    position: relative;
+    display: inline;
+  }
+
+  .theme .theme-lcl-mark__band {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0.1em;
+    height: 0.35em;
+    background: color-mix(in srgb, var(--theme-text) 28%, transparent);
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    pointer-events: none;
+  }
+
+  .theme .theme-lcl-strike {
+    position: relative;
+    display: inline;
+  }
+
+  .theme .theme-lcl-strike__rule {
+    position: absolute;
+    inset-inline: 0;
+    top: 50%;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+  }
+
+  .theme .theme-lcl-quote {
+    display: flex;
+    gap: 0.75rem;
+    align-items: stretch;
+  }
+
+  .theme .theme-lcl-quote__rule {
+    width: 1px;
+    background: currentColor;
+    transform: scaleY(0);
+    transform-origin: 50% 0;
+    flex: 0 0 1px;
+  }
+
+  .theme .theme-lcl-atlas-cols {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    height: 100%;
+    min-height: 0;
+  }
+
+  .theme .theme-lcl-atlas-cols[data-wide='tide'] {
+    grid-template-columns: 3.2fr 0.6fr 0.6fr 0.6fr;
+  }
+
+  .theme .theme-lcl-atlas-cols[data-wide='salt'] {
+    grid-template-columns: 0.6fr 3.2fr 0.6fr 0.6fr;
+  }
+
+  .theme .theme-lcl-atlas-cols[data-wide='lamp'] {
+    grid-template-columns: 0.6fr 0.6fr 3.2fr 0.6fr;
+  }
+
+  .theme .theme-lcl-atlas-cols[data-wide='stone'] {
+    grid-template-columns: 0.6fr 0.6fr 0.6fr 3.2fr;
+  }
+
+  .theme .theme-lcl-atlas-cols[data-wide='open'] {
+    grid-template-columns: 1fr;
+  }
+
+  .theme .theme-lcl-atlas-panel {
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    pointer-events: auto;
+  }
+
+  .theme .theme-lcl-sideways {
+    writing-mode: sideways-lr;
+  }
+}

@@ -1,0 +1,85 @@
+/**
+ * Vurify contact form — name · email · message · send.
+ */
+
+@layer components {
+  .theme .theme-vurify-contact {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    color: var(--theme-text);
+  }
+
+  .theme .theme-vurify-contact__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.85rem;
+    align-items: start;
+    min-height: 0;
+  }
+
+  @media (min-width: 32rem) {
+    .theme .theme-vurify-contact__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .theme .theme-vurify-contact__grid > .theme-vurify-contact__field:last-child {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .theme .theme-vurify-contact__field {
+    min-width: 0;
+  }
+
+  .theme .theme-vurify-contact__input.theme-vurify-input {
+    max-width: none;
+  }
+
+  /* Fixed message box — no drag-resize, no overflow scrollbar chrome. */
+  .theme .theme-vurify-contact .theme-vurify-input--area .theme-vurify-input__field {
+    resize: none;
+    overflow: hidden;
+    min-height: 5.5rem;
+    max-height: 5.5rem;
+  }
+
+  .theme
+    .theme-vurify-contact[data-density='compact']
+    .theme-vurify-input--area
+    .theme-vurify-input__field {
+    min-height: 4.5rem;
+    max-height: 4.5rem;
+  }
+
+  .theme .theme-vurify-contact__actions {
+    display: flex;
+    justify-content: flex-start;
+    padding-block-start: 0.25rem;
+  }
+
+  .theme .theme-vurify-contact__form-error {
+    margin: 0;
+    color: var(--theme-danger, var(--theme-accent));
+  }
+
+  .theme .theme-vurify-contact--done {
+    justify-content: center;
+    gap: 0.5rem;
+    padding-block-start: 1.5rem;
+    padding-block-end: 1.5rem;
+  }
+
+  .theme .theme-vurify-contact__done-title,
+  .theme .theme-vurify-contact__done-body {
+    margin: 0;
+  }
+
+  .theme .theme-vurify-contact[data-density='compact'] .theme-vurify-contact__grid {
+    gap: 0.65rem;
+  }
+}

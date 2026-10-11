@@ -1,0 +1,1630 @@
+@layer components {
+  .theme .theme-scene-stack-menu {
+    box-sizing: border-box;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    flex: none;
+    align-self: stretch;
+    width: var(
+      --scene-menu-shell-column,
+      min(72rem, calc(100% - var(--scene-menu-shell-chrome-inline, 1.25rem) * 2))
+    );
+    min-width: 0;
+    /*
+     * Hug content; only cap at 4/5 VPH. A fixed tall height + centered links
+     * left huge empty bands and parked the utility footer at the peel floor.
+     */
+    height: auto;
+    max-height: min(
+      40rem,
+      calc(80svh - var(--scene-menu-shell-deck-lip, 3rem) - 1.25rem)
+    );
+    margin: 0 auto;
+    padding: 0;
+    overflow: hidden;
+    color: var(--theme-text);
+  }
+
+  .theme .theme-scene-stack-menu[data-has-footer='true'] {
+    grid-template-rows: auto minmax(0, 1fr) auto;
+  }
+
+  .theme .theme-scene-stack-menu__top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.65rem 1.15rem;
+    min-width: 0;
+    flex: none;
+    /*
+     * Match Close dock: reserve right space so tabs share the Close row.
+     * Top pad must clear housing 2px border + label hover lift (-2px) so
+     * Sign out / Dashboard / category chrome is not clipped by the panel.
+     * Auth cluster sits just inside the Close reserve.
+     */
+    padding: 8px var(--scene-menu-shell-close-reserve, 6.5rem) 0.75rem
+      var(--scene-menu-shell-chrome-inline, 1.25rem);
+    overflow: visible;
+    border-bottom: 1px solid var(--theme-border);
+    text-align: start;
+  }
+
+  .theme .theme-scene-stack-menu__top-start,
+  .theme .theme-scene-stack-menu__top-end {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0.65rem 1.15rem;
+    min-width: 0;
+  }
+
+  .theme .theme-scene-stack-menu__top-end {
+    flex: none;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 0;
+    margin-inline-start: auto;
+  }
+
+  .theme .theme-scene-stack-menu__top-item {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .theme .theme-scene-stack-menu__top-start > .theme-scene-stack-menu__top-item:not(:last-child) {
+    padding-right: 1.5rem;
+    border-right: 1px solid var(--theme-border);
+  }
+
+  /*
+   * End cluster — same item-border dividers as Home | Dashboard so they
+   * travel with GSAP peel (standalone hairline spans did not).
+   * Book now is its own item; Sign in / Sign out stay in `__auth-swap`.
+   */
+  .theme .theme-scene-stack-menu__top-end > .theme-scene-stack-menu__top-item {
+    padding-inline: 1.15rem;
+  }
+
+  .theme .theme-scene-stack-menu__top-end > .theme-scene-stack-menu__top-item:first-child {
+    border-left: 1px solid var(--theme-border);
+  }
+
+  .theme .theme-scene-stack-menu__top-end > .theme-scene-stack-menu__top-item:not(:last-child) {
+    padding-right: 1.5rem;
+    border-right: 1px solid var(--theme-border);
+  }
+
+  .theme .theme-scene-stack-menu__top-end > .theme-scene-stack-menu__top-item:last-child {
+    border-right: 1px solid var(--theme-border);
+  }
+
+  .theme .theme-scene-stack-menu__top-auth-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  /*
+   * Guest toggle ↔ Sign out — same slide language as menu open/close
+   * (in from right / out to left · in from left / out to right).
+   * Active pane in flow; inactive absolute so width stays elastic.
+   */
+  .theme .theme-scene-stack-menu__auth-swap {
+    --auth-swap-duration: 0.52s;
+    --auth-swap-ease: cubic-bezier(0.7, 0, 0.3, 1);
+    position: relative;
+    display: block;
+    width: max-content;
+    max-width: 100%;
+    /* Visible so Sign out / toggle housing hover border is not clipped. */
+    overflow: visible;
+  }
+
+  .theme .theme-scene-stack-menu__auth-pane {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    min-width: 0;
+    transition:
+      opacity var(--auth-swap-duration) var(--auth-swap-ease),
+      transform var(--auth-swap-duration) var(--auth-swap-ease),
+      visibility 0s linear var(--auth-swap-duration);
+  }
+
+  .theme .theme-scene-stack-menu__top[data-auth='guest'] .theme-scene-stack-menu__auth-pane--guest,
+  .theme .theme-scene-stack-menu__top[data-auth='member'] .theme-scene-stack-menu__auth-pane--member {
+    position: relative;
+    opacity: 1;
+    visibility: visible;
+    transform: translate3d(0, 0, 0);
+    pointer-events: auto;
+    transition-delay: 0s, 0s, 0s;
+  }
+
+  .theme .theme-scene-stack-menu__top[data-auth='guest'] .theme-scene-stack-menu__auth-pane--member,
+  .theme .theme-scene-stack-menu__top[data-auth='member'] .theme-scene-stack-menu__auth-pane--guest {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  /* Member parked off-right while guest (enters from right · exits to right). */
+  .theme .theme-scene-stack-menu__top[data-auth='guest'] .theme-scene-stack-menu__auth-pane--member {
+    transform: translate3d(100%, 0, 0);
+  }
+
+  /* Guest parked off-left while member (enters from left · exits to left). */
+  .theme .theme-scene-stack-menu__top[data-auth='member'] .theme-scene-stack-menu__auth-pane--guest {
+    transform: translate3d(-100%, 0, 0);
+  }
+
+  .theme .theme-scene-stack-menu__sign-out-btn {
+    flex: none;
+  }
+
+  /*
+   * Dashboard slot — always mounted; same 0.52s slide + width collapse as auth.
+   * overflow visible while member so housing hover border is not clipped.
+   * Menu open/close GSAP targets `__dashboard-anim` (not this node) so auth
+   * transform/opacity transitions do not fight the peel item tween.
+   */
+  .theme .theme-scene-stack-menu__dashboard-slot {
+    --auth-swap-duration: 0.52s;
+    --auth-swap-ease: cubic-bezier(0.7, 0, 0.3, 1);
+    overflow: visible;
+    max-width: 14rem;
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    transition:
+      max-width var(--auth-swap-duration) var(--auth-swap-ease),
+      opacity var(--auth-swap-duration) var(--auth-swap-ease),
+      transform var(--auth-swap-duration) var(--auth-swap-ease),
+      padding var(--auth-swap-duration) var(--auth-swap-ease),
+      border-color var(--auth-swap-duration) var(--auth-swap-ease),
+      margin var(--auth-swap-duration) var(--auth-swap-ease);
+  }
+
+  .theme .theme-scene-stack-menu__dashboard-anim {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .theme .theme-scene-stack-menu__top[data-auth='guest'] .theme-scene-stack-menu__dashboard-slot {
+    overflow: hidden;
+    max-width: 0;
+    opacity: 0;
+    padding-right: 0;
+    margin: 0;
+    border-right-color: transparent;
+    transform: translate3d(100%, 0, 0);
+    pointer-events: none;
+  }
+
+  .theme .theme-scene-stack-menu__top[data-auth='member'] .theme-scene-stack-menu__dashboard-slot {
+    pointer-events: auto;
+  }
+
+  /*
+   * Dashboard avatar — same outside-housing placement as category `__icon`
+   * (1em glyph box + housing gap). Avoid rem-scale frames that collide with
+   * the label rail border.
+   */
+  .theme
+    .theme-scene-stack-menu__dashboard-btn.theme-vurify-menu-button--housing
+    .theme-vurify-menu-button__media {
+    width: 1em;
+    height: 1em;
+    margin-top: calc(
+      var(--vurify-menu-housing-pad-top, 4px) + var(--vurify-menu-housing-width, 2px)
+    );
+  }
+
+  .theme
+    .theme-scene-stack-menu__dashboard-btn
+    .theme-vurify-avatar {
+    width: 100%;
+    height: 100%;
+    font-size: 0.55em;
+  }
+
+  .theme .theme-scene-stack-menu__top-btn {
+    flex: none;
+  }
+
+  .theme .theme-scene-stack-menu__top-btn.is-selected {
+    color: var(--theme-accent);
+  }
+
+  .theme .theme-scene-stack-menu__lower {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: 1.25rem;
+    align-items: stretch;
+    min-height: min(16rem, 32svh);
+    overflow: hidden;
+  }
+
+  .theme .theme-scene-stack-menu__lower[data-phase='out'] {
+    pointer-events: none;
+  }
+
+  .theme .theme-scene-stack-menu__links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+    gap: 0;
+    margin: 0;
+    padding: 0.65rem 0;
+    min-height: 0;
+    overflow: hidden;
+    list-style: none;
+    text-align: center;
+  }
+
+  /*
+   * Category link list — vertical slide (top ↔ bottom), slightly tightened
+   * to 0.52s + 45ms neighbor stagger. Full `animation` shorthand on every phase
+   * so `animation: none` on idle cannot leave duration/fill at 0 when re-entering.
+   */
+  .theme .theme-scene-stack-menu__link-item {
+    display: flex;
+    flex: none;
+    justify-content: flex-start;
+    width: min(78%, 20rem);
+    padding-block: 0.55rem;
+    animation: scene-stack-menu-in-from-top 0.52s both cubic-bezier(0.7, 0, 0.3, 1);
+    animation-delay: calc(var(--scene-stack-stagger, 0) * 45ms);
+  }
+
+  .theme
+    .theme-scene-stack-menu__lower[data-direction='back'][data-phase='in']
+    .theme-scene-stack-menu__link-item {
+    animation: scene-stack-menu-in-from-bottom 0.52s both cubic-bezier(0.7, 0, 0.3, 1);
+    animation-delay: calc(var(--scene-stack-stagger, 0) * 45ms);
+  }
+
+  .theme
+    .theme-scene-stack-menu__lower[data-phase='out']
+    .theme-scene-stack-menu__link-item {
+    animation: scene-stack-menu-out-to-bottom 0.52s both cubic-bezier(0.7, 0, 0.3, 1);
+    animation-delay: calc(var(--scene-stack-stagger, 0) * 45ms);
+  }
+
+  .theme
+    .theme-scene-stack-menu__lower[data-phase='out'][data-direction='back']
+    .theme-scene-stack-menu__link-item {
+    animation: scene-stack-menu-out-to-top 0.52s both cubic-bezier(0.7, 0, 0.3, 1);
+    animation-delay: calc(var(--scene-stack-stagger, 0) * 45ms);
+  }
+
+  .theme .theme-scene-stack-menu__lower[data-phase='idle'] .theme-scene-stack-menu__link-item {
+    animation: none;
+  }
+
+  .theme .theme-scene-stack-menu__link-item:not(:last-child) {
+    border-bottom: 1px solid var(--theme-border);
+  }
+
+  .theme .theme-scene-stack-menu__link-item[data-stagger='0'] {
+    --scene-stack-stagger: 0;
+  }
+
+  .theme .theme-scene-stack-menu__link-item[data-stagger='1'] {
+    --scene-stack-stagger: 1;
+  }
+
+  .theme .theme-scene-stack-menu__link-item[data-stagger='2'] {
+    --scene-stack-stagger: 2;
+  }
+
+  .theme .theme-scene-stack-menu__link-item[data-stagger='3'] {
+    --scene-stack-stagger: 3;
+  }
+
+  .theme .theme-scene-stack-menu__link-item[data-stagger='4'] {
+    --scene-stack-stagger: 4;
+  }
+
+  .theme .theme-scene-stack-menu__link-item[data-stagger='5'] {
+    --scene-stack-stagger: 5;
+  }
+
+  .theme .theme-scene-stack-menu__link-btn {
+    max-width: 100%;
+    text-align: left;
+  }
+
+  .theme .theme-scene-stack-menu__link-btn.is-selected {
+    color: var(--theme-accent);
+  }
+
+  .theme .theme-scene-stack-menu__preview {
+    position: relative;
+    min-width: 0;
+    min-height: 0;
+    padding: 0.65rem 0;
+    overflow: hidden;
+    border-left: 1px solid var(--theme-border);
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .theme .theme-scene-stack-menu__preview::-webkit-scrollbar {
+    display: none;
+  }
+
+  .theme .theme-scene-stack-menu__preview-panel {
+    display: grid;
+    justify-items: start;
+    align-items: center;
+    gap: 1rem;
+    height: 100%;
+    min-height: 100%;
+    padding-left: 1.35rem;
+    text-align: left;
+    animation: scene-stack-menu-in-from-right 0.52s both cubic-bezier(0.7, 0, 0.3, 1);
+  }
+
+  .theme .theme-scene-stack-menu__preview-panel[data-layout='media'] {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    grid-template-rows: minmax(0, 1fr);
+    gap: 0.45rem 0.55rem;
+    padding-left: 0.65rem;
+  }
+
+  .theme .theme-scene-stack-menu__preview-panel[data-layout='cover'] {
+    position: relative;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+    align-items: end;
+    padding-left: 0;
+    overflow: hidden;
+  }
+
+  .theme .theme-scene-stack-menu__preview-panel[data-layout='copy'],
+  .theme .theme-scene-stack-menu__preview-panel[data-layout='split'],
+  .theme .theme-scene-stack-menu__preview-panel[data-layout='pricing'] {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+    align-items: stretch;
+  }
+
+  .theme
+    .theme-scene-stack-menu__lower[data-direction='back'][data-phase='in']
+    .theme-scene-stack-menu__preview-panel {
+    animation: scene-stack-menu-in-from-left 0.52s both cubic-bezier(0.7, 0, 0.3, 1);
+  }
+
+  .theme
+    .theme-scene-stack-menu__lower[data-phase='out']
+    .theme-scene-stack-menu__preview-panel {
+    animation: scene-stack-menu-out-to-left 0.52s both cubic-bezier(0.7, 0, 0.3, 1);
+  }
+
+  .theme
+    .theme-scene-stack-menu__lower[data-phase='out'][data-direction='back']
+    .theme-scene-stack-menu__preview-panel {
+    animation: scene-stack-menu-out-to-right 0.52s both cubic-bezier(0.7, 0, 0.3, 1);
+  }
+
+  .theme
+    .theme-scene-stack-menu__lower[data-phase='idle']
+    .theme-scene-stack-menu__preview:not([data-preview-phase='out']):not(
+      [data-preview-phase='in']
+    )
+    .theme-scene-stack-menu__preview-panel {
+    animation: none;
+  }
+
+  /* Submenu link hover — preview-only out → in (category stays idle). */
+  .theme
+    .theme-scene-stack-menu__preview[data-preview-phase='out']
+    .theme-scene-stack-menu__preview-panel {
+    animation: scene-stack-menu-out-to-left 0.52s both cubic-bezier(0.7, 0, 0.3, 1);
+  }
+
+  .theme
+    .theme-scene-stack-menu__preview[data-preview-phase='in']
+    .theme-scene-stack-menu__preview-panel {
+    animation: scene-stack-menu-in-from-right 0.52s both cubic-bezier(0.7, 0, 0.3, 1);
+  }
+
+  .theme .theme-scene-stack-menu__preview-panel--instant {
+    animation: none;
+  }
+
+  .theme .theme-scene-stack-menu__preview-media {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    max-height: 100%;
+    overflow: visible;
+    border: 1px solid var(--theme-border);
+    border-radius: var(--theme-radius-surface, 0);
+    background: transparent;
+  }
+
+  .theme .theme-scene-stack-menu__preview-follow.theme-pointer-follow-deck {
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    overflow: visible;
+  }
+
+  .theme
+    .theme-scene-stack-menu__preview-media--contain
+    .theme-scene-stack-menu__preview-follow
+    .theme-scene-stack-menu__preview-image {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .theme .theme-scene-stack-menu__preview-media--cover {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    border: 0;
+    border-radius: 0;
+    max-height: none;
+    overflow: hidden;
+  }
+
+  .theme .theme-scene-stack-menu__preview-media--cover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--theme-page-bg) 18%, transparent) 0%,
+      color-mix(in srgb, var(--theme-page-bg) 72%, transparent) 48%,
+      color-mix(in srgb, var(--theme-page-bg) 92%, transparent) 100%
+    );
+    pointer-events: none;
+  }
+
+  .theme .theme-scene-stack-menu__preview-cover-fg {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    align-content: end;
+    gap: 0.75rem;
+    width: 100%;
+    min-height: 100%;
+    padding: 1.1rem 1.35rem 1.25rem;
+    box-sizing: border-box;
+  }
+
+  .theme .theme-scene-stack-menu__preview-cover-fg .theme-scene-stack-menu__preview-copy {
+    border-block-start-color: color-mix(in srgb, var(--theme-border) 55%, transparent);
+    max-width: 28rem;
+    padding-block-start: 0.65rem;
+  }
+
+  .theme .theme-scene-stack-menu__preview-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+  }
+
+  .theme .theme-scene-stack-menu__preview-image--contain {
+    object-fit: contain;
+    width: 80%;
+    height: 80%;
+    max-width: 80%;
+    max-height: 80%;
+    margin: auto;
+    background: transparent;
+  }
+
+  .theme .theme-scene-stack-menu__preview-media--contain {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .theme .theme-scene-stack-menu__preview-credit {
+    margin: 0;
+    pointer-events: none;
+  }
+
+  .theme .theme-scene-stack-menu__preview-copy {
+    display: grid;
+    justify-items: start;
+    gap: 0.45rem;
+    align-self: center;
+    min-width: 0;
+    max-width: 36rem;
+    padding-block-start: 0.75rem;
+    border-block-start: 1px solid var(--theme-border);
+  }
+
+  .theme
+    .theme-scene-stack-menu__preview-panel[data-layout='media']
+    .theme-scene-stack-menu__preview-copy {
+    padding-block-start: 0;
+    border-block-start: 0;
+    max-width: none;
+  }
+
+  .theme
+    .theme-scene-stack-menu__preview-panel[data-layout='media']
+    .theme-scene-stack-menu__preview-title,
+  .theme
+    .theme-scene-stack-menu__preview-panel[data-layout='media']
+    .theme-scene-stack-menu__preview-body {
+    max-width: none;
+  }
+
+  .theme .theme-scene-stack-menu__preview-overline,
+  .theme .theme-scene-stack-menu__preview-title,
+  .theme .theme-scene-stack-menu__preview-body {
+    margin: 0;
+  }
+
+  .theme .theme-scene-stack-menu__preview-title {
+    max-width: 18ch;
+    color: var(--theme-accent);
+  }
+
+  .theme .theme-scene-stack-menu__preview-body {
+    max-width: 36ch;
+  }
+
+  .theme .theme-scene-stack-menu__preview-split {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem 1.25rem;
+    width: 100%;
+    height: 100%;
+    align-content: center;
+  }
+
+  .theme .theme-scene-stack-menu__preview-split-heading {
+    grid-column: 1 / -1;
+    margin: 0;
+    max-width: 22ch;
+    color: var(--theme-accent);
+  }
+
+  .theme .theme-scene-stack-menu__preview-column {
+    display: grid;
+    gap: 0.4rem;
+    align-content: start;
+    min-width: 0;
+    padding-block-start: 0.75rem;
+    border-block-start: 1px solid var(--theme-border);
+  }
+
+  .theme
+    .theme-scene-stack-menu__preview-cover-fg
+    .theme-scene-stack-menu__preview-column {
+    border-block-start-color: color-mix(in srgb, var(--theme-border) 55%, transparent);
+  }
+
+  .theme .theme-scene-stack-menu__preview-pricing {
+    display: grid;
+    gap: 0.85rem;
+    width: 100%;
+    align-content: center;
+  }
+
+  .theme .theme-scene-stack-menu__preview-pricing-head {
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .theme .theme-scene-stack-menu__preview-pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.55rem;
+    width: 100%;
+  }
+
+  .theme .theme-scene-stack-menu__preview-price-card {
+    display: grid;
+    gap: 0.25rem;
+    min-width: 0;
+    padding: 0.65rem 0.7rem;
+    border: 4px solid var(--theme-border-strong);
+    border-radius: var(--theme-radius-surface, 0);
+    background: color-mix(in srgb, var(--theme-page-bg) 72%, var(--theme-surface));
+  }
+
+  .theme .theme-scene-stack-menu__preview-price-card[data-tier='free'] {
+    border-color: var(--theme-border-strong);
+  }
+
+  .theme .theme-scene-stack-menu__preview-price-card[data-tier='solo'],
+  .theme .theme-scene-stack-menu__preview-price-card[data-tier='team'] {
+    border-color: var(--theme-border-strong);
+  }
+
+  .theme .theme-scene-stack-menu__preview-price-title,
+  .theme .theme-scene-stack-menu__preview-price-amount,
+  .theme .theme-scene-stack-menu__preview-price-note {
+    margin: 0;
+  }
+
+  .theme .theme-scene-stack-menu__preview-price-amount {
+    font-size: clamp(1.15rem, 2vw, 1.55rem);
+    line-height: 1.1;
+  }
+
+  .theme .theme-scene-stack-menu__footer {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    align-items: center;
+    gap: 1.25rem;
+    min-width: 0;
+    flex: none;
+    padding: 0.25rem 0;
+    border-top: 1px solid var(--theme-border);
+  }
+
+  .theme .theme-scene-stack-menu__footer-group {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem 0.55rem;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .theme .theme-scene-stack-menu__footer-group[data-group='utility'] {
+    box-sizing: border-box;
+    align-self: stretch;
+    padding-left: 2rem;
+    border-left: 1px solid var(--theme-border);
+  }
+
+  .theme .theme-scene-stack-menu__footer-item {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .theme .theme-scene-stack-menu[data-mode='contact'],
+  .theme .theme-scene-stack-menu[data-mode='login'],
+  .theme .theme-scene-stack-menu[data-mode='info'] {
+    grid-template-rows: minmax(0, 1fr);
+    /* Forms / reading panels still fill the peel budget so ThemeScroll has room. */
+    height: min(
+      40rem,
+      calc(80svh - var(--scene-menu-shell-deck-lip, 3rem) - 1.25rem)
+    );
+    max-height: min(
+      40rem,
+      calc(80svh - var(--scene-menu-shell-deck-lip, 3rem) - 1.25rem)
+    );
+  }
+
+  .theme .theme-scene-stack-menu__contact,
+  .theme .theme-scene-stack-menu__login {
+    display: grid;
+    grid-template-columns: minmax(12rem, 0.85fr) minmax(0, 1.15fr);
+    gap: 1.25rem;
+    align-items: start;
+    min-height: 0;
+    height: 100%;
+    padding: 0.35rem var(--scene-menu-shell-close-reserve, 6.5rem) 0.5rem
+      var(--scene-menu-shell-chrome-inline, 1.25rem);
+    overflow: auto;
+  }
+
+  /* Login — ThemeScroll mini rail (same as Modal / Sign up), not native overflow. */
+  .theme .theme-scene-stack-menu__login {
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: none;
+    gap: 0;
+    padding: 0.35rem var(--scene-menu-shell-close-reserve, 6.5rem) 0.5rem
+      var(--scene-menu-shell-chrome-inline, 1.25rem);
+    overflow: hidden;
+  }
+
+  /* Info reading panel — fills the entire pill (no nav chrome); ThemeScroll when copy overflows. */
+  .theme .theme-scene-stack-menu__info {
+    display: flex;
+    flex-direction: column;
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
+    min-height: 0;
+    height: 100%;
+    width: 100%;
+    padding: 0.35rem var(--scene-menu-shell-close-reserve, 6.5rem) 0.5rem
+      var(--scene-menu-shell-chrome-inline, 1.25rem);
+    overflow: hidden;
+  }
+
+  .theme .theme-scene-stack-menu__login-scroll,
+  .theme .theme-scene-stack-menu__info-scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 100%;
+  }
+
+  /* Match menu underlay fill so edge clouds blend (Card / MenuButton pattern). */
+  .theme .theme-scene-stack-menu__info-scroll.theme-scroll--clouds {
+    --theme-scroll-fade: color-mix(in srgb, var(--theme-complement) 16%, var(--theme-page-bg));
+    --theme-scroll-cloud-color: var(--theme-scroll-fade);
+    --theme-scroll-cloud-size: 3rem;
+  }
+
+  .theme .theme-scene-stack-menu__login-scroll-inner {
+    display: grid;
+    grid-template-columns: minmax(12rem, 0.85fr) minmax(0, 1.15fr);
+    gap: 1.25rem;
+    align-items: start;
+    min-width: 0;
+    min-height: 100%;
+    box-sizing: border-box;
+    padding: 0.15rem 0.35rem 0.65rem 0;
+  }
+
+  /*
+   * Info reading: text scrolls in ThemeScroll; optional video sits in a sibling rail
+   * outside the scroller so it stays pinned (position:sticky fails inside overflow hosts
+   * when the grid item shrinks with align-items:start).
+   */
+  .theme .theme-scene-stack-menu__info-columns {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 100%;
+    max-width: min(68rem, 100%);
+    margin-inline: auto;
+    gap: 1.1rem;
+  }
+
+  @media (min-width: 48rem) {
+    .theme .theme-scene-stack-menu__info-columns[data-has-video='true'] {
+      flex-direction: row;
+      align-items: stretch;
+      gap: 1.35rem 1.5rem;
+    }
+
+    /* Copy stays readable but yields width to the selling video. */
+    .theme
+      .theme-scene-stack-menu__info-columns[data-has-video='true']
+      .theme-scene-stack-menu__info-scroll {
+      flex: 0 1 36%;
+      width: min(24.5rem, 38%);
+      max-width: 26rem;
+      min-width: 0;
+    }
+
+    .theme .theme-scene-stack-menu__info-media-rail {
+      flex: 1 1 62%;
+      width: auto;
+      min-width: 0;
+      max-width: none;
+      align-self: stretch;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding-top: 0.15rem;
+      min-height: 0;
+    }
+
+    .theme
+      .theme-scene-stack-menu__info-media-rail
+      .theme-scene-stack-menu__info-figure--video {
+      max-width: none;
+      width: 100%;
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .theme
+      .theme-scene-stack-menu__info-media-rail
+      .theme-scene-stack-menu__info-video {
+      max-width: none;
+      width: 100%;
+      max-height: min(34rem, calc(80svh - 5rem));
+    }
+  }
+
+  /* Doc-like page surface (DocEditor pageless input rhythm). */
+  .theme .theme-scene-stack-menu__info-doc {
+    display: flex;
+    flex-direction: column;
+    gap: 1.35rem;
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.2rem 0.85rem 1.5rem 0.15rem;
+    color: var(--theme-text);
+    letter-spacing: -0.01em;
+  }
+
+  .theme .theme-scene-stack-menu__info-head {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.85rem;
+    min-width: 0;
+  }
+
+  .theme .theme-scene-stack-menu__info-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    min-width: 0;
+  }
+
+  .theme .theme-scene-stack-menu__info-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    min-width: 0;
+    max-width: 40rem;
+    margin: 0 0 1.35rem;
+    padding: 0 0 1.25rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--theme-border) 60%, transparent);
+  }
+
+  .theme .theme-scene-stack-menu__info-section:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0.15rem;
+    border-bottom: none;
+  }
+
+  .theme .theme-scene-stack-menu__info-section-head {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin: 0;
+    min-width: 0;
+  }
+
+  .theme .theme-scene-stack-menu__info-section-icon {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: var(--theme-radius-sm, 0.4rem);
+    color: var(--theme-accent, var(--theme-text));
+    background: color-mix(in srgb, var(--theme-accent, var(--theme-text)) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--theme-accent, var(--theme-border)) 28%, transparent);
+  }
+
+  .theme .theme-scene-stack-menu__info-section-icon svg {
+    width: 1.05rem;
+    height: 1.05rem;
+  }
+
+  .theme .theme-scene-stack-menu__info-section-title {
+    min-width: 0;
+    font-family: var(--font-display, inherit);
+    font-size: 1.125rem;
+    font-weight: 650;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    color: var(--theme-text);
+    text-wrap: balance;
+  }
+
+  .theme .theme-scene-stack-menu__info-section .theme-scene-stack-menu__info-copy {
+    margin-bottom: 0;
+    padding-left: 0.1rem;
+  }
+
+  .theme .theme-scene-stack-menu__contact-head,
+  .theme .theme-scene-stack-menu__login-head {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    min-width: 0;
+  }
+
+  /* Clears the shell Close housing — same vertical budget as a Back row. */
+  .theme .theme-scene-stack-menu__info-chrome-spacer {
+    flex: none;
+    width: 100%;
+    height: 2.35rem;
+    pointer-events: none;
+  }
+
+  .theme .theme-scene-stack-menu__contact-intro,
+  .theme .theme-scene-stack-menu__login-intro {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    min-width: 0;
+  }
+
+  .theme .theme-scene-stack-menu__info-intro {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    min-width: 0;
+    max-width: 40rem;
+  }
+
+  .theme .theme-scene-stack-menu__info-overline {
+    margin: 0;
+  }
+
+  .theme .theme-scene-stack-menu__info-title {
+    margin: 0;
+    font-family: var(--font-display, inherit);
+    font-size: clamp(1.55rem, 2.4vw, 2rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: var(--theme-text);
+    text-wrap: balance;
+  }
+
+  .theme .theme-scene-stack-menu__info-lead {
+    margin: 0;
+    max-width: 36rem;
+    font-size: 1.0625rem;
+    font-weight: 450;
+    line-height: 1.62;
+    color: color-mix(in srgb, var(--theme-text) 78%, var(--theme-text-muted));
+    text-wrap: pretty;
+  }
+
+  .theme .theme-scene-stack-menu__info-copy {
+    margin: 0 0 0.95rem;
+    max-width: 40rem;
+    font-size: 1rem;
+    line-height: 1.68;
+    color: var(--theme-text);
+    text-wrap: pretty;
+  }
+
+  .theme .theme-scene-stack-menu__info-copy:last-child {
+    margin-bottom: 0;
+  }
+
+  .theme .theme-scene-stack-menu__info-figure {
+    margin: 0 0 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    min-width: 0;
+    overflow: visible;
+  }
+
+  .theme .theme-scene-stack-menu__info-figure--video {
+    max-width: 36rem;
+  }
+
+  .theme .theme-scene-stack-menu__info-follow {
+    width: 100%;
+    max-width: 36rem;
+    height: min(22rem, 42vh);
+  }
+
+  .theme .theme-scene-stack-menu__info-image {
+    display: block;
+    width: 100%;
+    max-width: 36rem;
+    height: auto;
+    max-height: min(22rem, 42vh);
+    object-fit: contain;
+    border-radius: var(--theme-radius-md, 0.5rem);
+    background: color-mix(in srgb, var(--theme-text) 5%, var(--theme-surface));
+    border: 1px solid color-mix(in srgb, var(--theme-border) 70%, transparent);
+    box-shadow: 0 1px 4px color-mix(in srgb, var(--theme-shadow-outer, #000) 18%, transparent);
+  }
+
+  /* Follow deck owns frame/shadow — keep the img clean inside the front card. */
+  .theme .theme-scene-stack-menu__info-follow .theme-scene-stack-menu__info-image {
+    max-width: none;
+    max-height: none;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  /* Floating preview — no frame / fill / shadow (same idea as offer front art). */
+  .theme .theme-scene-stack-menu__info-video {
+    display: block;
+    width: 100%;
+    max-width: 36rem;
+    height: auto;
+    max-height: min(24rem, 48vh);
+    object-fit: contain;
+    object-position: center;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    pointer-events: none;
+  }
+
+  .theme .theme-scene-stack-menu__info-caption {
+    margin: 0;
+  }
+
+  .theme .theme-scene-stack-menu__info-features {
+    list-style: none;
+    margin: 0.35rem 0 0.25rem;
+    padding: 0.15rem 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 36rem;
+    border-top: 1px solid color-mix(in srgb, var(--theme-border) 70%, transparent);
+  }
+
+  .theme .theme-scene-stack-menu__info-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    margin: 0;
+    padding: 0.7rem 0;
+    border-radius: 0;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid color-mix(in srgb, var(--theme-border) 55%, transparent);
+  }
+
+  .theme .theme-scene-stack-menu__info-feature:last-child {
+    border-bottom: none;
+    padding-bottom: 0.15rem;
+  }
+
+  .theme .theme-scene-stack-menu__info-feature-icon {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.4rem;
+    height: 1.4rem;
+    margin-top: 0.12rem;
+    color: var(--theme-accent, var(--theme-text));
+  }
+
+  .theme .theme-scene-stack-menu__info-feature-icon svg {
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+
+  .theme .theme-scene-stack-menu__info-feature-label {
+    margin: 0;
+    min-width: 0;
+    font-size: 0.975rem;
+    line-height: 1.55;
+    color: var(--theme-text);
+    text-wrap: pretty;
+  }
+
+  /* Mobile: video above the article so the frame is fully visible before scroll. */
+  @media (max-width: 47.98rem) {
+    .theme .theme-scene-stack-menu__info-columns[data-has-video='true'] {
+      flex-direction: column;
+    }
+
+    .theme .theme-scene-stack-menu__info-media-rail {
+      order: -1;
+      width: 100%;
+      max-width: none;
+      padding: 0 0.15rem;
+    }
+
+    .theme
+      .theme-scene-stack-menu__info-media-rail
+      .theme-scene-stack-menu__info-video {
+      max-height: min(20rem, 42vh);
+    }
+  }
+
+  .theme .theme-scene-stack-menu__login-links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 0.65rem 0 0;
+    border-top: 1px solid var(--theme-border);
+    list-style: none;
+  }
+
+  .theme .theme-scene-stack-menu__login-link-item {
+    display: flex;
+    width: 100%;
+    padding: 0.55rem 0;
+  }
+
+  .theme .theme-scene-stack-menu__login-link-item:not(:last-child) {
+    border-bottom: 1px solid var(--theme-border);
+  }
+
+  .theme .theme-scene-stack-menu__login-link {
+    max-width: 100%;
+    text-align: start;
+  }
+
+  .theme .theme-scene-stack-menu__contact-overline,
+  .theme .theme-scene-stack-menu__contact-title,
+  .theme .theme-scene-stack-menu__contact-lead,
+  .theme .theme-scene-stack-menu__login-overline,
+  .theme .theme-scene-stack-menu__login-title,
+  .theme .theme-scene-stack-menu__login-lead,
+  .theme .theme-scene-stack-menu__info-overline,
+  .theme .theme-scene-stack-menu__info-title,
+  .theme .theme-scene-stack-menu__info-lead {
+    margin: 0;
+  }
+
+  .theme .theme-scene-stack-menu__contact-form,
+  .theme .theme-scene-stack-menu__login-form {
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .theme .theme-scene-stack-menu__login-form {
+    padding: 0.65rem 0 0.65rem 1.25rem;
+    border-left: 1px solid var(--theme-border);
+  }
+
+  .theme .theme-scene-stack-menu[data-mode-phase='out'] .theme-scene-stack-menu__mode-layer {
+    animation: scene-stack-menu-mode-out 0.52s both cubic-bezier(0.7, 0, 0.3, 1);
+    pointer-events: none;
+  }
+
+  .theme .theme-scene-stack-menu[data-mode-phase='in'] .theme-scene-stack-menu__mode-layer {
+    animation: scene-stack-menu-mode-in 0.52s both cubic-bezier(0.7, 0, 0.3, 1);
+  }
+
+  @keyframes scene-stack-menu-mode-out {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(0.65rem);
+    }
+  }
+
+  @keyframes scene-stack-menu-mode-in {
+    from {
+      opacity: 0;
+      transform: translateY(-0.65rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 64rem) {
+    .theme .theme-scene-stack-menu__preview-panel[data-layout='media'] {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: minmax(0, 1fr) auto;
+      align-items: stretch;
+      gap: 0.45rem;
+      padding-left: 0.65rem;
+    }
+
+    .theme .theme-scene-stack-menu__preview-media {
+      max-height: 8.5rem;
+    }
+
+    .theme .theme-scene-stack-menu__preview-media--cover {
+      max-height: none;
+    }
+
+    .theme .theme-scene-stack-menu__preview-split {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.75rem;
+    }
+
+    .theme .theme-scene-stack-menu__preview-pricing-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .theme .theme-scene-stack-menu__contact {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .theme .theme-scene-stack-menu__login-scroll-inner {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .theme .theme-scene-stack-menu__login-form {
+      padding: 1rem 0 0;
+      border-left: 0;
+      border-top: 1px solid var(--theme-border);
+    }
+
+    .theme .theme-scene-stack-menu__info {
+      padding-inline-end: var(--scene-menu-shell-chrome-inline, 1.25rem);
+    }
+
+    .theme .theme-scene-stack-menu__info-scroll-inner {
+      max-width: none;
+    }
+
+    .theme .theme-scene-stack-menu__info-image {
+      max-width: none;
+      max-height: min(16rem, 36vh);
+    }
+  }
+
+  /*
+   * Compact / mobile structure (≤48rem)
+   *
+   * DOM (nav mode):
+   *   __top → display:contents
+   *     __top-start  → grid "start"  (Home / Dashboard · shares Close row)
+   *     __top-end    → grid "cta"    (Book now | Sign in · under the link list)
+   *   __lower        → grid "lower"  (sub-stack only; preview hidden)
+   *   __footer       → grid "footer" (socials + Contact on one row)
+   *
+   * Height hugs content under the peel budget so five links + CTA + footer
+   * are not clipped by a tall fixed shell + overflow:hidden. If content
+   * still overflows max-height, only `__lower` scrolls.
+   */
+  @media (max-width: 48rem) {
+    .theme .theme-scene-stack-menu {
+      height: auto;
+      max-height: calc(80svh - var(--scene-menu-shell-deck-lip, 3rem) - 1.25rem);
+    }
+
+    .theme .theme-scene-stack-menu[data-has-footer='true'] {
+      grid-template-rows: auto minmax(0, 1fr) auto auto;
+      grid-template-areas:
+        'start'
+        'lower'
+        'cta'
+        'footer';
+    }
+
+    .theme .theme-scene-stack-menu:not([data-has-footer='true']) {
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      grid-template-areas:
+        'start'
+        'lower'
+        'cta';
+    }
+
+    /* Contact / login / info — single full-panel layer (no nav grid areas). */
+    .theme .theme-scene-stack-menu[data-mode='contact'],
+    .theme .theme-scene-stack-menu[data-mode='login'],
+    .theme .theme-scene-stack-menu[data-mode='info'] {
+      grid-template-rows: minmax(0, 1fr);
+      grid-template-areas: none;
+      height: 100%;
+      max-height: calc(80svh - var(--scene-menu-shell-deck-lip, 3rem) - 1.25rem);
+    }
+
+    .theme .theme-scene-stack-menu__top {
+      display: contents;
+    }
+
+    .theme .theme-scene-stack-menu__top-start {
+      grid-area: start;
+      flex-wrap: nowrap;
+      gap: 0.5rem 0.75rem;
+      min-width: 0;
+      padding: 8px var(--scene-menu-shell-close-reserve, 6.5rem) 0.65rem
+        var(--scene-menu-shell-chrome-inline, 1.25rem);
+      overflow-x: auto;
+      border-bottom: 1px solid var(--theme-border);
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .theme .theme-scene-stack-menu__top-start::-webkit-scrollbar {
+      display: none;
+    }
+
+    .theme .theme-scene-stack-menu__top-start > .theme-scene-stack-menu__top-item:not(:last-child) {
+      padding-right: 0.85rem;
+    }
+
+    .theme .theme-scene-stack-menu__top-end {
+      grid-area: cta;
+      box-sizing: border-box;
+      width: 100%;
+      margin-inline-start: 0;
+      justify-content: stretch;
+      align-items: stretch;
+      padding: 0.75rem var(--scene-menu-shell-chrome-inline, 1.25rem) 0.35rem;
+      border-top: 1px solid var(--theme-border);
+    }
+
+    .theme .theme-scene-stack-menu__top-end > .theme-scene-stack-menu__top-item {
+      flex: 1 1 0;
+      min-width: 0;
+      width: auto;
+      padding-inline: 0;
+      justify-content: stretch;
+    }
+
+    .theme .theme-scene-stack-menu__top-end > .theme-scene-stack-menu__top-item:first-child {
+      border-left: 0;
+    }
+
+    .theme .theme-scene-stack-menu__top-end > .theme-scene-stack-menu__top-item:last-child {
+      border-right: 0;
+      padding-right: 0;
+    }
+
+    .theme .theme-scene-stack-menu__top-end > .theme-scene-stack-menu__top-item:not(:last-child) {
+      padding-right: 0.85rem;
+      border-right: 1px solid var(--theme-border);
+    }
+
+    .theme .theme-scene-stack-menu__top-auth-item {
+      width: auto;
+      padding-inline: 0;
+      justify-content: stretch;
+    }
+
+    .theme .theme-scene-stack-menu__auth-swap,
+    .theme .theme-scene-stack-menu__auth-pane,
+    .theme .theme-scene-stack-menu__auth-toggle,
+    .theme .theme-scene-stack-menu__book-now-btn,
+    .theme .theme-scene-stack-menu__auth-cta,
+    .theme .theme-scene-stack-menu__sign-out-btn {
+      width: 100%;
+      max-width: none;
+    }
+
+    .theme .theme-scene-stack-menu__auth-pane {
+      justify-content: stretch;
+    }
+
+    .theme .theme-scene-stack-menu__lower {
+      grid-area: lower;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0;
+      min-height: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .theme .theme-scene-stack-menu__preview {
+      display: none;
+    }
+
+    .theme .theme-scene-stack-menu__links {
+      align-items: stretch;
+      justify-content: flex-start;
+      width: 100%;
+      max-width: 24rem;
+      margin-inline: auto;
+      padding: 0.75rem var(--scene-menu-shell-chrome-inline, 1.25rem);
+      overflow: visible;
+      text-align: start;
+    }
+
+    .theme .theme-scene-stack-menu__link-item {
+      width: 100%;
+      max-width: none;
+      justify-content: flex-start;
+      padding-block: 0.55rem;
+    }
+
+    /* Socials + Contact share one compact row. */
+    .theme .theme-scene-stack-menu__footer {
+      grid-area: footer;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem 0.85rem;
+      padding: 0.5rem var(--scene-menu-shell-chrome-inline, 1.25rem) 0.65rem;
+      border-top: 0;
+    }
+
+    .theme .theme-scene-stack-menu__footer-group {
+      width: auto;
+      flex: none;
+      justify-content: center;
+    }
+
+    .theme .theme-scene-stack-menu__footer-group[data-group='utility'] {
+      padding-left: 0;
+      border-left: 0;
+      border-top: 0;
+      padding-top: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-scene-stack-menu__lower,
+    .theme .theme-scene-stack-menu__link-item,
+    .theme .theme-scene-stack-menu__preview-panel,
+    .theme .theme-scene-stack-menu__mode-layer {
+      animation: none;
+    }
+
+    .theme .theme-scene-stack-menu__auth-swap,
+    .theme .theme-scene-stack-menu__dashboard-slot {
+      --auth-swap-duration: 0.01ms;
+    }
+
+    .theme .theme-scene-stack-menu__top[data-auth='guest'] .theme-scene-stack-menu__auth-pane--member {
+      transform: translate3d(100%, 0, 0);
+    }
+
+    .theme .theme-scene-stack-menu__top[data-auth='member'] .theme-scene-stack-menu__auth-pane--guest {
+      transform: translate3d(-100%, 0, 0);
+    }
+
+    .theme .theme-scene-stack-menu__top[data-auth='guest'] .theme-scene-stack-menu__dashboard-slot {
+      transform: translate3d(100%, 0, 0);
+    }
+  }
+}
+
+@keyframes scene-stack-menu-out-to-left {
+  to {
+    opacity: 0;
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+
+@keyframes scene-stack-menu-out-to-right {
+  to {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
+  }
+}
+
+@keyframes scene-stack-menu-in-from-left {
+  from {
+    opacity: 0;
+    transform: translate3d(-100%, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes scene-stack-menu-in-from-right {
+  from {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes scene-stack-menu-out-to-top {
+  to {
+    opacity: 0;
+    transform: translate3d(0, -100%, 0);
+  }
+}
+
+@keyframes scene-stack-menu-out-to-bottom {
+  to {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+}
+
+@keyframes scene-stack-menu-in-from-top {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes scene-stack-menu-in-from-bottom {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Keep footer tone scoped; size comes from `size="sm"`. */
+.theme
+  .theme-scene-stack-menu
+  .theme-scene-stack-menu__footer-btn.theme-vurify-menu-button--label {
+  font-weight: 500;
+  color: color-mix(in srgb, var(--theme-text) 38%, var(--theme-page-bg));
+  opacity: 1;
+}
+
+/*
+ * Footer glyphs — beat unlayered VurifyMenuButton `1em` / icon-only rules
+ * (vurify-menu-button.css loads after this file in index.css).
+ */
+.theme
+  .theme-scene-stack-menu
+  .theme-scene-stack-menu__footer-btn.theme-vurify-menu-button
+  .theme-vurify-menu-button__icon,
+.theme
+  .theme-scene-stack-menu
+  .theme-scene-stack-menu__footer-btn.theme-vurify-menu-button--icon-only
+  .theme-vurify-menu-button__icon,
+.theme
+  .theme-scene-stack-menu
+  .theme-scene-stack-menu__footer-btn.theme-vurify-menu-button--fill
+  .theme-vurify-menu-button__icon {
+  width: 1.35em;
+  height: 1.35em;
+}
+
+/*
+ * Footer hover — same accent as submenu links (all variants).
+ * Lives after vurify-menu-button.css load order via higher specificity + :not(:disabled).
+ * Social icon-only must paint glyph `color` (not stay on muted lineTone fill).
+ */
+.theme
+  .theme-scene-stack-menu
+  .theme-scene-stack-menu__footer-btn.theme-vurify-menu-button--label:is(
+    :hover,
+    :focus-visible
+  ):not(:disabled),
+.theme
+  .theme-scene-stack-menu
+  .theme-scene-stack-menu__footer-btn.theme-vurify-menu-button--fill:is(
+    :hover,
+    :focus-visible
+  ):not(:disabled),
+.theme
+  .theme-scene-stack-menu
+  .theme-scene-stack-menu__footer-btn.theme-vurify-menu-button--icon-only:is(
+    :hover,
+    :focus-visible
+  ):not(:disabled) {
+  color: var(--theme-accent);
+  --vurify-menu-line-color: var(--theme-accent);
+  --vurify-menu-fill-color: var(--theme-accent);
+}
+
+.theme
+  .theme-scene-stack-menu
+  .theme-scene-stack-menu__footer-btn.theme-vurify-menu-button:is(
+    :hover,
+    :focus-visible
+  ):not(:disabled)
+  .theme-vurify-menu-button__icon {
+  color: var(--theme-accent);
+}
+
+/* Header auth — Vurify Log in | Sign up toggle near Close. */
+.theme .theme-scene-stack-menu__auth-toggle.theme-radio-group--vurify {
+  flex: none;
+  max-width: none;
+}

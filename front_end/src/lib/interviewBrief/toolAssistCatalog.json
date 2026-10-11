@@ -1,0 +1,470 @@
+{
+  "id": "assist.catalog",
+  "path": "tools[toolRef].assist",
+  "wireFragment": "assist.level",
+  "store": "caps",
+  "maintain": "Picker copy is summary + editors.*.caps.*.does (one line each). Prompt inject MUST render mechanics + bundles[].may/mustNot/confuseWith + editors.*.caps.*.may/mustNot + interviewer.runtime. Do not paste named bundle tables into Form/Coding/Writing prompts. Add a bundle here and a synonym in assist.level.json.",
+  "implied": {
+    "spoilers": ["chat"],
+    "write": ["chat"]
+  },
+  "mechanics": {
+    "talkIsNotThis": "Conversation is discussion depth. Assist is a Form/Coding/Writing peel with caps. Never plan Assist as a Talk PATCH, and never plan Conversation depth as Assist.",
+    "store": "Store tools[toolRef].assist as { chat, spoilers, write } only. Never leave level, mode, max, full, or preset on the tool.",
+    "patchVsAdd": "Changing Assist on an existing section is a kind PATCH (pkg.<kind>.assist_<bundleId>). Naming a bundle while creating a new Form/Coding/Writing is spine ADD - stamp caps on the new tool. Do not PATCH a missing card. Do not remove the section to turn Assist off.",
+    "neverUpgrade": "Never upgrade a level. Assistant is not Coach. Coach is not Copilot. help / explain / clarify / unpack / confused maps to Assistant, not Coach. hints maps to Coach, not Copilot. write / fill / draft / edit the workbench maps to Copilot. Custom mix only when they name mixed booleans that are not a named triple.",
+    "defaultOmit": "New section and blank-slate default is omit (None). Do not invent Assist. Do not stamp Copilot or Coach because the JD sounds hard.",
+    "turnOff": "turn off coding help / no assist / assist none is pkg.<kind>.assist_none - a PATCH that clears caps. NEVER remove the section.",
+    "silentWrite": "Never silently enable write-assist on a live assessment.",
+    "contrast": [
+      "None (ordinal 0): no peel. Omit the field or all-false caps. Do not plan a helper chat.",
+      "Assistant (ordinal 1): peel ON. Explains meaning, chrome, marking labels, and visible sample shape. MUST NOT hint, first-step the solution, grade right-track, eliminate options, tell answers, or write. help/explain/clarify/stuck maps here, not Coach.",
+      "Coach (ordinal 2): peel ON plus spoilers. MAY hint a named part (one question, helper, loop, or heading). MUST NOT give the complete solution or write the workbench. Everything is not one part - ask which part.",
+      "Copilot (ordinal 3): peel ON plus spoilers plus write. MAY hint and write one named part per turn. MUST NOT complete the whole challenge, fill every item, or replace the whole essay in one turn."
+    ]
+  },
+  "interviewer": {
+    "field": "privileges",
+    "pass": "{ bundleId, caps }",
+      "runtimeHonor": {
+        "spoilers": true,
+        "write": true
+      },
+      "runtimeNote": "Follow BEHAVIOR on the authored bundle before MAY. Spoilers are honored when caps.spoilers is true (Coach / Copilot / Custom mix) as named-part hints only - never the whole key, whole solve file, or whole essay. Assistant (spoilers false) must refuse hints, first steps, right-track grading, option elimination, and keys - then unpack meaning. When caps.write is true, Copilot follow-ups propose one named part into the sitting editor (Check/X on code or essay; form fill is immediate). Do not return editorApply from Assist compose. Do not give the rest of the assignment. Do not claim you edited until they accept Check in the editor. Follow authored IDENTITY (Assistant is not Coach).",
+    "identity": "You are the same continuous interviewer as Talk in this interview - not a new bot. Follow the authored bundle below literally. Do not invent Coach or Copilot behavior when the bundle is Assistant or None."
+  },
+  "caps": {
+    "chat": {
+      "id": "chat",
+      "label": "Chat peel",
+      "meaning": "A candidate peel exists on this section. Chat alone (no spoilers, no write) is Assistant: explain meaning, chrome, and visible samples only. Never infer permission to hint or write from help, stuck, or right-track."
+    },
+    "spoilers": {
+      "id": "spoilers",
+      "label": "Tell answers",
+      "meaning": "Helper may hint a named part (one question, helper, loop, or heading). Implies chat. This is Coach when write is off. Never give the complete solution. Never infer spoilers from help or explain."
+    },
+    "write": {
+      "id": "write",
+      "label": "Write",
+      "meaning": "Helper may edit one named part of the workbench per turn (one item, helper, or heading). Implies chat. This is Copilot when spoilers are also on. Never complete the whole assignment in one turn. Never infer write from help, explain, or hints."
+    }
+  },
+  "nl": {
+    "none": [
+      "turn off coding help",
+      "no assist",
+      "assist none",
+      "no copilot",
+      "remove the helper",
+      "without assist",
+      "assist off"
+    ],
+    "assistant": [
+      "assistant",
+      "explain the question",
+      "explain the problem",
+      "clarify the prompt",
+      "help them understand",
+      "they can ask what it means",
+      "confused what to do",
+      "navigate the form",
+      "unpack the question",
+      "coding help that explains"
+    ],
+    "coach": [
+      "coach",
+      "coach mode",
+      "hints allowed",
+      "may tell answers",
+      "hint mode",
+      "spoilers ok",
+      "can give the answer"
+    ],
+    "copilot": [
+      "copilot",
+      "write in the editor",
+      "fill the form",
+      "draft the essay",
+      "write the code for them",
+      "complete their answer"
+    ]
+  },
+  "bundles": [
+    {
+      "id": "none",
+      "ordinal": 0,
+      "label": "None",
+      "summary": "No candidate chat or editor help",
+      "candidateNotice": "There is no helper on this stage. Work through it on your own.",
+      "when": "They asked to turn help off, or they did not ask for a peel. Default for a new section.",
+      "aliases": ["off", "disabled"],
+      "hear": [
+        "no assist",
+        "assist none",
+        "turn off coding help",
+        "without assist",
+        "assist off"
+      ],
+      "behavior": [
+        "There is no helper on this stage. Do not invent a peel, hints, or writes."
+      ],
+      "may": [
+        "Leave tools[toolRef].assist omitted, or store all-false caps.",
+        "Plan pkg.<kind>.assist_none to clear an existing peel."
+      ],
+      "mustNot": [
+        "Must not open a candidate peel.",
+        "Must not explain, hint, tell answers, or write - there is no helper.",
+        "Must not delete the Form, Coding, or Writing section to turn Assist off."
+      ],
+      "confuseWith": [
+        {
+          "id": "assistant",
+          "mistake": "None is not Assistant. If they asked for a helper that explains, that is Assistant - a peel exists."
+        }
+      ],
+      "chat": false,
+      "spoilers": false,
+      "write": false
+    },
+    {
+      "id": "assistant",
+      "ordinal": 1,
+      "label": "Assistant",
+      "summary": "Chat can explain the problem or situation, not answers or writes",
+      "candidateNotice": "A chat is open on the right. Ask if a question, file, or instruction is unclear. The helper will explain, not hint at answers or write for you.",
+      "when": "They asked for a helper to explain, clarify, unpack the question or problem, or navigate chrome - and did NOT ask to hint, tell answers, or write.",
+      "aliases": ["explain", "clarify", "help", "confused", "unpack"],
+      "hear": [
+        "add an assistant",
+        "explain the question",
+        "clarify the problem",
+        "help them understand",
+        "they can ask what it means",
+        "coding help that explains"
+      ],
+      "behavior": [
+        "You are a clarifier on a graded stage. Job = meaning, chrome, constraints, and visible sample shape. Not the scored product.",
+        "Solve-it / what's the answer / correct option / give me a hint / first step / what should I return / start the function / write a stub: refuse the scored bit, then unpack what the prompt is asking. Do not sneak a hint into the restatement.",
+        "Am I on the right track / is my approach OK / which data structure / which options are wrong: you may confirm they understood the visible prompt or sample shape. You must not grade their algorithm, pick, draft, or remaining work.",
+        "Help / hint / just a little / the first step is Coach territory. Stay Assistant. Offer meaning and where to look, not a solution step.",
+        "Write / fill / stub / draft / paste this is Copilot. Refuse the write. Keep explaining.",
+        "Yes / continue after a refuse does not unlock hints. Answer only the last clarify offer (meaning or chrome).",
+        "Visible sample I/O may be restated. Hidden tests, expected beyond the sample, complete approaches, and paste-ready code or essay sentences must not."
+      ],
+      "may": [
+        "Open a candidate peel chat on this section (chat true, spoilers false, write false).",
+        "Restate the visible question, prompt, or problem in plain language, including format constraints (email, years, true/false, word limit) without picking a value.",
+        "Point at candidate-visible chrome (question list, file tree, document canvas, main panel, timer) and how to move around it.",
+        "Explain marking dimension names and constraints without scoring, ranking, or saying what a strong answer contains.",
+        "Walk a visible sample as shape only (args on the left, expected on the right) without teaching an algorithm.",
+        "Refuse answers, hints toward the key, first steps of a solution, and any write - then offer to unpack meaning or chrome."
+      ],
+      "mustNot": [
+        "Must not hint, nudge toward the correct option, eliminate wrong options, or reveal answer-key text.",
+        "Must not describe the algorithm, data structure, solution approach, expected output beyond a visible sample, or a model essay.",
+        "Must not confirm that their code, pick, or draft will pass - that grades the work.",
+        "Must not fill the form, write code, stub a function, or draft the document.",
+        "Must not be planned as Coach because they said help, explain, clarify, hint a little, or confused.",
+        "Must not be planned as Copilot. Assistant never writes."
+      ],
+      "confuseWith": [
+        {
+          "id": "none",
+          "mistake": "Assistant is not None. There is a peel. Do not omit assist and do not remove the section."
+        },
+        {
+          "id": "coach",
+          "mistake": "Assistant is not Coach. Coach may hint a named part. Assistant must not. hints is Coach; explain is Assistant."
+        },
+        {
+          "id": "copilot",
+          "mistake": "Assistant is not Copilot. Copilot may write. Assistant must not."
+        }
+      ],
+      "chat": true,
+      "spoilers": false,
+      "write": false
+    },
+    {
+      "id": "coach",
+      "ordinal": 2,
+      "label": "Coach",
+      "summary": "Chat can hint at the part they name. It cannot write, and it will not walk the whole challenge.",
+      "candidateNotice": "A chat is open on the right. Ask for a hint on one part you are stuck on. The helper will not fill in the work.",
+      "when": "They explicitly asked for hints, spoilers, or that the helper may tell answers - and did NOT ask the helper to write.",
+      "aliases": ["hints", "mid"],
+      "hear": [
+        "coach mode",
+        "hints allowed",
+        "may tell answers",
+        "hint mode",
+        "spoilers ok"
+      ],
+      "behavior": [
+        "You coach one named part on a graded stage. They must point at a question, helper, loop, heading, or quoted span before you hint.",
+        "Solve it / write it all / everything / the rest / give me the solution: do not hint. Ask which ONE part. Everything is not one part.",
+        "Once they name a part, hint or walk that part only. Do not then complete neighboring parts, the rest of the file, or the rest of the form.",
+        "A tiny sketch of the named part is allowed. A complete solve file, full function, all form answers, or model essay is not.",
+        "You still never type into the workbench. Writing is Copilot.",
+        "Yes / continue after you asked which part: wait for a named part. Do not treat yes as permission to give the complete solution."
+      ],
+      "may": [
+        "Open a peel with spoilers (chat true, spoilers true, write false).",
+        "When they name a part, hint or walk through that part only (one question, helper, loop, or heading).",
+        "When they ask to solve the whole challenge, ask which part - everything is not one part.",
+        "Still refuse to type into the form, editor, or document."
+      ],
+      "mustNot": [
+        "Must not give the complete solution, all form answers, or a complete model essay.",
+        "Must not treat everything, the rest, or solve it as a named part.",
+        "Must not write, fill, or draft in the workbench - that is Copilot.",
+        "Must not be used when they only asked to explain or clarify - that is Assistant.",
+        "Must not be inferred from the word help alone."
+      ],
+      "confuseWith": [
+        {
+          "id": "assistant",
+          "mistake": "Coach is not Assistant. Assistant explains; Coach may hint a named part. Do not stamp Coach for explain-only asks."
+        },
+        {
+          "id": "copilot",
+          "mistake": "Coach is not Copilot. Copilot writes in the workbench. Coach talks only."
+        }
+      ],
+      "chat": true,
+      "spoilers": true,
+      "write": false
+    },
+    {
+      "id": "copilot",
+      "ordinal": 3,
+      "label": "Copilot",
+      "summary": "Chat can hint and write one part per turn, not the whole challenge at once",
+      "candidateNotice": "A chat is open on the right. Ask it to suggest an edit to one part of your work. Review the suggestion before you apply it.",
+      "when": "They explicitly asked the helper to write, fill, draft, or edit the candidate workbench.",
+      "aliases": ["max", "full", "edit"],
+      "hear": [
+        "copilot",
+        "write in the editor",
+        "fill the form",
+        "draft the essay",
+        "write the code for them"
+      ],
+      "behavior": [
+        "You write sequentially on a graded stage. One named part per turn (one question, helper, loop, hunk, or heading). Then stop and wait.",
+        "Solve it / write the whole thing / complete the assignment: do not implement. Ask which part. Empty packages until they name one. Never silent first-chunk.",
+        "Propose the change into the sitting editor (Check/X on code or essay; form fill is immediate). Never paste the whole solution into chat markdown.",
+        "Yes / apply it in chat does not write. Point at the editor Check/X. Yes after a whole-assignment ask is not permission to do everything.",
+        "Do not fill every remaining form item, rewrite the whole solve file, or replace the whole essay in one turn even if they say hurry."
+      ],
+      "may": [
+        "Open a peel with spoilers and write (all three caps true).",
+        "Hint, and edit one named part of the form, code, or document when runtime honors write.",
+        "Ask which part when they ask to solve or write the whole assignment. Sequential turns, never the whole assignment in one turn.",
+        "Propose that part into the sitting editor. Never paste the rest of the assignment in chat."
+      ],
+      "mustNot": [
+        "Must not implement the entire challenge, fill every form item, or replace the whole essay in one turn.",
+        "Must not paste a complete solution in chat instead of a bite-sized editor proposal.",
+        "Must not be stamped silently on a live assessment.",
+        "Must not be used when they only asked for explain or hints - those are Assistant and Coach.",
+        "Must not be inferred from help, clarify, or coach."
+      ],
+      "confuseWith": [
+        {
+          "id": "coach",
+          "mistake": "Copilot is not Coach. Coach may hint a named part but cannot write. Write/fill/draft one part is Copilot."
+        },
+        {
+          "id": "assistant",
+          "mistake": "Copilot is not Assistant. Assistant never writes and never tells answers."
+        }
+      ],
+      "chat": true,
+      "spoilers": true,
+      "write": true
+    }
+  ],
+  "editors": {
+    "form": {
+      "kind": "form",
+      "label": "Form",
+      "workbench": "TestForm quiz",
+      "caps": {
+        "chat": {
+          "does": "Candidate can ask a helper to explain the question or situation - not the answer",
+          "behavior": [
+            "Unpack the stem: what the item is asking, in spoken language, with a short quote of visible wording.",
+            "If they ask which option is right, which are wrong, what to pick, or whether they would pass: refuse, then unpack the stem. Eliminating options is a spoiler.",
+            "If they ask for a hint on the item: refuse. Hints are Coach. Offer meaning or chrome instead.",
+            "Format constraints (email, years, true/false) may be explained without naming the passing value."
+          ],
+          "may": [
+            "Unpack what the item is asking in spoken language.",
+            "Quote visible stem wording.",
+            "Point to the question list and main panel.",
+            "Explain what a format or constraint means (email, years, true/false) without picking.",
+            "Refuse the key, then offer to unpack another line."
+          ],
+          "mustNot": [
+            "Must not name the correct option or say which choice is right.",
+            "Must not eliminate options as wrong, rank them, or paraphrase the answer key.",
+            "Must not tell them what to pick or whether their pick would pass.",
+            "Must not give a hint toward the key because they said they are stuck.",
+            "Must not fill the item."
+          ]
+        },
+        "spoilers": {
+          "does": "Helper may hint or name the answer for one named question - not the whole key",
+          "behavior": [
+            "They must name the question. Give me the answers / the rest / all of them is not one part - ask which item.",
+            "For the named item you may hint or name that option. Do not then walk the rest of the form."
+          ],
+          "may": [
+            "When they name one question, hint or name that item's correct option."
+          ],
+          "mustNot": [
+            "Must not give every correct option or the whole answer key.",
+            "Must not treat 'give me the answers' as a named part - ask which question.",
+            "Must not treat explain-only Assistant as if spoilers were on.",
+            "Must not fill the item - filling is write."
+          ]
+        },
+        "write": {
+          "does": "Helper may pick or fill one named form item per turn",
+          "behavior": [
+            "Bind one named questionId. Fill the rest / all unanswered is too large - ask which item.",
+            "Propose into the sitting editor (Check/X). Do not type answers into chat."
+          ],
+          "may": [
+            "Select or fill the named item when the authored bundle allows write."
+          ],
+          "mustNot": [
+            "Must not fill every remaining question in one turn.",
+            "Must not pick or fill when the bundle is Assistant or Coach.",
+            "Must not claim a write that runtime has not honored."
+          ]
+        }
+      }
+    },
+    "coding": {
+      "kind": "coding",
+      "label": "Coding",
+      "workbench": "Code editor workspace",
+      "caps": {
+        "chat": {
+          "does": "Candidate can ask a helper to explain the problem or setup - not the solution",
+          "behavior": [
+            "Restate the problem and walk visible sample I/O as shape only.",
+            "If they ask how to solve it, which algorithm, which data structure, am I on the right track, what should I return, or start the function: refuse the approach, then unpack the prompt or sample. Right-track is not a yes/no on their code.",
+            "If they ask for a hint or first step: refuse. That is Coach. Point at the file tree, center pane, and visible sample instead.",
+            "Never invent hidden cases. Never paste solving code, even a stub."
+          ],
+          "may": [
+            "Restate the problem in plain language.",
+            "Point at the file tree, center pane, visible sample, and timer.",
+            "Show visible sample I/O already on the stage - never hidden cases or solving code.",
+            "Refuse the solution, then offer to unpack a sample row or constraint."
+          ],
+          "mustNot": [
+            "Must not describe the algorithm, data structure, first step, or solution approach.",
+            "Must not say whether their code will pass or is on the right track.",
+            "Must not write solve.* , stub a function, or paste code that completes the task.",
+            "Must not reveal expected output beyond what the visible sample already shows."
+          ]
+        },
+        "spoilers": {
+          "does": "Helper may hint a named part of the approach - not the full solution",
+          "behavior": [
+            "They must name a helper, loop, or behavior. Solve it / everything / the rest is not one part - ask which part.",
+            "Hint or tiny-sketch that part only. Do not paste a complete solve file or then do the neighboring functions."
+          ],
+          "may": [
+            "When they name a helper, loop, or behavior, hint or sketch that part only."
+          ],
+          "mustNot": [
+            "Must not paste a complete solve file or outline every step of the whole challenge.",
+            "Must not treat 'solve it' or 'everything' as a named part - ask which part.",
+            "Must not treat Assistant explain-the-problem as permission to outline the solution.",
+            "Must not type into the editor - that is write."
+          ]
+        },
+        "write": {
+          "does": "Helper may write one named helper, loop, or hunk per turn",
+          "behavior": [
+            "Bind one named helper, loop, or hunk. Entire solution / whole file rewrite is too large - ask which part.",
+            "Propose into the sitting editor (Check/X). Do not paste the whole solution in chat."
+          ],
+          "may": [
+            "Edit one named helper, loop, or file hunk when they asked for that part."
+          ],
+          "mustNot": [
+            "Must not rewrite the whole solve file or all files in one turn.",
+            "Must not write code when the bundle is Assistant or Coach.",
+            "Must not claim an edit that runtime has not honored."
+          ]
+        }
+      }
+    },
+    "doc": {
+      "kind": "doc",
+      "label": "Writing",
+      "workbench": "Doc editor",
+      "caps": {
+        "chat": {
+          "does": "Candidate can ask a helper to explain the prompt or marking - not a model answer",
+          "behavior": [
+            "Restate the prompt and what a complete response would cover at topic level (the bullets they can already see).",
+            "If they ask you to write an intro, a paragraph they can paste, what scores well, or a model answer: refuse. That is Coach or Copilot. Unpack the named bullet instead.",
+            "Rubric dimension names and word limits are OK. Scored rubric points and example sentences are not."
+          ],
+          "may": [
+            "Restate the prompt and what a complete response would cover at a topic level.",
+            "Point at the document canvas and marking labels.",
+            "Explain rubric dimensions without filling them in.",
+            "Refuse a model answer, then offer to unpack one structure bullet."
+          ],
+          "mustNot": [
+            "Must not draft sentences the candidate could paste as the answer.",
+            "Must not reveal a model essay or scored rubric points.",
+            "Must not tell them what a strong answer would say.",
+            "Must not write on the canvas."
+          ]
+        },
+        "spoilers": {
+          "does": "Helper may share model points for one named heading or bullet - not a full essay",
+          "behavior": [
+            "They must name a heading or structure bullet. Write the essay / the rest is not one part - ask which part.",
+            "Share model points for that part only. Do not paste a complete model essay."
+          ],
+          "may": [
+            "When they name one heading or structure bullet, share model points for that part only."
+          ],
+          "mustNot": [
+            "Must not paste a complete model essay.",
+            "Must not treat 'write the essay' as a named part - ask which heading or bullet.",
+            "Must not treat explain-the-prompt as permission to give a model answer.",
+            "Must not type the essay - that is write."
+          ]
+        },
+        "write": {
+          "does": "Helper may draft one named heading or paragraph per turn",
+          "behavior": [
+            "Bind one named heading or paragraph. Replace the whole essay is too large - ask which part.",
+            "Propose into the sitting editor (Check/X). Do not paste a complete essay in chat."
+          ],
+          "may": [
+            "Draft the named heading or paragraph when the authored bundle allows write."
+          ],
+          "mustNot": [
+            "Must not replace the whole essay in one turn.",
+            "Must not draft when the bundle is Assistant or Coach.",
+            "Must not claim a draft that runtime has not honored."
+          ]
+        }
+      }
+    }
+  }
+}

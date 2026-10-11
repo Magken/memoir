@@ -1,0 +1,102 @@
+/* Hard timer — compact ring (sticky header) + optional line strip. */
+
+.theme .theme-interview-hard-timer--ring {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 2.55rem;
+  height: 2.55rem;
+  flex: none;
+  flex-shrink: 0;
+}
+
+.theme .theme-interview-hard-timer__ring-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.theme .theme-interview-hard-timer__ring-track {
+  stroke: color-mix(in srgb, var(--theme-border) 55%, transparent);
+  stroke-width: 2.25;
+}
+
+.theme .theme-interview-hard-timer__ring-fill {
+  stroke: var(--theme-accent);
+  stroke-width: 2.25;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.25s linear;
+}
+
+.theme .theme-interview-hard-timer__digits--ring {
+  position: relative;
+  z-index: 1;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  font-size: 0.62rem;
+  line-height: 1;
+  color: var(--theme-fg);
+  pointer-events: none;
+}
+
+.theme .theme-interview-hard-timer--line {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  flex: none;
+  padding: 0.2rem 0;
+}
+
+.theme .theme-interview-hard-timer--line .theme-interview-hard-timer__digits {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  color: var(--theme-fg);
+}
+
+.theme .theme-interview-hard-timer__line {
+  position: relative;
+  height: 2px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--theme-border) 45%, transparent);
+}
+
+.theme .theme-interview-hard-timer__line-fill {
+  position: absolute;
+  inset: 0;
+  transform-origin: left center;
+  background: var(--theme-accent);
+  animation-name: theme-interview-hard-timer-shrink;
+  animation-duration: var(--hard-timeout-ms, 60000ms);
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes theme-interview-hard-timer-shrink {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme .theme-interview-hard-timer__ring-fill {
+    transition: none;
+  }
+
+  .theme .theme-interview-hard-timer__line-fill {
+    animation: none;
+    transform: scaleX(0);
+  }
+}
+
+/* Sticky gate chrome — ring in its own manage-header slot (Back | timer | title | Next). */
+.theme .page-scene--interview__chrome-timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  margin: 0;
+}

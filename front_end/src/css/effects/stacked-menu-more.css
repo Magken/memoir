@@ -1,0 +1,221 @@
+/**
+ * Shared “more” overflow layout — nano (nmenu) + mini (msmenu) + micro (mmenu) stacked rails.
+ */
+
+@layer components {
+  .theme .theme-nmenu,
+  .theme .theme-msmenu,
+  .theme .theme-mmenu {
+    --theme-stacked-menu-overflow-ease: cubic-bezier(0.33, 1, 0.48, 1);
+    --theme-stacked-menu-overflow-duration: 0.44s;
+  }
+
+  .theme .theme-nmenu__shell,
+  .theme .theme-msmenu__shell,
+  .theme .theme-mmenu__shell {
+    display: flex;
+    width: 100%;
+  }
+
+  .theme .theme-nmenu--vertical .theme-nmenu__shell,
+  .theme .theme-msmenu--vertical .theme-msmenu__shell,
+  .theme .theme-mmenu--vertical .theme-mmenu__shell {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .theme .theme-msmenu--vertical .theme-msmenu__shell {
+    align-items: flex-start;
+  }
+
+  .theme .theme-nmenu--horizontal .theme-nmenu__shell,
+  .theme .theme-msmenu--horizontal .theme-msmenu__shell,
+  .theme .theme-mmenu--horizontal .theme-mmenu__shell {
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .theme .theme-nmenu__list,
+  .theme .theme-msmenu__list,
+  .theme .theme-mmenu__list {
+    flex: 0 1 auto;
+  }
+
+  .theme .theme-nmenu__trail,
+  .theme .theme-msmenu__trail,
+  .theme .theme-mmenu__trail {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .theme .theme-nmenu--vertical .theme-nmenu__trail,
+  .theme .theme-msmenu--vertical .theme-msmenu__trail,
+  .theme .theme-mmenu--vertical .theme-mmenu__trail {
+    flex-direction: column;
+    gap: calc(0.5rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-mmenu--vertical .theme-mmenu__trail {
+    gap: calc(0.375rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-nmenu--vertical .theme-nmenu__trail {
+    gap: calc(0.25rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-nmenu--horizontal .theme-nmenu__trail,
+  .theme .theme-msmenu--horizontal .theme-msmenu__trail,
+  .theme .theme-mmenu--horizontal .theme-mmenu__trail {
+    flex-flow: row nowrap;
+    gap: calc(0.5rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-mmenu--horizontal .theme-mmenu__trail {
+    gap: calc(0.375rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-nmenu--horizontal .theme-nmenu__trail {
+    gap: calc(0.25rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-nmenu__more-trigger,
+  .theme .theme-msmenu__more-trigger,
+  .theme .theme-mmenu__more-trigger {
+    display: flex;
+    flex: 0 0 auto;
+  }
+
+  .theme .theme-nmenu--vertical .theme-nmenu__more-trigger,
+  .theme .theme-msmenu--vertical .theme-msmenu__more-trigger,
+  .theme .theme-mmenu--vertical .theme-mmenu__more-trigger {
+    justify-content: center;
+  }
+
+  .theme .theme-msmenu--vertical .theme-msmenu__more-trigger {
+    justify-content: flex-start;
+  }
+
+  .theme .theme-nmenu__overflow,
+  .theme .theme-msmenu__overflow,
+  .theme .theme-mmenu__overflow {
+    display: grid;
+    min-width: 0;
+    transition-property: grid-template-rows, grid-template-columns, opacity;
+    transition-duration: var(--theme-stacked-menu-overflow-duration);
+    transition-timing-function: var(--theme-stacked-menu-overflow-ease);
+  }
+
+  .theme .theme-nmenu--vertical .theme-nmenu__overflow,
+  .theme .theme-msmenu--vertical .theme-msmenu__overflow,
+  .theme .theme-mmenu--vertical .theme-mmenu__overflow {
+    grid-template-rows: 0fr;
+    grid-template-columns: minmax(0, max-content);
+    width: max-content;
+    max-width: 100%;
+  }
+
+  .theme .theme-nmenu--vertical .theme-nmenu__overflow[data-open='true'],
+  .theme .theme-msmenu--vertical .theme-msmenu__overflow[data-open='true'],
+  .theme .theme-mmenu--vertical .theme-mmenu__overflow[data-open='true'] {
+    grid-template-rows: 1fr;
+  }
+
+  .theme .theme-nmenu--horizontal .theme-nmenu__overflow,
+  .theme .theme-msmenu--horizontal .theme-msmenu__overflow,
+  .theme .theme-mmenu--horizontal .theme-mmenu__overflow {
+    grid-template-columns: 0fr;
+    grid-template-rows: minmax(0, max-content);
+    width: auto;
+  }
+
+  .theme .theme-nmenu--horizontal .theme-nmenu__overflow[data-open='true'],
+  .theme .theme-msmenu--horizontal .theme-msmenu__overflow[data-open='true'],
+  .theme .theme-mmenu--horizontal .theme-mmenu__overflow[data-open='true'] {
+    grid-template-columns: 1fr;
+  }
+
+  .theme .theme-nmenu__overflow-inner,
+  .theme .theme-msmenu__overflow-inner,
+  .theme .theme-mmenu__overflow-inner {
+    overflow: hidden;
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .theme .theme-nmenu__overflow[data-open='true'] .theme-nmenu__overflow-inner,
+  .theme .theme-msmenu__overflow[data-open='true'] .theme-msmenu__overflow-inner,
+  .theme .theme-mmenu__overflow[data-open='true'] .theme-mmenu__overflow-inner {
+    overflow: visible;
+  }
+
+  .theme .theme-nmenu__overflow:not([data-open='true']),
+  .theme .theme-msmenu__overflow:not([data-open='true']),
+  .theme .theme-mmenu__overflow:not([data-open='true']) {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .theme .theme-nmenu__overflow[data-open='true'],
+  .theme .theme-msmenu__overflow[data-open='true'],
+  .theme .theme-mmenu__overflow[data-open='true'] {
+    opacity: 1;
+  }
+
+  .theme .theme-nmenu__overflow-list,
+  .theme .theme-msmenu__overflow-list,
+  .theme .theme-mmenu__overflow-list {
+    display: flex;
+    width: max-content;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .theme .theme-nmenu--vertical .theme-nmenu__overflow-list {
+    flex-direction: column;
+    align-items: center;
+    gap: calc(0.25rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-msmenu--vertical .theme-msmenu__overflow-list {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: calc(0.5rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-mmenu--vertical .theme-mmenu__overflow-list {
+    flex-direction: column;
+    align-items: center;
+    gap: calc(0.375rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-nmenu--horizontal .theme-nmenu__overflow-list,
+  .theme .theme-msmenu--horizontal .theme-msmenu__overflow-list,
+  .theme .theme-mmenu--horizontal .theme-mmenu__overflow-list {
+    flex-flow: row nowrap;
+    align-items: center;
+    gap: calc(0.5rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-nmenu--horizontal .theme-nmenu__overflow-list {
+    gap: calc(0.25rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-mmenu--horizontal .theme-mmenu__overflow-list {
+    gap: calc(0.375rem * var(--theme-menu-scale));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-nmenu__overflow,
+    .theme .theme-msmenu__overflow,
+    .theme .theme-mmenu__overflow {
+      transition: none;
+    }
+  }
+}

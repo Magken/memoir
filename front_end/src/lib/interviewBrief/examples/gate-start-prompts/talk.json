@@ -1,0 +1,32 @@
+[
+  {
+    "id": "talk.ownership.recent",
+    "kind": "talk",
+    "startPrompt": "Describe a recent project you owned and the outcome you moved."
+  },
+  {
+    "id": "talk.conflict.surface",
+    "kind": "talk",
+    "startPrompt": "Tell me about a real workplace conflict or disagreement you were in."
+  },
+  {
+    "id": "talk.decision.shift",
+    "kind": "talk",
+    "startPrompt": "What decisions did you personally make when requirements shifted?"
+  },
+  {
+    "id": "talk.incident.calm",
+    "kind": "talk",
+    "startPrompt": "Walk me through a recent incident where you had full ownership. What was the outcome?"
+  },
+  {
+    "id": "talk.close.invite",
+    "kind": "talk",
+    "startPrompt": "What questions do you have about the role, team, or next steps?"
+  },
+  {
+    "id": "talk.warmup.recent",
+    "kind": "talk",
+    "startPrompt": "Briefly describe a recent platform project you worked on."
+  }
+]

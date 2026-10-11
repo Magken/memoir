@@ -1,0 +1,538 @@
+/**
+ * Theme curved-monitor card — bent still as a feature-group demo.
+ */
+
+@layer components {
+  .theme .theme-curved-monitor-feature {
+    --curved-monitor-nav-icon: 1.85rem;
+    /* Longest sm label ("Candidate onboarding") + icon; not a clip cap. */
+    --curved-monitor-tag-col: 17rem;
+    --curved-monitor-tag-gap: 1rem;
+    --curved-monitor-gutter: 1px;
+    /* Small tuck into the painted rim so the full-height rule stays on the bowl. */
+    --curved-monitor-bowl-inset: 0.4rem;
+    --curved-monitor-tag-span: calc(
+      var(--curved-monitor-tag-gap) * 2 + var(--curved-monitor-gutter) + var(--curved-monitor-tag-col) -
+        var(--curved-monitor-bowl-inset)
+    );
+    position: relative;
+    width: 100%;
+  }
+
+  .theme .theme-curved-monitor-feature__board {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .theme .theme-curved-monitor-feature__pair {
+    display: grid;
+    grid-template-columns: minmax(0, max-content);
+    justify-content: center;
+    width: max-content;
+    max-width: 100%;
+    min-width: 0;
+    min-height: 0;
+    margin-inline: auto;
+    overflow: visible;
+  }
+
+  .theme .theme-curved-monitor-feature__screen {
+    display: grid;
+    grid-template-columns: max-content max-content var(--curved-monitor-tag-col);
+    grid-template-rows: auto auto;
+    align-items: center;
+    column-gap: var(--curved-monitor-tag-gap);
+    min-width: 0;
+    min-height: 0;
+    width: max-content;
+    max-width: 100%;
+    overflow: visible;
+  }
+
+  .theme .theme-curved-monitor-feature__mast {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.45rem;
+    width: 100%;
+    position: relative;
+    z-index: 4;
+    pointer-events: none;
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .theme .theme-curved-monitor-feature__heading {
+    display: grid;
+    grid-template-columns: var(--curved-monitor-nav-icon) minmax(0, 1fr) var(--curved-monitor-nav-icon);
+    align-items: center;
+    column-gap: 0.55rem;
+    width: 100%;
+    margin-top: 0.55rem;
+    text-align: center;
+  }
+
+  .theme .theme-curved-monitor-feature__heading > :first-child {
+    justify-self: start;
+  }
+
+  .theme .theme-curved-monitor-feature__heading > :last-child {
+    justify-self: end;
+  }
+
+  .theme .theme-curved-monitor-feature__heading .theme-btn {
+    pointer-events: auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .theme .theme-curved-monitor-feature__heading-spacer {
+    display: block;
+    width: var(--curved-monitor-nav-icon);
+    height: var(--curved-monitor-nav-icon);
+    position: relative;
+    z-index: 1;
+  }
+
+  .theme .theme-curved-monitor-feature__heading-label {
+    --type-anim-duration: 0.72s;
+    --type-anim-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .theme .theme-curved-monitor-feature__heading-label[data-chrome='out'] > :first-child {
+    animation: theme-curved-monitor-chrome-out 0.36s cubic-bezier(0.33, 0.1, 0.25, 1) both;
+  }
+
+  .theme .theme-curved-monitor-feature__heading-label[data-chrome='in'] > :first-child {
+    animation: theme-curved-monitor-chrome-in 0.72s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .theme
+    .theme-curved-monitor-feature__heading-label[data-chrome='out']
+    .theme-curved-monitor-feature__title.type-anim--line.type-anim--slide-up.type-anim--enter {
+    animation-name: theme-curved-monitor-title-out;
+    animation-duration: 0.36s;
+    animation-timing-function: cubic-bezier(0.33, 0.1, 0.25, 1);
+    animation-fill-mode: forwards;
+  }
+
+  .theme .theme-curved-monitor-feature__heading-label .theme-vurify-icon,
+  .theme .theme-curved-monitor-feature__heading-label .theme-vurify-icon svg {
+    width: var(--curved-monitor-nav-icon);
+    height: var(--curved-monitor-nav-icon);
+  }
+
+  .theme .theme-curved-monitor-feature__title {
+    margin: 0;
+    line-height: 1.2;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .theme .theme-curved-monitor-card {
+    position: relative;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    overflow: visible;
+    background: transparent;
+    touch-action: none;
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  /* Light palettes’ outer token is ~12% already — mix the solid brutal ink. */
+  .theme .theme-curved-monitor-card__canvas-host {
+    z-index: 1;
+    filter: drop-shadow(
+      0 1.1rem 1.45rem color-mix(in srgb, var(--theme-shadow-brutal) 48%, transparent)
+    );
+    transition: filter 0.8s ease;
+  }
+
+  .theme .theme-curved-monitor-card[data-expanded='true'] .theme-curved-monitor-card__canvas-host {
+    filter:
+      grayscale(0.55)
+      brightness(0.28)
+      drop-shadow(
+        0 1.1rem 1.45rem color-mix(in srgb, var(--theme-shadow-brutal) 48%, transparent)
+      );
+  }
+
+  .theme .theme-curved-monitor-card__canvas-host,
+  .theme .theme-curved-monitor-card__canvas {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .theme .theme-curved-monitor-card__stage {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    overflow: visible;
+  }
+
+  .theme .theme-curved-monitor-card__caption {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    width: min(22rem, calc(100% - 1.75rem));
+    padding: 0;
+    pointer-events: none;
+    text-align: center;
+    background: none;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.85s ease;
+  }
+
+  .theme .theme-curved-monitor-card[data-expanded='true'] .theme-curved-monitor-card__caption {
+    opacity: 1;
+  }
+
+  .theme .theme-curved-monitor-card__caption-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+  }
+
+  .theme .theme-curved-monitor-card[data-expanded='true'] .theme-curved-monitor-card__caption-copy {
+    animation: theme-curved-monitor-caption-in 0.72s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .theme .theme-curved-monitor-card__caption-copy[data-chrome='out'] {
+    animation: theme-curved-monitor-caption-out 0.36s cubic-bezier(0.33, 0.1, 0.25, 1) both;
+  }
+
+  .theme .theme-curved-monitor-card__caption-title,
+  .theme .theme-curved-monitor-card__caption-chip,
+  .theme .theme-curved-monitor-card__caption-body,
+  .theme .theme-curved-monitor-card__caption-body strong {
+    color: #fff;
+    text-shadow:
+      0 0 0.7rem rgb(255 255 255 / 72%),
+      0 0 1.45rem rgb(255 255 255 / 38%),
+      0 1px 2px rgb(0 0 0 / 42%);
+  }
+
+  .theme .theme-curved-monitor-card__caption-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    font-size: clamp(1.2rem, 2.1vw, 1.6rem);
+  }
+
+  .theme .theme-curved-monitor-card__caption-rule {
+    width: 2.75rem;
+    height: 1px;
+    margin: 0;
+    border: 0;
+    background: #fff;
+    opacity: 0.88;
+    box-shadow: 0 0 0.65rem rgb(255 255 255 / 70%);
+  }
+
+  .theme .theme-curved-monitor-card__caption-body {
+    margin: 0;
+    max-width: 36ch;
+    text-align: center;
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    font-weight: 400;
+    line-height: 1.45;
+  }
+
+  .theme .theme-curved-monitor-card__caption-body strong {
+    font-weight: 700;
+  }
+
+  .theme .theme-curved-monitor-card__caption--nav {
+    width: min(26rem, calc(100% - 2.5rem));
+    gap: 0.55rem;
+  }
+
+  .theme .theme-curved-monitor-card__caption-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.28rem;
+    width: 100%;
+  }
+
+  .theme .theme-curved-monitor-card__caption-chip {
+    box-sizing: border-box;
+    padding: 0.08rem 0 0.16rem;
+    border: none;
+    border-bottom: 1px solid rgb(255 255 255 / 78%);
+    border-radius: 0;
+    background: transparent;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.62rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .theme .theme-curved-monitor-card__edge {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 0;
+    box-sizing: border-box;
+    width: var(--curved-monitor-tag-col);
+    min-width: var(--curved-monitor-tag-col);
+    height: max-content;
+    margin: 0;
+    margin-inline-start: calc(-1 * var(--curved-monitor-bowl-inset));
+    padding: 0.15rem 0;
+    list-style: none;
+    overflow: visible;
+    grid-column: 3;
+    grid-row: 1;
+    align-self: center;
+  }
+
+  .theme .theme-curved-monitor-card__gutter.theme-divider--vertical {
+    box-sizing: border-box;
+    width: 0;
+    height: auto;
+    min-height: 0;
+    margin: 0;
+    pointer-events: none;
+    grid-column: 2;
+    grid-row: 1;
+    align-self: stretch;
+  }
+
+  .theme .theme-curved-monitor-card__edge-item {
+    display: flex;
+    width: 100%;
+    margin: 0;
+    padding-block: 0.55rem;
+  }
+
+  .theme .theme-curved-monitor-card__edge-item:not(:last-child) {
+    border-bottom: 1px solid var(--theme-border);
+  }
+
+  .theme .theme-curved-monitor-card__edge[data-chrome='out'] .theme-curved-monitor-card__edge-item {
+    animation: theme-curved-monitor-tag-out 0.36s cubic-bezier(0.33, 0.1, 0.25, 1) both;
+  }
+
+  .theme .theme-curved-monitor-card__edge[data-chrome='in'] .theme-curved-monitor-card__edge-item {
+    animation: theme-curved-monitor-tag-in 0.72s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .theme .theme-curved-monitor-card__edge[data-chrome='in'] .theme-curved-monitor-card__edge-item:nth-child(1) {
+    animation-delay: 0.04s;
+  }
+
+  .theme .theme-curved-monitor-card__edge[data-chrome='in'] .theme-curved-monitor-card__edge-item:nth-child(2) {
+    animation-delay: 0.08s;
+  }
+
+  .theme .theme-curved-monitor-card__edge[data-chrome='in'] .theme-curved-monitor-card__edge-item:nth-child(3) {
+    animation-delay: 0.12s;
+  }
+
+  .theme .theme-curved-monitor-card__edge[data-chrome='in'] .theme-curved-monitor-card__edge-item:nth-child(4) {
+    animation-delay: 0.16s;
+  }
+
+  .theme .theme-curved-monitor-card__edge[data-chrome='in'] .theme-curved-monitor-card__edge-item:nth-child(5) {
+    animation-delay: 0.2s;
+  }
+
+  .theme .theme-curved-monitor-card__tag.theme-vurify-menu-button {
+    width: 100%;
+    overflow: visible;
+    text-align: left;
+  }
+
+  .theme .theme-curved-monitor-card__tag.theme-vurify-menu-button.is-selected {
+    color: var(--theme-accent);
+  }
+
+  @media (max-width: 52rem) {
+    .theme .theme-curved-monitor-feature__pair {
+      grid-template-columns: minmax(0, 1fr);
+      width: 100%;
+    }
+
+    .theme .theme-curved-monitor-feature__screen {
+      grid-template-columns: minmax(0, 1fr);
+      width: 100%;
+    }
+
+    .theme .theme-curved-monitor-card {
+      aspect-ratio: 4 / 3;
+    }
+
+    .theme .theme-curved-monitor-card__gutter,
+    .theme .theme-curved-monitor-card__edge {
+      display: none;
+    }
+
+    .theme .theme-curved-monitor-card__caption,
+    .theme .theme-curved-monitor-card__caption--nav {
+      width: min(22rem, calc(100% - 1.75rem));
+    }
+
+    .theme .theme-curved-monitor-feature__heading {
+      column-gap: 0.7rem;
+    }
+
+    .theme .theme-curved-monitor-feature__heading-label .theme-vurify-icon {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-curved-monitor-card__canvas-host,
+    .theme .theme-curved-monitor-card__caption,
+    .theme .theme-curved-monitor-card__tag {
+      transition: none;
+    }
+
+    .theme .theme-curved-monitor-card[data-expanded='true'] .theme-curved-monitor-card__caption-copy,
+    .theme .theme-curved-monitor-card__caption-copy[data-chrome='out'],
+    .theme .theme-curved-monitor-card__edge-item,
+    .theme .theme-curved-monitor-feature__heading-label > :first-child,
+    .theme
+      .theme-curved-monitor-feature__heading-label
+      .theme-curved-monitor-feature__title {
+      animation: none;
+    }
+  }
+}
+
+/*
+ * Unlayered so it beats IconButton `[&_svg]:size-5` utilities.
+ * Chevrons and the title icon match VurifyMenuButton `lg` (1.85rem).
+ */
+.theme .theme-curved-monitor-feature__nav.theme-btn {
+  width: var(--curved-monitor-nav-icon);
+  height: var(--curved-monitor-nav-icon);
+  min-width: var(--curved-monitor-nav-icon);
+  min-height: var(--curved-monitor-nav-icon);
+  max-width: none;
+  max-height: none;
+  padding: 0;
+  overflow: visible;
+}
+
+.theme .theme-curved-monitor-feature__nav.theme-btn svg,
+.theme .theme-curved-monitor-feature__nav.theme-btn .theme-btn__icon {
+  width: var(--curved-monitor-nav-icon);
+  height: var(--curved-monitor-nav-icon);
+  min-width: var(--curved-monitor-nav-icon);
+  min-height: var(--curved-monitor-nav-icon);
+  max-width: none;
+  max-height: none;
+}
+
+@keyframes theme-curved-monitor-caption-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.7rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes theme-curved-monitor-caption-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-0.45rem);
+  }
+}
+
+@keyframes theme-curved-monitor-tag-in {
+  from {
+    opacity: 0;
+    transform: translateX(1.1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes theme-curved-monitor-tag-out {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(0.75rem);
+  }
+}
+
+@keyframes theme-curved-monitor-chrome-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.55rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes theme-curved-monitor-chrome-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-0.4rem);
+  }
+}
+
+@keyframes theme-curved-monitor-title-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-0.55rem);
+  }
+}

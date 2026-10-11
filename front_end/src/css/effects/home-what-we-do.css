@@ -1,0 +1,351 @@
+/**
+ * Home Scene 02 — What We Do video expansion.
+ * Tall sticky track inside SceneMenuShell's internal scroller.
+ * Resting composition is preview-first: mobile uses a portrait phone frame;
+ * desktop grows a landscape 16:9 preview. “See beyond / the résumé” fits the
+ * leftover bands around that preview — not sized from a full-stage PC shell.
+ */
+
+@layer components {
+  .theme .page-scene--home-what-we-do {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    min-height: 100svh;
+    background-color: var(--theme-page-bg);
+    color: var(--theme-text);
+    /* Mobile resting preview = portrait phone frame (not landscape). */
+    --home-wwd-preview-w: min(38vw, 9.25rem);
+    --home-wwd-preview-ratio: 9 / 16;
+    --home-wwd-title: clamp(1.85rem, 8.8vw, 2.45rem);
+    --home-wwd-stack-gap: clamp(0.65rem, 2.4vh, 1.05rem);
+  }
+
+  .theme .page-scene--home-what-we-do__track {
+    position: relative;
+    width: 100%;
+    height: 245vh;
+    height: 245svh;
+  }
+
+  .theme .page-scene--home-what-we-do__stage {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+    background-color: var(--theme-page-bg);
+    color: var(--theme-text);
+  }
+
+  /*
+   * Stacking (always): titles above video above flavour.
+   * Video must stay above tickets at rest so chips never paint over the mini,
+   * and while expanding so incomplete exits cannot float on top of playback.
+   */
+  .theme .page-scene--home-what-we-do__video-shell {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 4;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: color-mix(in srgb, var(--theme-text) 8%, transparent);
+    clip-path: inset(0 100% 0 0);
+    filter: grayscale(1);
+    will-change: clip-path, top, left, width, height, filter;
+  }
+
+  /* Fullscreen hold: video above titles too. */
+  .theme .page-scene--home-what-we-do[data-expanded='true'] .page-scene--home-what-we-do__video-shell {
+    z-index: 6;
+  }
+
+  .theme .page-scene--home-what-we-do[data-expanded='true'] .page-scene--home-what-we-do__flavour {
+    z-index: 1;
+    /* Do not force-hide here — that teleports chips; GSAP owns the exit. */
+  }
+
+  .theme .page-scene--home-what-we-do__video {
+    width: 100%;
+    height: 100%;
+  }
+
+  .theme .page-scene--home-what-we-do__video.theme-video-embed-block {
+    width: 100%;
+    height: 100%;
+  }
+
+  .theme .page-scene--home-what-we-do__video .theme-video-embed-block__frame {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    padding-bottom: 0;
+  }
+
+  /* Product reel — cover the shell (desktop fill; mobile phone frame still covers). */
+  .theme .page-scene--home-what-we-do__reel-video {
+    object-fit: cover;
+    object-position: center center;
+  }
+
+  @media (min-width: 40.01rem) {
+    .theme .page-scene--home-what-we-do__reel-video {
+      object-fit: cover;
+      object-position: center center;
+    }
+  }
+
+  /* Flavour under the video miniature + expand; titles stay above both. */
+  .theme .page-scene--home-what-we-do__flavour {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    overflow: visible;
+  }
+
+  .theme .page-scene--home-what-we-do__art {
+    position: absolute;
+    display: block;
+    width: clamp(11rem, 28vw, 18rem);
+    height: auto;
+    max-width: none;
+    pointer-events: auto;
+    user-select: none;
+    will-change: transform, opacity;
+  }
+
+  /* Bleed past the stage edge — cropped by stage overflow. */
+  .theme .page-scene--home-what-we-do__art--a {
+    left: -8%;
+    top: 14%;
+    width: clamp(12rem, 30vw, 19rem);
+  }
+
+  .theme .page-scene--home-what-we-do__art--b {
+    right: -10%;
+    bottom: 10%;
+    width: clamp(13rem, 32vw, 20rem);
+  }
+
+  .theme .page-scene--home-what-we-do__ticket {
+    position: absolute;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    box-sizing: border-box;
+    width: min(17.25rem, 34vw);
+    padding: 0.7rem 0.85rem 0.75rem;
+    border: 1px solid color-mix(in srgb, var(--theme-text) 14%, transparent);
+    background: color-mix(in srgb, var(--theme-surface-raised) 92%, transparent);
+    box-shadow: 0 10px 28px color-mix(in srgb, var(--theme-shadow-outer) 18%, transparent);
+    will-change: transform, opacity;
+  }
+
+  .theme .page-scene--home-what-we-do__ticket-icon {
+    flex: none;
+    display: grid;
+    place-items: center;
+    margin-top: 0.05rem;
+  }
+
+  .theme .page-scene--home-what-we-do__ticket-copy {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 0.12rem;
+  }
+
+  .theme .page-scene--home-what-we-do__ticket-label {
+    letter-spacing: -0.01em;
+  }
+
+  .theme .page-scene--home-what-we-do__ticket-body {
+    margin-top: 0.15rem;
+    line-height: 1.35;
+    text-wrap: pretty;
+  }
+
+  /* Scattered closer to the centre title + mini video. */
+  .theme .page-scene--home-what-we-do__ticket[data-ticket='cv-taken'] {
+    left: 14%;
+    top: 17%;
+  }
+
+  .theme .page-scene--home-what-we-do__ticket[data-ticket='intake-ready'] {
+    right: 12%;
+    top: 19%;
+  }
+
+  .theme .page-scene--home-what-we-do__ticket[data-ticket='form-cleared'] {
+    left: 15%;
+    bottom: 18%;
+  }
+
+  .theme .page-scene--home-what-we-do__ticket[data-ticket='shortlist-ready'] {
+    right: 13%;
+    bottom: 15%;
+  }
+
+  /*
+   * Preview-anchored stack: phone/landscape slot in the middle, titles live in
+   * the leftover bands above/below and size to that leftover — not the other way.
+   */
+  .theme .page-scene--home-what-we-do__layout {
+    position: relative;
+    z-index: 5;
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    justify-items: center;
+    gap: var(--home-wwd-stack-gap);
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding: clamp(1.1rem, 3vh, 1.75rem) 0.65rem;
+    pointer-events: none;
+  }
+
+  .theme .page-scene--home-what-we-do__line.type-display-lg {
+    margin: 0;
+    max-width: min(92%, calc(var(--home-wwd-preview-w) * 2.35));
+    text-align: center;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    font-size: var(--home-wwd-title);
+    will-change: clip-path, transform, opacity;
+  }
+
+  .theme .page-scene--home-what-we-do__line--top {
+    align-self: end;
+  }
+
+  .theme .page-scene--home-what-we-do__line--bottom {
+    align-self: start;
+  }
+
+  .theme .page-scene--home-what-we-do__word--accent {
+    color: var(--theme-accent);
+  }
+
+  .theme .page-scene--home-what-we-do__word--complement {
+    color: var(--theme-complement);
+  }
+
+  /* Invisible spacer — resting preview target (mobile = phone frame). */
+  .theme .page-scene--home-what-we-do__video-slot {
+    width: var(--home-wwd-preview-w);
+    aspect-ratio: var(--home-wwd-preview-ratio);
+    flex: none;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .theme .page-scene--home-what-we-do[data-expanded='true'] .page-scene--home-what-we-do__layout {
+    z-index: 1;
+    padding: 0;
+  }
+
+  /* Desktop: landscape preview; titles still fit around it. */
+  @media (min-width: 40.01rem) {
+    .theme .page-scene--home-what-we-do {
+      --home-wwd-preview-w: min(30vw, 16rem);
+      --home-wwd-preview-ratio: 16 / 9;
+      --home-wwd-title: clamp(2.35rem, 3.4vw + 1.6vh, 4.25rem);
+      --home-wwd-stack-gap: clamp(0.85rem, 2vh, 1.35rem);
+    }
+
+    .theme .page-scene--home-what-we-do__layout {
+      padding: clamp(1.5rem, 4vh, 3rem) clamp(1.25rem, 4vw, 3rem);
+    }
+
+    .theme .page-scene--home-what-we-do__line.type-display-lg {
+      max-width: min(90%, calc(var(--home-wwd-preview-w) * 2.6));
+    }
+  }
+
+  /* Mobile: smaller art; more edge tickets clear of title + phone preview. */
+  @media (max-width: 40rem) {
+    .theme .page-scene--home-what-we-do__art--a {
+      left: -18%;
+      top: 10%;
+      width: clamp(9rem, 44vw, 12.25rem);
+    }
+
+    .theme .page-scene--home-what-we-do__art--b {
+      right: -20%;
+      bottom: 8%;
+      width: clamp(9.5rem, 46vw, 12.75rem);
+    }
+
+    .theme .page-scene--home-what-we-do__ticket {
+      width: min(11rem, 40vw);
+      padding: 0.5rem 0.6rem 0.55rem;
+      gap: 0.45rem;
+    }
+
+    .theme .page-scene--home-what-we-do__ticket-body {
+      display: none;
+    }
+
+    /* Keep chips in the side gutters — never over the centre title/video stack. */
+    .theme .page-scene--home-what-we-do__ticket[data-ticket='cv-taken'] {
+      left: 0.3rem;
+      top: 5.5%;
+      right: auto;
+      bottom: auto;
+    }
+
+    .theme .page-scene--home-what-we-do__ticket[data-ticket='intake-ready'] {
+      display: flex;
+      right: 0.3rem;
+      top: 9%;
+      left: auto;
+      bottom: auto;
+    }
+
+    .theme .page-scene--home-what-we-do__ticket[data-ticket='form-cleared'] {
+      display: flex;
+      left: 0.3rem;
+      bottom: 8%;
+      right: auto;
+      top: auto;
+    }
+
+    .theme .page-scene--home-what-we-do__ticket[data-ticket='shortlist-ready'] {
+      display: flex;
+      right: 0.3rem;
+      bottom: 6.5%;
+      left: auto;
+      top: auto;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .page-scene--home-what-we-do__track {
+      height: 100vh;
+      height: 100svh;
+    }
+
+    .theme .page-scene--home-what-we-do__line.type-display-lg {
+      clip-path: none;
+      will-change: auto;
+    }
+
+    .theme .page-scene--home-what-we-do__video-shell {
+      clip-path: none;
+      will-change: auto;
+    }
+
+    .theme .page-scene--home-what-we-do__art,
+    .theme .page-scene--home-what-we-do__ticket {
+      will-change: auto;
+      opacity: 1;
+    }
+  }
+}

@@ -1,0 +1,477 @@
+/**
+ * Product Vurify field — floating label.
+ * `line` — resting hairline underline that thickens on focus (Elara-like).
+ * `area` — Verify housing frame (2px square lining) for long text.
+ */
+
+@layer components {
+  .theme .theme-vurify-input {
+    --vurify-input-ease: cubic-bezier(0.2, 1, 0.8, 1);
+    --vurify-input-duration: 0.3s;
+    --vurify-input-line: 1px;
+    --vurify-input-line-strong: 2px;
+    --vurify-input-housing-width: 2px;
+    --vurify-input-housing-pad-block: 0.7rem;
+    --vurify-input-housing-pad-inline: 0.8rem;
+    display: block;
+    width: 100%;
+    max-width: 28rem;
+    color: var(--theme-text);
+  }
+
+  .theme .theme-vurify-input--area {
+    max-width: 36rem;
+  }
+
+  /* —— line: underline chrome —— */
+  .theme .theme-vurify-input--line .theme-vurify-input__shell {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding-top: 1.15rem;
+  }
+
+  .theme .theme-vurify-input--line .theme-vurify-input__field {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    /* Tight text↔underline; keep enough room that the trailing eye sits on the glyph line. */
+    padding: 0.4rem 0 0.28rem;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--theme-text);
+    outline: none;
+    box-shadow: none;
+    font: inherit;
+    line-height: 1.35;
+    letter-spacing: inherit;
+  }
+
+  .theme .theme-vurify-input--line[data-trailing='true'] .theme-vurify-input__field {
+    padding-inline-end: 2.75rem;
+  }
+
+  .theme .theme-vurify-input--count[data-trailing='true'] .theme-vurify-input__field {
+    padding-inline-end: 1.75rem;
+  }
+
+  .theme .theme-vurify-input--line .theme-vurify-input__trailing {
+    position: absolute;
+    right: 0;
+    /* Match shell label pad → field band so the eye centers on typed text, not the underline. */
+    top: 1.15rem;
+    bottom: 0;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Count steppers — Vurify line trailing (capacity / minutes). */
+  .theme .theme-vurify-input__count-stepper {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: stretch;
+    flex-shrink: 0;
+    gap: 0.0625rem;
+    padding-inline-start: 0.25rem;
+    border-inline-start: 1px solid color-mix(in srgb, var(--theme-border) 72%, transparent);
+  }
+
+  .theme .theme-vurify-input__count-step {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.125rem;
+    height: 0.6875rem;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0.1875rem;
+    background: transparent;
+    color: var(--theme-text);
+    cursor: pointer;
+    transition:
+      background-color 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+      color 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .theme .theme-vurify-input__count-step svg {
+    width: 0.6875rem;
+    height: 0.6875rem;
+  }
+
+  .theme .theme-vurify-input__count-step:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--theme-surface-raised) 78%, transparent);
+    color: var(--theme-accent);
+  }
+
+  .theme .theme-vurify-input__count-step:disabled {
+    opacity: 0.38;
+    cursor: not-allowed;
+  }
+
+  .theme .theme-vurify-input__count-step:focus-visible {
+    outline: 2px solid var(--theme-accent);
+    outline-offset: 1px;
+  }
+
+  .theme .theme-vurify-input__trailing-btn {
+    display: inline-flex;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .theme .theme-vurify-input__trailing-btn:focus-visible {
+    outline: 2px solid var(--theme-accent);
+    outline-offset: 2px;
+  }
+
+  /* Password reveal — project trailing control (login · signup · theme lab). */
+  .theme .theme-vurify-input__visibility {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .theme .theme-vurify-input__visibility-icon {
+    grid-area: 1 / 1;
+    width: 1rem;
+    height: 1rem;
+    transition:
+      opacity 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.32s cubic-bezier(0.34, 1.35, 0.64, 1);
+  }
+
+  .theme .theme-vurify-input__visibility-icon--show {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+
+  .theme .theme-vurify-input__visibility-icon--hide {
+    opacity: 0;
+    transform: scale(0.72) rotate(-12deg);
+  }
+
+  .theme
+    .theme-vurify-input__visibility[data-revealed='true']
+    .theme-vurify-input__visibility-icon--show {
+    opacity: 0;
+    transform: scale(0.72) rotate(12deg);
+  }
+
+  .theme
+    .theme-vurify-input__visibility[data-revealed='true']
+    .theme-vurify-input__visibility-icon--hide {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-vurify-input__visibility-icon {
+      transition: none;
+    }
+  }
+
+  .theme .theme-vurify-input--line .theme-vurify-input__label {
+    position: absolute;
+    inset: 1.15rem 0 auto 0;
+    margin: 0;
+    padding: 0.4rem 0 0;
+    pointer-events: none;
+    color: color-mix(in srgb, var(--theme-text) 55%, var(--theme-page-bg));
+    transform-origin: 0 50%;
+    transition:
+      transform var(--vurify-input-duration) var(--vurify-input-ease),
+      color var(--vurify-input-duration) var(--vurify-input-ease);
+  }
+
+  .theme .theme-vurify-input--line[data-filled='true'] .theme-vurify-input__label {
+    transform: translate3d(0, -1.35rem, 0);
+    color: var(--theme-accent);
+  }
+
+  .theme .theme-vurify-input--line[data-focused='false'][data-filled='true'] .theme-vurify-input__label {
+    color: color-mix(in srgb, var(--theme-text) 62%, var(--theme-page-bg));
+  }
+
+  .theme .theme-vurify-input--line .theme-vurify-input__underline {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: var(--vurify-input-line);
+    background: var(--theme-border);
+    pointer-events: none;
+    transform-origin: 50% 100%;
+    transition:
+      background-color var(--vurify-input-duration) var(--vurify-input-ease),
+      transform var(--vurify-input-duration) var(--vurify-input-ease),
+      height var(--vurify-input-duration) var(--vurify-input-ease);
+  }
+
+  .theme .theme-vurify-input--line[data-focused='true'] .theme-vurify-input__underline,
+  .theme
+    .theme-vurify-input--line[data-filled='true'][data-focused='true']
+    .theme-vurify-input__underline {
+    height: var(--vurify-input-line-strong);
+    background: var(--theme-accent);
+    transform: scale3d(1, 1.75, 1);
+  }
+
+  .theme
+    .theme-vurify-input--line[data-filled='true'][data-focused='false']
+    .theme-vurify-input__underline {
+    height: var(--vurify-input-line-strong);
+    background: color-mix(in srgb, var(--theme-border) 70%, var(--theme-accent));
+    transform: none;
+  }
+
+  /* —— area: housing frame for long text —— */
+  .theme .theme-vurify-input--area .theme-vurify-input__shell {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0;
+    border: var(--vurify-input-housing-width) solid var(--theme-border-strong);
+    border-radius: 0;
+    background-color: transparent;
+    transition: border-color var(--vurify-input-duration) var(--vurify-input-ease);
+    overflow: hidden;
+  }
+
+  .theme .theme-vurify-input--area[data-focused='true'] .theme-vurify-input__shell {
+    border-color: var(--theme-accent);
+  }
+
+  .theme
+    .theme-vurify-input--area[data-filled='true'][data-focused='false']
+    .theme-vurify-input__shell {
+    border-color: color-mix(in srgb, var(--theme-border-strong) 70%, var(--theme-accent));
+  }
+
+  .theme .theme-vurify-input--area:hover .theme-vurify-input__shell {
+    border-color: color-mix(in srgb, var(--theme-accent) 45%, var(--theme-border-strong));
+  }
+
+  .theme .theme-vurify-input--area[data-focused='true']:hover .theme-vurify-input__shell {
+    border-color: var(--theme-accent);
+  }
+
+  .theme .theme-vurify-input--area .theme-vurify-input__area-body {
+    position: relative;
+    display: block;
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+    padding: calc(1.15rem + var(--vurify-input-housing-pad-block))
+      var(--vurify-input-housing-pad-inline) var(--vurify-input-housing-pad-block);
+  }
+
+  /* Area scroll = ThemeScroll `nano`: 1px overlay, thumb only on hover/focus */
+  .theme .theme-vurify-input--area {
+    --vurify-input-scroll-size: 1px;
+    --vurify-input-scroll-thumb: color-mix(
+      in srgb,
+      var(--theme-accent) 14%,
+      var(--theme-border-strong)
+    );
+    --vurify-input-scroll-thumb-active: color-mix(
+      in srgb,
+      var(--theme-accent) 40%,
+      var(--theme-border-strong)
+    );
+  }
+
+  .theme .theme-vurify-input--area .theme-vurify-input__field {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 7.5rem;
+    margin: 0;
+    padding: 0.15rem 0 0.35rem;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--theme-text);
+    outline: none;
+    box-shadow: none;
+    font: inherit;
+    line-height: 1.35;
+    letter-spacing: inherit;
+    resize: vertical;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+  }
+
+  .theme
+    .theme-vurify-input--area:is(:hover, :focus-within)
+    .theme-vurify-input__field {
+    scrollbar-color: var(--vurify-input-scroll-thumb) transparent;
+  }
+
+  .theme .theme-vurify-input--area .theme-vurify-input__field::-webkit-scrollbar {
+    width: var(--vurify-input-scroll-size);
+    height: var(--vurify-input-scroll-size);
+    background: transparent;
+  }
+
+  .theme .theme-vurify-input--area .theme-vurify-input__field::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .theme .theme-vurify-input--area .theme-vurify-input__field::-webkit-scrollbar-thumb {
+    background: transparent;
+    border: 0;
+    border-radius: 999px;
+    min-height: 1.25rem;
+    transition: background 0.18s ease;
+  }
+
+  .theme
+    .theme-vurify-input--area:is(:hover, :focus-within)
+    .theme-vurify-input__field::-webkit-scrollbar-thumb {
+    background: var(--vurify-input-scroll-thumb);
+  }
+
+  .theme
+    .theme-vurify-input--area:is(:hover, :focus-within)
+    .theme-vurify-input__field::-webkit-scrollbar-thumb:hover {
+    background: var(--vurify-input-scroll-thumb-active);
+  }
+
+  .theme .theme-vurify-input--area .theme-vurify-input__area-footer {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.35rem;
+    min-width: 0;
+    padding: 0.35rem var(--vurify-input-housing-pad-inline)
+      calc(0.4rem + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid color-mix(in srgb, var(--theme-border) 72%, transparent);
+    background: color-mix(in srgb, var(--theme-page-bg) 88%, transparent);
+  }
+
+  .theme .theme-vurify-input--area .theme-vurify-input__label {
+    position: absolute;
+    inset: calc(1.15rem + var(--vurify-input-housing-pad-block)) auto auto
+      var(--vurify-input-housing-pad-inline);
+    margin: 0;
+    padding: 0.15rem 0 0;
+    pointer-events: none;
+    color: color-mix(in srgb, var(--theme-text) 55%, var(--theme-page-bg));
+    transform-origin: 0 50%;
+    transition:
+      transform var(--vurify-input-duration) var(--vurify-input-ease),
+      color var(--vurify-input-duration) var(--vurify-input-ease);
+  }
+
+  .theme .theme-vurify-input--area[data-filled='true'] .theme-vurify-input__label {
+    transform: translate3d(0, calc(-1.15rem - var(--vurify-input-housing-pad-block) + 0.2rem), 0);
+    color: var(--theme-accent);
+  }
+
+  .theme .theme-vurify-input--area[data-focused='false'][data-filled='true'] .theme-vurify-input__label {
+    color: color-mix(in srgb, var(--theme-text) 62%, var(--theme-page-bg));
+  }
+
+  /* Shared */
+  .theme .theme-vurify-input__field::placeholder {
+    color: transparent;
+  }
+
+  /* Date — show format hint once the floating label has risen (focus or filled). */
+  .theme
+    .theme-vurify-input--date[data-focused='true']
+    .theme-vurify-input__field::placeholder {
+    color: color-mix(in srgb, var(--theme-text) 42%, var(--theme-page-bg));
+  }
+
+  .theme .theme-vurify-input__label-text {
+    display: inline-block;
+    transition: font-size var(--vurify-input-duration) var(--vurify-input-ease);
+  }
+
+  .theme .theme-vurify-input[data-filled='true'] .theme-vurify-input__label-text {
+    font-size: 0.75em;
+    letter-spacing: 0.02em;
+  }
+
+  .theme .theme-vurify-input:has(.theme-vurify-input__field:disabled) {
+    opacity: 0.55;
+  }
+
+  .theme .theme-vurify-input:has(.theme-vurify-input__field:disabled) .theme-vurify-input__field {
+    cursor: not-allowed;
+  }
+
+  .theme
+    .theme-vurify-input--area:has(.theme-vurify-input__field:disabled)
+    .theme-vurify-input__shell {
+    border-color: var(--theme-border);
+  }
+
+  /* —— sm: denser pad/type, same chrome dialect —— */
+  .theme .theme-vurify-input--sm {
+    --vurify-input-housing-pad-block: 0.45rem;
+    --vurify-input-housing-pad-inline: 0.55rem;
+  }
+
+  .theme .theme-vurify-input--sm.theme-vurify-input--line .theme-vurify-input__shell {
+    padding-top: 0.85rem;
+  }
+
+  .theme .theme-vurify-input--sm.theme-vurify-input--line .theme-vurify-input__field {
+    padding: 0.28rem 0 0.2rem;
+    font-size: 0.9rem;
+  }
+
+  .theme .theme-vurify-input--sm.theme-vurify-input--line .theme-vurify-input__label {
+    inset: 0.85rem 0 auto 0;
+    padding: 0.28rem 0 0;
+    font-size: 0.9rem;
+  }
+
+  .theme
+    .theme-vurify-input--sm.theme-vurify-input--line[data-filled='true']
+    .theme-vurify-input__label {
+    transform: translate3d(0, -1.05rem, 0);
+  }
+
+  .theme .theme-vurify-input--sm.theme-vurify-input--line .theme-vurify-input__trailing {
+    top: 0.85rem;
+  }
+
+  .theme .theme-vurify-input--sm.theme-vurify-input--area .theme-vurify-input__field {
+    min-height: 3.25rem;
+    font-size: 0.9rem;
+  }
+
+  .theme .theme-vurify-input--sm.theme-vurify-input--area .theme-vurify-input__label {
+    font-size: 0.9rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-vurify-input__label,
+    .theme .theme-vurify-input__label-text,
+    .theme .theme-vurify-input--line .theme-vurify-input__underline,
+    .theme .theme-vurify-input--area .theme-vurify-input__shell {
+      transition: none;
+    }
+  }
+}

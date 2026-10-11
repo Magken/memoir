@@ -1,0 +1,102 @@
+/**
+ * Background parallax — pointer sets --x / --y; cover image scales up and shifts opposite cursor.
+ * Pair with [BgParallaxScene.tsx](../../components/BgParallaxScene.tsx) + `.theme-bg-parallax__media`.
+ */
+
+@layer components {
+  .theme .theme-bg-parallax-scene {
+    --x: 0;
+    --y: 0;
+    --bg-parallax-scale: 1.14;
+    --bg-parallax-shift: 0.85rem;
+    --bg-parallax-strength: 1;
+    --bg-parallax-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --bg-parallax-return: 0.52s;
+    position: relative;
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    touch-action: none;
+  }
+
+  .theme .theme-bg-parallax__media {
+    will-change: transform;
+    transform: translate3d(0, 0, 0) scale(var(--bg-parallax-scale));
+    transition: transform var(--bg-parallax-return) var(--bg-parallax-ease);
+  }
+
+  .theme .theme-bg-parallax-scene--active .theme-bg-parallax__media {
+    transition-duration: 0s;
+    transform: translate3d(
+        calc(var(--x) * var(--bg-parallax-shift) * var(--bg-parallax-strength) * -1),
+        calc(var(--y) * var(--bg-parallax-shift) * var(--bg-parallax-strength) * -1),
+        0
+      )
+      scale(var(--bg-parallax-scale));
+  }
+
+  /* Card cover image */
+  .theme .theme-card--has-bg {
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+    min-height: 14rem;
+  }
+
+  .theme .theme-card--has-bg .theme-card__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+  }
+
+  .theme .theme-card--has-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(
+      to top,
+      color-mix(in srgb, var(--theme-page-bg) 92%, transparent) 0%,
+      transparent 62%
+    );
+  }
+
+  .theme .theme-card--has-bg .theme-card__content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    min-height: 14rem;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1.25rem;
+  }
+
+  .theme .theme-bg-parallax-scene--card {
+    border-radius: 0.125rem;
+  }
+
+  /* Accordion panels — scene fills column */
+  .theme .theme-accordion--panels .theme-accordion__column-scene {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .theme .theme-accordion--panels-parallax .theme-accordion__column-media {
+    scale: unset;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-bg-parallax-scene--active .theme-bg-parallax__media {
+      transform: scale(var(--bg-parallax-scale));
+      transition: none;
+    }
+  }
+}

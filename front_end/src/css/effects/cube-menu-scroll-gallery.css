@@ -1,0 +1,418 @@
+/**
+ * Scroll-linked cube gallery — ref.image-carousel-12 layout · theme left / cube right.
+ */
+
+@layer components {
+  .theme .theme-cube-scroll-gallery {
+    position: relative;
+    margin-inline: -0.5rem;
+  }
+
+  .theme .theme-cube-scroll-gallery__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(10rem, 15rem);
+    gap: var(--gallery-card-gap, 0.5rem);
+    align-items: start;
+  }
+
+  /* card ↔ cube distance — driven by CubeMenuScrollGallery `cardGap` prop */
+  .theme .theme-cube-scroll-gallery[data-card-gap='flush'] {
+    --gallery-card-gap: 0;
+  }
+
+  .theme .theme-cube-scroll-gallery[data-card-gap='tight'] {
+    --gallery-card-gap: 0.25rem;
+  }
+
+  .theme .theme-cube-scroll-gallery[data-card-gap='normal'] {
+    --gallery-card-gap: 0.5rem;
+  }
+
+  .theme .theme-cube-scroll-gallery[data-card-gap='wide'] {
+    --gallery-card-gap: 2.5rem;
+  }
+
+  .theme .theme-cube-scroll-gallery__track {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    min-width: 0;
+  }
+
+  .theme .theme-cube-scroll-gallery__section {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    min-height: min(72vh, 28rem);
+    padding-block: 2rem;
+    padding-inline: 0.5rem 0.75rem;
+  }
+
+  .theme .theme-cube-scroll-gallery__card {
+    position: relative;
+    width: 100%;
+    max-width: 23rem;
+    padding: 1.75rem 1.65rem 1.5rem;
+    border: 1px solid var(--theme-border);
+    border-radius: 0.875rem;
+    background-color: color-mix(in srgb, var(--theme-surface-raised) 88%, transparent);
+    color: var(--theme-text);
+    box-shadow: 0 1.25rem 2.5rem -1.5rem var(--theme-shadow-brutal);
+    backdrop-filter: blur(8px) saturate(118%);
+    -webkit-backdrop-filter: blur(8px) saturate(118%);
+    opacity: 0.6;
+    transform: translateY(0.6rem);
+    transition:
+      opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.36s ease;
+  }
+
+  .theme .theme-cube-scroll-gallery__section--active .theme-cube-scroll-gallery__card {
+    opacity: 1;
+    transform: translateY(0);
+    border-color: color-mix(in srgb, var(--theme-accent) 38%, var(--theme-border-strong));
+  }
+
+  /* accent hairline — top of each card */
+  .theme .theme-cube-scroll-gallery__card-line {
+    display: block;
+    width: 2.75rem;
+    height: 2px;
+    margin-bottom: 1.1rem;
+    border-radius: 999px;
+    background-color: color-mix(in srgb, var(--theme-accent) 45%, transparent);
+    transform: scaleX(0.35);
+    transform-origin: left center;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .theme .theme-cube-scroll-gallery__section--active .theme-cube-scroll-gallery__card-line {
+    transform: scaleX(1);
+    background-color: var(--theme-accent);
+  }
+
+  .theme .theme-cube-scroll-gallery__card-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    margin-bottom: 0.55rem;
+  }
+
+  .theme .theme-cube-scroll-gallery__index {
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    color: var(--theme-accent);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .theme .theme-cube-scroll-gallery__index-total {
+    color: var(--type-faint);
+  }
+
+  .theme .theme-cube-scroll-gallery__tag {
+    margin: 0;
+    color: var(--theme-text-muted);
+  }
+
+  .theme .theme-cube-scroll-gallery__title {
+    margin: 0 0 0.7rem;
+    color: var(--theme-text);
+  }
+
+  .theme .theme-cube-scroll-gallery__body {
+    margin: 0;
+    max-width: 32ch;
+    color: var(--theme-text-muted);
+    line-height: 1.7;
+  }
+
+  .theme .theme-cube-scroll-gallery__cta-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 1.4rem;
+  }
+
+  .theme .theme-cube-scroll-gallery__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.9rem;
+    border: 1px solid var(--theme-accent);
+    border-radius: 0.5rem;
+    background: none;
+    color: var(--theme-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition:
+      background-color 0.22s ease,
+      color 0.22s ease,
+      border-color 0.22s ease;
+  }
+
+  .theme .theme-cube-scroll-gallery__cta--back {
+    border-color: color-mix(in srgb, var(--theme-text-muted) 45%, transparent);
+    color: var(--theme-text-muted);
+  }
+
+  @media (hover: hover) {
+    .theme .theme-cube-scroll-gallery__cta:hover {
+      background-color: var(--theme-accent);
+      color: var(--theme-surface);
+      border-color: var(--theme-accent);
+    }
+
+    .theme .theme-cube-scroll-gallery__cta--back:hover {
+      background-color: color-mix(in srgb, var(--theme-text-muted) 14%, transparent);
+      color: var(--theme-text);
+      border-color: var(--theme-text-muted);
+    }
+  }
+
+  /* ── split layout — cards alternate left/right around a centered cube (ref.image-carousel-12) ── */
+  .theme .theme-cube-scroll-gallery[data-card-layout='split'] .theme-cube-scroll-gallery__layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .theme .theme-cube-scroll-gallery[data-card-layout='split'] .theme-cube-scroll-gallery__track,
+  .theme .theme-cube-scroll-gallery[data-card-layout='split'] .theme-cube-scroll-gallery__stage-wrap {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .theme .theme-cube-scroll-gallery[data-card-layout='split'] .theme-cube-scroll-gallery__track {
+    position: relative;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .theme .theme-cube-scroll-gallery[data-card-layout='split'] .theme-cube-scroll-gallery__section {
+    min-height: 100vh;
+    padding-inline: clamp(1rem, 6vw, 5rem);
+  }
+
+  .theme
+    .theme-cube-scroll-gallery[data-card-layout='split']
+    .theme-cube-scroll-gallery__section[data-side='left'] {
+    justify-content: flex-start;
+  }
+
+  .theme
+    .theme-cube-scroll-gallery[data-card-layout='split']
+    .theme-cube-scroll-gallery__section[data-side='right'] {
+    justify-content: flex-end;
+  }
+
+  .theme .theme-cube-scroll-gallery[data-card-layout='split'] .theme-cube-scroll-gallery__card {
+    pointer-events: auto;
+  }
+
+  /* right-side cards mirror their alignment */
+  .theme
+    .theme-cube-scroll-gallery[data-card-layout='split']
+    .theme-cube-scroll-gallery__section[data-side='right']
+    .theme-cube-scroll-gallery__card {
+    text-align: right;
+  }
+
+  .theme
+    .theme-cube-scroll-gallery[data-card-layout='split']
+    .theme-cube-scroll-gallery__section[data-side='right']
+    .theme-cube-scroll-gallery__card-line {
+    margin-left: auto;
+    transform-origin: right center;
+  }
+
+  .theme
+    .theme-cube-scroll-gallery[data-card-layout='split']
+    .theme-cube-scroll-gallery__section[data-side='right']
+    .theme-cube-scroll-gallery__card-head,
+  .theme
+    .theme-cube-scroll-gallery[data-card-layout='split']
+    .theme-cube-scroll-gallery__section[data-side='right']
+    .theme-cube-scroll-gallery__cta-row {
+    justify-content: flex-end;
+  }
+
+  .theme
+    .theme-cube-scroll-gallery[data-card-layout='split']
+    .theme-cube-scroll-gallery__section[data-side='right']
+    .theme-cube-scroll-gallery__body {
+    margin-left: auto;
+  }
+
+  .theme .theme-cube-scroll-gallery[data-card-layout='split'] .theme-cube-scroll-gallery__stage-wrap {
+    z-index: 0;
+    top: 0;
+    height: 100vh;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .theme
+    .theme-cube-scroll-gallery[data-card-layout='split']
+    .theme-cube-scroll-gallery__stage-wrap
+    > * {
+    pointer-events: auto;
+  }
+
+  .theme .theme-cube-scroll-gallery__stage-wrap {
+    position: sticky;
+    top: 5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding-block: 1rem;
+  }
+
+  /* ref.image-carousel-12 #scene — square stage so faces stay square */
+  .theme .theme-cube-scroll-gallery__scene {
+    --cube-size: min(15rem, 60vw);
+    position: relative;
+    width: var(--cube-size);
+    height: var(--cube-size);
+    perspective: 1100px;
+    perspective-origin: 50% 50%;
+  }
+
+  /* ref.image-carousel-12 #cube — rotateX/rotateY driven by scroll (no translateZ on body) */
+  .theme .theme-cube-scroll-gallery__cube {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transform: rotateX(var(--cube-rx, 90deg)) rotateY(var(--cube-ry, 0deg));
+    will-change: transform;
+  }
+
+  /* ref.image-carousel-12 .face[data-face] — six sides, each translateZ(half) */
+  .theme .theme-cube-scroll-gallery__face {
+    position: absolute;
+    inset: 0;
+    box-sizing: border-box;
+    backface-visibility: hidden;
+    pointer-events: none;
+  }
+
+  .theme .theme-cube-scroll-gallery__cube[data-face-border='true'] .theme-cube-scroll-gallery__face {
+    border: 2px solid var(--theme-border-strong);
+    border-radius: 0.7rem;
+    box-shadow: 0 0 6px color-mix(in srgb, var(--theme-shadow-brutal) 45%, transparent);
+  }
+
+  /* pseudo-3D — float face buttons off the cube surface (CubeMenuScrollGallery buttonLift) */
+  .theme .theme-cube-scroll-gallery[data-button-lift='true'] .theme-cube-menu-3d__stack-wrap,
+  .theme .theme-cube-scroll-gallery[data-button-lift='true'] .theme-cube-menu-3d__back-wrap {
+    transform: translateY(-2.5px);
+    filter:
+      drop-shadow(1px 3px 2px color-mix(in srgb, var(--theme-shadow-brutal) 38%, transparent))
+      drop-shadow(2px 7px 7px color-mix(in srgb, var(--theme-shadow-outer) 72%, transparent));
+    transition:
+      transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+      filter 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .theme
+    .theme-cube-scroll-gallery[data-button-lift='true']
+    .theme-cube-menu-3d__face-title.theme-card {
+    transform: translateY(-2.5px);
+    filter:
+      drop-shadow(1px 3px 2px color-mix(in srgb, var(--theme-shadow-brutal) 30%, transparent))
+      drop-shadow(2px 8px 8px color-mix(in srgb, var(--theme-shadow-outer) 65%, transparent));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-cube-scroll-gallery[data-button-lift='true'] .theme-cube-menu-3d__stack-wrap,
+    .theme .theme-cube-scroll-gallery[data-button-lift='true'] .theme-cube-menu-3d__back-wrap {
+      transition: none;
+    }
+  }
+
+  .theme .theme-cube-scroll-gallery__face[data-active-face='true'] {
+    pointer-events: auto;
+  }
+
+  .theme .theme-cube-scroll-gallery__face[data-face='home'] {
+    transform: rotateX(-90deg) translateZ(calc(var(--cube-size) / 2));
+  }
+
+  .theme .theme-cube-scroll-gallery__face[data-face='about'] {
+    transform: translateZ(calc(var(--cube-size) / 2));
+  }
+
+  .theme .theme-cube-scroll-gallery__face[data-face='shop'] {
+    transform: rotateY(90deg) translateZ(calc(var(--cube-size) / 2));
+  }
+
+  .theme .theme-cube-scroll-gallery__face[data-face='misc'] {
+    transform: rotateY(180deg) translateZ(calc(var(--cube-size) / 2));
+  }
+
+  .theme .theme-cube-scroll-gallery__face[data-face='social'] {
+    transform: rotateY(-90deg) translateZ(calc(var(--cube-size) / 2));
+  }
+
+  .theme .theme-cube-scroll-gallery__face[data-face='dribbble'] {
+    transform: rotateX(90deg) translateZ(calc(var(--cube-size) / 2));
+  }
+
+  .theme .theme-cube-scroll-gallery__face > * {
+    display: block;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+  }
+
+  .theme .theme-cube-scroll-gallery__dots {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.35rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .theme .theme-cube-scroll-gallery__dot {
+    width: 0.45rem;
+    height: 0.45rem;
+    padding: 0;
+    border: 1px solid var(--theme-border-strong);
+    border-radius: 999px;
+    background-color: var(--theme-surface-inset);
+    cursor: pointer;
+    transition:
+      transform 0.22s ease,
+      background-color 0.22s ease,
+      border-color 0.22s ease;
+  }
+
+  .theme .theme-cube-scroll-gallery__dot--active {
+    transform: scale(1.25);
+    border-color: color-mix(in srgb, var(--theme-accent) 55%, var(--theme-border));
+    background-color: color-mix(in srgb, var(--theme-accent) 35%, var(--theme-surface));
+  }
+
+  @media (max-width: 48rem) {
+    .theme .theme-cube-scroll-gallery__layout {
+      grid-template-columns: 1fr;
+    }
+
+    .theme .theme-cube-scroll-gallery__stage-wrap {
+      position: relative;
+      top: auto;
+      order: -1;
+    }
+
+    .theme .theme-cube-scroll-gallery__section {
+      min-height: min(55vh, 22rem);
+    }
+  }
+}

@@ -1,0 +1,142 @@
+/**
+ * LCL table — hairline rows, hover grey, inner scroll.
+ */
+@layer components {
+  .theme .theme-lcl-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: inherit;
+    --theme-prose-inline-dim: color-mix(in srgb, var(--theme-text, #ffffff) 38%, transparent);
+  }
+
+  .theme .theme-lcl-table:has(tr:hover) .theme-lcl-table__row:not(:hover) {
+    color: var(--theme-prose-inline-dim);
+  }
+
+  .theme .theme-lcl-table th,
+  .theme .theme-lcl-table td {
+    padding: 0.45rem 0.55rem;
+    text-align: start;
+    font-weight: 400;
+    vertical-align: middle;
+  }
+
+  /* Body cells stay static so the row wipe positions against the tr (full-width line). */
+  .theme .theme-lcl-table th {
+    position: relative;
+  }
+
+  .theme .theme-lcl-table td {
+    position: static;
+    overflow: hidden;
+  }
+
+  .theme .theme-lcl-table__num {
+    text-align: end;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .theme .theme-lcl-table__head,
+  .theme .theme-lcl-table__cell,
+  .theme .theme-lcl-table__views {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    pointer-events: auto;
+  }
+
+  .theme .theme-lcl-table__row {
+    position: relative;
+  }
+
+  /* Full-row hairline — wipe lives in the last td but spans the tr. */
+  .theme .theme-lcl-table__row .theme-hairline-fx__wipe {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 5px;
+    pointer-events: none;
+  }
+
+  .theme .theme-lcl-table-shell {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    min-height: 0;
+    height: 100%;
+  }
+
+  .theme .theme-lcl-table-shell[data-split='detail'] {
+    grid-template-columns: 3fr 2fr;
+  }
+
+  .theme .theme-lcl-table-shell[data-split='views'] {
+    grid-template-columns: 4fr 1fr;
+  }
+
+  .theme .theme-lcl-table__scroll {
+    min-height: 0;
+    overflow: auto;
+  }
+
+  .theme .theme-lcl-table__thumbs {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+  }
+
+  .theme .theme-lcl-table__expand td {
+    padding: 0;
+  }
+
+  .theme .theme-lcl-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin: 0;
+    padding: 0.35rem 0.75rem;
+    list-style: none;
+    pointer-events: none;
+  }
+
+  .theme .theme-lcl-chips__item {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.15rem 0.45rem;
+    border: 1px solid var(--theme-border);
+    pointer-events: auto;
+  }
+
+  .theme .theme-lcl-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .theme .theme-lcl-stat__value {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/*
+ * Unlayered — eirene pill uses unlayered `background: currentColor`
+ * (link-hover-styles). Layered rules lose. Rest stays gray; expand/hover
+ * goes white (head `__rule` alone is always white — projects-lcl).
+ */
+.theme .theme-lcl-table__row .theme-hairline-fx__pill {
+  background: var(--theme-prose-inline-dim);
+}
+
+.theme .theme-lcl-table__row:is(:hover, :focus-within) .theme-hairline-fx__pill {
+  background: var(--theme-text, #ffffff);
+}

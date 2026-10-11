@@ -1,0 +1,77 @@
+/**
+ * Type word cloud — display font + accent; axonometric wrapper + pointer scrub
+ * (interaction model mirrors `ref.isometric3` slice columns).
+ */
+
+@layer components {
+  .theme .theme-word-cloud {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--theme-page-bg);
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    color: var(--theme-accent);
+    user-select: none;
+    touch-action: none;
+    cursor: crosshair;
+    container-type: size;
+  }
+
+  .theme .theme-word-cloud__wrapper {
+    position: relative;
+    transform-origin: center center;
+    will-change: transform;
+  }
+
+  /* Same axonometric pose as isometric slice columns (ref.isometric3). */
+  .theme .theme-word-cloud__wrapper--ref {
+    transform: rotate(-50deg) skewY(22deg) scaleX(0.75);
+  }
+
+  .theme .theme-word-cloud__field {
+    position: relative;
+    width: calc(var(--wc-layout-w) * 1px);
+    height: calc(var(--wc-layout-h) * 1px);
+    flex-shrink: 0;
+    transform: scale(
+      min(
+        calc(92cqi / var(--wc-layout-w)),
+        calc(88cqb / var(--wc-layout-h))
+      )
+    );
+    transform-origin: center center;
+    will-change: transform, filter, opacity;
+  }
+
+  .theme .theme-word-cloud__word {
+    position: absolute;
+    left: var(--wc-x);
+    top: var(--wc-y);
+    font-size: var(--wc-fs);
+    line-height: 1;
+    white-space: nowrap;
+    transform: translate(-50%, -50%) rotate(var(--wc-rot, 0deg));
+    transform-origin: center center;
+    will-change: transform;
+  }
+
+  .theme .theme-word-cloud__word[data-weight='hero'] {
+    font-weight: 700;
+    letter-spacing: -0.05em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-word-cloud--scrub {
+      cursor: default;
+    }
+
+    .theme .theme-word-cloud__wrapper--ref {
+      transform: none;
+    }
+  }
+}

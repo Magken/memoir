@@ -1,0 +1,30 @@
+{
+  "assetId": "projects-letters",
+  "units": "m",
+  "upAxis": "y",
+  "notes": "Horizontal Megrim Projects. Home matches the Statue of an Owl so the Projects scene shares one origin and facing. Ceramic glyphs receive a rest PointLight that walks P→s and a cursor lamp on hover. Play-in clip-slides rojects from the right; there is no leave reverse. Typeface JSON at /fonts/megrim.typeface.json.",
+  "annotations": [
+    {
+      "id": "viewpoint-home",
+      "kind": "viewpoint",
+      "label": "Home",
+      "position": [0, 0.5, 0],
+      "camera": [
+        0.49931829332721644,
+        0.43782871957531,
+        1.4953581871696315
+      ],
+      "target": [
+        0.1361769368019713,
+        0.7439689339856105,
+        -0.08254764360960437
+      ],
+      "orbit": {
+        "azimuth": 0.22620261914845075,
+        "polar": 1.7576646016364943,
+        "radius": 1.6478410986819363
+      },
+      "up": [0, 1, 0]
+    }
+  ]
+}

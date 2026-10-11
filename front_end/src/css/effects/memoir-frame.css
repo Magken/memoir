@@ -1,0 +1,203 @@
+/* Memoir home frame — LCL window over the full-page splat. The window (s1) is clear;
+   strips outside it are tinted glass so text can sit on them over the live scene. */
+
+@layer components {
+  .theme .theme-memoir-frame.theme-lcl-layout {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: transparent;
+    overflow: hidden;
+    pointer-events: none;
+    animation: memoir-frame-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes memoir-frame-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-memoir-frame.theme-lcl-layout {
+      animation: none;
+    }
+  }
+
+  .theme .theme-memoir-frame .theme-lcl-layout__tile {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    pointer-events: none;
+    color: #ffffff;
+  }
+
+  .theme .theme-memoir-frame__glass.theme-lcl-layout__tile {
+    background: rgb(1 2 4 / 0.86);
+    -webkit-backdrop-filter: blur(24px) saturate(0.6) brightness(0.5);
+    backdrop-filter: blur(24px) saturate(0.6) brightness(0.5);
+  }
+
+  .theme .theme-memoir-frame__window.theme-lcl-layout__tile {
+    outline: 1px solid rgb(255 255 255 / 0.22);
+    outline-offset: -1px;
+  }
+
+  /* Left column windows (object, Dot Pad) sit on the glass, inset from its edges. */
+  /* Side windows own the pointer: orbiting them never reaches the splat underneath. */
+  .theme .theme-memoir-frame__pane.theme-lcl-layout__tile {
+    position: relative;
+    z-index: 1;
+    pointer-events: auto;
+  }
+
+  .theme .theme-memoir-frame__pane-body {
+    touch-action: none;
+    cursor: grab;
+  }
+
+  .theme .theme-memoir-frame__pane-body:active {
+    cursor: grabbing;
+  }
+
+  .theme .theme-memoir-frame__pane-body {
+    position: absolute;
+    inset: 0.75rem;
+    display: block;
+    width: calc(100% - 1.5rem);
+    height: calc(100% - 1.5rem);
+    outline: 1px solid rgb(255 255 255 / 0.22);
+    outline-offset: -1px;
+  }
+
+  /* Screenshot window: icon-only action menu on top, photo below, status under it. */
+  /* Header band shared by side windows: label left, icon actions right, centred on the Dot Pad tag line. */
+  .theme .theme-memoir-frame__bar {
+    position: absolute;
+    top: 0.25rem;
+    left: 0.75rem;
+    right: 0.75rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .theme .theme-memoir-frame__label {
+    color: rgb(255 255 255 / 0.85);
+    font-size: 0.65rem;
+    letter-spacing: 0.04em;
+  }
+
+  /* The photo keeps the capture's ratio: it fits the box, and the outline hugs the photo. */
+  .theme .theme-memoir-frame__pane-body--menu {
+    top: 2.5rem;
+    height: calc(100% - 4.5rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: default;
+    outline: 0;
+  }
+
+  .theme .theme-memoir-frame__desc {
+    overflow-y: auto;
+    padding: 0.5rem 0.625rem;
+    cursor: auto;
+    touch-action: pan-y;
+    scrollbar-width: none;
+  }
+
+  .theme .theme-memoir-frame__desc::-webkit-scrollbar {
+    display: none;
+  }
+
+  .theme .theme-memoir-frame__reading {
+    border-radius: 0.2rem;
+    background: rgb(255 255 255 / 0.18);
+    color: #ffffff;
+  }
+
+  .theme .theme-memoir-frame__shot {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    outline: 1px solid rgb(255 255 255 / 0.22);
+    outline-offset: -1px;
+  }
+
+  .theme .theme-memoir-frame__pane-body--menu:active {
+    cursor: default;
+  }
+
+  .theme .theme-memoir-frame__notice {
+    position: absolute;
+    bottom: 0.6rem;
+    left: 0.75rem;
+    right: 0.75rem;
+    color: rgb(255 255 255 / 0.7);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Object viewer fold: collapsed by default, unfolds from the top. */
+  .theme .theme-memoir-frame__fold {
+    transition:
+      clip-path 320ms cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 320ms ease;
+  }
+
+  .theme .theme-memoir-frame__fold[data-open='false'] {
+    clip-path: inset(0 0 100% 0);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .theme .theme-memoir-frame__fold[data-open='true'] {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-memoir-frame__fold {
+      transition: none;
+    }
+  }
+
+  .theme .theme-memoir-frame__pane-body--tagged {
+    top: 2.5rem;
+    height: calc(100% - 3.25rem);
+  }
+
+  /* Pad tag above the dot window; red dot until the Dot Pad X connects, green once it does. */
+  .theme .theme-memoir-frame__status {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: rgb(255 255 255 / 0.85);
+    font-size: 0.65rem;
+    letter-spacing: 0.04em;
+  }
+
+  .theme .theme-memoir-frame__status-dot {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 999px;
+    background: #ef4444;
+    box-shadow: 0 0 6px rgb(239 68 68 / 0.8);
+  }
+
+  .theme .theme-memoir-frame__status-dot[data-active='true'] {
+    background: #22c55e;
+    box-shadow: 0 0 6px rgb(34 197 94 / 0.8);
+  }
+}

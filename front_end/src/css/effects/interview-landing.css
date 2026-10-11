@@ -1,0 +1,3014 @@
+@layer components {
+  /* Shell: narrow candidate column (Verify ScaleCover host) */
+  .theme .theme-interview-landing-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+    min-width: 0;
+    width: 100%;
+    max-width: none;
+  }
+
+  .theme .theme-interview-landing {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    min-width: 0;
+    width: 100%;
+    max-width: 40rem;
+    margin-inline: auto;
+  }
+
+  .theme .theme-interview-landing__overview {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(10rem, 13rem);
+    gap: 0.85rem 1.15rem;
+    align-items: start;
+    min-width: 0;
+    padding-block-end: 0.75rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--theme-border) 88%, transparent);
+  }
+
+  .theme .theme-interview-landing__overview.is-no-cover {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    text-align: center;
+  }
+
+  .theme .theme-interview-landing__overview.is-no-cover .theme-interview-landing__overview-copy {
+    align-items: center;
+  }
+
+  .theme .theme-interview-landing__overview.is-no-cover .theme-interview-landing__meta {
+    justify-content: center;
+  }
+
+  .theme .theme-interview-landing__overview.is-no-cover .theme-interview-landing__description {
+    max-width: 36rem;
+  }
+
+  .theme .theme-interview-landing__overview-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-width: 0;
+  }
+
+  .theme .theme-interview-landing__title {
+    min-width: 0;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+  }
+
+  .theme .theme-interview-landing__meta {
+    justify-content: flex-start;
+    min-width: 0;
+  }
+
+  .theme .theme-interview-landing__meta-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .theme .theme-interview-landing__meta-tag-icon {
+    opacity: 0.88;
+  }
+
+  .theme .theme-interview-landing__description {
+    max-width: 36rem;
+    line-height: 1.45;
+    color: color-mix(in srgb, var(--theme-text) 78%, var(--theme-page-bg));
+  }
+
+  .theme .theme-interview-landing__cover {
+    position: sticky;
+    /* Stick under the interview manage-header baseline (not the page/viewport top). */
+    top: calc(var(--interview-chrome-h, 3.75rem) + 0.75rem);
+    align-self: start;
+    z-index: 1;
+    margin: 0;
+    min-width: 0;
+    border-radius: 0.125rem;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--theme-border) 80%, transparent);
+    background: transparent;
+  }
+
+  .theme .theme-interview-landing__cover-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+  }
+
+  .theme .theme-interview-landing__structure {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    min-width: 0;
+    max-width: 34rem;
+    width: 100%;
+    margin-inline: auto;
+  }
+
+  .theme .theme-interview-landing__requirements {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    min-width: 0;
+    max-width: 34rem;
+    width: 100%;
+    margin-inline: auto;
+  }
+
+  .theme .theme-interview-landing__requirements-lead {
+    text-align: center;
+    max-width: 34rem;
+    margin-inline: auto;
+  }
+
+  .theme .theme-interview-landing__req-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    border-top: 1px solid color-mix(in srgb, var(--theme-border) 82%, transparent);
+  }
+
+  .theme .theme-interview-landing__req-item {
+    min-width: 0;
+    padding-block: 0.75rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--theme-border) 82%, transparent);
+  }
+
+  .theme .theme-interview-landing__req-item:last-child {
+    border-bottom: 0;
+    padding-block-end: 0.15rem;
+  }
+
+  .theme .theme-interview-landing__req-row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 0.55rem 0.75rem;
+    min-width: 0;
+  }
+
+  .theme .theme-interview-landing__req-icon {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    margin-block-start: 0.12rem;
+    color: color-mix(in srgb, var(--theme-text) 48%, var(--theme-page-bg));
+  }
+
+  .theme .theme-interview-landing__req-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+  }
+
+  .theme .theme-interview-landing__req-label {
+    line-height: 1.3;
+    font-weight: 550;
+  }
+
+  .theme .theme-interview-landing__req-detail {
+    line-height: 1.4;
+  }
+
+  .theme .theme-interview-landing__req-end {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: flex-end;
+    min-height: 1.5rem;
+  }
+
+  .theme .theme-interview-landing__req-status-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .theme .theme-interview-landing__req-item.is-req-fail .theme-interview-landing__req-label {
+    color: color-mix(in srgb, var(--theme-error) 72%, var(--theme-text));
+  }
+
+  .theme .theme-interview-landing__declare-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .theme .theme-interview-landing__declare-kicker {
+    margin-block-start: 0.35rem;
+  }
+
+  .theme .theme-interview-landing__summary-item.is-req-fail .theme-interview-landing__summary-time {
+    color: color-mix(in srgb, var(--theme-error) 72%, var(--theme-text));
+  }
+
+  .theme .theme-interview-landing__structure-label {
+    color: color-mix(in srgb, var(--theme-text) 58%, var(--theme-page-bg));
+    text-align: center;
+  }
+
+  .theme .theme-interview-landing__stage {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .theme .theme-interview-landing__step-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    min-width: 0;
+    width: 100%;
+  }
+
+  /* Signup dialect — section out, then in (L/R by direction). Footer fades with it. */
+  .theme .theme-interview-landing[data-phase='out'],
+  .theme .theme-interview-landing[data-phase='in'] {
+    overflow-x: clip;
+  }
+
+  .theme .theme-interview-landing[data-phase='out'][data-direction='forward'] .theme-interview-landing__stage {
+    animation: theme-interview-landing-step-out-left 0.22s both cubic-bezier(0.7, 0, 0.3, 1);
+    pointer-events: none;
+  }
+
+  .theme .theme-interview-landing[data-phase='out'][data-direction='back'] .theme-interview-landing__stage {
+    animation: theme-interview-landing-step-out-right 0.22s both cubic-bezier(0.7, 0, 0.3, 1);
+    pointer-events: none;
+  }
+
+  .theme .theme-interview-landing[data-phase='in'][data-direction='forward'] .theme-interview-landing__stage {
+    animation: theme-interview-landing-step-in-right 0.52s both cubic-bezier(0.7, 0, 0.3, 1);
+  }
+
+  .theme .theme-interview-landing[data-phase='in'][data-direction='back'] .theme-interview-landing__stage {
+    animation: theme-interview-landing-step-in-left 0.52s both cubic-bezier(0.7, 0, 0.3, 1);
+  }
+
+  .theme .theme-interview-landing[data-phase='out'] .theme-interview-landing__footer {
+    animation: theme-interview-landing-step-chrome-out 0.22s both cubic-bezier(0.7, 0, 0.3, 1);
+    pointer-events: none;
+  }
+
+  .theme .theme-interview-landing[data-phase='in'] .theme-interview-landing__footer {
+    animation: theme-interview-landing-step-chrome-in 0.52s both cubic-bezier(0.7, 0, 0.3, 1);
+  }
+
+  @keyframes theme-interview-landing-step-out-left {
+    to {
+      opacity: 0;
+      transform: translate3d(-1.25rem, 0, 0);
+    }
+  }
+
+  @keyframes theme-interview-landing-step-out-right {
+    to {
+      opacity: 0;
+      transform: translate3d(1.25rem, 0, 0);
+    }
+  }
+
+  @keyframes theme-interview-landing-step-in-right {
+    from {
+      opacity: 0;
+      transform: translate3d(1.25rem, 0, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes theme-interview-landing-step-in-left {
+    from {
+      opacity: 0;
+      transform: translate3d(-1.25rem, 0, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes theme-interview-landing-step-chrome-out {
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes theme-interview-landing-step-chrome-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-interview-landing[data-phase] .theme-interview-landing__stage,
+    .theme .theme-interview-landing[data-phase] .theme-interview-landing__footer {
+      animation: none;
+    }
+  }
+
+  .theme .theme-interview-landing__step-hint {
+    flex: 1 1 12rem;
+    min-width: 0;
+  }
+
+  .theme .theme-interview-landing__cta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.35rem;
+    min-width: 0;
+    margin-left: auto;
+  }
+
+  .theme .theme-interview-landing__cta .theme-interview-creator__compose-footer-actions {
+    margin-left: 0;
+  }
+
+  .theme .theme-interview-landing__cta-hint {
+    max-width: 22rem;
+    text-align: end;
+    color: color-mix(in srgb, var(--theme-text) 72%, var(--theme-page-bg));
+  }
+
+  .theme .theme-interview-landing__check-warnings {
+    margin: 0.45rem 0 0;
+    padding: 0;
+    list-style: none;
+    color: var(--theme-warning);
+    text-align: end;
+  }
+
+  .theme .theme-interview-landing__check-warnings li {
+    margin: 0;
+    padding: 0.12rem 0;
+    font-size: 0.8125rem;
+    line-height: 1.35;
+  }
+
+  .theme .theme-interview-landing__cta .theme-tooltip-trigger {
+    display: inline-flex;
+    min-width: 0;
+    cursor: pointer;
+  }
+
+  .theme .theme-interview-landing__cta .theme-vurify-menu-button[aria-disabled='true'] {
+    cursor: not-allowed;
+    opacity: 0.42;
+  }
+
+  .theme .theme-interview-landing__declare-form {
+    width: 100%;
+    max-width: none;
+    height: auto;
+    min-height: 0;
+  }
+
+  .theme .theme-interview-landing__declare-form .theme-test-form__question {
+    padding-block: 0.7rem 0.85rem;
+  }
+
+  .theme .theme-interview-landing__declare-form > :last-child .theme-test-form__question {
+    padding-block-end: 0.2rem;
+  }
+
+  .theme .theme-interview-landing__structure-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Landing structure rows have no tray actions �? keep sub row simple. */
+  .theme .theme-interview-landing .theme-interview-creator__list-actions {
+    display: none;
+  }
+
+  .theme .theme-interview-landing__structure-time.is-timed,
+  .theme .theme-interview-landing__summary-time.is-timed {
+    color: color-mix(in srgb, var(--theme-accent) 72%, var(--theme-text));
+  }
+
+  .theme .theme-interview-landing__structure-desc {
+    max-width: 40rem;
+    line-height: 1.45;
+    padding-block-end: 0.22em;
+    color: color-mix(in srgb, var(--theme-text) 78%, var(--theme-page-bg));
+  }
+
+  /* Compact spoiler-safe stage list �? kind (+ ordinal) �? time only. No row hairlines. */
+  .theme .theme-interview-landing__summary-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+  }
+
+  .theme .theme-interview-landing__summary-item {
+    min-width: 0;
+  }
+
+  .theme .theme-interview-landing__summary-item.is-done .theme-interview-landing__summary-label {
+    color: color-mix(in srgb, var(--theme-text) 58%, var(--theme-page-bg));
+  }
+
+  .theme .theme-interview-landing__summary-item.is-done .theme-interview-landing__summary-kind-tag {
+    opacity: 0.78;
+  }
+
+  .theme .theme-interview-landing__summary-item.is-done .theme-interview-landing__summary-time {
+    color: color-mix(in srgb, var(--theme-accent) 68%, var(--theme-text));
+  }
+
+  .theme .theme-interview-landing__summary-item.is-skipped .theme-interview-landing__summary-label {
+    color: color-mix(in srgb, var(--theme-text) 52%, var(--theme-page-bg));
+  }
+
+  .theme .theme-interview-landing__summary-item.is-skipped .theme-interview-landing__summary-kind-tag {
+    opacity: 0.78;
+  }
+
+  .theme .theme-interview-landing__summary-item.is-skipped .theme-interview-landing__summary-time {
+    color: color-mix(in srgb, var(--theme-text) 48%, var(--theme-page-bg));
+  }
+
+  .theme .theme-interview-gate-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-width: 0;
+    width: 100%;
+  }
+
+  /* Single centered gate page �? title, description, intro copy (no list/repeater). */
+  .theme .theme-interview-gate {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.7rem;
+    min-width: 0;
+    width: 100%;
+    max-width: 34rem;
+    margin-inline: auto;
+    padding-block: 1.25rem 0.75rem;
+  }
+
+  .theme .theme-interview-gate__stage {
+    color: color-mix(in srgb, var(--theme-text) 58%, var(--theme-page-bg));
+  }
+
+  .theme .theme-interview-gate__title {
+    min-width: 0;
+    max-width: 30rem;
+    line-height: 1.15;
+    overflow-wrap: anywhere;
+  }
+
+  .theme .theme-interview-gate__description {
+    max-width: 32rem;
+    line-height: 1.5;
+    color: color-mix(in srgb, var(--theme-text) 76%, var(--theme-page-bg));
+  }
+
+  /* Stretch only �? fill the existing 34rem gate; do not widen the page. */
+  .theme .theme-interview-gate__prep-extras {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    align-self: stretch;
+    width: 100%;
+    min-width: 0;
+  }
+
+  /* Prep tips �? same width as the gate column (Start / chat). */
+  .theme .theme-interview-gate__preamble {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    align-self: stretch;
+    gap: 0.45rem;
+    width: 100%;
+    max-width: none;
+    margin-block-start: 0.35rem;
+    padding-block-start: 0.75rem;
+    border-top: 1px solid color-mix(in srgb, var(--theme-border) 88%, transparent);
+    text-align: start;
+  }
+
+  .theme .theme-interview-gate__preamble-list {
+    width: 100%;
+    max-width: none;
+  }
+
+  .theme .theme-interview-gate__assist-notice-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    text-align: start;
+  }
+
+  .theme .theme-interview-gate__assist-notice-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+  }
+
+  .theme .theme-interview-gate__assist-notice-copy .theme-interview-landing__structure-label {
+    text-align: start;
+  }
+
+  .theme .theme-interview-gate__assist-notice-body {
+    line-height: 1.55;
+    color: color-mix(in srgb, var(--theme-text) 78%, var(--theme-page-bg));
+  }
+
+  /* Form: notice is first under the gate header — keep the bottom hairline only. */
+  .theme .theme-interview-gate__assist-notice--lead {
+    margin-block-start: 0;
+    padding-block-start: 0;
+    border-top: 0;
+    padding-block-end: 0.75rem;
+    margin-block-end: 0.35rem;
+    padding-inline: 1rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--theme-border) 88%, transparent);
+  }
+
+  .theme .theme-interview-gate__intro {
+    max-width: 32rem;
+    margin-block-start: 0.15rem;
+    padding-block-start: 0.75rem;
+    border-top: 1px solid color-mix(in srgb, var(--theme-border) 88%, transparent);
+    line-height: 1.65;
+    color: color-mix(in srgb, var(--theme-text) 84%, var(--theme-page-bg));
+    min-height: 1.65em;
+    text-align: center;
+  }
+
+  .theme .theme-interview-gate__intro-stream {
+    display: inline;
+  }
+
+  /* Letter stream �? soft blur-in per glyph (Theme blur dialect, sequential). */
+  .theme .theme-interview-gate__intro-ch {
+    display: inline-block;
+    animation: theme-interview-gate-intro-ch 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  @keyframes theme-interview-gate-intro-ch {
+    from {
+      opacity: 0;
+      filter: blur(5px);
+      transform: translateY(0.18em);
+    }
+    to {
+      opacity: 1;
+      filter: blur(0);
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-interview-gate__intro-ch {
+      animation: none;
+    }
+  }
+
+  .theme .theme-interview-gate__footer.theme-interview-creator__compose-footer {
+    width: 100%;
+    max-width: 34rem;
+    margin-inline: auto;
+    margin-block-start: 0.25rem;
+  }
+
+  /* Talk chat after Start �? one attempt thread + Chat menu (no BotChat sidebar). */
+  .theme .theme-interview-gate__talk {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    width: 100%;
+    max-width: 34rem;
+    margin-block-start: 0.35rem;
+    padding-block-start: 0.75rem;
+    border-top: 1px solid color-mix(in srgb, var(--theme-border) 88%, transparent);
+    text-align: start;
+    min-width: 0;
+  }
+
+  .theme .theme-interview-gate__talk-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    min-width: 0;
+  }
+
+  .theme .theme-interview-gate__talk-depth {
+    min-width: 0;
+  }
+
+  .theme .theme-interview-gate__talk-scroll {
+    max-height: min(22rem, 48vh);
+    min-height: 10rem;
+  }
+
+  .theme .theme-interview-gate__talk-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    margin: 0;
+    padding: 0.15rem 0.1rem 0.35rem;
+    list-style: none;
+  }
+
+  .theme .theme-interview-gate__talk-msg {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    min-width: 0;
+    max-width: 92%;
+  }
+
+  .theme .theme-interview-gate__talk-msg--assistant {
+    align-self: flex-start;
+  }
+
+  .theme .theme-interview-gate__talk-msg--candidate {
+    align-self: flex-end;
+    text-align: end;
+  }
+
+  .theme .theme-interview-gate__talk-role {
+    color: color-mix(in srgb, var(--theme-text) 55%, var(--theme-page-bg));
+  }
+
+  .theme .theme-interview-gate__talk-text {
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+  }
+
+  .theme .theme-interview-gate__talk-error {
+    color: color-mix(in srgb, var(--theme-danger, #b42318) 85%, var(--theme-text));
+    padding: 0.15rem 0.1rem 0.35rem;
+  }
+
+  .theme .theme-interview-gate__talk-hint {
+    max-width: 34rem;
+    margin-block-start: 0.5rem;
+    line-height: 1.45;
+  }
+
+  /* Talk conversation in the interview right peel. */
+  .theme .theme-interview-talk-peel {
+    min-height: 0;
+    height: 100%;
+  }
+
+  .theme .theme-interview-talk-peel__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    min-height: 0;
+    height: 100%;
+    padding-block: 0.15rem 0.35rem;
+  }
+
+  .theme .theme-interview-talk-peel__head {
+    flex: none;
+  }
+
+  .theme .theme-interview-talk-peel__scroll {
+    flex: 1 1 auto;
+    min-height: 12rem;
+    max-height: none;
+  }
+
+  .theme .theme-interview-talk-peel__idle {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    min-width: 0;
+    padding: 0.35rem 0.15rem 0.75rem;
+  }
+
+  /* Assist peel �? Creator board chrome (BotChatThread SSOT). Tip only; no Talk size overrides. */
+  .theme .theme-interview-assist-peel {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    min-height: 0;
+    height: 100%;
+    flex: 1 1 auto;
+  }
+
+  .theme .theme-interview-assist-peel__head {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.5rem;
+    flex: none;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    padding: 0.35rem 0.7rem 0.45rem;
+    min-width: 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--theme-border) 88%, transparent);
+  }
+
+  .theme .theme-interview-assist-peel__head--tip-only {
+    justify-content: flex-end;
+  }
+
+  .theme .theme-interview-assist-peel__head-tip {
+    flex: none;
+    margin-block-start: -0.1rem;
+  }
+
+  .theme .theme-interview-assist-peel__bot-thread {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .theme .theme-interview-gate--finished {
+    padding-block-start: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-height: 0;
+  }
+
+  .theme .theme-interview-gate--finished .theme-interview-landing__output-preview {
+    margin-block: 0.35rem 0.5rem;
+    padding-block-start: 0.85rem;
+  }
+
+  .theme .theme-interview-gate__finished-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .theme .theme-interview-gate__finished-dump {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    margin-block-start: 2.75rem;
+    padding-block-start: 1.35rem;
+    border-top: 1px solid color-mix(in srgb, var(--theme-border) 72%, transparent);
+  }
+
+  .theme .theme-interview-gate--finished[data-try-demo] .theme-interview-landing__output-preview-head {
+    max-width: none;
+    width: 100%;
+  }
+
+  .theme .theme-interview-gate--finished[data-try-demo] .theme-interview-landing__output-preview-head .theme-interview-marking-progress {
+    max-width: none;
+    margin-block-start: 0;
+  }
+
+  .theme .theme-interview-gate__finished-dump-label {
+    margin: 0;
+  }
+
+  .theme .theme-interview-gate__finished-json {
+    margin: 0;
+    max-height: min(60vh, 32rem);
+    padding: 0.75rem 1rem;
+    overflow: auto;
+    border: 1px solid color-mix(in srgb, var(--theme-text) 14%, transparent);
+    border-radius: 0.35rem;
+    background: color-mix(in srgb, var(--theme-page-bg) 92%, var(--theme-text));
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .theme .theme-interview-gate__text-action {
+    display: inline;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--theme-accent);
+    text-decoration: underline;
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .theme .theme-interview-landing__summary-row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.5rem 0.65rem;
+    min-width: 0;
+    padding-block: 0.28rem;
+  }
+
+  .theme .theme-interview-landing__summary-mark {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    color: color-mix(in srgb, var(--theme-text) 48%, var(--theme-page-bg));
+  }
+
+  .theme .theme-interview-landing__summary-label-wrap {
+    min-width: 0;
+    margin: 0;
+  }
+
+  .theme .theme-interview-landing__summary-kind-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    max-width: 100%;
+  }
+
+  .theme .theme-interview-landing__summary-label {
+    min-width: 0;
+    font-family: var(--font-display);
+    font-weight: 560;
+    letter-spacing: -0.015em;
+    line-height: 1.25;
+    color: color-mix(in srgb, var(--theme-text) 88%, var(--theme-page-bg));
+  }
+
+  .theme .theme-interview-landing__summary-time {
+    flex: none;
+    text-align: end;
+    white-space: nowrap;
+    color: color-mix(in srgb, var(--theme-text) 55%, var(--theme-page-bg));
+    font-variant-numeric: tabular-nums;
+  }
+
+  .theme .theme-interview-landing__footer.theme-interview-creator__compose-footer {
+    /* Compose footer owns pad / border / sticky — keep terms on the hint side.
+     * Soft top shadow room so sticky bar does not eat the body above. */
+    margin-block-start: 0.15rem;
+    padding-block-start: 1rem;
+    box-shadow: 0 -0.55rem 0.85rem color-mix(in srgb, var(--theme-page-bg) 88%, transparent);
+  }
+
+  .theme .theme-interview-landing__terms {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 0.45rem 0.55rem;
+    min-width: 0;
+    flex: 1 1 12rem;
+  }
+
+  .theme .theme-interview-landing__terms-check {
+    flex: none;
+  }
+
+  .theme .theme-interview-landing__terms-copy {
+    min-width: 0;
+    color: color-mix(in srgb, var(--theme-text) 68%, var(--theme-page-bg));
+  }
+
+  .theme .theme-interview-landing__terms-link {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.15em;
+  }
+
+  .theme .theme-interview-landing__terms-link-icon {
+    width: 0.85em;
+    height: 0.85em;
+    flex: none;
+    align-self: center;
+  }
+
+  @media (max-width: 40rem) {
+    .theme .theme-interview-landing__overview {
+      grid-template-columns: 1fr;
+    }
+
+    .theme .theme-interview-landing__cover {
+      position: static;
+      max-width: 12rem;
+    }
+
+    .theme .theme-interview-landing__footer .theme-interview-creator__compose-footer-primary {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .theme .theme-interview-landing__footer .theme-interview-creator__compose-footer-actions {
+      width: 100%;
+      margin-left: 0;
+      justify-content: stretch;
+    }
+
+    .theme
+      .theme-interview-landing__footer
+      .theme-interview-creator__compose-footer-actions
+      .theme-vurify-menu-button {
+      flex: 1 1 auto;
+    }
+  }
+
+  .theme .theme-interview-gate-live {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-height: 0;
+    flex: 1 1 auto;
+    width: 100%;
+  }
+
+  /* Form / Writing / Coding — page scrolls. Form grows with questions (embed take
+   * has no inner rail). Writing / Coding lock a workbench pane under the brief. */
+  .theme .theme-interview-gate-live--form,
+  .theme .theme-interview-gate-live--writing,
+  .theme .theme-interview-gate-live--coding {
+    flex: none;
+    height: auto;
+    min-height: 0;
+    gap: 1.35rem;
+    padding-block-end: 1.25rem;
+  }
+
+  .theme .theme-interview-gate--writing-brief,
+  .theme .theme-interview-gate--coding-brief {
+    /* Same centered column dialect as prep Start screen. */
+    max-width: 34rem;
+  }
+
+  .theme .theme-interview-gate-live__lang-tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    width: 100%;
+    margin-block-start: 0.55rem;
+  }
+
+  .theme .theme-interview-gate-live__lang-tag {
+    pointer-events: none;
+    cursor: default;
+  }
+
+  .theme .theme-interview-gate-live__readme-block {
+    width: 100%;
+    min-width: 0;
+    text-align: start;
+  }
+
+  /* Compact exercise MD �? chat density, aligned with gate summary body-sm. */
+  .theme .theme-interview-gate-live__readme {
+    max-width: none;
+    width: 100%;
+    margin-block-start: 0.45rem;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    text-align: start;
+    gap: 0.35rem;
+  }
+
+  .theme .theme-interview-gate-live__readme .theme-md-chat__p,
+  .theme .theme-interview-gate-live__readme .theme-md-chat__li,
+  .theme .theme-interview-gate-live__readme .theme-md-chat__quote,
+  .theme .theme-interview-gate-live__readme .theme-md-chat__td,
+  .theme .theme-interview-gate-live__readme .theme-md-chat__th {
+    font-size: 0.875rem;
+    line-height: 1.55;
+  }
+
+  .theme .theme-interview-gate-live__readme .theme-md-chat__h1,
+  .theme .theme-interview-gate-live__readme .theme-md-chat__h2 {
+    font-size: 0.9375rem;
+    font-weight: 650;
+    line-height: 1.3;
+    margin-top: 0.45rem;
+    margin-bottom: 0.1rem;
+  }
+
+  .theme .theme-interview-gate-live__readme .theme-md-chat__h3 {
+    font-size: 0.8125rem;
+    font-weight: 650;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    margin-top: 0.5rem;
+    margin-bottom: 0.12rem;
+    color: color-mix(in srgb, var(--theme-text) 68%, var(--theme-page-bg));
+  }
+
+  .theme .theme-interview-gate-live__readme .theme-md-chat__list {
+    font-size: 0.875rem;
+    line-height: 1.55;
+    gap: 0.2rem;
+  }
+
+  .theme .theme-interview-gate-live__readme .theme-md-chat__code,
+  .theme .theme-interview-gate-live__readme .theme-md-chat__code-block {
+    font-size: 0.8125rem;
+    line-height: 1.45;
+  }
+
+  .theme .theme-interview-gate-live__howto-list {
+    list-style: none;
+    padding-inline-start: 0;
+    counter-reset: none;
+  }
+
+  .theme .theme-interview-gate-live__howto-index {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.15rem;
+    color: color-mix(in srgb, var(--theme-text) 55%, var(--theme-page-bg));
+  }
+
+  /* Compact visible cases �? Input | Expected side by side, one-line JSON. */
+  .theme .theme-interview-gate-live__cases {
+    width: 100%;
+    min-width: 0;
+    text-align: start;
+  }
+
+  .theme .theme-interview-gate-live__case-list {
+    list-style: none;
+    margin: 0.35rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .theme .theme-interview-gate-live__case {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    min-width: 0;
+    padding: 0.45rem 0.5rem;
+    border: 1px solid color-mix(in srgb, var(--theme-border) 88%, transparent);
+    border-radius: 0.4rem;
+    background: color-mix(in srgb, var(--theme-page-bg) 94%, var(--theme-text));
+    cursor: pointer;
+  }
+
+  .theme .theme-interview-gate-live__case.is-selected {
+    border-color: color-mix(in srgb, var(--theme-accent) 55%, var(--theme-border));
+    background: color-mix(in srgb, var(--theme-accent) 8%, var(--theme-page-bg));
+  }
+
+  .theme .theme-interview-gate-live__file-tags,
+  .theme .theme-interview-gate-live__cover-tags {
+    margin-top: 0.35rem;
+  }
+
+  .theme .theme-interview-gate-live__case-covers {
+    width: 100%;
+  }
+
+  .theme .theme-interview-gate-live__case-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem 0.55rem;
+    min-width: 0;
+  }
+
+  .theme .theme-interview-gate-live__case-desc {
+    color: color-mix(in srgb, var(--theme-text) 62%, var(--theme-page-bg));
+  }
+
+  .theme .theme-interview-gate-live__case-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem;
+    min-width: 0;
+  }
+
+  @media (max-width: 28rem) {
+    .theme .theme-interview-gate-live__case-pair {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .theme .theme-interview-gate-live__case-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+  }
+
+  .theme .theme-interview-gate-live__case-kicker {
+    color: color-mix(in srgb, var(--theme-text) 52%, var(--theme-page-bg));
+  }
+
+  .theme .theme-interview-gate-live__case-pre {
+    margin: 0;
+    padding: 0.3rem 0.4rem;
+    overflow-x: auto;
+    border-radius: 0.3rem;
+    background: color-mix(in srgb, var(--theme-page-bg) 86%, var(--theme-text));
+    border: 1px solid color-mix(in srgb, var(--theme-border) 80%, transparent);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.75rem;
+    line-height: 1.35;
+    white-space: pre;
+    text-align: start;
+  }
+
+  .theme .theme-interview-gate-live__brief-hint {
+    color: color-mix(in srgb, var(--theme-text) 58%, var(--theme-page-bg));
+    font-weight: 400;
+  }
+
+  .theme .theme-interview-gate-live__divider {
+    width: 100%;
+    max-width: 34rem;
+    margin-inline: auto;
+    height: 0;
+    border: 0;
+    border-top: 1px solid color-mix(in srgb, var(--theme-border) 88%, transparent);
+  }
+
+  .theme .theme-interview-gate-live--coding .theme-interview-gate-live__divider,
+  .theme .theme-interview-gate-live--coding .theme-interview-gate-live__editor-label {
+    max-width: 34rem;
+  }
+
+  .theme .theme-interview-gate-live__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.45rem;
+    width: 100%;
+  }
+
+  /* Sticky under gate chrome (Back / timer / Next); tucks away when editor arrives. */
+  .theme .theme-interview-gate-live__actions--sticky {
+    position: sticky;
+    top: calc(
+      var(
+          --interview-writing-chrome-h,
+          var(--interview-coding-chrome-h, var(--interview-chrome-h, 3.75rem))
+        ) + 0.15rem
+    );
+    z-index: 115;
+    margin: 0 0 0.55rem;
+    padding: 0.15rem 0;
+    width: auto;
+    transition:
+      opacity 0.28s ease,
+      transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .theme .theme-interview-gate-live__actions--sticky.is-away {
+    opacity: 0;
+    transform: translateY(-0.4rem);
+    pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-interview-gate-live__actions--sticky {
+      transition: opacity 0.15s ease;
+    }
+
+    .theme .theme-interview-gate-live__actions--sticky.is-away {
+      transform: none;
+    }
+  }
+
+  .theme .theme-interview-gate-live__editor {
+    min-height: 18rem;
+    flex: 1 1 auto;
+    min-width: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .theme .theme-interview-gate-live__editor--doc,
+  .theme .theme-interview-gate-live__editor--coding {
+    flex: none;
+    gap: 0.55rem;
+    /* Fit between divider and ThemeScroll viewport bottom (JS sets --interview-gate-editor-h). */
+    --interview-gate-editor-h: calc(100dvh - var(--interview-chrome-h, 3.75rem) - 1.5rem);
+    min-height: var(--interview-gate-editor-h);
+    height: var(--interview-gate-editor-h);
+    max-height: var(--interview-gate-editor-h);
+    /* Tall editor below the brief �? don't let focus/layout shift yank the page mid-scroll. */
+    overflow-anchor: none;
+  }
+
+  .theme .theme-interview-gate-live__editor-label {
+    color: color-mix(in srgb, var(--theme-text) 58%, var(--theme-page-bg));
+    max-width: 34rem;
+    margin-inline: auto;
+    width: 100%;
+  }
+
+  .theme .theme-interview-gate-live__editor--doc > .theme-doc-editor,
+  .theme .theme-interview-gate-live__editor--coding > .theme-code-editor {
+    flex: 1 1 auto;
+    min-height: 0;
+    height: 100%;
+  }
+
+  .theme .theme-interview-gate-live__editor > .theme-code-editor--section.theme-code-editor--embed,
+  .theme .theme-interview-gate-live__editor > .theme-doc-editor--section.theme-doc-editor--embed {
+    flex: 1 1 auto;
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    min-height: 0;
+    max-height: none;
+  }
+
+  .theme .theme-interview-gate-live--form .theme-interview-gate-live__editor {
+    flex: none;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+  }
+
+  .theme .theme-interview-gate-live--form .theme-interview-gate-live__editor > .theme-test-form {
+    flex: none;
+    width: 100%;
+    max-width: none;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+  }
+}
+
+/* �?�? Output card repeater (Finished Results) �?�? */
+.theme .theme-interview-landing__output-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  min-width: 0;
+  width: 100%;
+  max-width: min(48rem, 100%);
+  margin-inline: auto;
+  padding-block-start: 1.15rem;
+  border-top: 1px solid color-mix(in srgb, var(--theme-border) 88%, transparent);
+}
+
+.theme .theme-interview-landing__output-preview-head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  max-width: 40rem;
+}
+
+.theme .theme-interview-landing__output-preview-label {
+  margin-bottom: 0;
+}
+
+.theme .theme-interview-landing__output-preview-note {
+  margin-bottom: 0;
+}
+
+.theme .theme-interview-landing__output-cards {
+  --interview-row-duration: 0.38s;
+  --interview-row-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  width: 100%;
+  overflow: visible;
+}
+
+.theme .theme-interview-landing__output-item {
+  width: 100%;
+  overflow: visible;
+}
+
+.theme .theme-interview-landing__output-item .theme-interview-creator__list-main,
+.theme .theme-interview-landing__output-item .theme-interview-creator__list-rest {
+  overflow: visible;
+}
+
+.theme .theme-interview-landing__output-row {
+  width: 100%;
+  overflow: visible;
+  /* Manager list-row defaults to `padding: 1rem 0` �? that 1rem under the
+   * last section radar is the empty band at the bottom of an open card. */
+  padding-block: 0.75rem 0.35rem;
+}
+
+.theme .theme-interview-landing__output-item[data-open='true'] .theme-interview-landing__output-row {
+  padding-block-end: 0.2rem;
+}
+
+/* Match manager list-mark (1.25rem + 0.45rem top) so icon lines up with the name. */
+.theme .theme-interview-landing__output-mark {
+  width: 1.25rem;
+  margin-top: 0.45rem;
+  color: var(--theme-text-muted);
+}
+
+.theme .theme-interview-landing__output-mark--avatar {
+  width: 2.4rem;
+  height: 2.4rem;
+  margin-top: 0.1rem;
+  color: transparent;
+}
+
+.theme .theme-interview-landing__output-header {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  overflow: visible;
+}
+
+.theme .theme-interview-landing__output-header .theme-interview-creator__list-heading {
+  align-items: flex-start;
+  gap: 0.65rem 1rem;
+  overflow: visible;
+}
+
+.theme .theme-interview-landing__output-lead {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.35rem;
+  flex: 1 1 auto;
+  min-width: 10rem;
+}
+
+.theme .theme-interview-landing__output-header .theme-interview-creator__list-title {
+  flex: none;
+  min-width: 0;
+  width: 100%;
+}
+
+.theme .theme-interview-landing__output-lead-rule {
+  width: 100%;
+  margin: 0;
+}
+
+.theme .theme-interview-landing__output-headline {
+  max-width: 36rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+
+.theme .theme-interview-landing__output-meta-tags {
+  margin-block-start: 0.05rem;
+  max-width: 100%;
+  gap: 0.35rem;
+}
+
+.theme .theme-interview-landing__output-meta-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.theme .theme-interview-landing__output-meta-tag-icon {
+  opacity: 0.9;
+}
+
+.theme .theme-interview-landing__output-section-scores {
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+  min-width: 11.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.theme .theme-interview-landing__output-section-scores-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.theme .theme-interview-landing__output-section-scores-icon {
+  opacity: 0.9;
+}
+
+.theme .theme-interview-landing__output-section-scores-pct {
+  margin-inline-start: auto;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.theme .theme-tag.theme-interview-landing__output-meta-tag--good {
+  color: var(--theme-success, var(--theme-complement));
+  border-color: color-mix(
+    in srgb,
+    var(--theme-success, var(--theme-complement)) 42%,
+    var(--theme-border)
+  );
+  background-color: color-mix(
+    in srgb,
+    var(--theme-success, var(--theme-complement)) 14%,
+    var(--theme-surface)
+  );
+}
+
+.theme .theme-tag.theme-interview-landing__output-meta-tag--watch {
+  color: var(--theme-warning);
+  border-color: color-mix(in srgb, var(--theme-warning) 42%, var(--theme-border));
+  background-color: color-mix(in srgb, var(--theme-warning) 14%, var(--theme-surface));
+}
+
+.theme .theme-tag.theme-interview-landing__output-meta-tag--bad {
+  color: var(--theme-error);
+  border-color: color-mix(in srgb, var(--theme-error) 42%, var(--theme-border));
+  background-color: color-mix(in srgb, var(--theme-error) 14%, var(--theme-surface));
+}
+
+.theme .theme-interview-landing__output-trail {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: flex-end;
+  gap: 0.2rem;
+  flex: 0 0 auto;
+  overflow: visible;
+}
+
+.theme .theme-interview-landing__output-trail-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.theme .theme-interview-landing__output-overall-donut {
+  position: relative;
+  isolation: isolate;
+  flex: 0 0 auto;
+  width: 6rem;
+  height: 6rem;
+  overflow: visible;
+  transition: transform var(--interview-row-duration) var(--interview-row-ease);
+}
+
+.theme .theme-interview-landing__output-overall-donut-plot {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: visible;
+}
+
+.theme .theme-interview-landing__output-overall-donut-chart {
+  display: block !important;
+  width: 6rem !important;
+  height: 6rem !important;
+  overflow: visible !important;
+}
+
+.theme .theme-interview-landing__output-overall-donut-chart > div,
+.theme .theme-interview-landing__output-overall-donut-chart canvas {
+  overflow: visible !important;
+}
+
+.theme .theme-interview-landing__output-overall-donut-score {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  pointer-events: none;
+  color: var(--theme-accent);
+}
+
+.theme .theme-interview-landing__output-overall-donut-score-inner {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.02em;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.theme .theme-interview-landing__output-overall-donut-score.is-pass {
+  color: var(--theme-success, var(--theme-complement));
+}
+
+.theme .theme-interview-landing__output-overall-donut-score.is-fail {
+  color: var(--theme-error);
+}
+
+.theme .theme-interview-landing__output-overall-donut-score.is-review {
+  /* Mid overall: mix on the green-red scale �? never accent blue. */
+  color: color-mix(in srgb, var(--theme-success, var(--theme-complement)) 42%, var(--theme-error));
+}
+
+.theme .theme-interview-landing__output-overall-donut-unit {
+  font-size: 0.58em;
+  font-weight: 700;
+  opacity: 0.9;
+}
+
+.theme .theme-interview-landing__output-item:is(:hover, :focus-within) .theme-interview-landing__output-overall-donut {
+  transform: scale(1.04);
+}
+
+.theme .theme-interview-landing__output-chevron {
+  transition: transform var(--interview-row-duration) var(--interview-row-ease);
+}
+
+.theme .theme-interview-landing__output-chevron.is-open {
+  transform: rotate(180deg);
+}
+
+
+/* Pinned fold �? not hover-bound */
+.theme .theme-interview-landing__output-fold {
+  display: grid;
+  grid-template-rows: 0fr;
+  min-width: 0;
+  transition: grid-template-rows var(--interview-row-duration) var(--interview-row-ease);
+}
+
+.theme .theme-interview-landing__output-fold.is-open {
+  grid-template-rows: 1fr;
+}
+
+.theme .theme-interview-landing__output-fold-inner {
+  overflow: hidden;
+  min-height: 0;
+  opacity: 0;
+  transform: translateY(-0.25rem);
+  transition:
+    opacity calc(var(--interview-row-duration) * 0.9) var(--interview-row-ease),
+    transform var(--interview-row-duration) var(--interview-row-ease);
+}
+
+.theme .theme-interview-landing__output-fold.is-open,
+.theme .theme-interview-landing__output-fold.is-open .theme-interview-landing__output-fold-inner {
+  overflow: visible;
+}
+
+.theme .theme-interview-landing__output-fold.is-open .theme-interview-landing__output-fold-inner {
+  opacity: 1;
+  transform: none;
+}
+
+.theme .theme-interview-landing__output-sections {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  overflow: visible;
+}
+
+.theme .theme-interview-landing__output-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding-block: 0.55rem 0.65rem;
+  border-top: 1px solid color-mix(in srgb, var(--theme-border) 70%, transparent);
+  overflow: visible;
+}
+
+/* Two columns: copy | score — See more is a full-width row under this, flush right. */
+.theme .theme-interview-landing__output-section-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem 1.1rem;
+  min-width: 0;
+  overflow: visible;
+}
+
+.theme .theme-interview-landing__output-section-main {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.theme .theme-interview-landing__output-section-see-more {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  flex-shrink: 0;
+  padding-block-start: 0.15rem;
+}
+
+.theme .theme-interview-landing__output-section-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+  width: 100%;
+}
+
+.theme .theme-interview-landing__output-section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: var(--theme-text);
+}
+
+.theme .theme-interview-landing__output-section-label-icon {
+  flex-shrink: 0;
+}
+
+.theme .theme-interview-landing__output-section[data-included='false'] .theme-interview-landing__output-section-label {
+  color: var(--theme-text-muted);
+}
+
+.theme .theme-interview-landing__output-excluded {
+  color: var(--theme-text-muted);
+}
+
+.theme .theme-interview-landing__output-section-summary,
+.theme .theme-interview-landing__output-section-summary-detail {
+  width: 100%;
+  color: var(--theme-text-muted);
+  line-height: 1.45;
+}
+
+.theme .theme-interview-landing__output-section-more {
+  width: 100%;
+}
+
+.theme .theme-interview-landing__output-section-trail {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: flex-end;
+  align-self: center;
+  gap: 0.35rem;
+  min-width: 0;
+  overflow: visible;
+}
+
+.theme .theme-interview-landing__output-section[data-kind='number'] .theme-interview-landing__output-section-trail {
+  min-height: 2.75rem;
+}
+
+.theme .theme-interview-landing__output-section-radar {
+  flex: 0 0 auto;
+  overflow: visible;
+  /* Default 4+ axes �? nearer circular */
+  width: 10.5rem;
+  height: 10.5rem;
+}
+
+/* 3-axis radar is a triangle �? flatter host than a padded square. */
+.theme .theme-interview-landing__output-section-radar[data-axes='3'] {
+  width: 10.5rem;
+  height: 9.5rem;
+}
+
+.theme .theme-interview-landing__output-section-radar-chart {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: visible !important;
+}
+
+.theme .theme-interview-landing__output-section-radar[data-axes='3']
+  .theme-interview-landing__output-section-radar-chart {
+  height: 9.5rem !important;
+}
+
+.theme .theme-interview-landing__output-section-radar:not([data-axes='3'])
+  .theme-interview-landing__output-section-radar-chart {
+  height: 10.5rem !important;
+}
+
+.theme .theme-interview-landing__output-section-radar-chart > div,
+.theme .theme-interview-landing__output-section-radar-chart svg,
+.theme .theme-interview-landing__output-section-radar-chart canvas {
+  overflow: visible !important;
+}
+
+.theme .theme-interview-landing__output-section-score {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 0;
+  /* Continuous green-red via --output-section-score-color (not accent blue). */
+  color: var(--output-section-score-color, var(--theme-text-muted));
+}
+
+.theme .theme-interview-landing__output-section-score-inner {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.02em;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.theme .theme-interview-landing__output-section-score-unit {
+  font-size: 0.55em;
+  font-weight: 700;
+  opacity: 0.9;
+}
+
+.theme .theme-interview-landing__output-section-score--beside,
+.theme .theme-interview-landing__output-section-score--solo {
+  position: static;
+  inset: auto;
+  width: auto;
+  height: auto;
+  min-width: 2.5rem;
+}
+
+.theme .theme-interview-landing__output-section-score--solo {
+  min-width: 3rem;
+  padding-block: 0.15rem;
+}
+
+.theme .theme-interview-landing__output-section-score--solo .theme-interview-landing__output-section-score-inner {
+  font-size: 1.45rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme .theme-interview-landing__output-fold,
+  .theme .theme-interview-landing__output-fold-inner,
+  .theme .theme-interview-landing__output-chevron,
+  .theme .theme-interview-landing__output-overall-donut {
+    transition: none;
+  }
+
+  .theme .theme-interview-landing__output-fold-inner {
+    transform: none;
+  }
+
+  .theme .theme-interview-landing__output-item:is(:hover, :focus-within) .theme-interview-landing__output-overall-donut {
+    transform: none;
+  }
+}
+
+/*
+ * Verify ScaleCoverModal on landing — closed: flow layout (stage relative).
+ * Open: fixed full-viewport rise like Sign up / ScaleCoverModal demo.
+ */
+.theme .theme-scale-cover-modal.theme-interview-landing__verify-cover {
+  height: auto;
+  min-height: 0;
+  background: transparent;
+}
+
+.theme
+  .theme-scale-cover-modal.theme-interview-landing__verify-cover:not([data-open='true']) {
+  /* Clip the off-stage Verify panel without becoming a sticky scrollport
+   * (`overflow: hidden` on this shell stopped the intro cover from sticking). */
+  overflow: clip;
+}
+
+.theme
+  .theme-scale-cover-modal.theme-interview-landing__verify-cover:not([data-open='true'])
+  .theme-scale-cover-modal__stage {
+  will-change: auto;
+}
+
+/* Belt-and-suspenders — beat any leftover GSAP inline visibility while closed. */
+.theme
+  .theme-scale-cover-modal.theme-interview-landing__verify-cover:not([data-open='true'])
+  .theme-scale-cover-modal__cover {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.theme
+  .theme-scale-cover-modal.theme-interview-landing__verify-cover
+  .theme-scale-cover-modal__stage {
+  position: relative;
+  inset: auto;
+  overflow: visible;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  min-width: 0;
+  width: 100%;
+}
+
+.theme .theme-scale-cover-modal.theme-interview-landing__verify-cover[data-open='true'] {
+  /* Fill App Stage main column only � leave room for the right chat peel. */
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: var(--dash-chat-open, 0rem);
+  width: auto;
+  height: auto;
+  z-index: 140;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--theme-complement) 12%, var(--theme-page-bg));
+  transition: right var(--dash-peel-duration, 0.56s)
+    var(--dash-peel-ease, cubic-bezier(0.87, 0, 0.13, 1));
+}
+
+.theme
+  .page-scene--dashboard[data-chat-resizing='true']
+  .theme-scale-cover-modal.theme-interview-landing__verify-cover[data-open='true'] {
+  transition: none;
+}
+
+.theme
+  .theme-scale-cover-modal.theme-interview-landing__verify-cover[data-open='true']
+  .theme-scale-cover-modal__stage {
+  position: absolute;
+  inset: 0;
+  overflow: auto;
+  background: var(--theme-page-bg);
+  display: block;
+  gap: 0;
+  padding: clamp(1rem, 3vw, 1.75rem);
+}
+
+/*
+ * Finished Results — ScaleCover wraps the dashboard page card (`__scroller`),
+ * same idea as Sign up wrapping SceneMenuShell. Stay in the peel: do not
+ * reconstruct padding, contour, or a second scroll on the stacked page.
+ * Stage overflow stays hidden (Home `:has(.theme-scene-menu-shell)` pattern)
+ * so page ThemeScroll Lenis owns the wheel — generic `__stage` / open Verify
+ * `overflow: auto` must not win. Open cover is flush; spine uses
+ * `__verify-spine-page`.
+ */
+.theme
+  .theme-scale-cover-modal.theme-interview-landing__verify-cover--page {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.theme
+  .theme-scale-cover-modal.theme-interview-landing__verify-cover--page:not(
+    [data-open='true']
+  ) {
+  overflow: visible;
+}
+
+.theme
+  .theme-scale-cover-modal.theme-interview-landing__verify-cover--page
+  .theme-scale-cover-modal__stage {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.theme
+  .theme-scale-cover-modal.theme-interview-landing__verify-cover--page
+  .page-scene--dashboard__scroller {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.theme
+  .theme-scale-cover-modal.theme-interview-landing__verify-cover.theme-interview-landing__verify-cover--page[data-open='true'] {
+  position: relative;
+  inset: auto;
+  top: auto;
+  right: auto;
+  bottom: auto;
+  left: auto;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.theme
+  .theme-scale-cover-modal.theme-interview-landing__verify-cover.theme-interview-landing__verify-cover--page[data-open='true']
+  .theme-scale-cover-modal__stage {
+  overflow: hidden;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Fill the page card like Creator builder — no ScaleCover chrome inset / surface card.
+ * Radius follows the overlay spine scroll (`data-scroll-edge` on `__verify-panel`),
+ * same top/mid/bottom/both corners as dashboard `__scroller`. */
+.theme
+  .theme-scale-cover-modal.theme-interview-landing__verify-cover.theme-interview-landing__verify-cover--page[data-open='true']
+  .theme-scale-cover-modal__cover {
+  padding: 0;
+  background: var(--theme-page-bg);
+  overflow: hidden;
+  border-radius: var(--dash-radius) 0 0 0;
+  box-shadow: none;
+  transition: border-radius 0.32s var(--dash-peel-ease, cubic-bezier(0.87, 0, 0.13, 1));
+}
+
+.theme
+  .page-scene--dashboard
+  .theme-interview-landing__verify-cover--page[data-open='true']:has(
+    .theme-interview-landing__verify-panel[data-scroll-edge='top']
+  )
+  .theme-scale-cover-modal__cover {
+  border-radius: var(--dash-radius) 0 0 0;
+}
+
+.theme
+  .page-scene--dashboard
+  .theme-interview-landing__verify-cover--page[data-open='true']:has(
+    .theme-interview-landing__verify-panel[data-scroll-edge='mid']
+  )
+  .theme-scale-cover-modal__cover {
+  border-radius: 0;
+}
+
+.theme
+  .page-scene--dashboard
+  .theme-interview-landing__verify-cover--page[data-open='true']:has(
+    .theme-interview-landing__verify-panel[data-scroll-edge='bottom']
+  )
+  .theme-scale-cover-modal__cover {
+  border-radius: 0 0 0 var(--dash-radius);
+}
+
+.theme
+  .page-scene--dashboard
+  .theme-interview-landing__verify-cover--page[data-open='true']:has(
+    .theme-interview-landing__verify-panel[data-scroll-edge='both']
+  )
+  .theme-scale-cover-modal__cover {
+  border-radius: var(--dash-radius) 0 0 var(--dash-radius);
+}
+
+.theme
+  .page-scene--dashboard[data-chat-closed='false']
+  .theme-interview-landing__verify-cover--page[data-open='true']:has(
+    .theme-interview-landing__verify-panel[data-scroll-edge='top']
+  )
+  .theme-scale-cover-modal__cover {
+  border-radius: var(--dash-radius) var(--dash-radius) 0 0;
+}
+
+.theme
+  .page-scene--dashboard[data-chat-closed='false']
+  .theme-interview-landing__verify-cover--page[data-open='true']:has(
+    .theme-interview-landing__verify-panel[data-scroll-edge='mid']
+  )
+  .theme-scale-cover-modal__cover {
+  border-radius: 0;
+}
+
+.theme
+  .page-scene--dashboard[data-chat-closed='false']
+  .theme-interview-landing__verify-cover--page[data-open='true']:has(
+    .theme-interview-landing__verify-panel[data-scroll-edge='bottom']
+  )
+  .theme-scale-cover-modal__cover {
+  border-radius: 0 0 var(--dash-radius) var(--dash-radius);
+}
+
+.theme
+  .page-scene--dashboard[data-chat-closed='false']
+  .theme-interview-landing__verify-cover--page[data-open='true']:has(
+    .theme-interview-landing__verify-panel[data-scroll-edge='both']
+  )
+  .theme-scale-cover-modal__cover {
+  border-radius: var(--dash-radius);
+}
+
+.theme
+  .page-scene--dashboard[data-menu-closed='true'][data-chat-closed='true']
+  .theme-interview-landing__verify-cover--page[data-open='true']:has(
+    .theme-interview-landing__verify-panel[data-scroll-edge='top']
+  )
+  .theme-scale-cover-modal__cover {
+  border-radius: 0 var(--dash-radius) 0 0;
+}
+
+.theme
+  .page-scene--dashboard[data-menu-closed='true'][data-chat-closed='true']
+  .theme-interview-landing__verify-cover--page[data-open='true']:has(
+    .theme-interview-landing__verify-panel[data-scroll-edge='mid']
+  )
+  .theme-scale-cover-modal__cover {
+  border-radius: 0;
+}
+
+.theme
+  .page-scene--dashboard[data-menu-closed='true'][data-chat-closed='true']
+  .theme-interview-landing__verify-cover--page[data-open='true']:has(
+    .theme-interview-landing__verify-panel[data-scroll-edge='bottom']
+  )
+  .theme-scale-cover-modal__cover {
+  border-radius: 0 0 var(--dash-radius) 0;
+}
+
+.theme
+  .page-scene--dashboard[data-menu-closed='true'][data-chat-closed='true']
+  .theme-interview-landing__verify-cover--page[data-open='true']:has(
+    .theme-interview-landing__verify-panel[data-scroll-edge='both']
+  )
+  .theme-scale-cover-modal__cover {
+  border-radius: 0 var(--dash-radius) var(--dash-radius) 0;
+}
+
+.theme
+  .page-scene--dashboard[data-menu-closed='true'][data-chat-closed='false']
+  .theme-interview-landing__verify-cover--page[data-open='true']:has(
+    .theme-interview-landing__verify-panel[data-scroll-edge='top']
+  )
+  .theme-scale-cover-modal__cover {
+  border-radius: 0 var(--dash-radius) 0 0;
+}
+
+.theme
+  .page-scene--dashboard[data-menu-closed='true'][data-chat-closed='false']
+  .theme-interview-landing__verify-cover--page[data-open='true']:has(
+    .theme-interview-landing__verify-panel[data-scroll-edge='mid']
+  )
+  .theme-scale-cover-modal__cover {
+  border-radius: 0;
+}
+
+.theme
+  .page-scene--dashboard[data-menu-closed='true'][data-chat-closed='false']
+  .theme-interview-landing__verify-cover--page[data-open='true']:has(
+    .theme-interview-landing__verify-panel[data-scroll-edge='bottom']
+  )
+  .theme-scale-cover-modal__cover {
+  border-radius: 0 0 var(--dash-radius) 0;
+}
+
+.theme
+  .page-scene--dashboard[data-menu-closed='true'][data-chat-closed='false']
+  .theme-interview-landing__verify-cover--page[data-open='true']:has(
+    .theme-interview-landing__verify-panel[data-scroll-edge='both']
+  )
+  .theme-scale-cover-modal__cover {
+  border-radius: 0 var(--dash-radius) var(--dash-radius) 0;
+}
+
+.theme
+  .theme-scale-cover-modal.theme-interview-landing__verify-cover.theme-interview-landing__verify-cover--page[data-open='true']
+  .theme-scale-cover-modal__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+  padding: 0;
+}
+
+.theme
+  .theme-scale-cover-modal.theme-interview-landing__verify-cover.theme-interview-landing__verify-cover--page[data-open='true']
+  .theme-scale-cover-modal__stage {
+  position: relative;
+  inset: auto;
+  overflow: hidden;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+}
+
+.theme .theme-interview-landing__verify-blank {
+  min-height: min(40vh, 20rem);
+}
+
+.theme .theme-interview-landing__verify-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+/*
+ * hideChrome ScaleCover body — keep min-height for Talk Verify columns;
+ * housing hover clip is handled by equal header padding-block + overflow:visible
+ * on the verify panel header only.
+ */
+.theme
+  .theme-scale-cover-modal.theme-interview-landing__verify-cover
+  .theme-scale-cover-modal__header:has(> .sr-only:only-child)
+  + .theme-scale-cover-modal__body {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.theme .theme-interview-landing__verify-panel-header {
+  display: flex;
+  flex-shrink: 0;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.25rem;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  margin-bottom: 0.85rem;
+  /* Equal block pad — housing top border + title share the header midline. */
+  padding-block: 0.5rem;
+  border-bottom: 1px solid var(--theme-border);
+  background: transparent;
+  position: static;
+  overflow: visible;
+}
+
+.theme .theme-interview-landing__verify-panel-header .theme-interview-creator__manage-create {
+  overflow: visible;
+}
+
+.theme .theme-interview-landing__verify-panel-title {
+  margin: 0;
+  min-width: 0;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  line-height: 1;
+}
+
+.theme .theme-interview-landing__verify-panel-title.is-resting {
+  /* Keep Back + divider layout; title lives in the chat section until scroll-promote. */
+  min-height: 1.25rem;
+}
+
+.theme .theme-interview-landing__verify-talk {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+}
+
+.theme .theme-interview-landing__verify-talk-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+}
+
+/* Growing transcript must not yank the viewport to the bottom while painting. */
+.theme .theme-interview-landing__verify-talk-scroll .theme-scroll__viewport,
+.theme .theme-interview-landing__verify-talk-scroll .theme-rounded-scroll__viewport {
+  overflow-anchor: none;
+}
+
+/*
+ * Title + Overview of the question live in one header. No stage line
+ * ("Coding verify · 2 visible · 2 hidden") and no hairline between title and
+ * overview. The lead’s bottom rule is the section break before the marks.
+ */
+.theme .theme-interview-landing__verify-lead {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: 0.5rem;
+  min-width: 0;
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+  margin-block-end: 0.9rem;
+  padding-inline: 0;
+  padding-block-end: 0.9rem;
+  border-bottom: var(--theme-divider-line);
+}
+
+.theme .theme-interview-landing__verify-lead[data-focus='true'] {
+  border-bottom: 0;
+  padding-block-end: 0.35rem;
+}
+
+.theme .theme-interview-landing__verify-talk-section {
+  flex: 0 0 auto;
+  /* Keep gate column centering � do not stretch full verify width */
+  max-width: 34rem;
+  width: 100%;
+  margin-inline: auto;
+  padding-block-end: 0.15rem;
+}
+
+.theme .theme-interview-landing__verify-talk-divider {
+  margin-block: 0.65rem 0;
+  align-self: stretch;
+  min-height: 1px;
+  width: 100%;
+  height: 1px;
+}
+
+.theme .theme-interview-landing__verify-talk-page {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding-block-end: 1.75rem;
+}
+
+.theme .theme-interview-landing__verify-talk-head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  width: 100%;
+  max-width: 34rem;
+  margin-inline: auto;
+  margin-block-start: 0.35rem;
+  padding-block: 0.2rem 0.45rem;
+  padding-inline: 0;
+  border-bottom: 0;
+}
+
+.theme .theme-interview-landing__verify-pairs {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  min-width: 0;
+  width: 100%;
+}
+
+.theme .theme-interview-landing__verify-focus-rule {
+  align-self: stretch;
+  width: 100%;
+  min-width: 0;
+}
+
+.theme .theme-interview-landing__verify-focus-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  min-width: 0;
+}
+
+.theme .theme-interview-landing__verify-rollup {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.65rem;
+  width: 100%;
+  min-width: 0;
+  padding-block: 0.15rem 0.15rem;
+}
+
+.theme .theme-interview-landing__verify-mark-more {
+  margin-block-start: 0.45rem;
+}
+
+/* Pair = chat span + mark that sticks only inside this section */
+.theme .theme-interview-landing__verify-pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(15rem, 0.9fr);
+  gap: 1.15rem;
+  align-items: start;
+  min-width: 0;
+  width: 100%;
+}
+
+.theme .theme-interview-landing__verify-pair[data-has-mark='false'] {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.theme .theme-interview-landing__verify-pair-chat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.theme .theme-interview-landing__verify-pair-chat .theme-interview-talk-page__thread {
+  padding-block-end: 0.25rem;
+}
+
+.theme .theme-interview-landing__verify-pair-mark {
+  align-self: start;
+  min-width: 0;
+  max-width: 100%;
+  padding-inline: 0.35rem 0.55rem;
+  border-inline-start: 1px solid color-mix(in srgb, var(--theme-border) 88%, transparent);
+  overflow: visible;
+  /* Match Interview Creator flow-timeline TOC sticky rail */
+  z-index: 2;
+}
+
+.theme .theme-interview-landing__verify-pair-mark[data-rail-ready='false'] {
+  border-inline-start-color: transparent;
+  min-height: 1px;
+}
+
+.theme .theme-interview-landing__verify-pair-mark-sticky {
+  position: sticky;
+  top: 0.75rem;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  min-width: 0;
+  overflow: visible;
+  padding-block: 0.15rem 0.35rem;
+}
+
+/* Multiple analyses on one stretch � chip switcher + one full-width bubble (no inner h-scroll) */
+.theme .theme-interview-landing__verify-mark-strip {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow: visible;
+}
+
+.theme .theme-interview-landing__verify-mark-strip-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  min-width: 0;
+  width: 100%;
+}
+
+.theme .theme-interview-landing__verify-mark-strip-body {
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow: visible;
+  padding-inline: 0.85rem 0.45rem;
+  padding-block: 0.1rem 0.35rem;
+  box-sizing: border-box;
+}
+
+.theme .theme-interview-landing__verify-mark-strip-body .theme-interview-landing__verify-mark-card {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Marker bubbles keep board chrome even when Talk page flushes assistant replies */
+.theme .theme-interview-landing__verify-mark-card.theme-chat-bubble--board .theme-chat-bubble__content {
+  border: 2px solid var(--board-bubble-border, var(--theme-border-strong));
+  background: var(--board-bubble-bg, color-mix(in srgb, var(--theme-page-bg) 94%, transparent));
+  box-shadow: none;
+  filter: none;
+  padding: 0.65rem 0.85rem 0.75rem;
+}
+
+.theme .theme-interview-landing__verify-talk-page .theme-interview-talk-page__row.is-cite-flash {
+  outline: 2px solid color-mix(in srgb, var(--theme-accent) 55%, transparent);
+  outline-offset: 4px;
+  border-radius: 0.35rem;
+}
+
+.theme [data-test-form-question].is-cite-flash {
+  outline: 2px solid color-mix(in srgb, var(--theme-accent) 55%, transparent);
+  outline-offset: 4px;
+  border-radius: 0.35rem;
+}
+
+.theme .theme-interview-landing__verify-topic-break {
+  margin: 0.25rem 0 0.35rem;
+  padding-block-start: 0.55rem;
+  border-block-start: 1px solid color-mix(in srgb, var(--theme-border) 80%, transparent);
+}
+
+.theme .theme-interview-landing__verify-talk-page .theme-interview-talk-page__row.is-mark-linked {
+  cursor: pointer;
+}
+
+.theme .theme-interview-landing__verify-talk-page .theme-interview-talk-page__row.is-mark-linked:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--theme-accent) 55%, transparent);
+  outline-offset: 4px;
+  border-radius: 0.35rem;
+}
+
+/* Marking = board bubble chrome; shadows must not clip */
+.theme .theme-interview-landing__verify-mark-card.theme-chat-bubble--board {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow: visible;
+}
+
+.theme .theme-interview-landing__verify-mark-card .theme-chat-bubble__body {
+  max-width: 100%;
+  min-width: 0;
+  overflow: visible;
+}
+
+.theme .theme-interview-landing__verify-mark-card .theme-chat-bubble__content {
+  max-width: 100%;
+  min-width: 0;
+  overflow: visible;
+}
+
+.theme .theme-interview-landing__verify-mark-card .theme-chat-bubble__board-head {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding-bottom: 0.4rem;
+  margin-bottom: 0.25rem;
+  border-bottom: var(--theme-divider-line);
+}
+
+.theme .theme-interview-landing__verify-mark-card .theme-chat-bubble__tags {
+  max-width: 100%;
+}
+
+.theme .theme-interview-landing__verify-mark-card .theme-chat-bubble__tag {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.theme .theme-interview-landing__verify-mark-card.is-active .theme-chat-bubble__content,
+.theme .theme-interview-landing__verify-mark-card.is-cite-flash .theme-chat-bubble__content {
+  border-color: color-mix(in srgb, var(--theme-accent) 42%, var(--board-bubble-border, var(--theme-border)));
+}
+
+.theme .theme-interview-landing__verify-mark-card.is-secondary:not(.is-active):not(.is-expanded) {
+  opacity: 0.92;
+}
+
+.theme .theme-interview-landing__verify-mark-card.is-general .theme-chat-bubble__content {
+  border-style: dashed;
+}
+
+.theme .theme-interview-landing__verify-mark-card.is-unscored .theme-chat-bubble__content {
+  border-style: dashed;
+  opacity: 0.98;
+}
+
+.theme .theme-interview-landing__verify-mark-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 550;
+  color: var(--theme-text);
+}
+
+.theme .theme-interview-landing__verify-mark-score {
+  flex-shrink: 0;
+  margin-inline-start: auto;
+  font-variant-numeric: tabular-nums;
+}
+
+.theme .theme-interview-landing__verify-mark-links {
+  margin-block-start: 0.2rem;
+  width: 100%;
+}
+
+.theme .theme-interview-landing__verify-mark-link-lead {
+  flex-shrink: 0;
+  color: currentColor;
+  opacity: 0.75;
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+.theme .theme-interview-landing__verify-mark-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin-block-start: 0.45rem;
+  min-width: 0;
+}
+
+.theme .theme-interview-landing__verify-mark-radar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  min-width: 0;
+}
+
+.theme .theme-interview-landing__verify-mark-radar .theme-interview-result-review__radar {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 0;
+}
+
+.theme .theme-interview-landing__verify-mark-evidence {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.theme .theme-interview-landing__verify-mark-evidence li {
+  padding: 0.35rem 0.45rem;
+  border-inline-start: 2px solid color-mix(in srgb, var(--theme-accent) 30%, transparent);
+  overflow-wrap: anywhere;
+}
+
+.theme .theme-interview-landing__verify-mark-synth {
+  color: color-mix(in srgb, var(--theme-text) 88%, var(--theme-text-muted));
+  overflow-wrap: anywhere;
+}
+
+/* Tool Verify (coding / essay / form) */
+.theme .theme-interview-landing__verify-tool {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1 1 auto;
+  height: 100%;
+  width: 100%;
+}
+
+.theme .theme-interview-landing__verify-tool-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.theme .theme-interview-landing__verify-tool-scroll .theme-scroll__viewport,
+.theme .theme-interview-landing__verify-tool-scroll .theme-rounded-scroll__viewport {
+  overflow-anchor: none;
+}
+
+.theme
+  .theme-interview-landing__verify-tool[data-page-flow='true'] {
+  height: auto;
+  overflow: visible;
+}
+
+.theme .theme-interview-landing__verify-tool-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-block-end: 1.5rem;
+  min-width: 0;
+}
+
+/*
+ * Marks read down the page like the rest of the report.
+ *
+ * They used to be a horizontal rail of fixed-width bubbles; nothing in the report ever
+ * scrolls sideways, so half the marks were simply never seen.
+ */
+.theme .theme-interview-landing__verify-tool-marks-host {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  min-width: 0;
+}
+
+.theme .theme-interview-landing__verify-mark-stack {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.theme .theme-interview-landing__verify-mark-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+  padding-block: 0.9rem;
+}
+
+.theme
+  .theme-interview-landing__verify-mark-section
+  + .theme-interview-landing__verify-mark-section {
+  border-top: var(--theme-divider-line);
+}
+
+.theme .theme-interview-landing__verify-mark-section:first-child {
+  padding-block-start: 0.35rem;
+}
+
+.theme .theme-interview-landing__verify-mark-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.theme .theme-interview-landing__verify-mark-head .theme-interview-landing__verify-mark-title {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.theme .theme-interview-landing__verify-mark-head .theme-interview-landing__verify-mark-score {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.theme .theme-interview-landing__verify-mark-lead {
+  display: inline-flex;
+  color: var(--type-muted);
+}
+
+.theme .theme-interview-landing__verify-mark-prose {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.theme .theme-interview-landing__verify-mark-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.theme .theme-interview-landing__verify-assist {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  min-width: 0;
+  padding-block-start: 0.9rem;
+  border-top: var(--theme-divider-line);
+}
+
+.theme .theme-interview-landing__verify-assist-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+/* Bubbles, but no chat panel — this sits inside a report, not a chat surface. */
+.theme .theme-interview-landing__verify-assist .theme-interview-talk-page__thread {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: none;
+  padding: 0;
+}
+
+.theme .theme-interview-landing__verify-tool-marks-empty {
+  padding-block: 0.25rem;
+}
+
+.theme .theme-interview-landing__verify-tool-divider {
+  margin-block: 0.25rem 0.5rem;
+}
+
+.theme .theme-interview-landing__verify-question {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.6rem;
+  min-width: 0;
+  padding-block-end: 0;
+  border-bottom: 0;
+  text-align: left;
+  width: 100%;
+}
+
+.theme .theme-interview-landing__verify-question-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.45rem;
+  align-self: flex-start;
+  color: var(--theme-text);
+  cursor: pointer;
+  text-align: left;
+}
+
+.theme .theme-interview-landing__verify-question-chevron {
+  transition: transform 0.2s ease;
+}
+
+.theme
+  .theme-interview-landing__verify-question-toggle[aria-expanded='false']
+  .theme-interview-landing__verify-question-chevron {
+  transform: rotate(-90deg);
+}
+
+.theme .theme-interview-landing__verify-question-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 0;
+  text-align: left;
+}
+
+.theme .theme-interview-landing__verify-question .theme-interview-gate {
+  align-items: stretch;
+  text-align: left;
+  max-width: none;
+  margin-inline: 0;
+  padding-block: 0.15rem 0;
+}
+
+/*
+ * The candidate's work deserves the viewport.
+ *
+ * This pane was capped at min(28rem, 55dvh) so it would not fight the tape player for
+ * space, which left the code in a letterbox nobody could read. The tape sits above it now,
+ * so the editor takes what the screen has.
+ */
+.theme .theme-interview-landing__verify-tool-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  min-width: 0;
+  --interview-gate-editor-h: min(46rem, 78dvh);
+  min-height: var(--interview-gate-editor-h);
+  height: var(--interview-gate-editor-h);
+  max-height: var(--interview-gate-editor-h);
+  flex: none;
+  overflow: hidden;
+}
+
+.theme .theme-interview-landing__verify-tool-body.theme-interview-gate-live__editor--coding,
+.theme .theme-interview-landing__verify-tool-body.theme-interview-gate-live__editor--doc {
+  --interview-gate-editor-h: min(46rem, 78dvh);
+  min-height: var(--interview-gate-editor-h);
+  height: var(--interview-gate-editor-h);
+  max-height: var(--interview-gate-editor-h);
+}
+
+.theme .theme-interview-landing__verify-tool-body > .theme-code-editor,
+.theme .theme-interview-landing__verify-tool-body > .theme-doc-editor,
+.theme .theme-interview-landing__verify-tool-body > .theme-test-form {
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.theme .theme-interview-landing__verify-tool-body--form {
+  /* Form review grows with questions — scroll the outer Verify rail, not a locked pane. */
+  --interview-gate-editor-h: auto;
+  min-height: 0;
+  height: auto;
+  max-height: none;
+  overflow: visible;
+}
+
+.theme .theme-interview-landing__verify-tool-body--form > .theme-test-form {
+  height: auto;
+  min-height: 0;
+  flex: none;
+}
+
+.theme .theme-interview-landing__tape-player {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-block: 0.75rem 0.25rem;
+}
+
+.theme .theme-interview-landing__tape-player-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.theme .theme-interview-landing__tape-player-track {
+  flex: 1;
+  min-width: 0;
+  accent-color: var(--theme-accent);
+}
+
+.theme .theme-interview-landing__tape-player-clock {
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.theme .theme-interview-landing__tape-player-caption,
+.theme .theme-interview-landing__tape-player-paste {
+  min-width: 0;
+}
+
+.theme .theme-interview-landing__tape-player-rail {
+  display: flex;
+  align-items: stretch;
+  gap: 0.125rem;
+  height: 0.5rem;
+}
+
+.theme .theme-interview-landing__tape-player-bucket {
+  min-width: 0.25rem;
+  flex: 1 1 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0.125rem;
+  cursor: pointer;
+  background: var(--theme-accent);
+}
+
+.theme .theme-interview-landing__tape-player-bucket.is-idle {
+  background: color-mix(in srgb, var(--theme-text-muted) 35%, transparent);
+}
+
+.theme .theme-interview-landing__tape-player-bucket.is-current {
+  outline: 1px solid var(--theme-accent);
+  outline-offset: 1px;
+}
+
+.theme .theme-interview-landing__tape-player-bucket[data-span='2'] { flex-grow: 2; }
+.theme .theme-interview-landing__tape-player-bucket[data-span='3'] { flex-grow: 3; }
+.theme .theme-interview-landing__tape-player-bucket[data-span='4'] { flex-grow: 4; }
+.theme .theme-interview-landing__tape-player-bucket[data-span='5'] { flex-grow: 5; }
+.theme .theme-interview-landing__tape-player-bucket[data-span='6'] { flex-grow: 6; }
+.theme .theme-interview-landing__tape-player-bucket[data-span='7'] { flex-grow: 7; }
+.theme .theme-interview-landing__tape-player-bucket[data-span='8'] { flex-grow: 8; }
+.theme .theme-interview-landing__tape-player-bucket[data-span='9'] { flex-grow: 9; }
+.theme .theme-interview-landing__tape-player-bucket[data-span='10'] { flex-grow: 10; }
+.theme .theme-interview-landing__tape-player-bucket[data-span='11'] { flex-grow: 11; }
+.theme .theme-interview-landing__tape-player-bucket[data-span='12'] { flex-grow: 12; }
+
+.theme .theme-interview-landing__verify-soft {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem 0.15rem 1rem;
+  max-width: 42rem;
+}
+
+.theme .theme-interview-landing__output-form-gate-more {
+  display: flex;
+  justify-content: flex-end;
+  margin-block-start: 0.35rem;
+}
+
+.theme .theme-interview-ask-aid-link {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.28rem;
+  width: max-content;
+  max-width: 100%;
+  margin: 0;
+  padding: 0.12rem 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+  color: var(--theme-accent);
+  white-space: nowrap;
+}
+
+.theme .theme-interview-ask-aid-link .theme-chat-part__card-link-label {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.theme .theme-interview-ask-aid-link .theme-chat-part__card-link-icon,
+.theme .theme-interview-ask-aid-link .theme-interview-landing__verify-mark-link-lead {
+  flex-shrink: 0;
+}
+
+.theme .theme-interview-assessor-aid-peel .theme-interview-creator-chat__composer-leading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.theme .theme-interview-assessor-aid-peel .theme-interview-assessor-aid-peel__attach {
+  justify-content: center;
+}
+
+.theme .theme-interview-assessor-aid-peel .theme-interview-assessor-aid-peel__attach .theme-chip__label,
+.theme .theme-interview-assessor-aid-peel .theme-interview-assessor-aid-peel__attach .theme-chip__label span {
+  max-width: 16rem;
+}
+
+.theme .theme-interview-assessor-aid-peel .theme-chat-bubble__board-trail {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.theme .theme-interview-assessor-aid-peel .theme-interview-assessor-aid-peel__head-refs {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  width: max-content;
+  max-width: 66.67%;
+  min-width: 0;
+  margin: 0;
+  gap: 0.28rem;
+}
+
+.theme .theme-interview-assessor-aid-peel .theme-interview-assessor-aid-peel__head-refs .theme-chip,
+.theme .theme-interview-assessor-aid-peel .theme-interview-assessor-aid-peel__head-refs .theme-chip__surface {
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.theme .theme-interview-assessor-aid-peel .theme-interview-assessor-aid-peel__head-refs .theme-chip__surface {
+  align-items: center;
+  padding: 0.06rem 0.4rem;
+  font-size: 0.6875rem;
+  border-width: 1px;
+}
+
+.theme .theme-interview-assessor-aid-peel .theme-interview-assessor-aid-peel__head-refs .theme-chip__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  font-size: inherit;
+  letter-spacing: 0.02em;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.theme .theme-interview-assessor-aid-peel .theme-interview-assessor-aid-peel__head-refs .theme-chip__label span {
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.theme .theme-interview-assessor-aid-peel .theme-interview-assessor-aid-peel__head-refs .theme-chip__label svg {
+  width: 0.75rem;
+  height: 0.75rem;
+  flex-shrink: 0;
+}
+
+.theme .theme-interview-assessor-aid-peel__cites {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  padding: 0.35rem 0.75rem 0;
+}
+
+@media (max-width: 900px) {
+  .theme .theme-interview-landing__verify-pair {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .theme .theme-interview-landing__verify-pair-mark {
+    border-inline-start: 0;
+    border-block-start: 1px solid color-mix(in srgb, var(--theme-border) 88%, transparent);
+    padding-inline: 0;
+    padding-block-start: 0.75rem;
+  }
+
+  .theme .theme-interview-landing__verify-pair-mark-sticky {
+    position: static;
+  }
+}

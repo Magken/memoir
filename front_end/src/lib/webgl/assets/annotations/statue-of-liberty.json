@@ -1,0 +1,51 @@
+{
+  "assetId": "statue-of-liberty",
+  "units": "m",
+  "upAxis": "y",
+  "notes": "Statue of Liberty glTF Binary (.glb). Same ceramic SSS host, baked mesh-net cage, and PointLight moat as The Creation of Adam. Normalize to metres, Y-up, sit on ground y=0. Home is the captured closer framing. Marks: flame top (torch), side profile, back profile. Prime more marks in the model viewer, then paste JSON here.",
+  "annotations": [
+    {
+      "id": "viewpoint-home",
+      "kind": "viewpoint",
+      "label": "Home",
+      "position": [-0.06627943244351724, 0.748802608867931, 0.07678242631809161],
+      "camera": [0.461175686088034, 0.27613195277294944, -0.040229274207341154],
+      "target": [-0.06627943244351724, 0.748802608867931, 0.07678242631809161],
+      "orbit": {
+        "azimuth": 1.7891029179277274,
+        "polar": 2.2895499473462975,
+        "radius": 0.7178566634490807
+      },
+      "up": [0, 1, 0],
+      "quaternion": [0.22011234442167404, 0.7301036208615493, -0.2742937505531702, 0.5858858225333027]
+    },
+    {
+      "id": "point-flame-top",
+      "kind": "point",
+      "label": "flame top",
+      "impulse": true,
+      "position": [0.09238669730249267, 0.9051548073420193, 0.1534093240596558],
+      "normal": [0.16472556449339987, 0.9329945868576143, -0.31997904509001873],
+      "faceIndex": 611,
+      "objectName": "Torch_Liberty_MAT_0"
+    },
+    {
+      "id": "point-side-profile",
+      "kind": "point",
+      "label": "side profile",
+      "position": [0.005738937494062825, 0.5726206113229326, 0.008997589921692181],
+      "normal": [-0.04798912187009876, -0.1505955811623035, -0.9874300051732908],
+      "faceIndex": 5209,
+      "objectName": "Statue_Liberty_MAT_0"
+    },
+    {
+      "id": "point-back-profile",
+      "kind": "point",
+      "label": "back profile",
+      "position": [-0.03192739108868943, 0.5924072341551236, 0.05319514879121742],
+      "normal": [-0.9859277145070109, 0.16717181246847934, 0.00035620638060900706],
+      "faceIndex": 920,
+      "objectName": "Statue_Liberty_MAT_0"
+    }
+  ]
+}

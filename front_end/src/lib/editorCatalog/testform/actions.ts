@@ -1,0 +1,118 @@
+import type { EditorAction } from '../types'
+
+export type TestFormEditorAction = EditorAction
+
+export const TESTFORM_EDITOR_ACTIONS: TestFormEditorAction[] = [
+  {
+    id: 'testform.action.set-mode',
+    label: 'Set mode',
+    kind: 'ui',
+    target: 'TestForm mode tray',
+    notation: 'mode.set',
+    implemented: true,
+    relatedFeatures: ['testform.chrome.modes'],
+  },
+  {
+    id: 'testform.action.add-section',
+    label: 'Add section',
+    kind: 'command',
+    target: 'TestForm sections[]',
+    notation: 'section.add',
+    implemented: true,
+    relatedFeatures: ['testform.chrome.sections'],
+  },
+  {
+    id: 'testform.action.remove-section',
+    label: 'Remove section',
+    kind: 'command',
+    target: 'TestForm sections[]',
+    notation: 'section.remove',
+    implemented: true,
+    relatedFeatures: ['testform.chrome.sections'],
+  },
+  {
+    id: 'testform.action.add-question',
+    label: 'Add question',
+    kind: 'command',
+    target: 'TestForm questions[]',
+    notation: 'question.add',
+    implemented: true,
+    relatedFeatures: ['testform.question.short-text', 'testform.chrome.sections'],
+  },
+  {
+    id: 'testform.action.remove-question',
+    label: 'Remove question',
+    kind: 'command',
+    target: 'TestForm questions[]',
+    notation: 'question.remove',
+    implemented: true,
+    relatedFeatures: ['testform.question.short-text'],
+  },
+  {
+    id: 'testform.action.reorder',
+    label: 'Reorder questions',
+    kind: 'command',
+    target: 'TestForm questions[]',
+    notation: 'question.reorder',
+    implemented: true,
+    relatedFeatures: ['testform.question.short-text'],
+  },
+  {
+    id: 'testform.action.set-hint',
+    label: 'Set question hint',
+    kind: 'prop',
+    target: 'TestForm question.hint',
+    notation: 'question.hint.set',
+    implemented: true,
+    relatedFeatures: ['testform.interaction.hints'],
+  },
+  {
+    id: 'testform.action.set-answer-key',
+    label: 'Set answer key entry',
+    kind: 'prop',
+    target: 'TestForm answerKey',
+    notation: 'answerKey.set',
+    implemented: true,
+    relatedFeatures: ['testform.interaction.scoring'],
+  },
+  {
+    id: 'testform.action.strip-key',
+    label: 'Strip answer key (take payload)',
+    kind: 'command',
+    target: 'TestForm document',
+    notation: 'answerKey.strip',
+    implemented: true,
+    relatedFeatures: ['testform.interaction.scoring', 'testform.io.native-json'],
+  },
+  {
+    id: 'testform.action.score-attempt',
+    label: 'Score attempt',
+    kind: 'runtime',
+    target: 'TestForm attempt.scores',
+    notation: 'attempt.score',
+    implemented: true,
+    relatedFeatures: ['testform.interaction.scoring'],
+  },
+  {
+    id: 'testform.action.clear-attempt',
+    label: 'Clear attempt',
+    kind: 'command',
+    target: 'TestForm attempt',
+    notation: 'attempt.clear',
+    implemented: true,
+    relatedFeatures: ['testform.interaction.scoring'],
+  },
+  {
+    id: 'testform.action.export-take-json',
+    label: 'Export take JSON (no key)',
+    kind: 'runtime',
+    target: 'TestForm stripAnswerKey',
+    notation: 'export.take',
+    implemented: true,
+    relatedFeatures: ['testform.io.native-json'],
+  },
+]
+
+export function testFormActionById(id: string): TestFormEditorAction | undefined {
+  return TESTFORM_EDITOR_ACTIONS.find((action) => action.id === id)
+}

@@ -1,0 +1,158 @@
+/**
+ * Named theme fluid motion — Lusion About / DDD 2024 recipes.
+ * Tokens + clip curtains + media clip/scale + 3-step roll. GSAP drives in/out.
+ */
+.theme {
+  --theme-fluid-ease-in: cubic-bezier(0.16, 1, 0.3, 1);
+  --theme-fluid-ease-out: cubic-bezier(0.35, 0, 0, 1);
+  --theme-fluid-ease-chrome: cubic-bezier(0.4, 0, 0.1, 1);
+  --theme-fluid-in: 0.9s;
+  --theme-fluid-out: 0.55s;
+  --theme-fluid-stagger: 35ms;
+  --theme-fluid-cover-from: 1.18;
+}
+
+@layer components {
+  .theme .theme-fluid-flip {
+    display: block;
+    max-width: 100%;
+  }
+
+  .theme .theme-fluid-line {
+    display: inline-block;
+    max-width: 100%;
+  }
+
+  .theme .theme-fluid-line__mask,
+  .theme .theme-fluid-chars__unit {
+    display: block;
+    overflow: hidden;
+  }
+
+  .theme .theme-fluid-chars {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+  }
+
+  .theme .theme-fluid-chars__unit {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: baseline;
+  }
+
+  /* Rest is readable. GSAP fromTo still curtains 110% → 0 on enter. */
+  .theme .theme-fluid-line__fill,
+  .theme .theme-fluid-chars__fill {
+    display: block;
+    transform: none;
+  }
+
+  .theme .theme-fluid-chars__space {
+    white-space: pre;
+  }
+
+  /* 3-step Y roll — Lusion About `text-animation` */
+  .theme .theme-fluid-roll {
+    display: inline-block;
+    animation: theme-fluid-roll 1.2s var(--theme-fluid-ease-in) both;
+  }
+
+  @keyframes theme-fluid-roll {
+    0% {
+      transform: translate3d(0, 1.5em, 0);
+    }
+    33% {
+      transform: translate3d(0, 0, 0);
+    }
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  .theme .theme-fluid-media {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    clip-path: inset(100% 0 0 0);
+  }
+
+  .theme .theme-fluid-media.is-rest {
+    clip-path: inset(0);
+  }
+
+  .theme .theme-fluid-media.is-rest .theme-fluid-media__img {
+    transform: scale(1);
+  }
+
+  .theme .theme-fluid-media__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    transform: scale(var(--theme-fluid-cover-from));
+    transform-origin: 50% 50%;
+  }
+
+  .theme .theme-fluid-media[data-cover='0'] .theme-fluid-media__img {
+    background:
+      radial-gradient(120% 80% at 20% 10%, oklch(0.72 0.14 250 / 0.9), transparent 55%),
+      linear-gradient(160deg, oklch(0.28 0.06 250), oklch(0.16 0.04 280));
+  }
+
+  .theme .theme-fluid-media[data-cover='1'] .theme-fluid-media__img {
+    background:
+      radial-gradient(90% 70% at 80% 20%, oklch(0.7 0.16 145 / 0.75), transparent 50%),
+      linear-gradient(140deg, oklch(0.24 0.05 145), oklch(0.14 0.03 180));
+  }
+
+  .theme .theme-fluid-media[data-cover='2'] .theme-fluid-media__img {
+    background:
+      radial-gradient(80% 90% at 10% 80%, oklch(0.74 0.16 75 / 0.7), transparent 55%),
+      linear-gradient(200deg, oklch(0.26 0.06 50), oklch(0.12 0.03 30));
+  }
+
+  .theme .theme-fluid-media[data-cover='3'] .theme-fluid-media__img {
+    background:
+      radial-gradient(100% 80% at 70% 0%, oklch(0.68 0.18 350 / 0.8), transparent 50%),
+      linear-gradient(170deg, oklch(0.22 0.08 330), oklch(0.12 0.04 300));
+  }
+
+  .theme .theme-fluid-media[data-cover='4'] .theme-fluid-media__img {
+    background:
+      radial-gradient(90% 90% at 0% 0%, oklch(0.62 0.18 300 / 0.75), transparent 52%),
+      linear-gradient(155deg, oklch(0.2 0.07 280), oklch(0.1 0.03 250));
+  }
+
+  .theme .theme-fluid-media[data-cover='5'] .theme-fluid-media__img {
+    background:
+      radial-gradient(110% 70% at 100% 100%, oklch(0.7 0.12 200 / 0.8), transparent 48%),
+      linear-gradient(130deg, oklch(0.22 0.05 210), oklch(0.12 0.03 190));
+  }
+
+  .theme .theme-fluid-media[data-cover='6'] .theme-fluid-media__img {
+    background:
+      radial-gradient(85% 85% at 40% 30%, oklch(0.7 0.18 45 / 0.7), transparent 50%),
+      linear-gradient(190deg, oklch(0.24 0.08 40), oklch(0.12 0.04 20));
+  }
+
+  .theme .theme-fluid-media[data-cover='7'] .theme-fluid-media__img {
+    background:
+      radial-gradient(95% 75% at 60% 80%, oklch(0.68 0.14 120 / 0.75), transparent 52%),
+      linear-gradient(165deg, oklch(0.2 0.06 130), oklch(0.11 0.03 140));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-fluid-line__fill,
+    .theme .theme-fluid-chars__fill,
+    .theme .theme-fluid-roll,
+    .theme .theme-fluid-media__img {
+      animation: none;
+      transition: none;
+      transform: none;
+    }
+
+    .theme .theme-fluid-media {
+      clip-path: inset(0);
+    }
+  }
+}

@@ -1,0 +1,76 @@
+/* Shared titlebar I/O zones for doc, grid, draw, markdown, and mermaid workbenches. */
+
+.theme-editor-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.25rem;
+  padding: 0.25rem 0.5rem;
+  overflow: visible;
+}
+
+.theme-editor-titlebar__leading {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+.theme-editor-titlebar__history,
+.theme-editor-titlebar__save {
+  flex: 0 0 auto;
+}
+
+.theme-editor-titlebar__title-block {
+  flex: 0 1 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+/* Shared workbench title — EditableTitle via EditorTitleField */
+.theme-editor-titlebar__title-field.theme-editable-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 9.5rem;
+}
+
+.theme-editor-titlebar__title-field .theme-editable-title__button,
+.theme-editor-titlebar__title-field .theme-editable-title__input {
+  max-width: 9.5rem;
+}
+
+.theme-editor-titlebar__refresh {
+  flex: 0 0 auto;
+}
+
+.theme-editor-titlebar__spacer {
+  flex: 1 1 auto;
+  min-width: 0.5rem;
+}
+
+.theme-editor-titlebar__trailing {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.theme-editor-titlebar__export {
+  flex: 0 0 auto;
+}
+
+.theme-editor-context-demo__row {
+  align-items: center;
+}
+
+/* Shell wrappers — title field chrome is shared via EditorTitleField + EditableTitle. */
+.theme-doc-editor__titlebar.theme-editor-titlebar,
+.theme-data-grid-editor__titlebar.theme-editor-titlebar,
+.theme-draw-canvas__titlebar.theme-editor-titlebar,
+.theme-markdown-renderer__titlebar.theme-editor-titlebar,
+.theme-mermaid-renderer__titlebar.theme-editor-titlebar,
+.theme-code-editor__titlebar.theme-editor-titlebar,
+.theme-flow-editor__titlebar.theme-editor-titlebar {
+  /* inherits .theme-editor-titlebar */
+}

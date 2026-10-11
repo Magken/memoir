@@ -1,0 +1,55 @@
+export const DRAW_HELP_SHORTCUTS = [
+  {
+    title: 'Tools',
+    rows: [
+      ['Hand', 'H'],
+      ['Selection', 'V / 1'],
+      ['Rectangle', 'R / 2'],
+      ['Diamond', 'D / 3'],
+      ['Ellipse', 'O / 4'],
+      ['Arrow', 'A / 5'],
+      ['Line', 'L / 6'],
+      ['Draw', 'P / X / 7'],
+      ['Text', 'T / 8'],
+      ['Image', '9'],
+      ['Eraser', 'E / 0'],
+      ['Frame', 'F'],
+      ['Tool lock', 'Q'],
+    ],
+  },
+  {
+    title: 'Edit',
+    rows: [
+      ['Undo / Redo', 'Ctrl+Z / Ctrl+Y'],
+      ['Cut / Copy / Paste', 'Ctrl+X / C / V'],
+      ['Duplicate', 'Ctrl+D'],
+      ['Delete', 'Delete'],
+      ['Select all', 'Ctrl+A'],
+      ['Group / Ungroup', 'Ctrl+G / Ctrl+Shift+G'],
+      ['Hyperlink', 'Ctrl+K'],
+      ['Lock', 'Ctrl+Shift+L'],
+    ],
+  },
+  {
+    title: 'View',
+    rows: [
+      ['Zoom in / out', 'Ctrl++ / Ctrl+-'],
+      ['Reset zoom', 'Ctrl+0'],
+      ['Zoom to fit', 'Shift+1'],
+      ['Zoom to selection', 'Shift+2'],
+      ['Grid', "Ctrl+'"],
+      ['Zen mode', 'Alt+Z'],
+    ],
+  },
+  {
+    title: 'Diagrams & tips',
+    rows: [
+      ['Nudge selection', 'Arrow keys · Shift for larger steps'],
+      ['Bind arrow to shape', 'Drag from / onto a shape edge'],
+      ['Elbow flowchart arrows', 'Arrow type → Elbow'],
+      ['Deep select in group', 'Ctrl+click'],
+      ['Crop image', 'Select image · crop in format ribbon'],
+      ['Proposed actions', 'Hints under the tools row update per tool'],
+    ],
+  },
+] as const

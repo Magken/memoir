@@ -1,0 +1,19 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  # Glide Data Grid (and a few other libs) peer React 18; this repo is React 19.
+  NPM_FLAGS = "--legacy-peer-deps"
+
+[dev]
+  command = "npm run dev:vite"
+  targetPort = 5173
+  framework = "#custom"
+  timeout = 60
+  # port set by scripts/dev.mjs (prefers 8888, picks next free)
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

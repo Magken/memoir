@@ -1,0 +1,896 @@
+@layer components {
+  .theme .theme-vurify-menu-button {
+    --vurify-menu-fill-color: var(--theme-accent);
+    --vurify-menu-fill-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --vurify-menu-fill-duration: 0.4s;
+    display: inline-block;
+    box-sizing: border-box;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    overflow: visible;
+    background: transparent;
+    color: var(--theme-text);
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color var(--vurify-menu-fill-duration) var(--vurify-menu-fill-ease);
+  }
+
+  .theme .theme-vurify-menu-button--sm {
+    font-size: 1.125rem;
+  }
+
+  .theme .theme-vurify-menu-button--md {
+    font-size: 1.5rem;
+  }
+
+  .theme .theme-vurify-menu-button--lg {
+    font-size: 1.85rem;
+  }
+
+  .theme .theme-vurify-menu-button__content {
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 0.32em;
+    max-width: 100%;
+    white-space: nowrap;
+    transition:
+      transform 0.3s cubic-bezier(0.2, 1, 0.8, 1),
+      gap 0.48s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .theme .theme-vurify-menu-button__icon {
+    width: 0.8em;
+    height: 0.8em;
+    flex: none;
+    stroke-width: 2;
+    color: inherit;
+  }
+
+  .theme .theme-vurify-menu-button__media {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 1em;
+    height: 1em;
+    line-height: 0;
+    color: inherit;
+  }
+
+  /*
+   * Custom media (e.g. VurifyAvatar) — follow the button / lineTone color,
+   * not a fixed palette accent. Border + letter use currentColor.
+   */
+  .theme .theme-vurify-menu-button__media .theme-vurify-avatar {
+    color: inherit;
+    border-color: currentColor;
+  }
+
+  .theme .theme-vurify-menu-button__text-rail {
+    /* Match SceneStackMenu item close (power2.inOut ≈ this bezier). */
+    --verify-label-collapse-ease: cubic-bezier(0.45, 0, 0.55, 1);
+    --verify-label-collapse-duration: 0.52s;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    min-width: 0;
+    /*
+     * Do not overflow:hidden here — Elara underline sits at top: calc(100% + 2px)
+     * and would be clipped. Wipe clips on `__label-stack` instead.
+     */
+    font: inherit;
+    color: inherit;
+    white-space: nowrap;
+    opacity: 1;
+    /*
+     * grid 1fr→0fr sizes from real label width (not a fake 12em max).
+     * Keep glyphs visible through the wipe; fade only at the end of collapse.
+     */
+    transition:
+      grid-template-columns var(--verify-label-collapse-duration) var(--verify-label-collapse-ease),
+      opacity 0.2s ease 0.04s;
+  }
+
+  .theme .theme-vurify-menu-button__text-rail > .theme-vurify-menu-button__label-stack {
+    min-width: 0;
+    overflow: hidden;
+    /* Display faces paint past advance width — without this the last glyph clips. */
+    padding-inline-end: 0.14em;
+  }
+
+  /*
+   * Label collapse — keep icon; wipe text with width.
+   * Opacity delayed so collapse isn’t “text vanishes, then empty gap shrinks”.
+   */
+  .theme
+    .theme-vurify-menu-button--label-collapsed.theme-vurify-menu-button--label
+    > .theme-vurify-menu-button__content {
+    gap: 0;
+  }
+
+  .theme
+    .theme-vurify-menu-button--label-collapsed.theme-vurify-menu-button--label
+    .theme-vurify-menu-button__text-rail {
+    grid-template-columns: 0fr;
+    opacity: 0;
+    pointer-events: none;
+    /* Extra clip while wiping so underline can’t peek past 0fr. */
+    overflow: hidden;
+    transition:
+      grid-template-columns var(--verify-label-collapse-duration) var(--verify-label-collapse-ease),
+      opacity 0.16s ease 0.34s;
+  }
+
+  .theme
+    .theme-vurify-menu-button--label-collapsed.theme-vurify-menu-button--label
+    .theme-vurify-menu-button__text-rail.theme-link-fx--elara::before {
+    opacity: 0;
+    transition: opacity 0.12s ease;
+  }
+
+  /* Housing sets overflow:visible on the rail — keep wipe clipped while collapsed.
+   * Also collapse housing pad/border: they sit outside the 0fr track and otherwise
+   * leave a ghost box beside the icon (broken wipe + off-center rail). */
+  .theme
+    .theme-vurify-menu-button--housing.theme-vurify-menu-button--label
+    .theme-vurify-menu-button__text-rail {
+    transition:
+      border-color var(--vurify-menu-housing-duration, 0.3s)
+        var(--vurify-menu-housing-ease, cubic-bezier(0.2, 1, 0.8, 1)),
+      padding var(--verify-label-collapse-duration, 0.52s)
+        var(--verify-label-collapse-ease, cubic-bezier(0.45, 0, 0.55, 1)),
+      border-width var(--verify-label-collapse-duration, 0.52s)
+        var(--verify-label-collapse-ease, cubic-bezier(0.45, 0, 0.55, 1)),
+      grid-template-columns var(--verify-label-collapse-duration, 0.52s)
+        var(--verify-label-collapse-ease, cubic-bezier(0.45, 0, 0.55, 1)),
+      opacity 0.2s ease 0.04s;
+  }
+
+  .theme
+    .theme-vurify-menu-button--housing.theme-vurify-menu-button--label.theme-vurify-menu-button--label-collapsed
+    .theme-vurify-menu-button__text-rail {
+    overflow: hidden;
+    padding: 0;
+    border-width: 0;
+    transition:
+      border-color var(--vurify-menu-housing-duration, 0.3s)
+        var(--vurify-menu-housing-ease, cubic-bezier(0.2, 1, 0.8, 1)),
+      padding var(--verify-label-collapse-duration, 0.52s)
+        var(--verify-label-collapse-ease, cubic-bezier(0.45, 0, 0.55, 1)),
+      border-width var(--verify-label-collapse-duration, 0.52s)
+        var(--verify-label-collapse-ease, cubic-bezier(0.45, 0, 0.55, 1)),
+      grid-template-columns var(--verify-label-collapse-duration, 0.52s)
+        var(--verify-label-collapse-ease, cubic-bezier(0.45, 0, 0.55, 1)),
+      opacity 0.16s ease 0.34s;
+  }
+
+  .theme
+    .theme-vurify-menu-button--housing.theme-vurify-menu-button--label.theme-vurify-menu-button--label-collapsed
+    > .theme-vurify-menu-button__content {
+    align-items: center;
+  }
+
+  .theme
+    .theme-vurify-menu-button--housing.theme-vurify-menu-button--label.theme-vurify-menu-button--label-collapsed
+    .theme-vurify-menu-button__icon,
+  .theme
+    .theme-vurify-menu-button--housing.theme-vurify-menu-button--label.theme-vurify-menu-button--label-collapsed
+    .theme-vurify-menu-button__media {
+    align-self: center;
+    margin-top: 0;
+  }
+
+  .theme .theme-vurify-menu-button__label-stack {
+    --type-anim-unit-height: 1em;
+    --type-anim-duration: 0.56s;
+    --type-anim-stagger: 60ms;
+    --type-anim-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    position: relative;
+    display: inline-grid;
+    align-items: center;
+    justify-items: start;
+    min-width: 0;
+    font-style: normal;
+    white-space: nowrap;
+  }
+
+  .theme .theme-vurify-menu-button__sizer {
+    grid-area: 1 / 1;
+    display: inline-grid;
+    justify-items: start;
+    font-weight: inherit;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .theme .theme-vurify-menu-button__sizer > span {
+    grid-area: 1 / 1;
+    white-space: nowrap;
+  }
+
+  .theme .theme-vurify-menu-button__label {
+    grid-area: 1 / 1;
+    font-weight: inherit;
+    white-space: nowrap;
+  }
+
+  /* Stretch-rise label swap — inherit button type, keep chars on one line. */
+  .theme .theme-vurify-menu-button__label--rise.theme-page-scroll-type {
+    display: inline;
+    overflow: visible;
+  }
+
+  .theme .theme-vurify-menu-button__label--rise .theme-page-scroll-type__text {
+    display: inline;
+    width: auto;
+    overflow: visible;
+  }
+
+  .theme .theme-vurify-menu-button__label--rise .theme-scroll-type__line {
+    display: inline-flex;
+    flex-wrap: nowrap;
+  }
+
+  .theme .theme-vurify-menu-button__label--rise .theme-scroll-type__char {
+    display: inline-block;
+  }
+
+  /* Keyframes only — shared TypeAnimText transitions fight enter/out and feel laggy. */
+  .theme .theme-vurify-menu-button .type-anim__unit-inner {
+    transition: none;
+  }
+
+  .theme
+    .theme-vurify-menu-button__content[data-switch-animation='clip'][data-switching='true']
+    .theme-vurify-menu-button__label--current {
+    animation: vurify-menu-label-clip-in 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .theme
+    .theme-vurify-menu-button__content[data-switch-animation='clip'][data-switching='true']
+    .theme-vurify-menu-button__label--outgoing {
+    animation: vurify-menu-label-clip-out 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  /*
+   * Outgoing letters: cancel TypeAnimText enter flip-in and play the reverse rotateX exit
+   * with the same duration/stagger contract.
+   */
+  .theme
+    .theme-vurify-menu-button__content[data-flip-phase='out']
+    .theme-vurify-menu-button__label--outgoing.type-anim--enter.type-anim--flip:not(.type-anim--line)
+    .type-anim__unit-inner {
+    transform: rotateX(0deg);
+    opacity: 1;
+    animation-name: vurify-menu-type-flip-out;
+    animation-duration: var(--type-anim-duration);
+    animation-timing-function: var(--type-anim-ease);
+    animation-fill-mode: forwards;
+  }
+
+  .theme .theme-vurify-menu-button:focus-visible {
+    outline: 2px solid var(--theme-focus);
+    outline-offset: 4px;
+  }
+
+  .theme .theme-vurify-menu-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.42;
+  }
+
+  .theme .theme-vurify-menu-button:disabled .theme-vurify-menu-button__text-rail::before,
+  .theme .theme-vurify-menu-button:disabled:hover .theme-vurify-menu-button__text-rail::before {
+    transform: none;
+    clip-path: none;
+  }
+
+  .theme .theme-vurify-menu-button:disabled:hover > .theme-vurify-menu-button__content {
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-vurify-menu-button {
+      transition: none;
+    }
+
+    .theme .theme-vurify-menu-button__content,
+    .theme .theme-vurify-menu-button__text-rail {
+      transition: none;
+    }
+
+    .theme .theme-vurify-menu-button__label {
+      animation: none !important;
+    }
+
+    .theme .theme-vurify-menu-button .type-anim__unit-inner {
+      animation: none !important;
+      transform: none !important;
+      opacity: 1 !important;
+    }
+
+    .theme .theme-vurify-menu-button__label--outgoing {
+      visibility: hidden;
+    }
+  }
+}
+
+@keyframes vurify-menu-label-clip-in {
+  from {
+    clip-path: inset(0 0 0 100%);
+  }
+
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes vurify-menu-label-clip-out {
+  from {
+    clip-path: inset(0 0 0 0);
+  }
+
+  to {
+    clip-path: inset(0 100% 0 0);
+  }
+}
+
+@keyframes vurify-menu-type-flip-out {
+  to {
+    opacity: 0;
+    transform: rotateX(-88deg);
+  }
+}
+
+/*
+ * Unlayered variant contract: Codrops `.theme-link-fx` / `--elara` are unlayered and
+ * otherwise force every VurifyMenuButton to 18px/1.375rem with a 1px underline.
+ * Elara lives on `__text-rail` so the underline is label-width only.
+ */
+.theme .theme-vurify-menu-button__text-rail.theme-link-fx {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  cursor: inherit;
+}
+
+.theme .theme-vurify-menu-button--sm .theme-vurify-menu-button__text-rail.theme-link-fx--elara {
+  padding-bottom: 0.02em;
+}
+
+.theme .theme-vurify-menu-button--md .theme-vurify-menu-button__text-rail.theme-link-fx--elara {
+  padding-bottom: 0.04em;
+}
+
+.theme .theme-vurify-menu-button--lg .theme-vurify-menu-button__text-rail.theme-link-fx--elara {
+  padding-bottom: 0.09em;
+}
+
+.theme .theme-vurify-menu-button__text-rail.theme-link-fx--elara::before {
+  min-height: 0;
+}
+
+.theme .theme-vurify-menu-button--sm .theme-vurify-menu-button__text-rail.theme-link-fx--elara::before {
+  top: calc(100% + 2px);
+  height: clamp(1px, 0.055em, 1.25px);
+}
+
+.theme .theme-vurify-menu-button--md .theme-vurify-menu-button__text-rail.theme-link-fx--elara::before {
+  top: calc(100% + 2px);
+  height: clamp(1px, 0.06em, 1.5px);
+}
+
+.theme .theme-vurify-menu-button--lg .theme-vurify-menu-button__text-rail.theme-link-fx--elara::before {
+  top: calc(100% + 2px);
+  height: clamp(1.25px, 0.065em, 2px);
+}
+
+/* Line + fill tones — variables on the button, paint on the text-rail. */
+.theme .theme-vurify-menu-button--line-accent {
+  --vurify-menu-line-color: var(--theme-accent);
+  --vurify-menu-fill-color: var(--theme-accent);
+}
+
+.theme .theme-vurify-menu-button--line-complement {
+  --vurify-menu-line-color: var(--theme-complement);
+  --vurify-menu-fill-color: var(--theme-complement);
+}
+
+.theme .theme-vurify-menu-button--line-text {
+  --vurify-menu-line-color: var(--theme-text);
+  --vurify-menu-fill-color: var(--theme-text);
+}
+
+.theme .theme-vurify-menu-button--line-muted {
+  --vurify-menu-line-color: var(--theme-text-muted);
+  --vurify-menu-fill-color: var(--theme-text-muted);
+}
+
+.theme .theme-vurify-menu-button--line-solid .theme-vurify-menu-button__text-rail.theme-link-fx--elara::before {
+  background: var(--vurify-menu-line-color);
+}
+
+.theme .theme-vurify-menu-button--line-double .theme-vurify-menu-button__text-rail.theme-link-fx--elara::before {
+  background:
+    linear-gradient(
+      to bottom,
+      var(--vurify-menu-line-color) 0 30%,
+      transparent 30% 68%,
+      var(--vurify-menu-line-color) 68% 100%
+    );
+}
+
+.theme .theme-vurify-menu-button--line-dashed .theme-vurify-menu-button__text-rail.theme-link-fx--elara::before {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--vurify-menu-line-color) 0 0.42em,
+    transparent 0.42em 0.66em
+  );
+  background-size: 1.08em 100%;
+}
+
+@keyframes theme-vurify-menu-dash-march {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 1.08em 0;
+  }
+}
+
+/*
+ * Busy: keep dashed underline expanded (disabled skips hover) and march the dashes.
+ */
+.theme
+  .theme-vurify-menu-button--loading.theme-vurify-menu-button--label
+  .theme-vurify-menu-button__text-rail.theme-link-fx--elara::before {
+  transform: translate3d(0, 2px, 0) scale3d(1.08, 3, 1);
+  clip-path: polygon(
+    0% 0%,
+    0% 100%,
+    50% 100%,
+    50% 0,
+    50% 0,
+    50% 100%,
+    50% 100%,
+    0 100%,
+    100% 100%,
+    100% 0%
+  );
+  animation: theme-vurify-menu-dash-march 0.75s linear infinite;
+}
+
+.theme .theme-vurify-menu-button--loading {
+  cursor: wait;
+}
+
+/* Interactive busy (Stop) — same dash march, pointer cursor, still clickable. */
+.theme .theme-vurify-menu-button--busy-chrome.theme-vurify-menu-button--loading {
+  cursor: pointer;
+}
+
+/*
+ * Label primary: icon spans text + underline column; only the rail carries Elara.
+ * Hover/selected animate icon + label fill to the line tone.
+ */
+.theme .theme-vurify-menu-button--label > .theme-vurify-menu-button__content {
+  display: inline-flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  white-space: nowrap;
+}
+
+.theme .theme-vurify-menu-button--label .theme-vurify-menu-button__icon {
+  width: auto;
+  height: auto;
+  aspect-ratio: 1;
+  align-self: stretch;
+  box-sizing: border-box;
+}
+
+/*
+ * Icon after the label (e.g. Answer preview chevron) — do not stretch the text rail
+ * to the icon height or Elara sits too far below the glyphs.
+ */
+.theme
+  .theme-vurify-menu-button--label.theme-vurify-menu-button--icon-end
+  > .theme-vurify-menu-button__content {
+  align-items: baseline;
+  gap: 0.28rem;
+}
+
+.theme
+  .theme-vurify-menu-button--label.theme-vurify-menu-button--icon-end
+  .theme-vurify-menu-button__text-rail {
+  align-self: baseline;
+}
+
+.theme
+  .theme-vurify-menu-button--label.theme-vurify-menu-button--icon-end
+  .theme-vurify-menu-button__icon,
+.theme
+  .theme-vurify-menu-button--label.theme-vurify-menu-button--icon-end
+  .theme-vurify-menu-button__media {
+  align-self: center;
+  width: 0.95em;
+  height: 0.95em;
+}
+
+.theme
+  .theme-vurify-menu-button--label:is(:hover, :focus-visible, .is-selected, [aria-current='page']):not(
+    :disabled
+  ) {
+  color: var(--vurify-menu-fill-color);
+}
+
+/*
+ * Collapsed icon rail — must stay unlayered so it beats `--line-text` fill.
+ * Hover/focus uses palette accent (cp) even when rest lineTone is `text`.
+ */
+.theme
+  .theme-vurify-menu-button--label-collapsed.theme-vurify-menu-button--label:is(
+    :hover,
+    :focus-visible
+  ):not(:disabled) {
+  --vurify-menu-fill-color: var(--theme-accent);
+  --vurify-menu-line-color: var(--theme-accent);
+  color: var(--theme-accent);
+}
+
+.theme
+  .theme-vurify-menu-button--label:is(:hover, :focus-visible):not(:disabled)
+  > .theme-vurify-menu-button__content {
+  transform: translate3d(0, -2px, 0);
+}
+
+/* Forward Elara underline expand when hovering / selected (incl. icon). */
+.theme
+  .theme-vurify-menu-button--label:is(
+    :hover,
+    :focus-visible,
+    .is-selected,
+    [aria-current='page'],
+    [aria-pressed='true'],
+    [aria-expanded='true']
+  ):not(:disabled)
+  .theme-vurify-menu-button__text-rail.theme-link-fx--elara::before {
+  transform: translate3d(0, 2px, 0) scale3d(1.08, 3, 1);
+  clip-path: polygon(
+    0% 0%,
+    0% 100%,
+    50% 100%,
+    50% 0,
+    50% 0,
+    50% 100%,
+    50% 100%,
+    0 100%,
+    100% 100%,
+    100% 0%
+  );
+}
+
+/*
+ * Fill variant — icon + visible text, no underline (submenu / utility / Contact).
+ * Same animated palette fill as icon-only, with a visible label.
+ */
+.theme .theme-vurify-menu-button--fill {
+  padding: 0;
+  background: transparent;
+  color: color-mix(in srgb, var(--theme-text) 38%, var(--theme-page-bg));
+  font-weight: 500;
+}
+
+.theme .theme-vurify-menu-button--fill > .theme-vurify-menu-button__content {
+  gap: 0.28em;
+  transform: none;
+}
+
+.theme .theme-vurify-menu-button--fill .theme-vurify-menu-button__icon {
+  width: 1em;
+  height: 1em;
+}
+
+.theme .theme-vurify-menu-button--fill .theme-vurify-menu-button__text-rail::before,
+.theme .theme-vurify-menu-button--fill .theme-vurify-menu-button__text-rail::after {
+  display: none;
+}
+
+.theme
+  .theme-vurify-menu-button--fill:is(
+    :hover,
+    :focus-visible,
+    :active,
+    .is-selected,
+    [aria-current='page'],
+    [aria-pressed='true']
+  ):not(:disabled) {
+  color: var(--vurify-menu-fill-color, var(--theme-accent));
+  background: transparent;
+}
+
+.theme
+  .theme-vurify-menu-button--fill:is(:hover, :focus-visible):not(:disabled)
+  > .theme-vurify-menu-button__content {
+  transform: none;
+}
+
+/*
+ * Icon-only — glyph only; muted rest, accent fill on interaction. No Elara / no surround.
+ */
+.theme .theme-vurify-menu-button--icon-only {
+  padding: 0;
+  background: transparent;
+  color: color-mix(in srgb, var(--theme-text) 38%, var(--theme-page-bg));
+}
+
+.theme .theme-vurify-menu-button--icon-only::before,
+.theme .theme-vurify-menu-button--icon-only::after {
+  display: none;
+}
+
+.theme .theme-vurify-menu-button--icon-only > .theme-vurify-menu-button__content {
+  gap: 0;
+  transform: none;
+}
+
+.theme .theme-vurify-menu-button--icon-only .theme-vurify-menu-button__icon {
+  width: 1em;
+  height: 1em;
+}
+
+.theme .theme-vurify-menu-button--icon-only .theme-vurify-menu-button__label-stack {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.theme
+  .theme-vurify-menu-button--icon-only:is(
+    :hover,
+    :focus-visible,
+    :active,
+    .is-selected,
+    [aria-current='page'],
+    [aria-pressed='true']
+  ):not(:disabled) {
+  color: var(--vurify-menu-fill-color, var(--theme-accent));
+  background: transparent;
+}
+
+.theme
+  .theme-vurify-menu-button--icon-only:is(:hover, :focus-visible):not(:disabled)
+  > .theme-vurify-menu-button__content {
+  transform: none;
+}
+
+/*
+ * Housing — same contract as marquee: 2px border + pad card frame.
+ * Border transparent at rest; lineTone/accent on hover, selected, expanded, pressed.
+ * Label + icon: frame wraps `__text-rail` (text + underline) only; icon stays outside.
+ * Fill / icon-only: frame wraps the whole control.
+ *
+ * Label pads are asymmetric on purpose:
+ * - sides / top: clear the border at rest
+ * - bottom: reserved underline band (line + Elara hover translateY / scaleY)
+ */
+.theme .theme-vurify-menu-button--housing {
+  --vurify-menu-housing-pad: 4px;
+  --vurify-menu-housing-pad-x: 6px;
+  --vurify-menu-housing-pad-top: 4px;
+  --vurify-menu-housing-pad-bottom: 8px;
+  --vurify-menu-housing-width: 2px;
+  --vurify-menu-housing-ease: cubic-bezier(0.2, 1, 0.8, 1);
+  --vurify-menu-housing-duration: 0.3s;
+  box-sizing: border-box;
+  transition:
+    border-color var(--vurify-menu-housing-duration) var(--vurify-menu-housing-ease),
+    color var(--vurify-menu-fill-duration) var(--vurify-menu-fill-ease);
+}
+
+/* Fill / icon-only — whole control is the card. */
+.theme
+  .theme-vurify-menu-button--housing:is(
+    .theme-vurify-menu-button--fill,
+    .theme-vurify-menu-button--icon-only
+  ) {
+  padding: var(--vurify-menu-housing-pad);
+  border: var(--vurify-menu-housing-width) solid transparent;
+}
+
+.theme
+  .theme-vurify-menu-button--housing:is(
+    .theme-vurify-menu-button--fill,
+    .theme-vurify-menu-button--icon-only
+  ):is(
+    :hover,
+    :focus-visible,
+    .is-selected,
+    [aria-current='page'],
+    [aria-pressed='true'],
+    [aria-expanded='true']
+  ):not(:disabled):not([data-active-chrome='off']) {
+  border-color: var(--vurify-menu-fill-color, var(--theme-accent));
+}
+
+.theme
+  .theme-vurify-menu-button--housing:is(
+    .theme-vurify-menu-button--fill,
+    .theme-vurify-menu-button--icon-only
+  )[data-active-chrome='off']:is(:hover, :focus-visible):not(:disabled) {
+  border-color: var(--vurify-menu-fill-color, var(--theme-accent));
+}
+
+.theme
+  .theme-vurify-menu-button--housing.theme-vurify-menu-button--fill
+  > .theme-vurify-menu-button__content,
+.theme
+  .theme-vurify-menu-button--housing.theme-vurify-menu-button--icon-only
+  > .theme-vurify-menu-button__content {
+  transform: none;
+}
+
+/* Label — housing sits on the text rail; icon remains outside the border. */
+.theme .theme-vurify-menu-button--housing.theme-vurify-menu-button--label {
+  padding: 0;
+  border: 0;
+}
+
+.theme
+  .theme-vurify-menu-button--housing.theme-vurify-menu-button--label
+  > .theme-vurify-menu-button__content {
+  align-items: flex-start;
+  gap: 0.24em;
+}
+
+.theme
+  .theme-vurify-menu-button--housing.theme-vurify-menu-button--label
+  .theme-vurify-menu-button__icon,
+.theme
+  .theme-vurify-menu-button--housing.theme-vurify-menu-button--label
+  .theme-vurify-menu-button__media {
+  align-self: flex-start;
+  width: 1em;
+  height: 1em;
+  aspect-ratio: 1;
+  /*
+   * Match the text glyph box inside the rail (top pad + border), not the full frame
+   * or underline band — so the icon looks centered on the label when the border is
+   * transparent at rest.
+   */
+  margin-top: calc(var(--vurify-menu-housing-pad-top) + var(--vurify-menu-housing-width));
+}
+
+.theme
+  .theme-vurify-menu-button--housing.theme-vurify-menu-button--label
+  .theme-vurify-menu-button__text-rail {
+  box-sizing: border-box;
+  padding: var(--vurify-menu-housing-pad-top) var(--vurify-menu-housing-pad-x)
+    var(--vurify-menu-housing-pad-bottom);
+  border: var(--vurify-menu-housing-width) solid transparent;
+  overflow: visible;
+  transition:
+    border-color var(--vurify-menu-housing-duration) var(--vurify-menu-housing-ease),
+    padding var(--verify-label-collapse-duration, 0.52s)
+      var(--verify-label-collapse-ease, cubic-bezier(0.45, 0, 0.55, 1)),
+    border-width var(--verify-label-collapse-duration, 0.52s)
+      var(--verify-label-collapse-ease, cubic-bezier(0.45, 0, 0.55, 1)),
+    grid-template-columns var(--verify-label-collapse-duration, 0.52s)
+      var(--verify-label-collapse-ease, cubic-bezier(0.45, 0, 0.55, 1)),
+    opacity 0.2s ease 0.04s;
+}
+
+.theme
+  .theme-vurify-menu-button--housing.theme-vurify-menu-button--label.theme-vurify-menu-button--label-collapsed
+  .theme-vurify-menu-button__text-rail {
+  overflow: hidden;
+  padding: 0;
+  border-width: 0;
+  opacity: 0;
+  pointer-events: none;
+  grid-template-columns: 0fr;
+  transition:
+    border-color var(--vurify-menu-housing-duration) var(--vurify-menu-housing-ease),
+    padding var(--verify-label-collapse-duration, 0.52s)
+      var(--verify-label-collapse-ease, cubic-bezier(0.45, 0, 0.55, 1)),
+    border-width var(--verify-label-collapse-duration, 0.52s)
+      var(--verify-label-collapse-ease, cubic-bezier(0.45, 0, 0.55, 1)),
+    grid-template-columns var(--verify-label-collapse-duration, 0.52s)
+      var(--verify-label-collapse-ease, cubic-bezier(0.45, 0, 0.55, 1)),
+    opacity 0.16s ease 0.34s;
+}
+
+/*
+ * Underline lives in the bottom pad band, inset from the side pads.
+ * No horizontal Elara scale on housing — scaleX(1.08) is what clips long labels
+ * (Companies) into the side borders; thickness expand stays vertical only.
+ */
+.theme
+  .theme-vurify-menu-button--housing.theme-vurify-menu-button--label
+  .theme-vurify-menu-button__text-rail.theme-link-fx--elara::before {
+  top: calc(100% - var(--vurify-menu-housing-pad-bottom) + 2px);
+  bottom: auto;
+  left: var(--vurify-menu-housing-pad-x);
+  right: var(--vurify-menu-housing-pad-x);
+  width: auto;
+}
+
+.theme
+  .theme-vurify-menu-button--housing.theme-vurify-menu-button--label:is(
+    :hover,
+    :focus-visible,
+    .is-selected,
+    [aria-current='page'],
+    [aria-pressed='true'],
+    [aria-expanded='true']
+  ):not(:disabled):not([data-active-chrome='off'])
+  .theme-vurify-menu-button__text-rail.theme-link-fx--elara::before {
+  transform: translate3d(0, 2px, 0) scale3d(1, 3, 1);
+}
+
+.theme
+  .theme-vurify-menu-button--housing.theme-vurify-menu-button--label[data-active-chrome='off']:is(
+    :hover,
+    :focus-visible
+  ):not(:disabled)
+  .theme-vurify-menu-button__text-rail.theme-link-fx--elara::before {
+  transform: translate3d(0, 2px, 0) scale3d(1, 3, 1);
+}
+
+.theme
+  .theme-vurify-menu-button--housing.theme-vurify-menu-button--label:is(
+    :hover,
+    :focus-visible,
+    .is-selected,
+    [aria-current='page'],
+    [aria-pressed='true'],
+    [aria-expanded='true']
+  ):not(:disabled):not([data-active-chrome='off'])
+  .theme-vurify-menu-button__text-rail {
+  border-color: var(--vurify-menu-fill-color, var(--theme-accent));
+}
+
+.theme
+  .theme-vurify-menu-button--housing.theme-vurify-menu-button--label[data-active-chrome='off']:is(
+    :hover,
+    :focus-visible
+  ):not(:disabled)
+  .theme-vurify-menu-button__text-rail {
+  border-color: var(--vurify-menu-fill-color, var(--theme-accent));
+}
+
+.theme
+  .theme-vurify-menu-button--housing:is(
+    .theme-vurify-menu-button--fill,
+    .theme-vurify-menu-button--icon-only
+  ):disabled {
+  border-color: transparent;
+}
+
+.theme
+  .theme-vurify-menu-button--housing.theme-vurify-menu-button--label:disabled
+  .theme-vurify-menu-button__text-rail {
+  border-color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme .theme-vurify-menu-button--housing,
+  .theme
+    .theme-vurify-menu-button--housing.theme-vurify-menu-button--label
+    .theme-vurify-menu-button__text-rail {
+    transition: border-color 0.01ms linear, color 0.01ms linear;
+  }
+}

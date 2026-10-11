@@ -1,0 +1,115 @@
+{
+  "schema_version": 2,
+  "basics": {
+    "display_name": "Jordan Lee",
+    "preferred_name": "Jordan",
+    "headline": "Staff platform engineer · reliability and developer experience",
+    "summary": "Owns platform services end to end. Strong on incident leadership, API freezes under pressure, and stakeholder resets with evidence. Goes by Jordan. Prefers concrete examples over abstract claims.",
+    "emails": ["jordan.lee@example.com"],
+    "phones": [{ "value": "+1 555 014 8821", "label": "mobile" }],
+    "locations": [{ "city": "Austin", "region": "TX", "country": "USA", "raw": "Austin, TX" }],
+    "links": [
+      { "url": "https://github.com/jordanlee", "kind": "github", "label": "GitHub" },
+      { "url": "https://linkedin.com/in/jordanlee", "kind": "linkedin", "label": "LinkedIn" }
+    ],
+    "languages": [
+      { "name": "English", "level": "Native" },
+      { "name": "Korean", "level": "Conversational" }
+    ]
+  },
+  "sections": [
+    {
+      "id": "sec-exp",
+      "kind": "experience",
+      "title": "Experience",
+      "sort_order": 0,
+      "items": [
+        {
+          "id": "exp-northwind",
+          "org": "Northwind Platforms",
+          "title": "Staff Software Engineer",
+          "start": "2023",
+          "end": null,
+          "current": true,
+          "location": "Austin, TX",
+          "bullets": [
+            "Owned the checkout platform rewrite; cut p99 latency about 40ms after a fight with Product on scope.",
+            "Led Sev-1 cache stampede response as incident commander; shipped runbooks and paging changes after.",
+            "Froze a public API for one week after two Sev-1s despite PM pressure; error rate dropped about 12% over 30 days.",
+            "Reset Sales priority from a new widget to auth hardening using churn evidence in a leadership review."
+          ],
+          "technologies": ["TypeScript", "Go", "Kubernetes", "Postgres", "OpenTelemetry"]
+        },
+        {
+          "id": "exp-harbor",
+          "org": "Harbor Soft",
+          "title": "Senior Software Engineer",
+          "start": "2020",
+          "end": "2023",
+          "current": false,
+          "location": "Remote",
+          "bullets": [
+            "Chose eventual consistency over strong reads to hit a Friday launch; owned the downside on stale dashboards.",
+            "Rotated leaked secrets from a public repo and added a pre-commit scanner the team still uses.",
+            "Mentored two engineers on on-call ownership and post-incident writeups."
+          ],
+          "technologies": ["Python", "AWS", "Redis", "Terraform"]
+        }
+      ]
+    },
+    {
+      "id": "sec-projects",
+      "kind": "projects",
+      "title": "Projects",
+      "sort_order": 1,
+      "items": [
+        {
+          "id": "proj-popisnatch",
+          "name": "popisnatch",
+          "summary": "Internal developer tooling CLI that cut local env setup from hours to minutes.",
+          "bullets": [
+            "Designed the plugin model and owned release quality gates.",
+            "Measured adoption across three product squads within one quarter."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-skills",
+      "kind": "skills",
+      "title": "Skills",
+      "sort_order": 2,
+      "items": [
+        {
+          "id": "sk-1",
+          "taxonomy": ["Distributed systems", "Incident response", "Platform DX", "API design", "Stakeholder alignment"]
+        }
+      ]
+    },
+    {
+      "id": "sec-edu",
+      "kind": "education",
+      "title": "Education",
+      "sort_order": 3,
+      "items": [
+        {
+          "id": "edu-1",
+          "org": "University of Texas at Austin",
+          "title": "B.S. Computer Science",
+          "start": "2016",
+          "end": "2020"
+        }
+      ]
+    }
+  ],
+  "coverage": {
+    "found_kinds": ["experience", "projects", "skills", "education"],
+    "missing_common": [],
+    "warnings": []
+  },
+  "missed": [],
+  "meta_extract": {
+    "source_chars": 4200,
+    "used_vision": false
+  }
+}

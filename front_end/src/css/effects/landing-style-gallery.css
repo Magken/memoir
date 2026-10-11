@@ -1,0 +1,321 @@
+/**
+ * Landing style gallery — full-bleed GSAP clip-path wheel slideshow.
+ * Ported from ref.image-carousel-3; theme tokens + typography.
+ */
+
+@layer components {
+  .theme .theme-landing-style-gallery {
+    position: relative;
+    width: 100%;
+  }
+
+  .theme .theme-landing-style-gallery__stage {
+    position: relative;
+    width: 100%;
+    height: min(80vh, 40rem);
+    overflow: hidden;
+    border-radius: 0.125rem;
+    border: 2px solid var(--theme-border-strong);
+    background-color: var(--theme-surface-inset);
+    box-shadow: var(--theme-shadow-brutal);
+    touch-action: none;
+    user-select: none;
+  }
+
+  .theme .theme-landing-style-gallery__header,
+  .theme .theme-landing-style-gallery__footer {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    padding: clamp(1rem, 4vw, 2.5rem);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 4;
+    pointer-events: none;
+  }
+
+  .theme .theme-landing-style-gallery__header {
+    top: 0;
+  }
+
+  .theme .theme-landing-style-gallery__footer {
+    bottom: 0;
+  }
+
+  .theme .theme-landing-style-gallery__slider {
+    position: absolute;
+    inset: 0;
+  }
+
+  .theme .theme-landing-style-gallery__slide {
+    position: absolute;
+    inset: 0;
+  }
+
+  .theme .theme-landing-style-gallery__slide-bg {
+    position: absolute;
+    inset: 0;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    will-change: clip-path;
+  }
+
+  .theme .theme-landing-style-gallery__slide-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    display: block;
+    /* Dark scrim — readable on light + dark theme palettes (ref: rgba(0,0,0,0.5)) */
+    background-color: color-mix(in srgb, #000 50%, transparent);
+  }
+
+  .theme .theme-landing-style-gallery__slide-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    will-change: transform;
+  }
+
+  .theme .theme-landing-style-gallery__main-card {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 35%;
+    height: 50%;
+    z-index: 2;
+    box-shadow: var(--theme-shadow-brutal);
+    border: 2px solid var(--theme-border);
+    border-radius: 0.125rem;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  /* Overlay layer — copy and card share the stage; copy may sit atop the card */
+  .theme .theme-landing-style-gallery__stage-ui {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .theme .theme-landing-style-gallery__copy {
+    position: absolute;
+    z-index: 3;
+    width: min(32rem, 58%);
+    max-width: calc(100% - clamp(2.5rem, 8vw, 5rem));
+    pointer-events: none;
+  }
+
+  .theme .theme-landing-style-gallery__copy[data-copy-position='left'] {
+    top: 50%;
+    left: clamp(1.25rem, 4vw, 2.5rem);
+    transform: translateY(-50%);
+    text-align: left;
+  }
+
+  .theme .theme-landing-style-gallery__copy[data-copy-position='right'] {
+    top: 50%;
+    right: clamp(1.25rem, 4vw, 2.5rem);
+    left: auto;
+    transform: translateY(-50%);
+    text-align: right;
+  }
+
+  .theme .theme-landing-style-gallery__copy[data-copy-position='bottom'] {
+    top: auto;
+    bottom: clamp(4.5rem, 18%, 5.5rem);
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: min(28rem, 88%);
+    max-width: calc(100% - clamp(2rem, 6vw, 4rem));
+    text-align: center;
+  }
+
+  .theme .theme-landing-style-gallery__main-wrap {
+    position: absolute;
+    inset: 0;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    will-change: clip-path;
+    overflow: hidden;
+  }
+
+  .theme .theme-landing-style-gallery__main-wrap img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    will-change: transform;
+  }
+
+  /* On-imagery chrome — always light + shadow (not type-invert / difference blend) */
+  .theme .theme-landing-style-gallery__chrome {
+    color: #fff;
+    text-shadow:
+      0 1px 2px color-mix(in srgb, #000 45%, transparent),
+      0 2px 10px color-mix(in srgb, #000 30%, transparent);
+  }
+
+  .theme .theme-landing-style-gallery__header .type-overline,
+  .theme .theme-landing-style-gallery__header .type-caption,
+  .theme .theme-landing-style-gallery__footer .type-caption {
+    color: inherit;
+  }
+
+  .theme .theme-landing-style-gallery__chrome--muted {
+    opacity: 0.72;
+  }
+
+  .theme .theme-landing-style-gallery__title {
+    font-family: var(--font-sans);
+    font-size: var(--theme-landing-gallery-title-size);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  .theme .theme-landing-style-gallery__description {
+    font-family: var(--font-sans);
+    font-size: var(--theme-landing-gallery-desc-size);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: 0.01em;
+  }
+
+  /* Ref parity: fixed-height clip wells — append incoming line, remove outgoing on complete */
+  .theme .theme-landing-style-gallery__copy {
+    --theme-landing-gallery-title-size: clamp(1.875rem, 4vw, 3rem);
+    --theme-landing-gallery-desc-size: 1.125rem;
+    --theme-landing-gallery-desc-lines: 3;
+  }
+
+  .theme .theme-landing-style-gallery__title-well,
+  .theme .theme-landing-style-gallery__desc-well {
+    position: relative;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    overflow: hidden;
+    width: min(31.25rem, 100%);
+  }
+
+  .theme .theme-landing-style-gallery__title-well {
+    height: calc(var(--theme-landing-gallery-title-size) * 1.3);
+    margin-bottom: 0.75rem;
+  }
+
+  .theme .theme-landing-style-gallery__desc-well {
+    height: calc(
+      var(--theme-landing-gallery-desc-size) * 1.15 * var(--theme-landing-gallery-desc-lines)
+    );
+  }
+
+  .theme .theme-landing-style-gallery__title-well :is(h2, h1),
+  .theme .theme-landing-style-gallery__desc-well p,
+  .theme .theme-landing-style-gallery__counter-digit {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    will-change: transform;
+  }
+
+  .theme .theme-landing-style-gallery__title-well :is(h2, h1) {
+    white-space: nowrap;
+  }
+
+  .theme .theme-landing-style-gallery__desc-well p {
+    white-space: normal;
+    overflow-wrap: break-word;
+  }
+
+  .theme .theme-landing-style-gallery__counter-digit {
+    text-align: center;
+  }
+
+  .theme .theme-landing-style-gallery__counter {
+    display: flex;
+    align-items: baseline;
+    gap: 0;
+  }
+
+  .theme .theme-landing-style-gallery__counter-index {
+    position: relative;
+    width: 1.5rem;
+    height: 1.125rem;
+    flex-shrink: 0;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    overflow: hidden;
+  }
+
+  .theme .theme-landing-style-gallery__counter-digit {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1;
+    color: #fff;
+    text-shadow: 0 1px 2px color-mix(in srgb, #000 40%, transparent);
+  }
+
+  .theme .theme-landing-style-gallery__counter-sep,
+  .theme .theme-landing-style-gallery__counter-total {
+    width: 1.5rem;
+    display: flex;
+    justify-content: center;
+    font-size: 1rem;
+    line-height: 1;
+    color: #fff;
+    text-shadow: 0 1px 2px color-mix(in srgb, #000 40%, transparent);
+    opacity: 0.45;
+  }
+
+  @media (max-width: 56.25rem) {
+    .theme .theme-landing-style-gallery__main-card {
+      width: 85%;
+      height: 42%;
+    }
+
+    .theme .theme-landing-style-gallery__copy[data-copy-position='left'],
+    .theme .theme-landing-style-gallery__copy[data-copy-position='right'] {
+      top: auto;
+      bottom: clamp(4.5rem, 18%, 5.5rem);
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%);
+      width: min(28rem, 88%);
+      text-align: center;
+    }
+  }
+
+  .theme .theme-landing-style-gallery-shell {
+    width: 100%;
+  }
+
+  .theme .theme-landing-style-gallery-shell.theme-dotnav-gallery--horizontal .theme-dotnav-gallery__stage {
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+    aspect-ratio: auto;
+    overflow: visible;
+    height: min(80vh, 40rem);
+    min-height: min(80vh, 40rem);
+  }
+
+  .theme .theme-landing-style-gallery-shell .theme-landing-style-gallery {
+    width: 100%;
+  }
+
+  .theme .theme-landing-style-gallery__controls {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding-top: 0.25rem;
+  }
+
+  .theme .theme-landing-style-gallery__controls .theme-dotnav {
+    flex: 0 1 auto;
+    min-width: 0;
+  }
+}

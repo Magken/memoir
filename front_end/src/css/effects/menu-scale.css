@@ -1,0 +1,351 @@
+/**
+ * Shared menu scale — `--theme-menu-scale` on menu / dock roots scales tokens + in-menu buttons.
+ */
+
+@layer components {
+  .theme .theme-nmenu,
+  .theme .theme-mmenu,
+  .theme .theme-msmenu,
+  .theme .theme-msnav,
+  .theme .theme-snav,
+  .theme .theme-hmenu,
+  .theme .theme-bmenu,
+  .theme .theme-dnav,
+  .theme .theme-tmap,
+  .theme .theme-dash,
+  .theme .theme-menu,
+  .theme .theme-tmenu,
+  .theme .theme-nmenu-dock,
+  .theme .theme-mmenu-dock,
+  .theme .theme-msmenu-dock,
+  .theme .theme-msnav-dock,
+  .theme .theme-dotnav,
+  .theme .theme-dotnav-gallery,
+  .theme .theme-dreorder {
+    --theme-menu-scale: 1;
+  }
+
+  .theme .theme-menu-scale--75 {
+    --theme-menu-scale: 0.75;
+  }
+
+  .theme .theme-menu-scale--85 {
+    --theme-menu-scale: 0.85;
+  }
+
+  .theme .theme-menu-scale--115 {
+    --theme-menu-scale: 1.15;
+  }
+
+  .theme .theme-menu-scale--125 {
+    --theme-menu-scale: 1.25;
+  }
+
+  .theme
+    :is(.theme-nmenu, .theme-mmenu, .theme-msmenu, .theme-msnav, .theme-snav, .theme-hmenu, .theme-bmenu, .theme-dnav, .theme-tmap, .theme-dash, .theme-menu, .theme-tmenu, .theme-dreorder)
+    .theme-btn:not(.theme-btn--expandable):not(.theme-nmenu__trigger--swatch)[data-size='xxs'] {
+    min-height: calc(1.375rem * var(--theme-menu-scale));
+    padding-inline: calc(0.24rem * var(--theme-menu-scale));
+    padding-block: calc(0.08rem * var(--theme-menu-scale));
+    gap: calc(0.2rem * var(--theme-menu-scale));
+  }
+
+  .theme
+    :is(.theme-nmenu, .theme-mmenu, .theme-msmenu, .theme-msnav, .theme-snav, .theme-hmenu, .theme-bmenu, .theme-dnav, .theme-tmap, .theme-dash, .theme-menu, .theme-tmenu, .theme-dreorder)
+    .theme-btn:not(.theme-btn--expandable)[data-size='xs'] {
+    min-height: calc(1.625rem * var(--theme-menu-scale));
+    padding-inline: calc(0.32rem * var(--theme-menu-scale));
+    padding-block: calc(0.16rem * var(--theme-menu-scale));
+    gap: calc(0.2rem * var(--theme-menu-scale));
+  }
+
+  .theme
+    :is(.theme-nmenu, .theme-mmenu, .theme-msmenu, .theme-msnav, .theme-snav, .theme-hmenu, .theme-bmenu, .theme-dnav, .theme-tmap, .theme-dash, .theme-menu, .theme-tmenu, .theme-dreorder)
+    .theme-btn:not(.theme-btn--expandable)[data-size='sm'] {
+    min-height: calc(2rem * var(--theme-menu-scale));
+    padding-inline: calc(0.4rem * var(--theme-menu-scale));
+    padding-block: calc(0.24rem * var(--theme-menu-scale));
+    gap: calc(0.3rem * var(--theme-menu-scale));
+  }
+
+  .theme
+    :is(.theme-nmenu, .theme-mmenu, .theme-msmenu, .theme-msnav, .theme-snav, .theme-hmenu, .theme-bmenu, .theme-dnav, .theme-tmap, .theme-dash, .theme-menu, .theme-tmenu, .theme-dreorder)
+    .theme-btn:not(.theme-btn--expandable)[data-size='md'] {
+    min-height: calc(2.375rem * var(--theme-menu-scale));
+    padding-inline: calc(0.56rem * var(--theme-menu-scale));
+    padding-block: calc(0.32rem * var(--theme-menu-scale));
+    gap: calc(0.4rem * var(--theme-menu-scale));
+  }
+
+  .theme
+    :is(.theme-nmenu, .theme-mmenu, .theme-msmenu, .theme-msnav, .theme-snav, .theme-hmenu, .theme-bmenu, .theme-dnav, .theme-tmap, .theme-dash, .theme-menu, .theme-tmenu, .theme-dreorder)
+    .theme-btn:not(.theme-btn--expandable)[data-size='lg'] {
+    min-height: calc(2.75rem * var(--theme-menu-scale));
+    padding-inline: calc(0.64rem * var(--theme-menu-scale));
+    padding-block: calc(0.4rem * var(--theme-menu-scale));
+    gap: calc(0.4rem * var(--theme-menu-scale));
+  }
+
+  .theme
+    :is(.theme-nmenu, .theme-mmenu, .theme-msmenu, .theme-msnav, .theme-snav, .theme-hmenu, .theme-bmenu, .theme-dnav, .theme-tmap, .theme-dash, .theme-menu, .theme-tmenu, .theme-dreorder)
+    .theme-btn:not(.theme-btn--expandable)[data-size='xl'] {
+    min-height: calc(3.125rem * var(--theme-menu-scale));
+    padding-inline: calc(0.8rem * var(--theme-menu-scale));
+    padding-block: calc(0.48rem * var(--theme-menu-scale));
+    gap: calc(0.5rem * var(--theme-menu-scale));
+  }
+
+  .theme
+    :is(.theme-nmenu, .theme-mmenu, .theme-msmenu, .theme-msnav, .theme-snav, .theme-hmenu, .theme-bmenu, .theme-dnav, .theme-tmap, .theme-dash, .theme-menu, .theme-tmenu, .theme-dreorder)
+    .theme-btn:not(.theme-btn--expandable)[data-size='xxl'] {
+    min-height: calc(3.5rem * var(--theme-menu-scale));
+    padding-inline: calc(0.96rem * var(--theme-menu-scale));
+    padding-block: calc(0.56rem * var(--theme-menu-scale));
+    gap: calc(0.6rem * var(--theme-menu-scale));
+  }
+
+  .theme
+    :is(.theme-nmenu, .theme-mmenu, .theme-msmenu, .theme-msnav, .theme-snav, .theme-hmenu, .theme-bmenu, .theme-dnav, .theme-tmap, .theme-dash, .theme-menu, .theme-tmenu, .theme-dreorder)
+    .theme-btn:not(.theme-btn--expandable):not(.theme-nmenu__trigger--swatch):not(:has(.theme-btn__label))[data-size='xxs'] {
+    width: calc(1.375rem * var(--theme-menu-scale));
+    min-width: calc(1.375rem * var(--theme-menu-scale));
+    height: calc(1.375rem * var(--theme-menu-scale));
+    padding: 0;
+  }
+
+  .theme
+    :is(.theme-nmenu, .theme-mmenu, .theme-msmenu, .theme-msnav, .theme-snav, .theme-hmenu, .theme-bmenu, .theme-dnav, .theme-tmap, .theme-dash, .theme-menu, .theme-tmenu, .theme-dreorder)
+    .theme-btn:not(.theme-btn--expandable):not(:has(.theme-btn__label))[data-size='xs'] {
+    width: calc(1.625rem * var(--theme-menu-scale));
+    min-width: calc(1.625rem * var(--theme-menu-scale));
+    height: calc(1.625rem * var(--theme-menu-scale));
+    padding: 0;
+  }
+
+  .theme
+    :is(.theme-nmenu, .theme-mmenu, .theme-msmenu, .theme-msnav, .theme-snav, .theme-hmenu, .theme-bmenu, .theme-dnav, .theme-tmap, .theme-dash, .theme-menu, .theme-tmenu, .theme-dreorder)
+    .theme-btn:not(.theme-btn--expandable):not(:has(.theme-btn__label))[data-size='sm'] {
+    width: calc(2rem * var(--theme-menu-scale));
+    min-width: calc(2rem * var(--theme-menu-scale));
+    height: calc(2rem * var(--theme-menu-scale));
+    padding: 0;
+  }
+
+  .theme
+    :is(.theme-nmenu, .theme-mmenu, .theme-msmenu, .theme-msnav, .theme-snav, .theme-hmenu, .theme-bmenu, .theme-dnav, .theme-tmap, .theme-dash, .theme-menu, .theme-tmenu, .theme-dreorder)
+    .theme-btn:not(.theme-btn--expandable):not(:has(.theme-btn__label))[data-size='md'] {
+    width: calc(2.375rem * var(--theme-menu-scale));
+    min-width: calc(2.375rem * var(--theme-menu-scale));
+    height: calc(2.375rem * var(--theme-menu-scale));
+    padding: 0;
+  }
+
+  .theme
+    :is(.theme-nmenu, .theme-mmenu, .theme-msmenu, .theme-msnav, .theme-snav, .theme-hmenu, .theme-bmenu, .theme-dnav, .theme-tmap, .theme-dash, .theme-menu, .theme-tmenu, .theme-dreorder)
+    .theme-btn:not(.theme-btn--expandable):not(:has(.theme-btn__label))[data-size='lg'] {
+    width: calc(2.75rem * var(--theme-menu-scale));
+    min-width: calc(2.75rem * var(--theme-menu-scale));
+    height: calc(2.75rem * var(--theme-menu-scale));
+    padding: 0;
+  }
+
+  .theme
+    :is(.theme-nmenu, .theme-mmenu, .theme-msmenu, .theme-msnav, .theme-snav, .theme-hmenu, .theme-bmenu, .theme-dnav, .theme-tmap, .theme-dash, .theme-menu, .theme-tmenu, .theme-dreorder)
+    .theme-btn:not(.theme-btn--expandable):not(:has(.theme-btn__label))[data-size='xl'] {
+    width: calc(3.125rem * var(--theme-menu-scale));
+    min-width: calc(3.125rem * var(--theme-menu-scale));
+    height: calc(3.125rem * var(--theme-menu-scale));
+    padding: 0;
+  }
+
+  .theme
+    :is(.theme-nmenu, .theme-mmenu, .theme-msmenu, .theme-msnav, .theme-snav, .theme-hmenu, .theme-bmenu, .theme-dnav, .theme-tmap, .theme-dash, .theme-menu, .theme-tmenu, .theme-dreorder)
+    .theme-btn:not(.theme-btn--expandable):not(:has(.theme-btn__label))[data-size='xxl'] {
+    width: calc(3.5rem * var(--theme-menu-scale));
+    min-width: calc(3.5rem * var(--theme-menu-scale));
+    height: calc(3.5rem * var(--theme-menu-scale));
+    padding: 0;
+  }
+
+  .theme
+    :is(.theme-nmenu, .theme-mmenu, .theme-msmenu, .theme-msnav, .theme-snav, .theme-hmenu, .theme-bmenu, .theme-dnav, .theme-tmap, .theme-dash, .theme-menu, .theme-tmenu, .theme-dreorder)
+    .theme-btn[data-size='xxs']
+    .theme-btn__icon {
+    width: calc(0.825rem * var(--theme-menu-scale));
+    height: calc(0.825rem * var(--theme-menu-scale));
+  }
+
+  .theme
+    :is(.theme-nmenu, .theme-mmenu, .theme-msmenu, .theme-msnav, .theme-snav, .theme-hmenu, .theme-bmenu, .theme-dnav, .theme-tmap, .theme-dash, .theme-menu, .theme-tmenu, .theme-dreorder)
+    .theme-btn[data-size='xs']
+    .theme-btn__icon {
+    width: calc(0.975rem * var(--theme-menu-scale));
+    height: calc(0.975rem * var(--theme-menu-scale));
+  }
+
+  .theme
+    :is(.theme-nmenu, .theme-mmenu, .theme-msmenu, .theme-msnav, .theme-snav, .theme-hmenu, .theme-bmenu, .theme-dnav, .theme-tmap, .theme-dash, .theme-menu, .theme-tmenu, .theme-dreorder)
+    .theme-btn[data-size='sm']
+    .theme-btn__icon {
+    width: calc(1.2rem * var(--theme-menu-scale));
+    height: calc(1.2rem * var(--theme-menu-scale));
+  }
+
+  .theme
+    :is(.theme-nmenu, .theme-mmenu, .theme-msmenu, .theme-msnav, .theme-snav, .theme-hmenu, .theme-bmenu, .theme-dnav, .theme-tmap, .theme-dash, .theme-menu, .theme-tmenu, .theme-dreorder)
+    .theme-btn[data-size='md']
+    .theme-btn__icon {
+    width: calc(1.425rem * var(--theme-menu-scale));
+    height: calc(1.425rem * var(--theme-menu-scale));
+  }
+
+  .theme
+    :is(.theme-nmenu, .theme-mmenu, .theme-msmenu, .theme-msnav, .theme-snav, .theme-hmenu, .theme-bmenu, .theme-dnav, .theme-tmap, .theme-dash, .theme-menu, .theme-tmenu, .theme-dreorder)
+    .theme-btn[data-size='lg']
+    .theme-btn__icon {
+    width: calc(1.65rem * var(--theme-menu-scale));
+    height: calc(1.65rem * var(--theme-menu-scale));
+  }
+
+  .theme
+    :is(.theme-nmenu, .theme-mmenu, .theme-msmenu, .theme-msnav, .theme-snav, .theme-hmenu, .theme-bmenu, .theme-dnav, .theme-tmap, .theme-dash, .theme-menu, .theme-tmenu, .theme-dreorder)
+    .theme-btn[data-size='xl']
+    .theme-btn__icon {
+    width: calc(1.875rem * var(--theme-menu-scale));
+    height: calc(1.875rem * var(--theme-menu-scale));
+  }
+
+  .theme
+    :is(.theme-nmenu, .theme-mmenu, .theme-msmenu, .theme-msnav, .theme-snav, .theme-hmenu, .theme-bmenu, .theme-dnav, .theme-tmap, .theme-dash, .theme-menu, .theme-tmenu, .theme-dreorder)
+    .theme-btn[data-size='xxl']
+    .theme-btn__icon {
+    width: calc(2.1rem * var(--theme-menu-scale));
+    height: calc(2.1rem * var(--theme-menu-scale));
+  }
+
+  .theme
+    :is(.theme-nmenu, .theme-mmenu, .theme-msmenu, .theme-msnav, .theme-snav, .theme-hmenu, .theme-bmenu, .theme-dnav, .theme-tmap, .theme-dash, .theme-menu, .theme-tmenu, .theme-dreorder)
+    .theme-btn:not(.theme-nmenu__trigger--swatch)[data-size='xxs']
+    .theme-btn__media-frame {
+    width: calc(1rem * var(--theme-menu-scale));
+    height: calc(1rem * var(--theme-menu-scale));
+  }
+
+  .theme
+    :is(.theme-nmenu, .theme-mmenu, .theme-msmenu, .theme-msnav, .theme-snav, .theme-hmenu, .theme-bmenu, .theme-dnav, .theme-tmap, .theme-dash, .theme-menu, .theme-tmenu, .theme-dreorder)
+    .theme-btn[data-size='xs']
+    .theme-btn__media-frame {
+    width: calc(1.25rem * var(--theme-menu-scale));
+    height: calc(1.25rem * var(--theme-menu-scale));
+  }
+
+  .theme
+    :is(.theme-nmenu, .theme-mmenu, .theme-msmenu, .theme-msnav, .theme-snav, .theme-hmenu, .theme-bmenu, .theme-dnav, .theme-tmap, .theme-dash, .theme-menu, .theme-tmenu, .theme-dreorder)
+    .theme-btn[data-size='sm']
+    .theme-btn__media-frame {
+    width: calc(1.5rem * var(--theme-menu-scale));
+    height: calc(1.5rem * var(--theme-menu-scale));
+  }
+
+  .theme
+    :is(.theme-nmenu, .theme-mmenu, .theme-msmenu, .theme-msnav, .theme-snav, .theme-hmenu, .theme-bmenu, .theme-dnav, .theme-tmap, .theme-dash, .theme-menu, .theme-tmenu, .theme-dreorder)
+    .theme-btn[data-size='md']
+    .theme-btn__media-frame {
+    width: calc(1.75rem * var(--theme-menu-scale));
+    height: calc(1.75rem * var(--theme-menu-scale));
+  }
+
+  .theme
+    :is(.theme-nmenu, .theme-mmenu, .theme-msmenu, .theme-msnav, .theme-snav, .theme-hmenu, .theme-bmenu, .theme-dnav, .theme-tmap, .theme-dash, .theme-menu, .theme-tmenu, .theme-dreorder)
+    .theme-btn[data-size='lg']
+    .theme-btn__media-frame {
+    width: calc(2rem * var(--theme-menu-scale));
+    height: calc(2rem * var(--theme-menu-scale));
+  }
+
+  .theme
+    :is(.theme-nmenu, .theme-mmenu, .theme-msmenu, .theme-msnav, .theme-snav, .theme-hmenu, .theme-bmenu, .theme-dnav, .theme-tmap, .theme-dash, .theme-menu, .theme-tmenu, .theme-dreorder)
+    .theme-btn[data-size='xl']
+    .theme-btn__media-frame {
+    width: calc(2.25rem * var(--theme-menu-scale));
+    height: calc(2.25rem * var(--theme-menu-scale));
+  }
+
+  .theme
+    :is(.theme-nmenu, .theme-mmenu, .theme-msmenu, .theme-msnav, .theme-snav, .theme-hmenu, .theme-bmenu, .theme-dnav, .theme-tmap, .theme-dash, .theme-menu, .theme-tmenu, .theme-dreorder)
+    .theme-btn[data-size='xxl']
+    .theme-btn__media-frame {
+    width: calc(2.5rem * var(--theme-menu-scale));
+    height: calc(2.5rem * var(--theme-menu-scale));
+  }
+
+  .theme
+    :is(.theme-msmenu, .theme-tmenu)
+    .theme-btn--expandable[data-size='sm'] {
+    --theme-btn-expand-chip: calc(2rem * var(--theme-menu-scale));
+  }
+
+  .theme
+    :is(.theme-msmenu, .theme-tmenu)
+    .theme-btn--expandable[data-size='md'] {
+    --theme-btn-expand-chip: calc(2.375rem * var(--theme-menu-scale));
+  }
+
+  .theme
+    :is(.theme-msmenu, .theme-tmenu)
+    .theme-btn--expandable[data-size='lg'] {
+    --theme-btn-expand-chip: calc(2.75rem * var(--theme-menu-scale));
+  }
+
+  .theme
+    :is(.theme-msmenu, .theme-tmenu)
+    .theme-btn--expandable:is(:hover, :focus-visible, .is-expanded)[data-size='sm'] {
+    --theme-btn-expand-pad-inline: calc(0.4rem * var(--theme-menu-scale));
+    --theme-btn-expand-pad-block: calc(0.24rem * var(--theme-menu-scale));
+    --theme-btn-expand-inner-gap: calc(0.24rem * var(--theme-menu-scale));
+  }
+
+  .theme
+    :is(.theme-msmenu, .theme-tmenu)
+    .theme-btn--expandable:is(:hover, :focus-visible, .is-expanded):not([data-size='sm']):not(
+      [data-size='lg']
+    ) {
+    --theme-btn-expand-pad-inline: calc(0.56rem * var(--theme-menu-scale));
+    --theme-btn-expand-pad-block: calc(0.32rem * var(--theme-menu-scale));
+    --theme-btn-expand-inner-gap: calc(0.32rem * var(--theme-menu-scale));
+  }
+
+  .theme
+    :is(.theme-msmenu, .theme-tmenu)
+    .theme-btn--expandable:is(:hover, :focus-visible, .is-expanded)[data-size='lg'] {
+    --theme-btn-expand-pad-inline: calc(0.64rem * var(--theme-menu-scale));
+    --theme-btn-expand-pad-block: calc(0.4rem * var(--theme-menu-scale));
+    --theme-btn-expand-inner-gap: calc(0.32rem * var(--theme-menu-scale));
+  }
+
+  /* Menus — keep morph timing; theme-colors :active 0.12s must not win */
+  .theme
+    :is(.theme-msmenu, .theme-tmenu)
+    .theme-btn--expandable:active:not(:disabled) {
+    transition:
+      transform var(--theme-btn-expand-duration) var(--theme-btn-expand-ease) 0s,
+      box-shadow var(--theme-btn-expand-duration) var(--theme-btn-expand-ease) 0s,
+      border-color var(--theme-btn-expand-duration) var(--theme-btn-expand-ease) 0s,
+      background-color var(--theme-btn-expand-duration) var(--theme-btn-expand-ease) 0s,
+      color var(--theme-btn-expand-duration) var(--theme-btn-expand-ease) 0s,
+      opacity var(--theme-btn-expand-duration) var(--theme-btn-expand-ease) 0s,
+      max-width var(--theme-btn-expand-duration) var(--theme-btn-expand-ease) 0s,
+      padding-inline var(--theme-btn-expand-duration) var(--theme-btn-expand-ease) 0s,
+      padding-block var(--theme-btn-expand-duration) var(--theme-btn-expand-ease) 0s,
+      gap var(--theme-btn-expand-duration) var(--theme-btn-expand-ease) 0s,
+      grid-template-columns var(--theme-btn-expand-duration) var(--theme-btn-expand-ease) 0s;
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .theme
+      :is(.theme-msmenu, .theme-tmenu)
+      .theme-btn--expandable:hover:not(:disabled) {
+      transform: none;
+    }
+  }
+}

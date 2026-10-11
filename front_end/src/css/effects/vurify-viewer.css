@@ -1,0 +1,1606 @@
+/**
+ * Vurify Viewer — CV structure + editorial type hierarchy.
+ * Slot roles are layout-owned; emphasis marks live in field text strings.
+ */
+
+@layer components {
+  .theme .theme-vurify-viewer {
+    --vv-page-pad-x: clamp(1.35rem, 3.5vw, 2.75rem);
+    --vv-page-pad-y: clamp(2rem, 4.5vw, 3.25rem);
+    --vv-edge-w: 1.75rem;
+    --vv-grip-w: 1.25rem;
+    --vv-gap-tight: 0.2rem;
+    --vv-gap-near: 0.4rem;
+    --vv-gap-block: 0.55rem;
+    --vv-gap-entry: 1.15rem;
+    --vv-gap-section: 1.85rem;
+    --vv-measure: 44rem;
+    --vv-ink: var(--theme-fg);
+    --vv-muted: color-mix(in oklab, var(--theme-fg) 58%, transparent);
+    --vv-faint: color-mix(in oklab, var(--theme-fg) 38%, transparent);
+    --vv-rule: var(--theme-border);
+    --vv-rule-strong: var(--theme-border-strong);
+    --vv-rule-accent: color-mix(in srgb, var(--theme-accent) 68%, var(--theme-border-strong));
+    --vv-rule-space: 0.55rem;
+    width: 100%;
+  }
+
+  /*
+   * Editor chrome — optional title only (history lives in sticky Contents header).
+   * Tight start pad (not the stage reading inset) so controls sit near the edge.
+   */
+  .theme .theme-vurify-viewer__chrome {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.35rem;
+    min-width: 0;
+    padding: 0.3rem 0.5rem 0.3rem 0.35rem;
+    border-bottom: 1px solid color-mix(in oklab, var(--theme-border) 88%, transparent);
+    background: color-mix(in oklab, var(--theme-surface) 92%, transparent);
+  }
+
+  .theme .theme-vurify-viewer__chrome-title {
+    margin: 0;
+    flex: 1 1 auto;
+    min-width: 0;
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    line-height: 1.35;
+    letter-spacing: 0.02em;
+    color: var(--type-faint, var(--vv-faint));
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .theme .theme-vurify-viewer__chrome-actions {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: 0.35rem;
+    margin-inline-start: auto;
+  }
+
+  .theme .theme-vurify-viewer__chrome-history,
+  .theme .theme-vurify-viewer__toc-history {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.15rem;
+  }
+
+  .theme .theme-vurify-viewer__end-sentinel {
+    width: 100%;
+    height: 1px;
+    pointer-events: none;
+  }
+
+  /*
+   * Scroll stage — DocArticle micro TOC shell sits inside (spy root).
+   * Own the inset like `.theme-doc-article__stage` (+ `--reading` inline at lg+)
+   * so TOC + main share one pad box (not page-only padding).
+   * Top pad stays small under chrome so TOC / masthead sit close to the bar.
+   */
+  .theme .theme-vurify-viewer__stage {
+    width: 100%;
+    max-height: var(--vv-stage-max-h, min(70vh, 44rem));
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 0.5rem clamp(1.25rem, 3cqw, 2rem) clamp(1.25rem, 3cqw, 2rem);
+    --theme-doc-article-stage-max-h: var(--vv-stage-max-h, min(70vh, 44rem));
+  }
+
+  .theme .theme-vurify-viewer[data-layout='flow'] {
+    max-height: none;
+  }
+
+  .theme .theme-vurify-viewer[data-layout='flow'] .theme-vurify-viewer__stage {
+    max-height: none;
+    overflow: visible;
+    overscroll-behavior: auto;
+    --theme-doc-article-stage-max-h: none;
+  }
+
+  .theme .theme-vurify-viewer__stage .theme-vurify-viewer__page {
+    padding: 0;
+  }
+
+  /*
+   * Beside micro TOC — match DocArticle reading layout:
+   * stage inset for both columns, left-aligned main (not a centered island).
+   * Sticky TOC top stays DocArticle’s 0.75rem (shared stage pad aligns tops).
+   */
+  @media (min-width: 64rem) {
+    .theme .theme-vurify-viewer__stage.theme-doc-article__stage--reading {
+      padding-inline: clamp(1.5rem, 3vw, 2.5rem);
+    }
+
+    .theme .theme-vurify-viewer__stage .theme-doc-article-shell--micro-toc {
+      grid-template-columns: minmax(9rem, 12.5rem) minmax(0, 1fr);
+      gap: clamp(1.25rem, 2.5vw, 2.5rem);
+    }
+
+    /* Soft rule between micro TOC and document column */
+    .theme
+      .theme-vurify-viewer__stage
+      .theme-doc-article-shell--micro-toc
+      > .theme-doc-article-shell__toc {
+      border-inline-end: 1px solid
+        color-mix(in oklab, var(--theme-border) 88%, transparent);
+      padding-inline-end: clamp(0.55rem, 1.2vw, 0.9rem);
+    }
+
+    .theme
+      .theme-vurify-viewer__stage
+      .theme-doc-article-shell__main
+      .theme-vurify-viewer__page {
+      max-width: min(56rem, 100%);
+      margin-inline: 0;
+    }
+
+    .theme
+      .theme-vurify-viewer__stage
+      .theme-doc-article-shell__main
+      .theme-vurify-viewer__masthead {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    .theme
+      .theme-vurify-viewer__stage
+      .theme-doc-article-shell__main
+      .theme-vurify-viewer__masthead
+      > .theme-vurify-viewer__field--display,
+    .theme
+      .theme-vurify-viewer__stage
+      .theme-doc-article-shell__main
+      .theme-vurify-viewer__masthead
+      > .theme-vurify-viewer__field--lead {
+      text-align: left;
+    }
+
+    .theme
+      .theme-vurify-viewer__stage
+      .theme-doc-article-shell__main
+      .theme-vurify-viewer__masthead
+      .theme-vurify-viewer__editable-input,
+    .theme
+      .theme-vurify-viewer__stage
+      .theme-doc-article-shell__main
+      .theme-vurify-viewer__masthead
+      .theme-vurify-viewer__editable-display {
+      text-align: left;
+    }
+
+    .theme
+      .theme-vurify-viewer__stage
+      .theme-doc-article-shell__main
+      .theme-vurify-viewer__masthead
+      .theme-vurify-viewer__contact-wrap,
+    .theme
+      .theme-vurify-viewer__stage
+      .theme-doc-article-shell__main
+      .theme-vurify-viewer__masthead
+      .theme-vurify-viewer__links-wrap,
+    .theme
+      .theme-vurify-viewer__stage
+      .theme-doc-article-shell__main
+      .theme-vurify-viewer__masthead
+      .theme-vurify-viewer__languages-wrap {
+      justify-content: flex-start;
+    }
+
+    .theme
+      .theme-vurify-viewer__stage
+      .theme-doc-article-shell__main
+      .theme-vurify-viewer__masthead
+      > .theme-vurify-viewer__contact-line,
+    .theme
+      .theme-vurify-viewer__stage
+      .theme-doc-article-shell__main
+      .theme-vurify-viewer__masthead
+      > .theme-vurify-viewer__links-line,
+    .theme
+      .theme-vurify-viewer__stage
+      .theme-doc-article-shell__main
+      .theme-vurify-viewer__masthead
+      > .theme-vurify-viewer__languages,
+    .theme
+      .theme-vurify-viewer__stage
+      .theme-doc-article-shell__main
+      .theme-vurify-viewer__masthead
+      .theme-vurify-viewer__contact-wrap
+      .theme-vurify-viewer__contact-line,
+    .theme
+      .theme-vurify-viewer__stage
+      .theme-doc-article-shell__main
+      .theme-vurify-viewer__masthead
+      .theme-vurify-viewer__links-wrap
+      .theme-vurify-viewer__links-line,
+    .theme
+      .theme-vurify-viewer__stage
+      .theme-doc-article-shell__main
+      .theme-vurify-viewer__masthead
+      .theme-vurify-viewer__languages-wrap
+      .theme-vurify-viewer__languages {
+      justify-content: flex-start;
+    }
+
+    .theme
+      .theme-vurify-viewer__stage
+      .theme-doc-article-shell__main
+      .theme-vurify-viewer__masthead
+      > .theme-vurify-viewer__rule--soft {
+      align-self: flex-start;
+    }
+
+    .theme
+      .theme-vurify-viewer__stage
+      .theme-doc-article-shell__main
+      .theme-vurify-viewer__footer {
+      justify-content: flex-start;
+    }
+  }
+
+  .theme .theme-vurify-viewer__masthead[data-doc-toc],
+  .theme .theme-vurify-viewer__section[data-doc-toc],
+  .theme .theme-vurify-viewer__item-slot[data-doc-toc] {
+    scroll-margin-top: 0.85rem;
+  }
+
+  .theme .theme-vurify-viewer__rule {
+    display: block;
+    width: 100%;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-top: 1px solid var(--vv-rule);
+    opacity: 1;
+  }
+
+  /* Major break — masthead → body (CV guides: slightly heavier than section rules). */
+  .theme .theme-vurify-viewer__rule--strong {
+    border-top-width: 1.5px;
+    border-top-color: var(--vv-rule-strong);
+  }
+
+  /* Section title underline — one accent-tinted hairline per section. */
+  .theme .theme-vurify-viewer__rule--accent {
+    border-top-color: var(--vv-rule-accent);
+  }
+
+  /* Between entries inside a section — quieter than masthead / title rules. */
+  .theme .theme-vurify-viewer__rule--soft {
+    border-top-color: var(--vv-rule);
+  }
+
+  .theme .theme-vurify-viewer__page {
+    max-width: 56rem;
+    margin-inline: auto;
+    padding: var(--vv-page-pad-y) var(--vv-page-pad-x);
+    display: flex;
+    flex-direction: column;
+    gap: var(--vv-gap-section);
+  }
+
+  /* Editable controls inherit slot type */
+  .theme .theme-vurify-viewer .theme-editable-title,
+  .theme .theme-vurify-viewer .theme-vurify-viewer__editable {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .theme .theme-vurify-viewer .theme-editable-title__input,
+  .theme .theme-vurify-viewer .theme-editable-title__button,
+  .theme .theme-vurify-viewer button.theme-editable-title__button,
+  .theme .theme-vurify-viewer .theme-vurify-viewer__editable-input {
+    height: auto;
+    min-height: 1.15em;
+    line-height: inherit;
+    font: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    font-style: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    color: inherit;
+  }
+
+  .theme .theme-vurify-viewer .theme-editable-title__input--idle {
+    overflow: visible;
+    text-overflow: clip;
+    white-space: normal;
+  }
+
+  .theme .theme-vurify-viewer__type {
+    font: inherit;
+    color: inherit;
+  }
+
+  /* ─── Locked slots — editorial CV hierarchy (name → section → entry → body → meta) ─── */
+  .theme .theme-vurify-viewer__field {
+    min-width: 0;
+    color: var(--vv-ink);
+  }
+
+  /* Masthead name — display face, largest signal */
+  .theme .theme-vurify-viewer__field--display {
+    font-family: var(--font-display);
+    font-size: clamp(2.15rem, 5.5vw, 3.15rem);
+    font-weight: 650;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+    font-feature-settings: 'liga' 1, 'kern' 1;
+  }
+
+  /* Headline / dek under the name */
+  .theme .theme-vurify-viewer__field--lead {
+    font-family: var(--font-sans);
+    font-size: clamp(1.05rem, 2vw, 1.2rem);
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.45;
+    color: var(--vv-muted);
+    letter-spacing: 0.005em;
+    max-width: var(--vv-measure);
+  }
+
+  /* Section title — larger than entry titles (Experience, Education, …) */
+  .theme .theme-vurify-viewer__field--section {
+    font-family: var(--font-display-sans);
+    font-size: clamp(1.25rem, 2.4vw, 1.55rem);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    text-transform: none;
+    color: var(--theme-accent);
+    text-wrap: balance;
+  }
+
+  /* Role / entry title — clear step below section, above body */
+  .theme .theme-vurify-viewer__field--entry {
+    font-family: var(--font-display-sans);
+    font-size: clamp(1.05rem, 1.8vw, 1.2rem);
+    font-weight: 650;
+    line-height: 1.28;
+    letter-spacing: -0.015em;
+    text-wrap: pretty;
+  }
+
+  /* Org / degree line — supporting italic */
+  .theme .theme-vurify-viewer__field--org {
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--vv-muted);
+    padding-block: 0.05em;
+  }
+
+  /* Dates — quiet, tabular feel */
+  .theme .theme-vurify-viewer__field--date {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 500;
+    font-style: normal;
+    line-height: 1.45;
+    letter-spacing: 0.01em;
+    color: var(--vv-muted);
+    white-space: nowrap;
+    overflow: visible;
+    padding-inline-end: 0.12em;
+  }
+
+  /* Summary / descriptions — prose measure + reading leading */
+  .theme .theme-vurify-viewer__field--body {
+    font-family: var(--font-sans);
+    font-size: 0.98rem;
+    font-weight: 400;
+    line-height: 1.65;
+    color: color-mix(in oklab, var(--theme-fg) 90%, transparent);
+    max-width: var(--vv-measure);
+  }
+
+  /* Bullets / skills — slightly quieter than body */
+  .theme .theme-vurify-viewer__field--list {
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    font-weight: 400;
+    line-height: 1.55;
+    color: color-mix(in oklab, var(--theme-fg) 84%, transparent);
+  }
+
+  /* Contact / location / level */
+  .theme .theme-vurify-viewer__field--meta {
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    font-weight: 400;
+    line-height: 1.45;
+    letter-spacing: 0.01em;
+    color: var(--vv-muted);
+  }
+
+  .theme .theme-vurify-viewer__link {
+    color: var(--type-accent, var(--theme-accent));
+    text-decoration: underline;
+    text-underline-offset: 0.12em;
+  }
+
+  .theme .theme-vurify-viewer__link:hover {
+    color: var(--theme-accent);
+  }
+
+  /* Emphasis marks (idle render) */
+  .theme .theme-vurify-viewer__mark-bold {
+    font-weight: 700;
+  }
+
+  .theme .theme-vurify-viewer__mark-italic {
+    font-style: italic;
+    padding-inline: 0.02em;
+  }
+
+  .theme .theme-vurify-viewer__mark-underline {
+    text-decoration: underline;
+    text-underline-offset: 0.12em;
+  }
+
+  .theme .theme-vurify-viewer__editable-display {
+    cursor: text;
+    min-width: 0;
+    width: 100%;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .theme .theme-vurify-viewer__editable-display.is-placeholder {
+    color: var(--vv-faint);
+    font-style: italic;
+  }
+
+  .theme .theme-vurify-viewer__editable-input {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    resize: none;
+    field-sizing: content;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    text-align: inherit;
+  }
+
+  .theme .theme-vurify-viewer__editable-input.is-multiline {
+    min-height: 2.5rem;
+  }
+
+  .theme .theme-vurify-viewer__editable-input.is-singleline {
+    min-height: 1.25em;
+    overflow: visible;
+  }
+
+  .theme .theme-vurify-viewer__editable {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  /* ─── Masthead — centered profile: name → dek → contact → links → languages → prose ─── */
+  .theme .theme-vurify-viewer__masthead {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0;
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+  .theme .theme-vurify-viewer__masthead > .theme-vurify-viewer__field--display {
+    margin-bottom: 0.45rem;
+    color: var(--theme-accent);
+    width: 100%;
+    max-width: min(100%, 36rem);
+    text-align: center;
+  }
+
+  .theme .theme-vurify-viewer__masthead > .theme-vurify-viewer__field--lead {
+    margin-bottom: 0;
+    width: 100%;
+    max-width: var(--vv-measure);
+    text-align: center;
+  }
+
+  .theme .theme-vurify-viewer__masthead .theme-vurify-viewer__editable-input,
+  .theme .theme-vurify-viewer__masthead .theme-vurify-viewer__editable-display {
+    text-align: center;
+  }
+
+  .theme .theme-vurify-viewer__masthead > .theme-vurify-viewer__contact-line,
+  .theme .theme-vurify-viewer__masthead > .theme-vurify-viewer__links-line,
+  .theme .theme-vurify-viewer__masthead > .theme-vurify-viewer__languages {
+    margin-bottom: 0.65rem;
+    justify-content: center;
+  }
+
+  .theme .theme-vurify-viewer__masthead > .theme-vurify-viewer__rule--soft {
+    width: min(100%, 16rem);
+    margin-top: 0.15rem;
+    margin-bottom: 0.65rem;
+  }
+
+  .theme .theme-vurify-viewer__masthead > .theme-vurify-viewer__rule--strong {
+    width: 100%;
+    margin-top: var(--vv-rule-space);
+    margin-bottom: 0.2rem;
+  }
+
+  .theme .theme-vurify-viewer__summary {
+    max-width: var(--vv-measure);
+    width: 100%;
+    text-align: start;
+  }
+
+  .theme .theme-vurify-viewer__masthead > .theme-vurify-viewer__summary {
+    margin-top: 0;
+  }
+
+  .theme .theme-vurify-viewer__contact-line,
+  .theme .theme-vurify-viewer__links-line,
+  .theme .theme-vurify-viewer__languages {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.45rem 0.65rem;
+  }
+
+  .theme .theme-vurify-viewer__contact-bit,
+  .theme .theme-vurify-viewer__link-bit,
+  .theme .theme-vurify-viewer__language-row {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.25rem;
+    min-width: 0;
+    width: auto;
+    max-width: 100%;
+    transition:
+      gap 180ms ease,
+      padding 180ms ease,
+      min-width 200ms ease,
+      max-width 200ms ease,
+      opacity 220ms ease,
+      transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .theme .theme-vurify-viewer__contact-bit.is-entering,
+  .theme .theme-vurify-viewer__contact-bit.is-leaving,
+  .theme .theme-vurify-viewer__link-bit.is-entering,
+  .theme .theme-vurify-viewer__link-bit.is-leaving,
+  .theme .theme-vurify-viewer__language-row.is-entering,
+  .theme .theme-vurify-viewer__language-row.is-leaving {
+    max-height: none;
+    max-width: 0;
+    min-width: 0 !important;
+    opacity: 0;
+    transform: translateY(-0.15rem);
+    gap: 0 !important;
+    overflow: hidden;
+  }
+
+  /* Chips shrink to content — no reserved slot for the remove control */
+  .theme .theme-vurify-viewer__contact-bit .theme-vurify-viewer__field,
+  .theme .theme-vurify-viewer__contact-bit .theme-vurify-viewer__editable,
+  .theme .theme-vurify-viewer__contact-bit .theme-vurify-viewer__editable-input,
+  .theme .theme-vurify-viewer__contact-bit .theme-vurify-viewer__editable-display,
+  .theme .theme-vurify-viewer__language-row .theme-vurify-viewer__field,
+  .theme .theme-vurify-viewer__language-row .theme-vurify-viewer__editable,
+  .theme .theme-vurify-viewer__language-row .theme-vurify-viewer__editable-input,
+  .theme .theme-vurify-viewer__language-row .theme-vurify-viewer__editable-display,
+  .theme .theme-vurify-viewer__link-bit > .theme-vurify-viewer__field {
+    width: auto;
+    max-width: none;
+    text-align: start;
+  }
+
+  .theme .theme-vurify-viewer__contact-sep {
+    color: var(--vv-faint);
+    flex: none;
+    margin-inline: 0.05rem;
+  }
+
+  .theme .theme-vurify-viewer__lang-level {
+    min-width: 0;
+    width: auto;
+    flex: none;
+  }
+
+  /* X collapses out of flow width, then opens and shifts neighbors */
+  .theme .theme-vurify-viewer__chip-remove {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: var(--vv-faint);
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    flex: none;
+    overflow: hidden;
+    opacity: 0;
+    max-width: 0;
+    width: auto;
+    pointer-events: none;
+    transition:
+      max-width 200ms ease,
+      opacity 160ms ease,
+      margin 200ms ease,
+      color 120ms ease;
+  }
+
+  .theme .theme-vurify-viewer__contact-bit:hover .theme-vurify-viewer__chip-remove,
+  .theme .theme-vurify-viewer__contact-bit:focus-within .theme-vurify-viewer__chip-remove,
+  .theme .theme-vurify-viewer__language-row:hover .theme-vurify-viewer__chip-remove,
+  .theme .theme-vurify-viewer__language-row:focus-within .theme-vurify-viewer__chip-remove {
+    opacity: 1;
+    max-width: 0.9rem;
+    margin-inline-start: 0.1rem;
+    pointer-events: auto;
+  }
+
+  .theme .theme-vurify-viewer__chip-remove:hover {
+    color: var(--theme-accent);
+  }
+
+  .theme .theme-vurify-viewer__soft-sep {
+    display: inline-block;
+    width: 1px;
+    height: 0.85em;
+    align-self: center;
+    background: var(--vv-rule);
+    flex: none;
+    transition: margin 200ms ease, opacity 160ms ease;
+  }
+
+  .theme .theme-vurify-viewer__link-field {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.3rem;
+    min-width: 0;
+    position: relative;
+    max-width: 100%;
+  }
+
+  .theme .theme-vurify-viewer__link-field.is-editing {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.2rem;
+    min-width: 8rem;
+    padding-right: 1.1rem;
+    text-align: start;
+  }
+
+  .theme .theme-vurify-viewer__link-field__word {
+    width: auto;
+    display: inline;
+  }
+
+  .theme .theme-vurify-viewer__link-field__word .theme-vurify-viewer__editable-display {
+    width: auto;
+    display: inline;
+  }
+
+  .theme .theme-vurify-viewer__link-field__open {
+    color: var(--vv-faint);
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+    flex: none;
+  }
+
+  .theme .theme-vurify-viewer__link-field__open:hover {
+    color: var(--theme-accent);
+  }
+
+  .theme .theme-vurify-viewer__link-field__remove {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: var(--vv-faint);
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+    flex: none;
+  }
+
+  .theme .theme-vurify-viewer__link-field.is-editing .theme-vurify-viewer__link-field__remove {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  .theme .theme-vurify-viewer__link-field__remove:hover {
+    color: var(--theme-accent);
+  }
+
+  .theme .theme-vurify-viewer__link-field__rule {
+    height: 0;
+    width: 100%;
+    border: 0;
+    border-top: 1px solid var(--vv-rule);
+    margin: 0.05rem 0;
+  }
+
+  .theme .theme-vurify-viewer__link-field__url-input {
+    font-size: 0.75rem;
+    color: var(--vv-muted);
+  }
+
+  .theme .theme-vurify-viewer__links-line {
+    align-items: baseline;
+  }
+
+  .theme .theme-vurify-viewer__masthead > .theme-vurify-viewer__rule--soft {
+    transition:
+      margin 240ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 200ms ease;
+  }
+
+  /* Presence — shared enter/leave (text-slot, chips, sections, entries) */
+  .theme .theme-vurify-viewer__motion {
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+      opacity 220ms ease,
+      transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
+      max-height 260ms cubic-bezier(0.22, 1, 0.36, 1),
+      margin 240ms ease,
+      padding 200ms ease,
+      gap 180ms ease;
+  }
+
+  /* Compact hosts (chips / text slots) may collapse height while leaving. */
+  .theme .theme-vurify-viewer__text-slot.theme-vurify-viewer__motion,
+  .theme .theme-vurify-viewer__contact-bit.theme-vurify-viewer__motion,
+  .theme .theme-vurify-viewer__link-bit.theme-vurify-viewer__motion,
+  .theme .theme-vurify-viewer__language-row.theme-vurify-viewer__motion,
+  .theme .theme-vurify-viewer__contact-wrap.theme-vurify-viewer__motion,
+  .theme .theme-vurify-viewer__links-wrap.theme-vurify-viewer__motion,
+  .theme .theme-vurify-viewer__languages-wrap.theme-vurify-viewer__motion {
+    overflow: hidden;
+    max-height: 48rem;
+  }
+
+  /* Sections / entries — never clip body content at rest (was blocking edits). */
+  .theme .theme-vurify-viewer__section.theme-vurify-viewer__motion,
+  .theme .theme-vurify-viewer__item-slot.theme-vurify-viewer__motion {
+    overflow: visible;
+    max-height: none;
+  }
+
+  /* Compact fold hosts — optional field wrappers only (not item slots / section bodies).
+     Never cap rest height: tall experience blocks must layout normally or they spill. */
+  .theme .theme-vurify-viewer__fold.theme-vurify-viewer__motion {
+    overflow: visible;
+  }
+
+  .theme .theme-vurify-viewer__fold.theme-vurify-viewer__motion.is-entering,
+  .theme .theme-vurify-viewer__fold.theme-vurify-viewer__motion.is-leaving {
+    overflow: hidden;
+    max-height: 0;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    opacity: 0;
+    transform: translateY(-0.35rem);
+    pointer-events: none;
+  }
+
+  /* List / skill rows — same soft max-height family as contact chips (avoid 3rem thrash) */
+  .theme .theme-vurify-viewer__list-row.theme-vurify-viewer__motion,
+  .theme .theme-vurify-viewer__skill-row.theme-vurify-viewer__motion {
+    overflow: hidden;
+    max-height: 48rem;
+  }
+
+  .theme .theme-vurify-viewer__list-row.theme-vurify-viewer__motion.is-entering,
+  .theme .theme-vurify-viewer__list-row.theme-vurify-viewer__motion.is-leaving,
+  .theme .theme-vurify-viewer__skill-row.theme-vurify-viewer__motion.is-entering,
+  .theme .theme-vurify-viewer__skill-row.theme-vurify-viewer__motion.is-leaving {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-0.25rem);
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    pointer-events: none;
+  }
+
+  .theme .theme-vurify-viewer__section-title-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.2rem;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .theme .theme-vurify-viewer__section-title-row .theme-vurify-viewer__field {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .theme .theme-vurify-viewer__section-collapse {
+    flex: none;
+    margin-inline-start: -0.15rem;
+    color: var(--vv-faint);
+  }
+
+  .theme .theme-vurify-viewer__section-collapse:hover {
+    color: var(--theme-accent);
+  }
+
+  .theme .theme-vurify-viewer__section-body {
+    width: 100%;
+  }
+
+  .theme .theme-vurify-viewer__section.is-collapsed .theme-vurify-viewer__rule--accent {
+    opacity: 0.45;
+  }
+
+  .theme .theme-vurify-viewer__motion.is-entering,
+  .theme .theme-vurify-viewer__motion.is-leaving {
+    opacity: 0;
+    transform: translateY(-0.4rem);
+    pointer-events: none;
+  }
+
+  .theme .theme-vurify-viewer__text-slot.theme-vurify-viewer__motion.is-entering,
+  .theme .theme-vurify-viewer__text-slot.theme-vurify-viewer__motion.is-leaving,
+  .theme .theme-vurify-viewer__contact-bit.theme-vurify-viewer__motion.is-entering,
+  .theme .theme-vurify-viewer__contact-bit.theme-vurify-viewer__motion.is-leaving,
+  .theme .theme-vurify-viewer__link-bit.theme-vurify-viewer__motion.is-entering,
+  .theme .theme-vurify-viewer__link-bit.theme-vurify-viewer__motion.is-leaving,
+  .theme .theme-vurify-viewer__language-row.theme-vurify-viewer__motion.is-entering,
+  .theme .theme-vurify-viewer__language-row.theme-vurify-viewer__motion.is-leaving,
+  .theme .theme-vurify-viewer__contact-wrap.theme-vurify-viewer__motion.is-entering,
+  .theme .theme-vurify-viewer__contact-wrap.theme-vurify-viewer__motion.is-leaving,
+  .theme .theme-vurify-viewer__links-wrap.theme-vurify-viewer__motion.is-entering,
+  .theme .theme-vurify-viewer__links-wrap.theme-vurify-viewer__motion.is-leaving,
+  .theme .theme-vurify-viewer__languages-wrap.theme-vurify-viewer__motion.is-entering,
+  .theme .theme-vurify-viewer__languages-wrap.theme-vurify-viewer__motion.is-leaving {
+    max-height: 0;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .theme .theme-vurify-viewer__contact-wrap,
+  .theme .theme-vurify-viewer__links-wrap,
+  .theme .theme-vurify-viewer__languages-wrap {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Headline / summary — hover X top-right + soft leave */
+  .theme .theme-vurify-viewer__text-slot {
+    position: relative;
+    width: 100%;
+    max-width: var(--vv-measure);
+    padding-right: 0;
+  }
+
+  .theme .theme-vurify-viewer__text-slot .theme-vurify-viewer__chip-remove {
+    position: absolute;
+    top: 0.1rem;
+    right: 0;
+    z-index: 1;
+  }
+
+  .theme .theme-vurify-viewer__text-slot:hover .theme-vurify-viewer__chip-remove,
+  .theme .theme-vurify-viewer__text-slot:focus-within .theme-vurify-viewer__chip-remove {
+    opacity: 1;
+    max-width: 0.9rem;
+    pointer-events: auto;
+  }
+
+  .theme .theme-vurify-viewer__masthead > .theme-vurify-viewer__text-slot--lead {
+    margin-bottom: 0.85rem;
+  }
+
+  .theme .theme-vurify-viewer__masthead > .theme-vurify-viewer__text-slot--summary {
+    margin-top: 0.75rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-vurify-viewer__chip-remove,
+    .theme .theme-vurify-viewer__contact-bit,
+    .theme .theme-vurify-viewer__link-bit,
+    .theme .theme-vurify-viewer__language-row,
+    .theme .theme-vurify-viewer__motion,
+    .theme .theme-vurify-viewer__text-slot {
+      transition: none;
+    }
+
+    .theme .theme-vurify-viewer__motion.is-entering,
+    .theme .theme-vurify-viewer__motion.is-leaving {
+      transform: none;
+    }
+  }
+
+  /* ─── Sections / entries ─── */
+  .theme .theme-vurify-viewer__sections {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vv-gap-section);
+  }
+
+  .theme .theme-vurify-viewer__section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+
+  .theme .theme-vurify-viewer__items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vv-gap-entry);
+  }
+
+  .theme .theme-vurify-viewer__item-slot {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vv-rule-space);
+  }
+
+  .theme .theme-vurify-viewer__item-slot.is-date-moved > .theme-vurify-viewer__item {
+    animation: vv-date-move 420ms ease;
+  }
+
+  @keyframes vv-date-move {
+    from {
+      background-color: color-mix(in oklab, var(--theme-accent) 10%, transparent);
+    }
+    to {
+      background-color: transparent;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-vurify-viewer__item-slot.is-date-moved > .theme-vurify-viewer__item {
+      animation: none;
+    }
+  }
+
+  .theme .theme-vurify-viewer__item-slot > .theme-vurify-viewer__rule--soft {
+    margin-bottom: 0.15rem;
+  }
+
+  .theme .theme-vurify-viewer__item + .theme-vurify-viewer__item {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .theme .theme-vurify-viewer__item-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 0.28rem;
+  }
+
+  .theme .theme-vurify-viewer__meta-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.35rem;
+    max-width: var(--vv-measure);
+    min-width: 0;
+  }
+
+  .theme .theme-vurify-viewer__meta-row .theme-vurify-viewer__field {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .theme .theme-vurify-viewer__remove-btn {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: var(--vv-faint);
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+    flex: none;
+    opacity: 0;
+    transition: opacity 140ms ease, color 140ms ease;
+  }
+
+  .theme .theme-vurify-viewer__meta-row:hover .theme-vurify-viewer__remove-btn,
+  .theme .theme-vurify-viewer__meta-row:focus-within .theme-vurify-viewer__remove-btn,
+  .theme .theme-vurify-viewer__entry-sub:hover .theme-vurify-viewer__remove-btn,
+  .theme .theme-vurify-viewer__entry-sub:focus-within .theme-vurify-viewer__remove-btn {
+    opacity: 1;
+  }
+
+  .theme .theme-vurify-viewer__remove-btn:hover {
+    color: var(--theme-accent);
+  }
+
+  .theme .theme-vurify-viewer__entry-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.25rem 1.5rem;
+    padding-bottom: 0;
+    margin-bottom: 0.1rem;
+  }
+
+  .theme .theme-vurify-viewer__entry-main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    min-width: 0;
+    flex: 1 1 12rem;
+  }
+
+  .theme .theme-vurify-viewer__entry-sub {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.35rem 0.65rem;
+  }
+
+  .theme .theme-vurify-viewer__dates {
+    flex: 0 0 auto;
+    text-align: right;
+  }
+
+  .theme .theme-vurify-viewer__dates--range {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: flex-end;
+    gap: var(--vv-gap-near);
+  }
+
+  .theme .theme-vurify-viewer__dates--invalid .theme-vurify-viewer__editable-input,
+  .theme .theme-vurify-viewer__dates--invalid .theme-vurify-viewer__editable-display {
+    color: color-mix(in oklab, var(--theme-danger, #b42318) 88%, var(--theme-fg));
+  }
+
+  .theme .theme-vurify-viewer__date-hint {
+    flex: 1 0 100%;
+    margin: 0;
+    text-align: right;
+    color: color-mix(in oklab, var(--theme-danger, #b42318) 88%, var(--theme-fg));
+  }
+
+  .theme .theme-vurify-viewer__date-dash {
+    color: var(--vv-faint);
+    font-size: 0.78rem;
+  }
+
+  .theme .theme-vurify-viewer__present-btn {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    font-size: 0.78rem;
+    font-style: italic;
+    color: var(--vv-muted);
+    cursor: pointer;
+  }
+
+  .theme .theme-vurify-viewer__present-btn:hover {
+    color: var(--theme-accent);
+  }
+
+  .theme .theme-vurify-viewer__item-layout > .theme-vurify-viewer__list {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .theme .theme-vurify-viewer__item-layout > .theme-vurify-viewer__field--body,
+  .theme .theme-vurify-viewer__item-layout > .theme-vurify-viewer__field--meta {
+    margin-top: 0.45rem;
+  }
+
+  .theme .theme-vurify-viewer__section-head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .theme .theme-vurify-viewer__section-head .theme-vurify-viewer__rule {
+    margin-top: 0.1rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .theme .theme-vurify-viewer__band {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vv-gap-tight);
+    margin-top: 0.55rem;
+  }
+
+  /* ─── Block chrome ─── */
+  .theme .theme-vurify-viewer__block {
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--vv-grip-w) minmax(0, 1fr) var(--vv-edge-w);
+    column-gap: var(--vv-gap-near);
+    align-items: start;
+    width: 100%;
+  }
+
+  .theme .theme-vurify-viewer__block:not(.is-editable) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .theme .theme-vurify-viewer__block:not(.is-editable) .theme-vurify-viewer__block-body {
+    grid-column: 1;
+  }
+
+  .theme .theme-vurify-viewer__block.is-editable .theme-vurify-viewer__grip {
+    grid-column: 1;
+  }
+
+  .theme .theme-vurify-viewer__block.is-editable .theme-vurify-viewer__block-body {
+    grid-column: 2;
+    min-width: 0;
+  }
+
+  .theme .theme-vurify-viewer__block.is-editable .theme-vurify-viewer__edge {
+    grid-column: 3;
+  }
+
+  /* Sections (no in-doc grip) — collapse left rail; edge stays */
+  .theme .theme-vurify-viewer__block.is-editable.is-no-grip {
+    grid-template-columns: minmax(0, 1fr) var(--vv-edge-w);
+  }
+
+  .theme .theme-vurify-viewer__block.is-editable.is-no-grip .theme-vurify-viewer__block-body {
+    grid-column: 1;
+  }
+
+  .theme .theme-vurify-viewer__block.is-editable.is-no-grip .theme-vurify-viewer__edge {
+    grid-column: 2;
+  }
+
+  .theme .theme-vurify-viewer__block-body {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .theme .theme-vurify-viewer__grip {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: var(--vv-faint);
+    padding: 0.2rem 0;
+    margin: 0;
+    cursor: grab;
+    opacity: 0;
+    transition: opacity 140ms ease, color 140ms ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: none;
+  }
+
+  .theme .theme-vurify-viewer__block.is-editable:hover .theme-vurify-viewer__grip,
+  .theme .theme-vurify-viewer__block.is-editable:focus-within .theme-vurify-viewer__grip,
+  .theme .theme-vurify-viewer__item.is-dragging .theme-vurify-viewer__grip,
+  .theme .theme-vurify-viewer__section.is-dragging .theme-vurify-viewer__grip {
+    opacity: 1;
+  }
+
+  .theme .theme-vurify-viewer__grip:active {
+    cursor: grabbing;
+  }
+
+  .theme .theme-vurify-viewer__edge {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 0.1rem;
+    /* Tray bearing stays faintly visible; hover reveals full controls. */
+    opacity: 0.42;
+    transition: opacity 140ms ease;
+  }
+
+  .theme .theme-vurify-viewer__block.is-editable:hover .theme-vurify-viewer__edge,
+  .theme .theme-vurify-viewer__block.is-editable:focus-within .theme-vurify-viewer__edge,
+  .theme .theme-vurify-viewer__block.is-editable:has(.theme-menu--open) .theme-vurify-viewer__edge {
+    opacity: 1;
+  }
+
+  .theme .theme-vurify-viewer__edge-tools {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.22rem;
+  }
+
+  .theme .theme-vurify-viewer__edge-btn.theme-btn--tray:disabled {
+    opacity: 0.38;
+  }
+
+  /* ─── Lists — quiet editorial bullets ─── */
+  .theme .theme-vurify-viewer__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.28rem;
+    max-width: var(--vv-measure);
+  }
+
+  .theme .theme-vurify-viewer__list-row {
+    display: grid;
+    grid-template-columns: 0.85rem minmax(0, 1fr) auto;
+    align-items: baseline;
+    column-gap: 0.45rem;
+  }
+
+  .theme .theme-vurify-viewer__list-bullet {
+    color: var(--vv-faint);
+    line-height: 1.55;
+    font-size: 0.75rem;
+    text-align: center;
+    padding-top: 0.2rem;
+  }
+
+  .theme .theme-vurify-viewer__list-row .theme-vurify-viewer__field,
+  .theme .theme-vurify-viewer__list-row .theme-vurify-viewer__editable,
+  .theme .theme-vurify-viewer__list-row .theme-editable-title {
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: color-mix(in oklab, var(--theme-fg) 84%, transparent);
+  }
+
+  .theme .theme-vurify-viewer__list-row:hover .theme-vurify-viewer__remove-btn,
+  .theme .theme-vurify-viewer__list-row:focus-within .theme-vurify-viewer__remove-btn {
+    opacity: 1;
+  }
+
+  .theme .theme-vurify-viewer__list-add {
+    margin: 0;
+    padding: 0.15rem 0 0;
+  }
+
+  /* Skills as name | level rows — spacing only, no row rules */
+  .theme .theme-vurify-viewer__skill-table {
+    display: flex;
+    flex-direction: column;
+    gap: 0.12rem;
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .theme .theme-vurify-viewer__skill-table.has-levels .theme-vurify-viewer__skill-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(4.5rem, 7.5rem);
+    column-gap: 1rem;
+    align-items: baseline;
+    padding: 0.05rem 0;
+  }
+
+  .theme .theme-vurify-viewer__skill-table.has-levels.is-editable .theme-vurify-viewer__skill-row {
+    grid-template-columns: minmax(0, 1fr) minmax(4.5rem, 7.5rem) auto;
+  }
+
+  .theme .theme-vurify-viewer__skill-table.names-only .theme-vurify-viewer__skill-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.35rem;
+    padding: 0.05rem 0;
+  }
+
+  .theme .theme-vurify-viewer__skill-table.names-only .theme-vurify-viewer__skill-name {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .theme .theme-vurify-viewer__skill-row:hover .theme-vurify-viewer__remove-btn,
+  .theme .theme-vurify-viewer__skill-row:focus-within .theme-vurify-viewer__remove-btn {
+    opacity: 1;
+  }
+
+  .theme .theme-vurify-viewer__skill-table.names-only .theme-vurify-viewer__skill-name::before {
+    content: '•';
+    color: var(--vv-faint);
+    margin-right: 0.4rem;
+    font-size: 0.75rem;
+  }
+
+  .theme .theme-vurify-viewer__skill-name,
+  .theme .theme-vurify-viewer__skill-level {
+    min-width: 0;
+  }
+
+  .theme .theme-vurify-viewer__skill-level {
+    text-align: end;
+    color: var(--vv-muted);
+  }
+
+  .theme .theme-vurify-viewer__skill-table .theme-vurify-viewer__field--list {
+    font-size: 0.9rem;
+  }
+
+  .theme .theme-vurify-viewer__roles {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vv-gap-block);
+    margin-top: var(--vv-gap-near);
+    padding-left: 0.75rem;
+    border-left: 1px solid color-mix(in oklab, var(--theme-fg) 10%, transparent);
+  }
+
+  .theme .theme-vurify-viewer__role {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vv-gap-tight);
+  }
+
+  .theme .theme-vurify-viewer__extras {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vv-gap-near);
+    margin-top: var(--vv-gap-near);
+  }
+
+  .theme .theme-vurify-viewer__quiet-btn {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+    text-align: left;
+    font-size: 0.8rem;
+    color: var(--vv-muted);
+  }
+
+  .theme .theme-vurify-viewer__quiet-btn:hover {
+    color: var(--theme-accent);
+  }
+
+  .theme .theme-vurify-viewer__footer {
+    display: flex;
+    justify-content: flex-start;
+    padding-top: var(--vv-gap-block);
+    border-top: 1px solid var(--vv-rule);
+  }
+
+  .theme .theme-vurify-viewer__footer-tools {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.22rem;
+  }
+
+  .theme .theme-vurify-viewer__template {
+    padding: 1rem 0.85rem;
+    border: 1px dashed color-mix(in oklab, var(--theme-fg) 22%, transparent);
+    border-radius: 0.35rem;
+  }
+
+  .theme .theme-vurify-viewer__template-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--vv-gap-near);
+  }
+
+  .theme .theme-vurify-viewer__template-chip {
+    appearance: none;
+    border: 1px solid color-mix(in oklab, var(--theme-fg) 16%, transparent);
+    background: color-mix(in oklab, var(--theme-fg) 3%, transparent);
+    color: inherit;
+    padding: 0.35rem 0.65rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    font-size: 0.8rem;
+  }
+
+  .theme .theme-vurify-viewer__template-chip:hover {
+    border-color: color-mix(in oklab, var(--theme-accent) 50%, transparent);
+    color: var(--theme-accent);
+  }
+
+  /* Placeholder in-list (DragReorderMenu pattern) — overlay carries the grab visual */
+  .theme .theme-vurify-viewer__sections.is-drag-active {
+    user-select: none;
+  }
+
+  .theme .theme-vurify-viewer__section.is-dragging,
+  .theme .theme-vurify-viewer__item.is-dragging {
+    opacity: 0.35;
+  }
+
+  .theme.theme-vurify-viewer__overlay-portal {
+    width: 100%;
+    height: 100%;
+  }
+
+  .theme .theme-vurify-viewer__drag-overlay {
+    box-sizing: border-box;
+    width: min(100%, 28rem);
+    max-width: 90vw;
+    padding: 0.65rem 0.85rem;
+    border: 1px solid var(--vv-rule-strong);
+    border-radius: 0.25rem;
+    background: var(--theme-surface, var(--theme-bg));
+    box-shadow: 3px 3px 0 color-mix(in srgb, var(--theme-shadow-brutal) 70%, transparent);
+    pointer-events: none;
+    cursor: grabbing;
+  }
+
+  .theme .theme-vurify-viewer__drag-overlay-title {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--vv-ink);
+  }
+
+  .theme .theme-vurify-viewer__drag-overlay .theme-vurify-viewer__rule {
+    margin-top: 0.45rem;
+  }
+
+  .theme .theme-vurify-viewer__format-tray {
+    pointer-events: auto;
+  }
+
+  /* Stream updates remount keys rapidly — never collapse folds mid-stream. */
+  .theme .theme-vurify-viewer[data-streaming='true'] .theme-vurify-viewer__motion.is-entering,
+  .theme .theme-vurify-viewer[data-streaming='true'] .theme-vurify-viewer__motion.is-leaving {
+    opacity: 1 !important;
+    transform: none !important;
+    max-height: none !important;
+    margin-top: revert !important;
+    margin-bottom: revert !important;
+    padding-top: revert !important;
+    padding-bottom: revert !important;
+    overflow: visible !important;
+    pointer-events: none;
+  }
+
+  /* Experience / project footer — italic horizontal tech stack / notes */
+  .theme .theme-vurify-viewer__item-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.35rem 0.55rem;
+    margin-top: 0.55rem;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .theme .theme-vurify-viewer__item-footer-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.15rem 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  .theme .theme-vurify-viewer__item-footer-chip {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.2rem;
+    min-width: 0;
+    /* Fixed cap so leave can animate max-width → 0 (%, content-sized, won't collapse). */
+    max-width: 28rem;
+    overflow: hidden;
+    transition:
+      gap 180ms ease,
+      max-width 200ms ease,
+      opacity 220ms ease,
+      transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
+      margin 180ms ease;
+  }
+
+  .theme .theme-vurify-viewer__item-footer-chip.theme-vurify-viewer__motion.is-entering,
+  .theme .theme-vurify-viewer__item-footer-chip.theme-vurify-viewer__motion.is-leaving {
+    max-width: 0;
+    min-width: 0 !important;
+    opacity: 0;
+    transform: translateY(-0.15rem);
+    gap: 0 !important;
+    margin: 0 !important;
+    pointer-events: none;
+  }
+
+  .theme .theme-vurify-viewer__item-footer-sep {
+    color: var(--vv-faint, var(--theme-muted));
+    margin-inline: 0.2rem 0.35rem;
+    user-select: none;
+  }
+
+  .theme .theme-vurify-viewer__item-footer-text,
+  .theme .theme-vurify-viewer__item-footer-edit .theme-vurify-viewer__editable,
+  .theme .theme-vurify-viewer__item-footer-edit .theme-editable-title,
+  .theme .theme-vurify-viewer__item-footer-edit .theme-vurify-viewer__field {
+    font-style: italic;
+    font-size: 0.8125rem;
+    line-height: 1.35;
+    color: var(--vv-muted, var(--theme-muted));
+  }
+
+  .theme .theme-vurify-viewer__item-footer-edit {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.15rem;
+    min-width: 0;
+  }
+
+  .theme .theme-vurify-viewer__item-footer-edit .theme-vurify-viewer__remove-btn {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .theme .theme-vurify-viewer__item-footer-chip:hover .theme-vurify-viewer__remove-btn,
+  .theme .theme-vurify-viewer__item-footer-chip:focus-within .theme-vurify-viewer__remove-btn {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .theme .theme-vurify-viewer__item-footer-add {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    color: var(--theme-accent);
+    font-style: italic;
+  }
+
+  .theme .theme-vurify-viewer__item-footer-add:hover {
+    text-decoration: underline;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-vurify-viewer[data-streaming='true'] .theme-vurify-viewer__motion.is-entering,
+    .theme .theme-vurify-viewer[data-streaming='true'] .theme-vurify-viewer__motion.is-leaving {
+      transition: none !important;
+      transform: none !important;
+    }
+  }
+}

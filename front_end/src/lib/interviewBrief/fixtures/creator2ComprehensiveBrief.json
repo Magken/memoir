@@ -1,0 +1,815 @@
+{
+  "schemaVersion": 1,
+  "kind": "interview_brief",
+  "definition": {
+    "meta": {
+      "title": "Senior engineer screen — 45m",
+      "roleTitle": "Senior software engineer",
+      "status": "draft",
+      "roleDescription": "Own services end-to-end; strong ownership under incident pressure; solid coding fundamentals.",
+      "candidateDescription": "Thanks for interviewing with us for this Senior software engineer role.\n\nYou will talk through recent ownership, complete an eligibility screen, then a coding challenge and a written ownership note. Expect about 55 minutes.\n\nBring concrete examples. Ask clarifying questions any time.",
+      "rolePdfNodeId": null,
+      "rolePdfName": null,
+      "proposedMinutes": 55,
+      "estimatedMinutes": 44,
+      "timing": {
+        "slackMinutes": 2,
+        "fitPolicy": "fit_proposed",
+        "notes": "estimatedMinutes = Σ section estimates; must fit proposedMinutes ± slack when fitPolicy is fit_proposed"
+      }
+    },
+    "persona": {
+      "name": "Avery",
+      "voice": "calm, precise, warm",
+      "behaviourPrompt": "You are a hiring interviewer. Probe for concrete examples. Never coach solutions or reveal test cases. Stay inside the current phase. Keep turns short."
+    },
+    "systemGoals": [
+      "Confirm work authorization and baseline fit",
+      "Assess ownership under conflict",
+      "Validate coding fundamentals on a timed exercise"
+    ],
+    "guardrails": [
+      "Do not hint at coding solutions or hidden tests",
+      "Do not open tools mid-discussion",
+      "Do not invent phases outside phases[]"
+    ],
+    "probeDefaults": {
+      "maxFollowUps": 1,
+      "targetMinutes": 5,
+      "maxProbes": 4,
+      "minCandidateTurns": 1
+    },
+    "analysisDefaults": {
+      "attachPackByTopicKind": {
+        "opening": "pack.shallow",
+        "deep": "pack.talk",
+        "conflict": "pack.conflict",
+        "closing": null
+      }
+    }
+  },
+  "topicLibrary": [
+    {
+      "id": "topic.warmup",
+      "label": "Warmup",
+      "purpose": "Settle in; light signal on communication",
+      "maxFollowUps": 0,
+      "targetMinutes": 3,
+      "maxProbes": 1,
+      "minCandidateTurns": 1,
+      "behaviourPromptOverride": null,
+      "probes": [
+        {
+          "id": "p.warmup.1",
+          "goal": "Learn what they have been working on recently",
+          "required": true,
+          "order": 0,
+          "hint": "One concrete project is enough"
+        }
+      ],
+      "targets": [],
+      "analysis": {
+        "attachPack": null,
+        "templateIds": []
+      }
+    },
+    {
+      "id": "topic.conflict",
+      "label": "Conflict handling",
+      "purpose": "How the candidate handles conflict — example quality, ownership, resolution",
+      "maxFollowUps": 3,
+      "targetMinutes": 10,
+      "maxProbes": 3,
+      "minCandidateTurns": 2,
+      "behaviourPromptOverride": "Push once for personal actions if they stay collective ('we').",
+      "probes": [
+        {
+          "id": "p.conflict.1",
+          "goal": "Surface a real workplace conflict or disagreement",
+          "required": true,
+          "order": 0,
+          "hint": null
+        },
+        {
+          "id": "p.conflict.2",
+          "goal": "What they personally did to resolve it",
+          "required": true,
+          "order": 1,
+          "hint": null
+        },
+        {
+          "id": "p.conflict.3",
+          "goal": "Outcome and what they would change next time",
+          "required": false,
+          "order": 2,
+          "hint": null
+        }
+      ],
+      "targets": [
+        {
+          "key": "conflict_example",
+          "label": "Concrete example",
+          "required": true,
+          "datatype": "text",
+          "description": "Short restatement of the incident they described"
+        },
+        {
+          "key": "resolution_approach",
+          "label": "Resolution approach",
+          "required": true,
+          "datatype": "text",
+          "description": "What they personally did"
+        },
+        {
+          "key": "wants_deeper_coding",
+          "label": "Wants harder coding follow-up",
+          "required": false,
+          "datatype": "enum",
+          "enumValues": [
+            "yes",
+            "no",
+            "unclear"
+          ],
+          "description": "Optional signal for conditional phases"
+        }
+      ],
+      "analysis": {
+        "attachPack": null,
+        "templateIds": [
+          "iv.delivery.v1",
+          "iv.ownership.v1",
+          "synth.topic.v1"
+        ]
+      }
+    },
+    {
+      "id": "topic.close",
+      "label": "Close",
+      "purpose": "Candidate questions and wrap-up",
+      "maxFollowUps": 0,
+      "targetMinutes": 4,
+      "maxProbes": 1,
+      "minCandidateTurns": 0,
+      "behaviourPromptOverride": null,
+      "probes": [
+        {
+          "id": "p.close.1",
+          "goal": "Invite questions about role, team, or process",
+          "required": false,
+          "order": 0,
+          "hint": null
+        }
+      ],
+      "targets": [],
+      "analysis": {
+        "attachPack": null,
+        "templateIds": [
+          "iv.question.v1"
+        ]
+      }
+    }
+  ],
+  "phases": [
+    {
+      "id": "ph.eligible",
+      "kind": "tool",
+      "toolRef": "tool.form.eligibility",
+      "title": "Eligibility",
+      "required": true,
+      "estimatedMinutes": 5,
+      "when": null,
+      "onFail": null,
+      "notes": null,
+      "summary": {
+        "blurb": "Answer a short work-authorization screen (one required MCQ plus optional notice period). You must clear this gate before later stages continue."
+      }
+    },
+    {
+      "id": "ph.warmup",
+      "kind": "discussion",
+      "topicId": "topic.warmup",
+      "title": "Opening",
+      "isOpening": true,
+      "isClosing": false,
+      "estimatedMinutes": 3,
+      "when": {
+        "all": [
+          {
+            "toolPassed": "tool.form.eligibility"
+          }
+        ]
+      },
+      "onFail": {
+        "goToPhaseId": "ph.close"
+      },
+      "notes": null
+    },
+    {
+      "id": "ph.conflict",
+      "kind": "discussion",
+      "topicId": "topic.conflict",
+      "title": "Conflict",
+      "isOpening": false,
+      "isClosing": false,
+      "estimatedMinutes": 10,
+      "when": {
+        "all": [
+          {
+            "toolPassed": "tool.form.eligibility"
+          }
+        ]
+      },
+      "onFail": "skip",
+      "notes": null,
+      "summary": {
+        "blurb": "Walk through a conflict or pressure story with ownership and resolution. Bring concrete decisions and outcomes - not high-level STAR labels alone."
+      }
+    },
+    {
+      "id": "ph.code",
+      "kind": "tool",
+      "toolRef": "tool.coding.1",
+      "title": "Coding",
+      "required": true,
+      "estimatedMinutes": 20,
+      "when": {
+        "all": [
+          {
+            "toolPassed": "tool.form.eligibility"
+          }
+        ]
+      },
+      "onFail": "skip",
+      "notes": null
+    },
+    {
+      "id": "ph.essay",
+      "kind": "tool",
+      "toolRef": "tool.doc.essay.optional",
+      "title": "Written design note",
+      "required": false,
+      "estimatedMinutes": 10,
+      "when": {
+        "all": [
+          {
+            "toolPassed": "tool.form.eligibility"
+          }
+        ]
+      },
+      "onFail": "skip",
+      "notes": null,
+      "summary": {
+        "blurb": "Write a short design note on a rate limiter covering approach and tradeoffs so a reviewer can skim structure, depth, and judgement."
+      }
+    },
+    {
+      "id": "ph.close",
+      "kind": "discussion",
+      "topicId": "topic.close",
+      "title": "Closing",
+      "isOpening": false,
+      "isClosing": true,
+      "estimatedMinutes": 4,
+      "when": null,
+      "onFail": null,
+      "notes": null
+    }
+  ],
+  "tools": {
+    "tool.form.eligibility": {
+      "type": "form_quiz",
+      "title": "Eligibility screen",
+      "instructions": "Short form before we continue. Required items gate the rest of the interview.",
+      "editorKind": "testform",
+      "timing": {
+        "mode": "untimed",
+        "estimatedMinutes": 5,
+        "limitMinutes": null
+      },
+      "artifact": {
+        "docKind": "form",
+        "nodeId": null,
+        "inline": {
+          "schema": "vurify/test-form",
+          "version": 1,
+          "id": "tf_eligibility_screen",
+          "title": "Eligibility",
+          "settings": {
+            "shuffleQuestions": false,
+            "showHintsInTake": true
+          },
+          "sections": [
+            {
+              "id": "sec.work",
+              "title": "Work authorization",
+              "description": null
+            }
+          ],
+          "questions": [
+            {
+              "id": "q.auth",
+              "kind": "mcq_single",
+              "sectionId": "sec.work",
+              "prompt": "Are you authorized to work in this location without sponsorship?",
+              "required": true,
+              "points": 1,
+              "hint": "Answer based on your current work authorization status.",
+              "options": [
+                {
+                  "id": "opt.yes",
+                  "label": "Yes"
+                },
+                {
+                  "id": "opt.no",
+                  "label": "No"
+                }
+              ]
+            },
+            {
+              "id": "q.notice",
+              "kind": "short_text",
+              "sectionId": "sec.work",
+              "prompt": "Notice period (days)",
+              "required": false,
+              "points": 0,
+              "inputFormat": "number",
+              "description": "Optional",
+              "hint": "Enter a number of days if known."
+            }
+          ],
+          "answerKey": {
+            "q.auth": {
+              "kind": "mcq_single",
+              "optionId": "opt.yes"
+            }
+          }
+        }
+      },
+      "passThreshold": {
+        "mode": "required_items",
+        "minScore": null,
+        "requiredQuestionIds": [
+          "q.auth"
+        ]
+      },
+      "analysis": {
+        "attachPack": "pack.form_gate",
+        "templateIds": []
+      }
+    },
+    "tool.coding.1": {
+      "type": "coding",
+      "title": "Two-sum variant",
+      "instructions": "You will implement twoSum(nums, target) in the code workspace so it returns the indices of the two values that add up to target. Read the README examples (Input / Output / Explanation), cover the visible samples, then Run so hidden cases can grade your return value. Prefer clear naming and edge coverage over clever one-liners.",
+      "editorKind": "code",
+      "timing": {
+        "mode": "timed",
+        "estimatedMinutes": 20,
+        "limitMinutes": 20
+      },
+      "languages": [
+        "typescript",
+        "python"
+      ],
+      "summary": {
+        "blurb": "You will implement a two-sum style function in the workspace, check it against the README Input/Output examples, then Run so hidden cases grade your return value. Clear solutions matter for this role.",
+        "tags": [
+          {
+            "label": "3 tests",
+            "tone": "count"
+          },
+          {
+            "label": "TS",
+            "tone": "meta"
+          },
+          {
+            "label": "PY",
+            "tone": "meta"
+          }
+        ]
+      },
+      "artifact": {
+        "docKind": "code",
+        "nodeId": null,
+        "inline": {
+          "title": "two-sum",
+          "files": [
+            {
+              "path": "src/solve.ts",
+              "language": "typescript",
+              "content": "export function twoSum(nums: number[], target: number): number[] {\n  // TODO\n  return []\n}\n"
+            },
+            {
+              "path": "src/solve.py",
+              "language": "python",
+              "content": "def twoSum(nums, target):\n    # TODO\n    raise NotImplementedError\n"
+            },
+            {
+              "path": "README.md",
+              "language": "markdown",
+              "content": "# Two Sum\n\n## Problem\nGiven an array of integers `nums` and an integer `target`, return the **indices** of the two numbers that add up to `target`.\n\nYou may assume each input has **exactly one** valid pair. You may not use the same element twice.\n\n## Function\nImplement `twoSum(nums, target)` where:\n- `nums` - list of integers\n- `target` - integer sum to find\n- returns - `[i, j]` indices into `nums` such that `nums[i] + nums[j] === target`\n\n## Examples\n\n### Example 1\n**Input:** `nums = [2, 7, 11, 15]`, `target = 9`\n**Output:** `[0, 1]`\n**Explanation:** `nums[0] + nums[1] = 2 + 7 = 9`.\n\n### Example 2\n**Input:** `nums = [3, 3]`, `target = 6`\n**Output:** `[0, 1]`\n**Explanation:** The same value appears twice and both indices are needed.\n\n## Constraints\n- `2 <= nums.length <= 10^4`\n- `-10^9 <= nums[i], target <= 10^9`\n- Exactly one valid answer\n\n## Scoring\nVisible examples match sample tests. Run also grades hidden cases. Match the expected return value (deep equality).\n"
+            },
+            {
+              "path": "tests/cases.json",
+              "language": "json",
+              "content": "{\n  \"runner\": \"hidden_cases_v1\",\n  \"entryPoint\": \"twoSum\",\n  \"cases\": [\n    {\n      \"id\": \"t1\",\n      \"name\": \"basic\",\n      \"description\": \"Classic pair that sums to target\",\n      \"args\": [\n        [\n          2,\n          7,\n          11,\n          15\n        ],\n        9\n      ],\n      \"expected\": [\n        0,\n        1\n      ],\n      \"compare\": \"deep_equal\",\n      \"hidden\": false,\n      \"timeoutMs\": 2000\n    },\n    {\n      \"id\": \"t2\",\n      \"name\": \"edge_empty\",\n      \"description\": \"Empty nums — expect empty indices\",\n      \"args\": [\n        [],\n        1\n      ],\n      \"expected\": [],\n      \"compare\": \"deep_equal\",\n      \"hidden\": true,\n      \"timeoutMs\": 2000\n    },\n    {\n      \"id\": \"t3\",\n      \"name\": \"duplicate_values\",\n      \"description\": \"Same value twice that sums to target\",\n      \"args\": [\n        [\n          3,\n          3\n        ],\n        6\n      ],\n      \"expected\": [\n        0,\n        1\n      ],\n      \"compare\": \"deep_equal\",\n      \"hidden\": true,\n      \"timeoutMs\": 2000\n    }\n  ]\n}\n"
+            },
+            {
+              "path": "tests/reference.ts",
+              "language": "typescript",
+              "content": "export function twoSum(nums: number[], target: number): number[] {\n  const seen = new Map<number, number>()\n  for (let i = 0; i < nums.length; i++) {\n    const need = target - nums[i]!\n    const j = seen.get(need)\n    if (j !== undefined) return [j, i]\n    seen.set(nums[i]!, i)\n  }\n  return []\n}\n"
+            }
+          ],
+          "folders": [
+            "src",
+            "tests"
+          ],
+          "openIds": [
+            "README.md",
+            "src/solve.ts",
+            "tests/cases.json"
+          ],
+          "activeId": "README.md"
+        }
+      },
+      "tests": {
+        "runner": "hidden_cases_v1",
+        "entryPoint": "twoSum",
+        "cases": [
+          {
+            "id": "t1",
+            "name": "basic",
+            "description": "Classic pair that sums to target",
+            "args": [
+              [
+                2,
+                7,
+                11,
+                15
+              ],
+              9
+            ],
+            "expected": [
+              0,
+              1
+            ],
+            "compare": "deep_equal",
+            "hidden": false,
+            "timeoutMs": 2000
+          },
+          {
+            "id": "t2",
+            "name": "edge_empty",
+            "description": "Empty nums — expect empty indices",
+            "args": [
+              [],
+              1
+            ],
+            "expected": [],
+            "compare": "deep_equal",
+            "hidden": true,
+            "timeoutMs": 2000
+          },
+          {
+            "id": "t3",
+            "name": "duplicate_values",
+            "description": "Same value twice that sums to target",
+            "args": [
+              [
+                3,
+                3
+              ],
+              6
+            ],
+            "expected": [
+              0,
+              1
+            ],
+            "compare": "deep_equal",
+            "hidden": true,
+            "timeoutMs": 2000
+          }
+        ],
+        "referenceSolution": "export function twoSum(nums: number[], target: number): number[] {\n  const seen = new Map<number, number>()\n  for (let i = 0; i < nums.length; i++) {\n    const need = target - nums[i]!\n    const j = seen.get(need)\n    if (j !== undefined) return [j, i]\n    seen.set(nums[i]!, i)\n  }\n  return []\n}\n"
+      },
+      "analysis": {
+        "attachPack": "pack.coding",
+        "templateIds": []
+      },
+      "defaultLanguage": "typescript"
+    },
+    "tool.doc.essay.optional": {
+      "type": "doc",
+      "title": "Written design note",
+      "instructions": "Write a short design note. Rubric dimensions on this tool grade the submission — not Templates library cards.",
+      "editorKind": "doc",
+      "timing": {
+        "mode": "untimed",
+        "estimatedMinutes": 10,
+        "limitMinutes": null
+      },
+      "minWords": 120,
+      "maxWords": 600,
+      "prompt": {
+        "brief": "Explain how you would design a rate limiter for a public API.",
+        "structure": [
+          {
+            "id": "approach",
+            "label": "Approach",
+            "hint": "High-level design",
+            "minParagraphs": 1
+          },
+          {
+            "id": "tradeoffs",
+            "label": "Tradeoffs",
+            "hint": "Latency vs accuracy",
+            "minParagraphs": 1
+          },
+          {
+            "id": "conclusion",
+            "label": "Conclusion",
+            "minParagraphs": 1
+          }
+        ],
+        "requirements": [
+          "Name at least one algorithm",
+          "Call out failure modes"
+        ]
+      },
+      "assessment": {
+        "kind": "rubric",
+        "dimensions": [
+          {
+            "key": "relevance",
+            "label": "Relevance",
+            "criterion": "Answers the design prompt with on-topic content",
+            "bands": [
+              {
+                "id": "weak",
+                "label": "Weak",
+                "descriptor": "Off-topic or vague"
+              },
+              {
+                "id": "mixed",
+                "label": "Mixed",
+                "descriptor": "Partial relevance"
+              },
+              {
+                "id": "strong",
+                "label": "Strong",
+                "descriptor": "Fully on-topic"
+              }
+            ],
+            "options": [
+              "weak",
+              "mixed",
+              "strong"
+            ]
+          },
+          {
+            "key": "structure",
+            "label": "Structure",
+            "criterion": "Clear sections and flow",
+            "bands": [
+              {
+                "id": "weak",
+                "label": "Weak",
+                "descriptor": "Unstructured"
+              },
+              {
+                "id": "mixed",
+                "label": "Mixed",
+                "descriptor": "Some structure"
+              },
+              {
+                "id": "strong",
+                "label": "Strong",
+                "descriptor": "Clear sections"
+              }
+            ],
+            "options": [
+              "weak",
+              "mixed",
+              "strong"
+            ]
+          },
+          {
+            "key": "depth",
+            "label": "Depth",
+            "criterion": "Tradeoffs and failure modes",
+            "bands": [
+              {
+                "id": "weak",
+                "label": "Weak",
+                "descriptor": "Surface only"
+              },
+              {
+                "id": "mixed",
+                "label": "Mixed",
+                "descriptor": "Some tradeoffs"
+              },
+              {
+                "id": "strong",
+                "label": "Strong",
+                "descriptor": "Named algorithms and failure modes"
+              }
+            ],
+            "options": [
+              "weak",
+              "mixed",
+              "strong"
+            ]
+          }
+        ],
+        "formatNotes": null
+      },
+      "artifact": {
+        "docKind": "doc",
+        "nodeId": null,
+        "inline": {
+          "title": "Design note",
+          "markdown": "## Prompt\nExplain how you would design a rate limiter for a public API.\n\n## Your answer\n\n",
+          "pageSetup": null,
+          "lexical": null
+        }
+      },
+      "analysis": {
+        "attachPack": null,
+        "templateIds": []
+      }
+    }
+  },
+  "analysis": {
+    "schedule": [
+      {
+        "when": "after_tool",
+        "toolRef": "tool.form.eligibility",
+        "resolveFromHost": true
+      },
+      {
+        "when": "after_turn",
+        "topicId": "topic.conflict",
+        "resolveFromHost": true
+      },
+      {
+        "when": "topic_end",
+        "topicId": "topic.conflict",
+        "resolveFromHost": true,
+        "also": [
+          "fill_targets",
+          "emit_synth"
+        ]
+      },
+      {
+        "when": "after_tool",
+        "toolRef": "tool.coding.1",
+        "resolveFromHost": true
+      },
+      {
+        "when": "after_tool",
+        "toolRef": "tool.doc.essay.optional",
+        "resolveFromHost": true
+      },
+      {
+        "when": "after_turn",
+        "topicId": "topic.close",
+        "resolveFromHost": true
+      },
+      {
+        "when": "topic_end",
+        "topicId": "topic.close",
+        "resolveFromHost": true
+      },
+      {
+        "when": "interview_end",
+        "templateIds": [
+          "rollup.attempt.v1"
+        ],
+        "resolveFromHost": false
+      }
+    ],
+    "rollup": {
+      "templateId": "rollup.attempt.v1",
+      "weights": {
+        "coding-work": 0.3333,
+        "write": 0.3333,
+        "conversation": 0.3334
+      },
+      "weightSections": {
+        "coding-work": ["ph.code"],
+        "write": ["ph.essay"],
+        "conversation": ["ph.warmup", "ph.conflict", "ph.close"]
+      },
+      "weightLabels": {
+        "coding-work": "Coding",
+        "write": "Writing",
+        "conversation": "Conversation"
+      }
+    },
+    "overrides": {
+      "libraryIds": [
+        "iv.delivery.v1",
+        "iv.ownership.v1",
+        "iv.star.v1",
+        "custom.impact"
+      ],
+      "templateCards": {
+        "custom.impact": {
+          "title": "Impact evidence rubric",
+          "subtitle": "",
+          "details": "Score clarity of impact claims for this engineering screen.",
+          "outputKind": "dimensions",
+          "justificationPolicy": "always_required",
+          "dimensions": [
+            {
+              "key": "impact",
+              "label": "Impact",
+              "options": [
+                "weak",
+                "mixed",
+                "strong"
+              ],
+              "defaultOption": "mixed"
+            }
+          ],
+          "taxonomy": [],
+          "maxPerTurn": 3,
+          "enumValues": []
+        }
+      }
+    },
+    "attachPacks": {
+      "pack.shallow": [],
+      "pack.talk": [
+        "iv.delivery.v1",
+        "iv.content.v1",
+        "synth.topic.v1"
+      ],
+      "pack.star": [
+        "iv.delivery.v1",
+        "iv.star.v1",
+        "synth.topic.v1"
+      ],
+      "pack.conflict": [
+        "iv.delivery.v1",
+        "iv.ownership.v1",
+        "synth.topic.v1"
+      ],
+      "pack.design": [
+        "iv.delivery.v1",
+        "iv.tradeoff.v1",
+        "synth.topic.v1"
+      ],
+      "pack.coding": [
+        "mark.code.tests.v1",
+        "mark.code.method.v1",
+        "mark.code.structure.v1",
+        "synth.tool.v1"
+      ],
+      "pack.form_gate": [
+        "mark.form.key.v1"
+      ]
+    }
+  },
+  "timingSummary": {
+    "proposedMinutes": 55,
+    "sections": [
+      {
+        "phaseId": "ph.eligible",
+        "kind": "tool",
+        "estimatedMinutes": 5
+      },
+      {
+        "phaseId": "ph.warmup",
+        "kind": "discussion",
+        "estimatedMinutes": 3
+      },
+      {
+        "phaseId": "ph.conflict",
+        "kind": "discussion",
+        "estimatedMinutes": 10
+      },
+      {
+        "phaseId": "ph.code",
+        "kind": "tool",
+        "estimatedMinutes": 20,
+        "timed": true,
+        "limitMinutes": 20
+      },
+      {
+        "phaseId": "ph.essay",
+        "kind": "tool",
+        "estimatedMinutes": 10
+      },
+      {
+        "phaseId": "ph.close",
+        "kind": "discussion",
+        "estimatedMinutes": 4
+      }
+    ],
+    "sumSections": 42,
+    "slackMinutes": 2,
+    "estimatedMinutes": 44,
+    "fitsProposed": true
+  }
+}

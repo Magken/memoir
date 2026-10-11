@@ -1,0 +1,418 @@
+/* About Home stage-1 LCL: tall left flipped display over the scene. */
+
+@layer components {
+  /* One sheet over the scene. Short viewports lay it out large, then scale it
+     back so it fills the scene the way a zoom would. The canvas is not inside. */
+  .theme .theme-lcl-scale-host {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  html[data-lcl-scale] .theme .theme-lcl-scale-host {
+    inset: auto;
+    top: 0;
+    left: 0;
+    width: calc(100% / var(--lcl-scale));
+    height: calc(100% / var(--lcl-scale));
+    transform: scale(var(--lcl-scale));
+    transform-origin: top left;
+  }
+
+  /* Full-bleed over the absolute canvas: must not steal WebGL hover. */
+  .theme .theme-about-home-lcl {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .theme .theme-about-home-lcl:not(.is-live) {
+    visibility: hidden;
+  }
+
+  .theme .theme-about-home-lcl.is-live {
+    visibility: visible;
+  }
+
+  .theme .theme-about-home-lcl.theme-lcl-layout {
+    background: transparent;
+    overflow: visible;
+  }
+
+  .theme .theme-about-home-lcl .theme-lcl-layout__tile {
+    justify-content: flex-start;
+    align-items: flex-start;
+    border: 0;
+    background: transparent;
+    padding: 1rem;
+    cursor: default;
+    overflow: visible;
+    pointer-events: none;
+    color: #ffffff;
+  }
+
+  .theme .theme-about-home-lcl .theme-lcl-layout__tile[data-id='s1'] {
+    justify-content: center;
+    align-items: flex-start;
+    overflow: visible;
+  }
+
+  .theme .theme-about-home-lcl__head {
+    width: max-content;
+    max-width: none;
+    padding-bottom: 0.75rem;
+    overflow: visible;
+  }
+
+  /* Display tile only. Nest rows must stay 100% or list hairlines clip short. */
+  .theme .theme-about-home-lcl__display .theme-hairline-fx {
+    width: max-content;
+    padding-bottom: 0;
+    overflow: visible;
+  }
+
+  /*
+   * Flip the line up the tall left strip (writing-mode), not transform rotate.
+   * who stays leftmost; are we? sits below-right and nestled up.
+   */
+  .theme .theme-about-home-lcl__display {
+    writing-mode: sideways-lr;
+    color: #ffffff;
+    overflow: visible;
+  }
+
+  /* Top band: horizontal title, sitting on the right. */
+  .theme .theme-about-collab-lcl__display {
+    writing-mode: horizontal-tb;
+    color: #ffffff;
+    overflow: visible;
+    text-align: end;
+  }
+
+  .theme .theme-about-collab-lcl__display .theme-about-home-lcl__stack {
+    align-items: flex-end;
+  }
+
+  /* Projects title sits in its own tile, reading left to right. */
+  .theme .theme-projects-soon-lcl .theme-about-collab-lcl__display {
+    text-align: start;
+  }
+
+  .theme .theme-projects-soon-lcl .theme-about-collab-lcl__display .theme-about-home-lcl__stack {
+    align-items: flex-start;
+  }
+
+  .theme .theme-footer-lcl .theme-lcl-layout__tile[data-id='s1'] {
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  .theme .theme-footer-lcl .theme-about-home-lcl__panel {
+    width: max-content;
+    max-width: 100%;
+    align-items: stretch;
+  }
+
+  .theme .theme-footer-lcl .theme-about-home-lcl__panel .theme-lcl-layout__nest {
+    gap: 0;
+  }
+
+  .theme .theme-footer-lcl .theme-about-home-lcl__panel .theme-lcl-layout__nest-item {
+    justify-items: start;
+    text-align: start;
+    padding-block: 0.12rem;
+  }
+
+  .theme .theme-footer-lcl .theme-footer-home {
+    font-family: var(--font-display);
+    font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .theme .theme-footer-lcl.theme-about-home-lcl .theme-lcl-layout__tile[data-id='s2'] {
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+
+  .theme .theme-footer-lcl .theme-footer-mark {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: end;
+    color: #ffffff;
+  }
+
+  .theme .theme-footer-lcl .theme-footer-mark__name {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+    font-weight: var(--font-display-weight, 600);
+    line-height: 1;
+    letter-spacing: 0.08em;
+  }
+
+  .theme .theme-footer-lcl .theme-footer-mark__legal {
+    margin-top: 0.2rem;
+    color: color-mix(in srgb, #ffffff 72%, transparent);
+  }
+
+  .theme .theme-about-collab-lcl__display .theme-hairline-fx {
+    width: max-content;
+    padding-bottom: 0;
+    overflow: visible;
+  }
+
+  .theme .theme-about-collab-lcl__display .theme-scroll-enter,
+  .theme .theme-about-collab-lcl__display .theme-scroll-enter__line,
+  .theme .theme-about-collab-lcl__display .theme-scroll-enter__char {
+    white-space: nowrap;
+  }
+
+  .theme .theme-about-collab-lcl__col {
+    position: relative;
+    margin-inline-start: 0.8em;
+    margin-block-start: -0.35em;
+    color: #ffffff;
+  }
+
+  .theme .theme-about-home-lcl__stack {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    color: #ffffff;
+    white-space: nowrap;
+    overflow: visible;
+  }
+
+  .theme .theme-about-home-lcl__who {
+    position: relative;
+    z-index: 1;
+    color: #ffffff;
+  }
+
+  /* Below who, slightly inset and nestled up — keep indent modest so long titles stay on-strip. */
+  .theme .theme-about-home-lcl__are {
+    position: relative;
+    margin-inline-start: 0.4em;
+    margin-block-start: -0.35em;
+    color: #ffffff;
+  }
+
+  .theme .theme-about-home-lcl .theme-scroll-enter {
+    max-width: none;
+    overflow: visible;
+  }
+
+  .theme .theme-about-home-lcl .theme-scroll-enter__mask {
+    /* Curtain along the flipped line: clip the sideways slide, not Codrops Y. */
+    overflow: hidden;
+    padding-block: 0.28em;
+    padding-inline: 0.14em;
+  }
+
+  /* Center origin: sideways enter uses rotateY (not Codrops rotateX baseline). */
+  .theme .theme-about-home-lcl .theme-scroll-enter__char {
+    display: inline-block;
+    transform-origin: 50% 50%;
+    will-change: transform;
+  }
+
+  .theme .theme-about-home-lcl .theme-scroll-enter,
+  .theme .theme-about-home-lcl .theme-scroll-enter__line,
+  .theme .theme-about-home-lcl .theme-scroll-enter__char {
+    color: #ffffff;
+  }
+
+  /* Sideways display only: keep the flipped line from wrapping. */
+  .theme .theme-about-home-lcl__display .theme-scroll-enter,
+  .theme .theme-about-home-lcl__display .theme-scroll-enter__line,
+  .theme .theme-about-home-lcl__display .theme-scroll-enter__char {
+    white-space: nowrap;
+  }
+
+  /* Large display on the expanded left strip: size to the tall region. */
+  .theme .theme-about-home-lcl .type-display-xl {
+    color: #ffffff;
+    font-size: clamp(5.5rem, 16vh, 12rem);
+    line-height: 0.9;
+  }
+
+  .theme .theme-about-home-lcl .theme-hairline-fx__rule {
+    background-color: #ffffff;
+    background-image: none;
+  }
+
+  /*
+   * s2 mirrors LclViewportPreview: overflow visible, nest + prose steps,
+   * breadcrumb-sized title (type-lead), panel hits only.
+   */
+  .theme .theme-about-home-lcl .theme-lcl-layout__tile[data-id='s2'] {
+    justify-content: flex-start;
+    align-items: flex-start;
+    overflow: visible;
+  }
+
+  /* Collaborate: top-right title, center note. */
+  .theme .theme-about-home-lcl.theme-about-collab-lcl .theme-lcl-layout__tile[data-id='s1'] {
+    justify-content: center;
+    align-items: flex-end;
+  }
+
+  .theme .theme-about-home-lcl.theme-about-collab-lcl .theme-lcl-layout__tile[data-id='s2'] {
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  .theme .theme-about-home-lcl__panel {
+    pointer-events: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    width: 100%;
+    min-height: 0;
+    color: #ffffff;
+  }
+
+  .theme .theme-about-home-lcl__panel > .theme-hairline-fx {
+    width: 100%;
+  }
+
+  .theme .theme-about-home-lcl__panel .theme-lcl-preview__display-head {
+    width: 100%;
+    padding-bottom: 0.2rem;
+  }
+
+  .theme .theme-about-home-lcl__panel .theme-lcl-breadcrumb {
+    width: 100%;
+    margin-top: 0;
+  }
+
+  .theme .theme-about-home-lcl__panel .theme-lcl-breadcrumb__current,
+  .theme .theme-about-home-lcl__panel .theme-lcl-breadcrumb__current .type-lead,
+  .theme .theme-about-home-lcl__panel .theme-lcl-breadcrumb__current .theme-scroll-enter,
+  .theme .theme-about-home-lcl__panel .theme-lcl-breadcrumb__current .theme-scroll-enter__line,
+  .theme .theme-about-home-lcl__panel .theme-lcl-breadcrumb__current .theme-scroll-enter__char {
+    color: color-mix(in srgb, #ffffff 40%, transparent);
+  }
+
+  .theme .theme-about-home-lcl__panel .theme-lcl-layout__nest {
+    width: 100%;
+    margin: 0;
+    pointer-events: auto;
+  }
+
+  .theme .theme-about-home-lcl__panel .theme-lcl-layout__nest-item {
+    cursor: pointer;
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: end;
+    width: 100%;
+    pointer-events: auto;
+    appearance: none;
+    font: inherit;
+    color: #ffffff;
+    text-align: end;
+  }
+
+  .theme .theme-about-home-lcl__panel .theme-lcl-layout__nest li:last-child .theme-hairline-fx__wipe {
+    display: block;
+  }
+
+  .theme .theme-about-home-lcl__panel .theme-lcl-layout__nest-item .theme-scroll-enter,
+  .theme .theme-about-home-lcl__panel .theme-lcl-layout__nest-item .type-h3,
+  .theme .theme-about-home-lcl__panel .theme-lcl-layout__nest-item .type-anim {
+    color: inherit;
+  }
+
+  .theme .theme-about-home-lcl__panel .theme-hairline-fx--eirene .theme-hairline-fx__pill {
+    background: currentColor;
+  }
+
+  .theme .theme-about-home-lcl__panel .theme-lcl-layout__nest-item .theme-scroll-enter__mask {
+    padding-inline-start: var(--type-anim-distance);
+    padding-inline-end: 0;
+  }
+
+  .theme .theme-about-home-lcl__steps {
+    pointer-events: auto;
+    margin-bottom: 1.5rem;
+  }
+
+  .theme .theme-about-home-lcl__refs {
+    margin: 1rem 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.45rem;
+    width: 100%;
+    text-align: end;
+  }
+
+  .theme .theme-about-home-lcl__ref-link {
+    color: #ffffff;
+    text-decoration: underline;
+    text-underline-offset: 0.14em;
+  }
+
+  .theme .theme-about-home-lcl__ref-link:hover,
+  .theme .theme-about-home-lcl__ref-link:focus-visible {
+    color: color-mix(in srgb, #ffffff 78%, transparent);
+  }
+
+  .theme .theme-about-home-lcl__steps.theme-prose-inline {
+    --theme-prose-inline-rest: #ffffff;
+    --theme-prose-inline-dim: color-mix(in srgb, #ffffff 34%, transparent);
+    --theme-prose-inline-link: #ffffff;
+    /* Gentler than toolkit defaults (0.38s / sharper ease). */
+    --theme-prose-inline-expand-dur: 0.72s;
+    --theme-prose-inline-expand-ease: cubic-bezier(0.22, 0.82, 0.28, 1);
+  }
+
+  .theme .theme-about-home-lcl__steps .theme-prose-inline__link--sm {
+    /* Match surrounding body; soft grow instead of toolkit 1.45em → 2.25em. */
+    --theme-prose-inline-link-size: 1em;
+    --theme-prose-inline-link-size-hover: 1.12em;
+    font-weight: 600;
+  }
+
+  .theme .theme-about-home-lcl__steps.theme-prose-inline {
+    transition: color 0.55s var(--theme-prose-inline-expand-ease);
+  }
+
+  .theme .theme-about-home-lcl__steps .theme-prose-inline__link {
+    /* Same face + line box as the sentence so multi-word links do not sit as a block. */
+    font-family: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+    white-space: normal;
+    transition:
+      font-size var(--theme-prose-inline-expand-dur) var(--theme-prose-inline-expand-ease),
+      color 0.55s var(--theme-prose-inline-expand-ease),
+      text-decoration-color 0.55s var(--theme-prose-inline-expand-ease);
+  }
+
+  .theme .theme-about-home-lcl__steps .theme-prose-inline__p {
+    max-width: none;
+    font-size: 1.375rem;
+    line-height: 1.65;
+  }
+
+  .theme .theme-about-home-lcl__steps .theme-prose-inline__p,
+  .theme .theme-about-home-lcl__steps .type-body-lg {
+    /* Inherit rest/dim from .theme-prose-inline so link hover greys the sentence. */
+    color: inherit;
+  }
+
+  .theme .theme-about-home-lcl__panel .theme-lcl-breadcrumb__btn .type-lead,
+  .theme .theme-about-home-lcl__panel .type-h3 {
+    color: #ffffff;
+  }
+}

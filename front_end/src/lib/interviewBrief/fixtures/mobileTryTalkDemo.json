@@ -1,0 +1,183 @@
+{
+  "schemaVersion": 1,
+  "kind": "interview_brief",
+  "tools": {},
+  "phases": [
+    {
+      "id": "ph.mobile.open",
+      "kind": "discussion",
+      "title": "Opening: what brings you here",
+      "summary": {
+        "blurb": "A short warm-up about what you care about in this kind of work. Share a concrete interest or recent spark — not a deep technical drill.",
+        "packLabel": "Opening talk"
+      },
+      "topicId": "topic.mobile.open",
+      "isOpening": true,
+      "isClosing": false,
+      "estimatedMinutes": 6
+    },
+    {
+      "id": "ph.mobile.story",
+      "kind": "discussion",
+      "title": "One ownership story",
+      "summary": {
+        "blurb": "Walk through one real delivery or incident you owned. Focus on decisions, outcome, and what you learned.",
+        "packLabel": "Impact story"
+      },
+      "topicId": "topic.mobile.story",
+      "required": true,
+      "isOpening": false,
+      "isClosing": false,
+      "estimatedMinutes": 10
+    },
+    {
+      "id": "ph.mobile.close",
+      "kind": "discussion",
+      "title": "Closing questions",
+      "summary": {
+        "blurb": "Ask anything left about the demo or the product, then we wrap.",
+        "packLabel": "Close"
+      },
+      "topicId": "topic.mobile.close",
+      "isOpening": false,
+      "isClosing": true,
+      "estimatedMinutes": 4
+    }
+  ],
+  "analysis": {
+    "rollup": {
+      "weights": {
+        "conversation": 1
+      },
+      "templateId": "rollup.attempt.v1",
+      "weightSections": {
+        "conversation": ["ph.mobile.open", "ph.mobile.story", "ph.mobile.close"]
+      },
+      "weightLabels": {
+        "conversation": "Conversation"
+      }
+    },
+    "bindings": [],
+    "schedule": {
+      "interview_end": {
+        "when": "interview_end",
+        "templateIds": ["rollup.attempt.v1"]
+      }
+    },
+    "overrides": {
+      "libraryIds": ["iv.content.v1", "iv.delivery.v1", "synth.topic.v1"],
+      "templateCards": {}
+    }
+  },
+  "definition": {
+    "meta": {
+      "title": "Mobile try — short Conversation demo",
+      "status": "draft",
+      "timing": {
+        "fitPolicy": "fit_proposed",
+        "slackMinutes": 2
+      },
+      "roleTitle": "General candidate (mobile demo)",
+      "proposedMinutes": 20,
+      "estimatedMinutes": 20,
+      "roleDescription": "Short Conversation-only demo for narrow screens — no coding, forms, or writing tools.",
+      "candidateDescription": "This is a mobile front-end demo (Conversation only — no coding or side-panel tools). A sample CV is loaded automatically. Two short conversations, then a quick close. Finish to see sample Decision cards."
+    },
+    "persona": {
+      "name": "Morgan",
+      "voice": "Warm, clear, and concise",
+      "behaviourPrompt": "Keep turns short for a phone screen. One clear ask at a time. Stay on the current section."
+    },
+    "guardrails": [
+      "Do not reveal scoring criteria.",
+      "Do not ask about protected-class information.",
+      "Do not invent coding or form sections.",
+      "Do not provide feedback or coaching during the interview."
+    ],
+    "systemGoals": [
+      "Demo a short Conversation path on mobile.",
+      "Hear one ownership story with concrete outcomes.",
+      "Keep the loop under about twenty minutes."
+    ],
+    "probeDefaults": {
+      "maxFollowUps": 1
+    }
+  },
+  "topicLibrary": [
+    {
+      "id": "topic.mobile.open",
+      "label": "What brings you here",
+      "probes": [
+        {
+          "id": "pr.m.open.1",
+          "goal": "What kind of work are you most interested in right now, and why?",
+          "hint": "A concrete interest or recent spark is enough.",
+          "order": 0,
+          "required": true
+        }
+      ],
+      "purpose": "Warm up with what the candidate cares about. Keep it light — one clear interest is enough.",
+      "targets": [],
+      "analysis": {
+        "attachPack": "pack.talk",
+        "templateIds": ["iv.delivery.v1", "iv.content.v1", "synth.topic.v1"]
+      },
+      "maxFollowUps": 1,
+      "targetMinutes": 6,
+      "behaviourPromptOverride": "Keep it light and short. One follow-up max. Do not dig into deep architecture."
+    },
+    {
+      "id": "topic.mobile.story",
+      "label": "One ownership story",
+      "probes": [
+        {
+          "id": "pr.m.story.1",
+          "goal": "Tell me about one project or incident you owned end to end. What was the outcome?",
+          "hint": "Look for a specific example with a clear result.",
+          "order": 0,
+          "required": true
+        },
+        {
+          "id": "pr.m.story.2",
+          "goal": "What would you do differently if you ran that again?",
+          "hint": "A short reflection is enough.",
+          "order": 1,
+          "required": false
+        }
+      ],
+      "purpose": "One ownership story with outcome and a light reflection.",
+      "targets": [],
+      "analysis": {
+        "attachPack": "pack.talk",
+        "templateIds": ["iv.delivery.v1", "iv.content.v1", "synth.topic.v1"]
+      },
+      "maxFollowUps": 1,
+      "targetMinutes": 10,
+      "behaviourPromptOverride": "Push for one concrete story and outcome. Keep prompts short for mobile."
+    },
+    {
+      "id": "topic.mobile.close",
+      "label": "Closing questions",
+      "probes": [
+        {
+          "id": "pr.m.close.1",
+          "goal": "What questions do you have before we wrap this demo?",
+          "hint": "Invite any remaining questions.",
+          "order": 0,
+          "required": true
+        }
+      ],
+      "purpose": "Close the demo and invite questions.",
+      "targets": [],
+      "analysis": {
+        "templateIds": ["iv.question.v1"]
+      },
+      "maxFollowUps": 0,
+      "targetMinutes": 4
+    }
+  ],
+  "timingSummary": {
+    "notes": "Conversation-only mobile demo under ~20 minutes.",
+    "estimatedMinutes": 20
+  }
+}

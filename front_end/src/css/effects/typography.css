@@ -1,0 +1,583 @@
+/**
+ * Typography — scale + composable font styles (under .theme).
+ * Font stacks: [fontStacks.ts](../../lib/theme/fontStacks.ts) via ThemeFontProvider.
+ */
+
+:root {
+  --font-display: 'Megrim', system-ui, sans-serif;
+  --font-display-sans: 'Space Mono', ui-monospace, monospace;
+  --font-display-weight: 700;
+  --font-sans: 'Nunito', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+@theme inline {
+  --font-display: var(--font-display);
+  --font-display-sans: var(--font-display-sans);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    font-size: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-optical-sizing: auto;
+  }
+
+}
+
+@layer components {
+  /*
+   * Canonical descending ramp (keep class names; do not invent parallel sizes):
+   *   display-xl > display-lg (= type-display) > h1 (section)
+   *   > display-md (= type-h2 size) > display-sm > h3 > UI / body / meta
+   * Oversized display → Megrim (face 28) weight 700
+   *   XL = font-larger · LG = font-medium
+   * Smaller titles / headings → Monotalic (Space Mono · face 8) weight 600
+   *   MD = content__title · SM = font-sub (SM must stay ≤ MD at every viewport)
+   * Hoss Round → Nunito (7) weight 400 for body + UI
+   * Aliases: type-display → display-lg · type-hero-name → display-xl
+   */
+  .theme .type-display-xl {
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 27vw, 12rem);
+    font-weight: var(--font-display-weight, 600);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    font-feature-settings: 'liga' 1, 'kern' 1;
+  }
+
+  .theme .type-display-lg,
+  .theme .type-display {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 6vw, 6rem);
+    font-weight: var(--font-display-weight, 600);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    font-feature-settings: 'liga' 1, 'kern' 1;
+  }
+
+  .theme .type-display-md {
+    font-family: var(--font-display-sans);
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+
+  /* Smallest display — max ≤ display-md max; mid ≤ display-md mid */
+  .theme .type-display-sm {
+    font-family: var(--font-display-sans);
+    font-size: clamp(1.35rem, 3.2vw, 2.25rem);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0;
+  }
+
+  /* Secondary source-treatment scale — Cosmic; legacy aliases retained */
+  .theme .type-display-sans,
+  .theme .type-june,
+  .theme .type-afronaut {
+    font-family: var(--font-display-sans);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    font-feature-settings: 'liga' 1, 'kern' 1;
+  }
+
+  .theme .type-display-sans.type-display-xl,
+  .theme .type-june.type-display-xl,
+  .theme .type-afronaut.type-display-xl,
+  .theme .type-display-xl.type-display-sans,
+  .theme .type-display-xl.type-june,
+  .theme .type-display-xl.type-afronaut,
+  .theme .type-display-sans.type-display-lg,
+  .theme .type-june.type-display-lg,
+  .theme .type-afronaut.type-display-lg,
+  .theme .type-display-lg.type-display-sans,
+  .theme .type-display-lg.type-june,
+  .theme .type-display-lg.type-afronaut {
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 0.95;
+  }
+
+  /* Cosmic — force oversized-title face on any size */
+  .theme .type-arsenica,
+  .theme .type-serif,
+  .theme .type-cosmic {
+    font-family: var(--font-display);
+    font-weight: var(--font-display-weight, 600);
+    letter-spacing: -0.03em;
+  }
+
+  /* ─── Heading scale — Monotalic H1–H3 · Hoss Round H4+ ─── */
+  /* Section titles — between display-sm and display-md at every viewport */
+  .theme .type-h1 {
+    font-family: var(--font-display-sans);
+    font-size: clamp(1.55rem, 3.5vw, 2.6rem);
+    font-weight: 600;
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+  }
+
+  /* Block title — same size token as display-md (Cosmic small treatment) */
+  .theme .type-h2 {
+    font-family: var(--font-display-sans);
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+
+  .theme .type-h3 {
+    font-family: var(--font-display-sans);
+    font-size: clamp(1.25rem, 2vw, 1.75rem);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0;
+  }
+
+  .theme .type-h4 {
+    font-family: var(--font-sans);
+    font-size: clamp(1.05rem, 1.1vw + 0.08rem, 1.25rem);
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+
+  .theme .type-h5 {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.32;
+    letter-spacing: -0.01em;
+  }
+
+  .theme .type-h6 {
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    line-height: 1.38;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+  }
+
+  .theme .type-title {
+    font-family: var(--font-sans);
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    font-weight: 600;
+    line-height: 1.35;
+    letter-spacing: -0.008em;
+  }
+
+  .theme .type-subtitle {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--type-muted);
+  }
+
+  /* ─── Body & UI — Nunito round, 12px floor ─── */
+  .theme .type-lead {
+    font-family: var(--font-sans);
+    font-size: 1.1875rem;
+    font-weight: 400;
+    line-height: 1.7;
+    letter-spacing: 0.005em;
+    color: color-mix(in srgb, currentColor 92%, transparent);
+  }
+
+  .theme .type-body-lg {
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    font-weight: 400;
+    line-height: 1.72;
+    letter-spacing: 0.005em;
+  }
+
+  .theme .type-body {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.72;
+    letter-spacing: 0.005em;
+  }
+
+  .theme .type-body-sm {
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.65;
+    letter-spacing: 0.005em;
+  }
+
+  .theme .type-caption {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.45;
+    letter-spacing: 0.03em;
+    color: var(--type-muted);
+  }
+
+  .theme .type-overline {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.35;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--type-faint);
+  }
+
+  .theme .type-label {
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 0.03em;
+  }
+
+  .theme .type-mono {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: 400;
+    line-height: 1.55;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .theme .type-code {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 400;
+    line-height: 1.45;
+    letter-spacing: -0.01em;
+    padding: 0.15em 0.45em;
+    border-radius: 0.3rem;
+    border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+    background: color-mix(in srgb, currentColor 6%, transparent);
+  }
+
+  .theme .type-tag {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 1.3;
+    padding: 0.25em 0.55em;
+    border-radius: 0.25rem;
+    border: 1px solid color-mix(in srgb, var(--type-accent) 35%, transparent);
+    color: var(--type-accent);
+  }
+
+  .theme .prose-measure {
+    max-width: 62ch;
+  }
+
+  /* ─── Composable font styles (stack on scale classes) ─── */
+  .theme .type-serif-italic {
+    font-family: var(--font-display-sans);
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  .theme .type-sans-italic {
+    font-style: italic;
+  }
+
+  .theme .type-light {
+    font-weight: 300;
+  }
+
+  .theme .type-medium {
+    font-weight: 500;
+  }
+
+  .theme .type-semibold {
+    font-weight: 600;
+  }
+
+  .theme .type-bold {
+    font-weight: 700;
+  }
+
+  .theme .type-muted {
+    color: var(--type-muted);
+  }
+
+  .theme .type-faint {
+    color: var(--type-faint);
+  }
+
+  .theme .type-accent {
+    color: var(--type-accent);
+  }
+
+  .theme .type-success {
+    color: var(--theme-success);
+  }
+
+  .theme .type-error {
+    color: var(--theme-error);
+  }
+
+  .theme .type-warning {
+    color: var(--theme-warning);
+  }
+
+  .theme .type-info {
+    color: var(--theme-info);
+  }
+
+  .theme .type-tracking-tight {
+    letter-spacing: -0.03em;
+  }
+
+  .theme .type-tracking-wide {
+    letter-spacing: 0.08em;
+  }
+
+  .theme .type-small-caps {
+    font-variant: small-caps;
+    letter-spacing: 0.06em;
+    text-transform: lowercase;
+  }
+
+  .theme .type-gradient {
+    background: linear-gradient(
+      125deg,
+      var(--theme-text) 0%,
+      var(--theme-accent) 42%,
+      var(--theme-focus) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .theme .type-outlined {
+    color: transparent;
+    -webkit-text-stroke: 1px color-mix(in srgb, currentColor 75%, transparent);
+    paint-order: stroke fill;
+  }
+
+  /** Difference blend — flips against whatever is behind (image, gradient, surface). Stacks on scale classes; works on SVG via `currentColor`. */
+  .theme .type-invert {
+    color: #fff;
+    mix-blend-mode: difference;
+  }
+
+  .theme .type-invert-demo-bg {
+    background: linear-gradient(
+      135deg,
+      var(--theme-surface) 0%,
+      var(--theme-accent) 42%,
+      var(--theme-text) 100%
+    );
+  }
+
+  .theme .type-underline {
+    text-decoration: underline;
+    text-decoration-color: var(--type-link);
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 0.22em;
+  }
+
+  .theme .type-underline-wavy {
+    text-decoration: underline wavy;
+    text-decoration-color: var(--theme-info);
+    text-underline-offset: 0.2em;
+  }
+
+  /** Inline linked text — stack on scale classes; use on `<a>` or `<button type="button">`. */
+  .theme a.type-link,
+  .theme button.type-link {
+    appearance: none;
+    border: 0;
+    background: none;
+    padding: 0;
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    color: var(--type-link);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--type-link) 48%, transparent);
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 0.22em;
+    cursor: pointer;
+    transition:
+      color 0.2s ease,
+      text-decoration-color 0.2s ease,
+      background-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .theme a.type-link:hover,
+  .theme a.type-link:focus-visible,
+  .theme button.type-link:hover:not(:disabled),
+  .theme button.type-link:focus-visible:not(:disabled) {
+    text-decoration-color: var(--type-link);
+  }
+
+  .theme a.type-link:focus-visible,
+  .theme button.type-link:focus-visible:not(:disabled) {
+    outline: 2px solid var(--theme-focus);
+    outline-offset: 2px;
+    border-radius: 0.125rem;
+  }
+
+  .theme a.type-link:disabled,
+  .theme button.type-link:disabled,
+  .theme a.type-link[aria-disabled='true'],
+  .theme button.type-link[aria-disabled='true'] {
+    opacity: 0.45;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  /** Current location — nav, breadcrumbs, tabs (`aria-current="page"` supported). */
+  .theme .type-link.is-active,
+  .theme .type-link[aria-current='page'],
+  .theme .type-link[aria-current='step'] {
+    color: var(--theme-accent);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: var(--theme-accent);
+    text-decoration-thickness: 2px;
+  }
+
+  /** Chosen item in a set — inline pickers, filter chips as text (`aria-current="true"` supported). */
+  .theme .type-link.is-selected,
+  .theme .type-link[aria-current='true'] {
+    color: var(--theme-accent-text);
+    text-decoration: none;
+    background-color: color-mix(in srgb, var(--theme-accent) 88%, var(--theme-surface));
+    padding: 0.06em 0.4em;
+    border-radius: 0.125rem;
+    box-shadow: 1px 1px 0 color-mix(in srgb, var(--theme-shadow-brutal) 70%, transparent);
+    box-decoration-break: clone;
+  }
+
+  .theme .type-strike {
+    text-decoration: line-through;
+    text-decoration-color: var(--theme-error);
+    text-decoration-thickness: 2px;
+  }
+
+  .theme .type-highlight {
+    background: linear-gradient(
+      120deg,
+      color-mix(in srgb, var(--type-accent) 22%, transparent) 0%,
+      color-mix(in srgb, var(--theme-info) 20%, transparent) 100%
+    );
+    padding: 0.08em 0.35em;
+    border-radius: 0.2em;
+    box-decoration-break: clone;
+  }
+
+  .theme .type-highlight-strong {
+    background: var(--theme-accent);
+    color: var(--theme-accent-text);
+    padding: 0.1em 0.4em;
+    border-radius: 0.2em;
+    box-decoration-break: clone;
+  }
+
+  .theme .type-quote {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.2rem;
+    line-height: 1.65;
+    color: var(--type-muted);
+  }
+
+  .theme .type-blockquote {
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2.5vw, 1.65rem);
+    font-weight: 500;
+    font-style: italic;
+    line-height: 1.45;
+    padding-left: 1.25rem;
+    border-left: 2px solid var(--type-accent);
+    color: color-mix(in srgb, currentColor 90%, transparent);
+  }
+
+  .theme .type-dropcap::first-letter {
+    float: left;
+    font-family: var(--font-display);
+    font-size: 3.75em;
+    font-weight: 500;
+    line-height: 0.82;
+    margin: 0.06em 0.12em 0 0;
+    color: var(--type-accent);
+  }
+
+  .theme .type-tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ─── Brand / landing ─── */
+  /* Alias of type-display-xl (landing masthead name) */
+  .theme .type-hero-name {
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 27vw, 12rem);
+    font-weight: var(--font-display-weight, 600);
+    line-height: 0.9;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+    font-feature-settings: 'liga' 1, 'kern' 1;
+  }
+
+  .theme .type-role-bridge {
+    font-family: var(--font-sans);
+    font-size: clamp(1.125rem, 2.5vw + 0.2rem, 1.5rem);
+    font-weight: 400;
+    line-height: 1.45;
+    letter-spacing: 0.01em;
+    color: var(--type-muted);
+  }
+
+  .theme .type-role-bridge strong,
+  .theme .type-role-bridge .type-role-bridge__target {
+    color: var(--theme-focus);
+    font-weight: 600;
+  }
+
+  .theme .type-credential {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.35;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-variant: small-caps;
+    color: var(--theme-accent);
+  }
+
+  .theme .type-stat {
+    font-family: var(--font-sans);
+    font-size: clamp(2rem, 4vw + 0.25rem, 2.75rem);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.025em;
+    font-variant-numeric: tabular-nums;
+    color: var(--theme-text);
+  }
+
+  .theme .type-stat-caption {
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+    color: var(--type-muted);
+  }
+}

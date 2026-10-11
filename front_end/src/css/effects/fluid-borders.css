@@ -1,0 +1,80 @@
+/**
+ * Springy fluid border overlay — ref.fluid-borders-1 · ref.fluid-borders-2 layer physics · [FluidBorderHost](FluidBorderHost.tsx).
+ * Host wraps Card / Button; dual SVG strokes follow independent physics layers.
+ */
+
+@layer components {
+  .theme {
+    --theme-fluid-border-margin: 12px;
+    --theme-fluid-border-stroke: 2px;
+  }
+
+  .theme-fluid-border {
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+    padding: var(--theme-fluid-border-margin);
+    margin: calc(-1 * var(--theme-fluid-border-margin));
+    touch-action: manipulation;
+  }
+
+  .theme-fluid-border--block {
+    display: block;
+    width: 100%;
+  }
+
+  .theme-fluid-border__slot {
+    position: relative;
+    z-index: 1;
+  }
+
+  .theme-fluid-border__svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .theme-fluid-border__path {
+    fill: none;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .theme-fluid-border__path--layer-1 {
+    stroke: color-mix(in srgb, var(--theme-accent) 45%, transparent);
+    stroke-width: calc(var(--theme-fluid-border-stroke) * 2);
+    filter: drop-shadow(0 0 6px color-mix(in srgb, var(--theme-accent) 20%, transparent));
+  }
+
+  .theme-fluid-border__path--layer-2 {
+    stroke: var(--theme-accent);
+    stroke-width: var(--theme-fluid-border-stroke);
+    filter: drop-shadow(0 0 4px color-mix(in srgb, var(--theme-accent) 35%, transparent));
+  }
+
+  .theme-fluid-border--static .theme-fluid-border__svg {
+    display: none;
+  }
+
+  .theme-fluid-border--static .theme-fluid-border__slot > * {
+    outline: var(--theme-fluid-border-stroke) solid var(--theme-accent);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme-fluid-border__svg {
+      display: none;
+    }
+
+    .theme-fluid-border__slot > * {
+      outline: var(--theme-fluid-border-stroke) solid var(--theme-accent);
+      outline-offset: 2px;
+    }
+  }
+}

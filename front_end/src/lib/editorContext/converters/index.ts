@@ -1,0 +1,11 @@
+/** Thin router — re-exports per-kind converters + import routing. */
+export * from './doc'
+export * from './grid'
+export * from './draw'
+export * from './markdown'
+export * from './mermaid'
+export * from './flow'
+export * from './force'
+export * from './testForm'
+export { routeCrossKindImport } from './crossKind'
+export { buildEnvelopeForKind, routeImport } from './router'

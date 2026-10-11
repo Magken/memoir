@@ -1,0 +1,1309 @@
+/**
+ * Theme color tokens — consumed via var(--theme-*).
+ * Values are set on `.theme-root` from [buildPaletteVars](../../lib/theme/buildPaletteVars.ts).
+ */
+
+.theme {
+  --type-accent: var(--theme-accent);
+  --type-link: var(--theme-focus);
+  --type-muted: var(--theme-text-muted);
+  --type-faint: color-mix(in srgb, var(--theme-text) 42%, transparent);
+  --theme-divider-line: 1px solid var(--theme-border);
+  --theme-divider-line-strong: 2px solid var(--theme-border-strong);
+  --theme-radius-control: 0;
+  --theme-radius-surface: 0;
+  --theme-radius-pill: 9999px;
+  /**
+   * Scroll / picker edge-fade paint — must match the host panel fill (not a hardcoded
+   * white or page-bg). Hosts override this to the same token as their background-color.
+   * Default: raised surface (menus, raised cards). Tracks light/dark via palette.
+   */
+  --theme-scroll-fade: var(--theme-surface-raised);
+}
+
+@layer components {
+  .theme-shell-nav {
+    border-color: var(--theme-border);
+    background-color: var(--theme-page-bg);
+  }
+
+  .theme-shell-nav-item {
+    color: var(--theme-text-muted);
+  }
+
+  .theme-shell-nav-item:hover {
+    background-color: color-mix(in srgb, var(--theme-surface) 80%, transparent);
+    color: var(--theme-text);
+  }
+
+  .theme-shell-nav-item.is-active {
+    background-color: var(--theme-surface);
+    color: var(--theme-text);
+  }
+
+  .theme-shell-divider {
+    border-color: var(--theme-border);
+  }
+
+  .theme-card {
+    --theme-card-shadow-offset: 6px;
+    --theme-card-shadow-offset-sm: 4px;
+    --theme-card-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --theme-card-duration: 0.32s;
+    padding: 1.25rem;
+    border: 2px solid var(--theme-border-strong);
+    transition-property: transform, box-shadow, border-color, background-color;
+    transition-duration: var(--theme-card-duration);
+    transition-timing-function: var(--theme-card-ease);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme-card {
+      --theme-card-duration: 0.01ms;
+    }
+  }
+
+  .theme-card:focus-visible {
+    outline: 2px solid var(--theme-focus);
+    outline-offset: 3px;
+  }
+
+  /* Neobrutal: solid offset shadow, zero blur */
+  .theme-card--raised {
+    --theme-scroll-fade: var(--theme-surface-raised);
+    background-color: var(--theme-surface-raised);
+    color: var(--theme-text);
+    box-shadow: var(--theme-card-shadow-offset) var(--theme-card-shadow-offset) 0
+      var(--theme-shadow-brutal);
+  }
+
+  .theme-card--inset {
+    --theme-scroll-fade: var(--theme-surface-inset);
+    background-color: var(--theme-surface-inset);
+    color: var(--theme-text);
+    box-shadow: inset var(--theme-card-shadow-offset-sm) var(--theme-card-shadow-offset-sm) 0
+      var(--theme-shadow-brutal);
+    transform: translate(1px, 1px);
+  }
+
+  .theme-card--flat {
+    --theme-scroll-fade: var(--theme-surface);
+    background-color: var(--theme-surface);
+    color: var(--theme-text);
+    box-shadow: var(--theme-card-shadow-offset-sm) var(--theme-card-shadow-offset-sm) 0
+      color-mix(in srgb, var(--theme-shadow-brutal) 85%, transparent);
+  }
+
+  .theme-card--outline {
+    --theme-scroll-fade: var(--theme-surface-raised);
+    border: 2px solid var(--theme-border-strong);
+    background-color: var(--theme-surface-raised);
+    color: var(--theme-text);
+    box-shadow: var(--theme-card-shadow-offset) var(--theme-card-shadow-offset) 0
+      var(--theme-shadow-brutal);
+  }
+
+  .theme-card--ghost {
+    --theme-scroll-fade: color-mix(in srgb, var(--theme-surface) 50%, var(--theme-page-bg));
+    border: 2px solid var(--theme-border-strong);
+    background-color: color-mix(in srgb, var(--theme-surface) 50%, transparent);
+    color: var(--theme-text);
+    box-shadow: 2px 2px 0 color-mix(in srgb, var(--theme-shadow-brutal) 70%, transparent);
+  }
+
+  /*
+   * Vurify = two nested cards:
+   * 1) Outer (this) — transparent; thick border always on (outlined look).
+   * 2) Inner (.theme-card__inner) — 4px inset; thin border; surface + content.
+   * Default `vurify` adds soft float + press via shadowVariant; `vurify-outlined` is the same
+   * housing with no default shadow (border-only chrome).
+   */
+  .theme-card--vurify,
+  .theme-card--vurify-outlined {
+    --vurify-card-pad: 4px;
+    --vurify-card-outer: 4px;
+    --vurify-card-inner: 1px;
+    --vurify-card-ease: cubic-bezier(0.2, 1, 0.8, 1);
+    --vurify-card-duration: 0.3s;
+    position: relative;
+    isolation: isolate;
+    box-sizing: border-box;
+    padding: var(--vurify-card-pad);
+    border: var(--vurify-card-outer) solid var(--theme-border-strong);
+    border-radius: 0;
+    background-color: transparent;
+    background-image: none;
+    color: var(--theme-text);
+    transition-property: transform, box-shadow, border-color, background-color;
+    transition-duration: var(--vurify-card-duration);
+    transition-timing-function: var(--vurify-card-ease);
+  }
+
+  .theme-card--vurify .theme-card__inner,
+  .theme-card--vurify-outlined .theme-card__inner {
+    --theme-scroll-fade: var(--theme-surface);
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    border: var(--vurify-card-inner) solid var(--theme-border-strong);
+    border-radius: 0;
+    background-color: var(--theme-surface);
+    box-shadow: none;
+    outline: none;
+  }
+
+  .theme-card--vurify .theme-card__content,
+  .theme-card--vurify-outlined .theme-card__content {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    padding: 1.25rem;
+    border: none;
+    background: transparent;
+  }
+
+  .theme-card--vurify:hover,
+  .theme-card--vurify:focus-visible,
+  .theme-card--vurify-outlined:hover,
+  .theme-card--vurify-outlined:focus-visible {
+    border-color: var(--theme-accent);
+    background-color: transparent;
+  }
+
+  /*
+   * Vurify inset = window into chrome bg (dashboard menu fill).
+   * Soft inset shadow instead of thick borders; radius follows dashboard peel when present.
+   * Do not pair with shadowVariant="none" — that class zeros box-shadow.
+   */
+  .theme .theme-card.theme-card--vurify-inset {
+    --vurify-card-ease: cubic-bezier(0.2, 1, 0.8, 1);
+    --vurify-card-duration: 0.3s;
+    /* Beat `.theme-card--shape-rect` square defaults (card-corners.css). */
+    --theme-card-radius-tl: var(--dash-radius, clamp(1rem, 2.4vw, 1.75rem));
+    --theme-card-radius-tr: var(--dash-radius, clamp(1rem, 2.4vw, 1.75rem));
+    --theme-card-radius-br: var(--dash-radius, clamp(1rem, 2.4vw, 1.75rem));
+    --theme-card-radius-bl: var(--dash-radius, clamp(1rem, 2.4vw, 1.75rem));
+    --theme-card-corner-tl: round;
+    --theme-card-corner-tr: round;
+    --theme-card-corner-br: round;
+    --theme-card-corner-bl: round;
+    --theme-scroll-fade: var(
+      --dash-chrome-bg,
+      color-mix(in srgb, var(--theme-complement) 16%, var(--theme-page-bg))
+    );
+    position: relative;
+    isolation: isolate;
+    box-sizing: border-box;
+    border: 0;
+    border-radius: var(--theme-card-radius-tl) var(--theme-card-radius-tr)
+      var(--theme-card-radius-br) var(--theme-card-radius-bl);
+    background-color: var(
+      --dash-chrome-bg,
+      color-mix(in srgb, var(--theme-complement) 16%, var(--theme-page-bg))
+    );
+    background-image: none;
+    color: var(--theme-text);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--theme-shadow-brutal) 22%, transparent),
+      inset 0 2px 4px color-mix(in srgb, var(--theme-shadow-brutal) 14%, transparent),
+      inset 0 10px 22px var(--theme-shadow-inner),
+      inset 0 -1px 0 color-mix(in srgb, var(--theme-shadow-highlight) 40%, transparent);
+    transition-property: transform, box-shadow, border-color, background-color;
+    transition-duration: var(--vurify-card-duration);
+    transition-timing-function: var(--vurify-card-ease);
+  }
+
+  @supports (corner-shape: round) {
+    .theme .theme-card.theme-card--vurify-inset {
+      corner-shape: round;
+    }
+  }
+
+  .theme .theme-card.theme-card--vurify-inset .theme-card__content {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+  }
+
+  .theme .theme-card.theme-card--vurify-inset:hover,
+  .theme .theme-card.theme-card--vurify-inset:focus-visible,
+  .theme .theme-card.theme-card--vurify-inset:active {
+    transform: none;
+    border-color: transparent;
+    background-color: var(
+      --dash-chrome-bg,
+      color-mix(in srgb, var(--theme-complement) 16%, var(--theme-page-bg))
+    );
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--theme-shadow-brutal) 22%, transparent),
+      inset 0 2px 4px color-mix(in srgb, var(--theme-shadow-brutal) 14%, transparent),
+      inset 0 10px 22px var(--theme-shadow-inner),
+      inset 0 -1px 0 color-mix(in srgb, var(--theme-shadow-highlight) 40%, transparent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme-card--vurify,
+    .theme-card--vurify-outlined {
+      --vurify-card-duration: 0.01ms;
+    }
+
+    .theme .theme-card.theme-card--vurify-inset {
+      --vurify-card-duration: 0.01ms;
+    }
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .theme-card--raised:hover {
+      transform: translate(
+        calc(var(--theme-card-shadow-offset) * -0.55),
+        calc(var(--theme-card-shadow-offset) * -0.55)
+      );
+      border-color: color-mix(in srgb, var(--theme-accent) 45%, var(--theme-border-strong));
+      box-shadow:
+        calc(var(--theme-card-shadow-offset) * 0.35) calc(var(--theme-card-shadow-offset) * 0.35) 0
+          var(--theme-shadow-brutal),
+        0 0 0 1px color-mix(in srgb, var(--theme-accent) 30%, transparent);
+    }
+
+    .theme-card--raised:active {
+      transform: translate(
+        calc(var(--theme-card-shadow-offset) * -0.65),
+        calc(var(--theme-card-shadow-offset) * -0.65)
+      );
+      transition-duration: 0.14s;
+    }
+
+    .theme-card--outline:hover {
+      transform: translate(
+        calc(var(--theme-card-shadow-offset) * -0.5),
+        calc(var(--theme-card-shadow-offset) * -0.5)
+      );
+      border-color: var(--theme-complement);
+      background-color: color-mix(in srgb, var(--theme-surface-raised) 90%, var(--theme-complement-bg));
+      box-shadow:
+        calc(var(--theme-card-shadow-offset) * 0.4) calc(var(--theme-card-shadow-offset) * 0.4) 0
+          var(--theme-shadow-brutal),
+        0 0 0 1px var(--theme-complement-border);
+    }
+
+    .theme-card--flat:hover {
+      transform: translateY(-3px);
+      border-color: color-mix(in srgb, var(--theme-accent) 40%, var(--theme-border-strong));
+      box-shadow:
+        var(--theme-card-shadow-offset) var(--theme-card-shadow-offset) 0
+          color-mix(in srgb, var(--theme-shadow-brutal) 95%, transparent),
+        0 8px 20px var(--theme-shadow-outer);
+    }
+
+    .theme-card--inset:hover {
+      transform: translate(0, 0);
+      border-color: color-mix(in srgb, var(--theme-accent) 38%, var(--theme-border-strong));
+      box-shadow:
+        inset 1px 1px 0 color-mix(in srgb, var(--theme-shadow-brutal) 45%, transparent),
+        var(--theme-card-shadow-offset-sm) var(--theme-card-shadow-offset-sm) 0
+          color-mix(in srgb, var(--theme-shadow-brutal) 80%, transparent);
+    }
+
+    .theme-card--ghost:hover {
+      transform: translateY(-2px);
+      border-color: color-mix(in srgb, var(--theme-accent) 55%, var(--theme-border-strong));
+      background-color: color-mix(in srgb, var(--theme-surface) 75%, transparent);
+      box-shadow:
+        4px 4px 0 color-mix(in srgb, var(--theme-shadow-brutal) 88%, transparent),
+        0 0 0 1px color-mix(in srgb, var(--theme-accent) 22%, transparent);
+    }
+  }
+
+  .theme-card__content {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .theme-card__title {
+    color: var(--theme-text);
+    margin-bottom: 0.5rem;
+  }
+
+  .theme-card__body {
+    color: var(--theme-text-muted);
+  }
+
+  /* Shapes — same variant tokens; circle/pill use drop-shadow; rect uses corner-shape */
+  .theme-card--shape-rect .theme-card__title {
+    margin-bottom: 0.5rem;
+  }
+
+  .theme-card--shape-circle,
+  .theme-card--shape-pill {
+    box-shadow: none;
+    margin-inline: auto;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .theme-card--shape-circle .theme-card__content,
+  .theme-card--shape-pill .theme-card__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .theme-card--shape-circle {
+    width: min(100%, 13rem);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    padding: 1.35rem 1.1rem;
+  }
+
+  .theme-card--shape-circle .theme-card__content {
+    max-width: 86%;
+  }
+
+  .theme-card--shape-circle .theme-card__title {
+    margin-bottom: 0.35rem;
+  }
+
+  /* Hexagon — layered rim + face (embossed inset); border-shape when supported (CSS Borders 4) */
+  .theme-card--shape-hexagon {
+    --theme-card-hex-clip: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    --theme-card-hex-face: var(--theme-surface-raised);
+    --theme-card-hex-rim-top: color-mix(in srgb, var(--theme-shadow-highlight) 42%, var(--theme-border-strong));
+    --theme-card-hex-rim-bottom: color-mix(in srgb, var(--theme-shadow-brutal) 48%, var(--theme-border-strong));
+    --theme-card-hex-shadow-x: var(--theme-card-shadow-offset);
+    --theme-card-hex-shadow-y: var(--theme-card-shadow-offset);
+    position: relative;
+    isolation: isolate;
+    width: min(100%, 15rem);
+    aspect-ratio: 1.12 / 1;
+    margin-inline: auto;
+    padding: 0;
+    border: none;
+    background: transparent;
+    clip-path: none;
+    box-shadow: none;
+    filter: none;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .theme-card--shape-hexagon::before,
+  .theme-card--shape-hexagon::after {
+    content: '';
+    position: absolute;
+    clip-path: var(--theme-card-hex-clip);
+    pointer-events: none;
+    transition:
+      transform var(--theme-card-duration) var(--theme-card-ease),
+      box-shadow var(--theme-card-duration) var(--theme-card-ease),
+      background-color var(--theme-card-duration) var(--theme-card-ease);
+  }
+
+  .theme-card--shape-hexagon::before {
+    inset: 0;
+    z-index: 0;
+    background: linear-gradient(
+      155deg,
+      var(--theme-card-hex-rim-top) 0%,
+      var(--theme-border-strong) 44%,
+      var(--theme-card-hex-rim-bottom) 100%
+    );
+  }
+
+  .theme-card--shape-hexagon::after {
+    inset: 3px;
+    z-index: 1;
+    background: var(--theme-card-hex-face);
+    box-shadow:
+      var(--theme-card-hex-shadow-x) var(--theme-card-hex-shadow-y) 0 var(--theme-shadow-brutal),
+      inset 0 1px 0 color-mix(in srgb, var(--theme-shadow-highlight) 75%, transparent),
+      inset 0 -4px 12px color-mix(in srgb, var(--theme-shadow-inner) 50%, transparent);
+  }
+
+  .theme-card--shape-hexagon .theme-card__content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    max-width: 66%;
+    padding: 2.35rem 0.5rem 2.05rem;
+  }
+
+  .theme-card--shape-hexagon .theme-card__title {
+    margin-bottom: 0.35rem;
+  }
+
+  .theme-card--shape-hexagon.theme-card--raised {
+    --theme-card-hex-face: var(--theme-surface-raised);
+  }
+
+  .theme-card--shape-hexagon.theme-card--inset {
+    --theme-card-hex-face: var(--theme-surface-inset);
+    --theme-card-hex-shadow-x: 0;
+    --theme-card-hex-shadow-y: 0;
+  }
+
+  .theme-card--shape-hexagon.theme-card--inset::after {
+    box-shadow:
+      inset 2px 2px 0 color-mix(in srgb, var(--theme-shadow-brutal) 55%, transparent),
+      inset 0 1px 0 color-mix(in srgb, var(--theme-shadow-highlight) 40%, transparent),
+      inset 0 -5px 14px var(--theme-shadow-inner);
+  }
+
+  .theme-card--shape-hexagon.theme-card--flat {
+    --theme-card-hex-face: var(--theme-surface);
+  }
+
+  .theme-card--shape-hexagon.theme-card--flat::after {
+    box-shadow:
+      var(--theme-card-shadow-offset-sm) var(--theme-card-shadow-offset-sm) 0
+        color-mix(in srgb, var(--theme-shadow-brutal) 85%, transparent),
+      inset 0 1px 0 color-mix(in srgb, var(--theme-shadow-highlight) 55%, transparent),
+      inset 0 -3px 8px color-mix(in srgb, var(--theme-shadow-inner) 35%, transparent);
+  }
+
+  .theme-card--shape-hexagon.theme-card--outline {
+    --theme-card-hex-face: var(--theme-surface-raised);
+    --theme-card-hex-rim-top: color-mix(in srgb, var(--theme-accent) 28%, var(--theme-border-strong));
+  }
+
+  .theme-card--shape-hexagon.theme-card--ghost {
+    --theme-card-hex-face: color-mix(in srgb, var(--theme-surface) 50%, transparent);
+    --theme-card-hex-shadow-x: 2px;
+    --theme-card-hex-shadow-y: 2px;
+  }
+
+  .theme-card--shape-hexagon:focus-visible::after {
+    outline: 2px solid var(--theme-focus);
+    outline-offset: 3px;
+  }
+
+  @supports (border-shape: shape(from 0% 0%, close)) {
+    .theme-card--shape-hexagon {
+      width: min(100%, 15rem);
+      height: 13.1rem;
+      aspect-ratio: auto;
+      border: 2px solid var(--theme-border-strong);
+      border-shape: shape(
+        from 25% 0%,
+        line to 75% 0%,
+        line to 100% 50%,
+        line to 75% 100%,
+        line to 25% 100%,
+        line to 0% 50%,
+        close
+      );
+      background: var(--theme-card-hex-face);
+      box-shadow:
+        inset 0 1px 0 color-mix(in srgb, var(--theme-shadow-highlight) 75%, transparent),
+        inset 0 -4px 12px color-mix(in srgb, var(--theme-shadow-inner) 50%, transparent),
+        var(--theme-card-hex-shadow-x) var(--theme-card-hex-shadow-y) 0 var(--theme-shadow-brutal);
+    }
+
+    .theme-card--shape-hexagon::before,
+    .theme-card--shape-hexagon::after {
+      content: none;
+      display: none;
+    }
+
+    .theme-card--shape-hexagon .theme-card__content {
+      max-width: 70%;
+      padding: 2.1rem 1rem 1.9rem;
+    }
+
+    .theme-card--shape-hexagon.theme-card--inset {
+      box-shadow:
+        inset 2px 2px 0 color-mix(in srgb, var(--theme-shadow-brutal) 55%, transparent),
+        inset 0 1px 0 color-mix(in srgb, var(--theme-shadow-highlight) 40%, transparent),
+        inset 0 -5px 14px var(--theme-shadow-inner);
+    }
+  }
+
+  .theme-card--shape-pill {
+    width: min(100%, 18rem);
+    max-width: 100%;
+    border-radius: 9999px;
+    padding: 1.15rem 1.75rem;
+  }
+
+  .theme-card--shape-pill .theme-card__content {
+    max-width: 92%;
+  }
+
+  .theme-card--shape-circle.theme-card--raised,
+  .theme-card--shape-circle.theme-card--outline,
+  .theme-card--shape-circle.theme-card--flat,
+  .theme-card--shape-circle.theme-card--ghost,
+  .theme-card--shape-pill.theme-card--raised,
+  .theme-card--shape-pill.theme-card--outline,
+  .theme-card--shape-pill.theme-card--flat,
+  .theme-card--shape-pill.theme-card--ghost {
+    filter: drop-shadow(
+      var(--theme-card-shadow-offset) var(--theme-card-shadow-offset) 0 var(--theme-shadow-brutal)
+    );
+  }
+
+  .theme-card--shape-circle.theme-card--inset,
+  .theme-card--shape-pill.theme-card--inset {
+    filter: none;
+    box-shadow: inset var(--theme-card-shadow-offset-sm) var(--theme-card-shadow-offset-sm) 0
+      var(--theme-shadow-brutal);
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .theme-card--shape-hexagon.theme-card--raised:hover {
+      --theme-card-hex-shadow-x: calc(var(--theme-card-shadow-offset) * 0.35);
+      --theme-card-hex-shadow-y: calc(var(--theme-card-shadow-offset) * 0.35);
+    }
+
+    .theme-card--shape-hexagon.theme-card--raised:hover::after {
+      box-shadow:
+        var(--theme-card-hex-shadow-x) var(--theme-card-hex-shadow-y) 0 var(--theme-shadow-brutal),
+        inset 0 1px 0 color-mix(in srgb, var(--theme-shadow-highlight) 75%, transparent),
+        inset 0 -4px 12px color-mix(in srgb, var(--theme-shadow-inner) 50%, transparent),
+        0 0 0 1px color-mix(in srgb, var(--theme-accent) 30%, transparent);
+    }
+
+    .theme-card--shape-hexagon.theme-card--outline:hover {
+      --theme-card-hex-shadow-x: calc(var(--theme-card-shadow-offset) * 0.4);
+      --theme-card-hex-shadow-y: calc(var(--theme-card-shadow-offset) * 0.4);
+      --theme-card-hex-rim-top: var(--theme-accent);
+    }
+
+    .theme-card--shape-hexagon.theme-card--outline:hover::after {
+      background-color: color-mix(in srgb, var(--theme-surface-raised) 88%, var(--theme-accent));
+      box-shadow:
+        var(--theme-card-hex-shadow-x) var(--theme-card-hex-shadow-y) 0 var(--theme-shadow-brutal),
+        inset 0 1px 0 color-mix(in srgb, var(--theme-shadow-highlight) 65%, transparent),
+        0 0 0 1px var(--theme-accent);
+    }
+
+    .theme-card--shape-hexagon.theme-card--flat:hover::after {
+      box-shadow:
+        var(--theme-card-shadow-offset) var(--theme-card-shadow-offset) 0
+          color-mix(in srgb, var(--theme-shadow-brutal) 95%, transparent),
+        inset 0 1px 0 color-mix(in srgb, var(--theme-shadow-highlight) 60%, transparent),
+        0 8px 20px var(--theme-shadow-outer);
+    }
+
+    .theme-card--shape-hexagon.theme-card--ghost:hover::after {
+      --theme-card-hex-shadow-x: 4px;
+      --theme-card-hex-shadow-y: 4px;
+      background-color: color-mix(in srgb, var(--theme-surface) 75%, transparent);
+      box-shadow:
+        var(--theme-card-hex-shadow-x) var(--theme-card-hex-shadow-y) 0
+          color-mix(in srgb, var(--theme-shadow-brutal) 88%, transparent),
+        0 0 0 1px color-mix(in srgb, var(--theme-accent) 22%, transparent);
+    }
+
+    .theme-card--shape-hexagon.theme-card--inset:hover::after {
+      box-shadow:
+        inset 1px 1px 0 color-mix(in srgb, var(--theme-shadow-brutal) 45%, transparent),
+        var(--theme-card-shadow-offset-sm) var(--theme-card-shadow-offset-sm) 0
+          color-mix(in srgb, var(--theme-shadow-brutal) 80%, transparent),
+        inset 0 1px 0 color-mix(in srgb, var(--theme-shadow-highlight) 45%, transparent);
+    }
+
+    @supports (border-shape: shape(from 0% 0%, close)) {
+      .theme-card--shape-hexagon.theme-card--raised:hover {
+        border-color: color-mix(in srgb, var(--theme-accent) 45%, var(--theme-border-strong));
+        box-shadow:
+          inset 0 1px 0 color-mix(in srgb, var(--theme-shadow-highlight) 75%, transparent),
+          inset 0 -4px 12px color-mix(in srgb, var(--theme-shadow-inner) 50%, transparent),
+          calc(var(--theme-card-shadow-offset) * 0.35) calc(var(--theme-card-shadow-offset) * 0.35) 0
+            var(--theme-shadow-brutal),
+          0 0 0 1px color-mix(in srgb, var(--theme-accent) 30%, transparent);
+      }
+    }
+
+    .theme-card--shape-circle.theme-card--raised:hover,
+    .theme-card--shape-pill.theme-card--raised:hover {
+      box-shadow: none;
+      filter: drop-shadow(
+        calc(var(--theme-card-shadow-offset) * 0.35) calc(var(--theme-card-shadow-offset) * 0.35) 0
+          var(--theme-shadow-brutal)
+      );
+    }
+
+    .theme-card--shape-circle.theme-card--outline:hover,
+    .theme-card--shape-pill.theme-card--outline:hover {
+      box-shadow: none;
+      filter: drop-shadow(
+        calc(var(--theme-card-shadow-offset) * 0.4) calc(var(--theme-card-shadow-offset) * 0.4) 0
+          var(--theme-shadow-brutal)
+      );
+    }
+
+    .theme-card--shape-circle.theme-card--flat:hover,
+    .theme-card--shape-pill.theme-card--flat:hover {
+      box-shadow: none;
+      filter: drop-shadow(
+          var(--theme-card-shadow-offset) var(--theme-card-shadow-offset) 0
+            color-mix(in srgb, var(--theme-shadow-brutal) 95%, transparent)
+        )
+        drop-shadow(0 8px 20px var(--theme-shadow-outer));
+    }
+
+    .theme-card--shape-circle.theme-card--ghost:hover,
+    .theme-card--shape-pill.theme-card--ghost:hover {
+      box-shadow: none;
+      filter: drop-shadow(4px 4px 0 color-mix(in srgb, var(--theme-shadow-brutal) 88%, transparent));
+    }
+
+    .theme-card--shape-circle.theme-card--inset:hover,
+    .theme-card--shape-pill.theme-card--inset:hover {
+      filter: none;
+    }
+  }
+
+  .theme-btn {
+    --theme-btn-shadow-offset: 4px;
+    --theme-btn-shadow-offset-sm: 2px;
+    --theme-btn-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --theme-btn-duration: 0.28s;
+    display: inline-flex;
+    shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--theme-radius-control);
+    transition-property: transform, box-shadow, border-color, background-color, color;
+    transition-duration: var(--theme-btn-duration);
+    transition-timing-function: var(--theme-btn-ease);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme-btn {
+      --theme-btn-duration: 0.01ms;
+    }
+
+    .theme-btn__media-frame {
+      transform: none !important;
+    }
+  }
+
+  .theme-btn:disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+    opacity: 0.45;
+    transform: none !important;
+  }
+
+  .theme-btn:focus-visible {
+    outline: 2px solid var(--theme-focus);
+    outline-offset: 2px;
+  }
+
+  .theme-btn--default {
+    border: 1px solid var(--theme-border-strong);
+    background-color: var(--theme-surface-raised);
+    color: var(--theme-text);
+    box-shadow:
+      var(--theme-btn-shadow-offset-sm) var(--theme-btn-shadow-offset-sm) 0
+        color-mix(in srgb, var(--theme-shadow-brutal) 72%, transparent),
+      0 4px 12px var(--theme-shadow-outer);
+  }
+
+  .theme-btn--inset {
+    --type-anim-unit-height: 1.45em;
+    --type-anim-depth: 0.3em;
+    /* Housing-weight frame — same 2px as VurifyIcon bordered. */
+    border: 2px solid var(--theme-border-strong);
+    background-color: var(--theme-surface-inset);
+    color: var(--theme-text);
+    box-shadow: inset 0 2px 8px var(--theme-shadow-inner);
+    transform: translateY(1px);
+    overflow: visible;
+    line-height: 1.35;
+    padding-block: calc(0.32rem + 0.06em);
+  }
+
+  .theme .theme-btn.theme-btn--inset .type-anim--flip .type-anim__unit {
+    height: auto;
+    min-height: var(--type-anim-unit-height);
+    padding-block-end: 0.12em;
+    overflow: visible;
+  }
+
+  .theme .theme-btn.theme-btn--inset .type-anim--in-button.theme-btn__label {
+    overflow: visible;
+  }
+
+  .theme .theme-btn.theme-btn--inset .theme-btn__label:not(.type-anim) {
+    line-height: 1.35;
+    padding-block-end: 0.1em;
+  }
+
+  .theme-btn--outline {
+    border: 2px solid var(--theme-complement-border);
+    background-color: transparent;
+    color: var(--theme-text);
+    box-shadow: none;
+  }
+
+  .theme-btn--ghost {
+    /* 2px transparent so hover housing-weight border never shifts layout. */
+    border: 2px solid transparent;
+    background-color: transparent;
+    color: var(--theme-text-muted);
+    box-shadow: none;
+  }
+
+  .theme-btn--ghost.is-ghost-tinted:not(:disabled) {
+    border-color: color-mix(in srgb, var(--theme-accent) 40%, var(--theme-border-strong));
+    background-color: color-mix(in srgb, var(--theme-surface) 70%, var(--theme-accent));
+    color: var(--theme-text);
+    box-shadow: none;
+  }
+
+  .theme-btn--tray.is-ghost-tinted:not(:disabled),
+  .theme-btn--tray-color.is-ghost-tinted:not(:disabled) {
+    border-color: color-mix(in srgb, var(--theme-accent) 40%, var(--theme-border-strong));
+    background-color: color-mix(in srgb, var(--theme-surface) 70%, var(--theme-accent));
+    color: var(--theme-text);
+    box-shadow: inset 0 2px 6px color-mix(in srgb, var(--theme-shadow-brutal) 30%, transparent);
+  }
+
+  /* Ghost-like tray chip — Vurify housing-weight border (toolbar / toggle segments) */
+  .theme-btn--tray,
+  .theme-btn--tray-color {
+    border: 2px solid var(--theme-border-strong);
+    background-color: color-mix(in srgb, var(--theme-surface-raised) 92%, var(--theme-surface));
+    color: var(--theme-text-muted);
+    box-shadow: none;
+  }
+
+  .theme-btn--tray-color {
+    flex-direction: column;
+    justify-content: center;
+    gap: 0;
+    padding-block: 0.125rem;
+  }
+
+  .theme-btn__color-tray {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.125rem;
+  }
+
+  .theme-btn__color-indicator {
+    display: block;
+    width: 0.75rem;
+    height: 0.125rem;
+    border-radius: 0.0625rem;
+    border: 1px solid var(--theme-border-strong);
+  }
+
+  /* No surface card — text/icon only (unlike ghost, no hover shadow or fill) */
+  .theme .theme-btn.theme-btn--cardless {
+    --type-anim-depth: 0.28em;
+    --type-anim-unit-height: 1.4em;
+    line-height: var(--type-anim-unit-height);
+    overflow: visible;
+    border: none;
+    background-color: transparent;
+    color: var(--theme-text);
+    box-shadow: none;
+    transform: none;
+  }
+
+  .theme-btn--cardless .type-anim {
+    color: inherit;
+  }
+
+  /* Brand accent — indigo tint (one accent for chrome) */
+  .theme-btn--accent {
+    border: 1px solid color-mix(in srgb, var(--theme-accent) 55%, transparent);
+    background-color: color-mix(in srgb, var(--theme-accent) 18%, var(--theme-surface));
+    color: var(--theme-accent);
+    box-shadow:
+      var(--theme-btn-shadow-offset-sm) var(--theme-btn-shadow-offset-sm) 0
+        color-mix(in srgb, var(--theme-accent) 35%, var(--theme-shadow-brutal));
+  }
+
+  /* Action CTA — solid indigo fill; label flip via TypeAnimText */
+  .theme .theme-btn.theme-btn--action {
+    --type-anim-depth: 0.28em;
+    --type-anim-unit-height: 1.4em;
+    line-height: var(--type-anim-unit-height);
+    overflow: visible;
+    border: 2px solid color-mix(in srgb, var(--theme-accent) 88%, var(--theme-border-strong));
+    background-color: var(--theme-accent);
+    color: var(--theme-accent-text);
+    box-shadow:
+      var(--theme-btn-shadow-offset-sm) var(--theme-btn-shadow-offset-sm) 0
+        color-mix(in srgb, var(--theme-shadow-brutal) 85%, black);
+  }
+
+  .theme-btn--action .type-anim {
+    color: inherit;
+  }
+
+  /* Stack tile — icon above label; layout + interaction in button-stack.css */
+  .theme .theme-btn.theme-btn--stack {
+    border: 1px solid transparent;
+    background-color: transparent;
+    color: var(--theme-text-muted);
+    box-shadow: none;
+    transform: none;
+  }
+
+  .theme-btn--success {
+    border: 1px solid var(--theme-success-border);
+    background-color: var(--theme-success-bg);
+    color: var(--theme-success);
+    box-shadow:
+      var(--theme-btn-shadow-offset-sm) var(--theme-btn-shadow-offset-sm) 0
+        color-mix(in srgb, var(--theme-success) 40%, var(--theme-shadow-brutal));
+  }
+
+  .theme-btn--error {
+    border: 1px solid var(--theme-error-border);
+    background-color: var(--theme-error-bg);
+    color: var(--theme-error);
+    box-shadow:
+      var(--theme-btn-shadow-offset-sm) var(--theme-btn-shadow-offset-sm) 0
+        color-mix(in srgb, var(--theme-error) 40%, var(--theme-shadow-brutal));
+  }
+
+  .theme-btn--warning {
+    border: 1px solid var(--theme-warning-border);
+    background-color: var(--theme-warning-bg);
+    color: var(--theme-warning);
+    box-shadow:
+      var(--theme-btn-shadow-offset-sm) var(--theme-btn-shadow-offset-sm) 0
+        color-mix(in srgb, var(--theme-warning) 40%, var(--theme-shadow-brutal));
+  }
+
+  /* Identity / logo chip — optional `image` thumb instead of Lucide icon */
+  .theme-btn--media {
+    border: 1px solid var(--theme-border-strong);
+    background-color: var(--theme-surface-raised);
+    color: var(--theme-text);
+    box-shadow:
+      var(--theme-btn-shadow-offset-sm) var(--theme-btn-shadow-offset-sm) 0
+        color-mix(in srgb, var(--theme-shadow-brutal) 65%, transparent),
+      0 3px 10px var(--theme-shadow-outer);
+  }
+
+  .theme-btn--media-only {
+    padding: 0.2rem;
+    min-height: 0;
+    min-width: 0;
+  }
+
+  .theme-btn__media {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .theme-btn__media-frame {
+    overflow: hidden;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    transition: transform var(--theme-btn-duration) var(--theme-btn-ease);
+  }
+
+  .theme-btn__media-frame--round {
+    border-radius: var(--theme-radius-pill);
+  }
+
+  .theme-btn__media-frame--square {
+    border-radius: var(--theme-radius-control);
+  }
+
+  .theme-btn__media-img,
+  .theme-btn__media-video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .theme-btn__media-video {
+    pointer-events: none;
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .theme-btn[data-image-effect='hover']:hover:not(:disabled) .theme-btn__media-frame {
+      transform: scale(1.08);
+    }
+  }
+
+  .theme-btn[data-image-effect='click']:active:not(:disabled) .theme-btn__media-frame {
+    transform: scale(0.92);
+    transition-duration: 0.12s;
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .theme-btn--default:hover:not(:disabled) {
+      transform: translateY(-2px);
+      border-color: color-mix(in srgb, var(--theme-accent) 35%, var(--theme-border-strong));
+      background-color: var(--theme-surface);
+      box-shadow:
+        var(--theme-btn-shadow-offset) var(--theme-btn-shadow-offset) 0 var(--theme-shadow-brutal),
+        0 8px 18px var(--theme-shadow-outer);
+    }
+
+    .theme-btn--inset:hover:not(:disabled) {
+      transform: translateY(0);
+      border-color: color-mix(in srgb, var(--theme-accent) 30%, var(--theme-border-strong));
+      /* Keep inset rest depth; hover outer uses soft float (not hard brutal). */
+      box-shadow:
+        inset 1px 1px 0 color-mix(in srgb, var(--theme-shadow-brutal) 40%, transparent),
+        0 8px 20px var(--theme-shadow-outer),
+        0 2px 6px color-mix(in srgb, var(--theme-shadow-brutal) 28%, transparent);
+    }
+
+    .theme-btn--outline:hover:not(:disabled) {
+      transform: translate(
+        calc(var(--theme-btn-shadow-offset-sm) * -0.5),
+        calc(var(--theme-btn-shadow-offset-sm) * -0.5)
+      );
+      border-color: var(--theme-complement);
+      background-color: var(--theme-complement-bg);
+      color: var(--theme-text);
+      box-shadow:
+        var(--theme-btn-shadow-offset-sm) var(--theme-btn-shadow-offset-sm) 0
+          color-mix(in srgb, var(--theme-complement) 40%, var(--theme-shadow-brutal)),
+        0 0 0 1px var(--theme-complement-border);
+    }
+
+    .theme-btn--ghost:hover:not(:disabled):not(.theme-border-glow--ink):not(.is-ghost-tinted) {
+      transform: translateY(-1px);
+      border-color: var(--theme-border-strong);
+      background-color: color-mix(in srgb, var(--theme-surface) 75%, transparent);
+      color: var(--theme-text);
+      box-shadow:
+        0 8px 20px var(--theme-shadow-outer),
+        0 2px 6px color-mix(in srgb, var(--theme-shadow-brutal) 28%, transparent);
+    }
+
+    .theme-btn--ghost.is-ghost-tinted:hover:not(:disabled):not(.theme-border-glow--ink),
+    .theme-btn--tray.is-ghost-tinted:hover:not(:disabled):not(.theme-border-glow--ink),
+    .theme-btn--tray-color.is-ghost-tinted:hover:not(:disabled):not(.theme-border-glow--ink) {
+      transform: translateY(-1px);
+      border-color: color-mix(in srgb, var(--theme-accent) 40%, var(--theme-border-strong));
+      background-color: color-mix(in srgb, var(--theme-surface) 62%, var(--theme-accent));
+      color: var(--theme-text);
+      box-shadow:
+        0 8px 20px var(--theme-shadow-outer),
+        0 2px 6px color-mix(in srgb, var(--theme-shadow-brutal) 28%, transparent);
+    }
+
+    .theme-btn--tray:hover:not(:disabled):not(.theme-border-glow--ink):not(.is-ghost-tinted),
+    .theme-btn--tray-color:hover:not(:disabled):not(.theme-border-glow--ink):not(.is-ghost-tinted) {
+      transform: translateY(-1px);
+      border-color: var(--theme-border-strong);
+      background-color: color-mix(in srgb, var(--theme-surface-raised) 98%, var(--theme-surface));
+      color: var(--theme-text);
+      box-shadow:
+        0 8px 20px var(--theme-shadow-outer),
+        0 2px 6px color-mix(in srgb, var(--theme-shadow-brutal) 28%, transparent);
+    }
+
+    .theme-btn--cardless:hover:not(:disabled):not(.theme-border-glow--ink):not(.theme-border-glow--icon) {
+      transform: none;
+      border: none;
+      background-color: transparent;
+      color: var(--theme-accent);
+      box-shadow: none;
+    }
+
+    .theme-btn--accent:hover:not(:disabled) {
+      transform: translateY(-2px);
+      border-color: var(--theme-accent);
+      background-color: color-mix(in srgb, var(--theme-accent) 32%, var(--theme-surface));
+      box-shadow:
+        var(--theme-btn-shadow-offset) var(--theme-btn-shadow-offset) 0
+          color-mix(in srgb, var(--theme-accent) 55%, var(--theme-shadow-brutal)),
+        0 6px 16px color-mix(in srgb, var(--theme-accent) 18%, transparent);
+    }
+
+    .theme-btn--action:hover:not(:disabled) {
+      transform: translateY(-2px);
+      border-color: color-mix(in srgb, var(--theme-accent) 70%, white);
+      background-color: color-mix(in srgb, var(--theme-accent) 94%, white);
+      box-shadow:
+        var(--theme-btn-shadow-offset) var(--theme-btn-shadow-offset) 0
+          color-mix(in srgb, var(--theme-shadow-brutal) 90%, black),
+        0 8px 22px color-mix(in srgb, var(--theme-accent) 35%, transparent);
+    }
+
+    .theme-btn--success:hover:not(:disabled) {
+      transform: translateY(-2px);
+      border-color: color-mix(in srgb, var(--theme-success) 70%, transparent);
+      background-color: color-mix(in srgb, var(--theme-success) 16%, var(--theme-success-bg));
+      box-shadow:
+        var(--theme-btn-shadow-offset) var(--theme-btn-shadow-offset) 0
+          color-mix(in srgb, var(--theme-success) 55%, var(--theme-shadow-brutal)),
+        0 6px 14px color-mix(in srgb, var(--theme-success) 22%, transparent);
+    }
+
+    .theme-btn--error:hover:not(:disabled) {
+      transform: translateY(-2px);
+      border-color: color-mix(in srgb, var(--theme-error) 70%, transparent);
+      background-color: color-mix(in srgb, var(--theme-error) 14%, var(--theme-error-bg));
+      box-shadow:
+        var(--theme-btn-shadow-offset) var(--theme-btn-shadow-offset) 0
+          color-mix(in srgb, var(--theme-error) 55%, var(--theme-shadow-brutal)),
+        0 6px 14px color-mix(in srgb, var(--theme-error) 22%, transparent);
+    }
+
+    .theme-btn--warning:hover:not(:disabled) {
+      transform: translateY(-2px);
+      border-color: color-mix(in srgb, var(--theme-warning) 70%, transparent);
+      background-color: color-mix(in srgb, var(--theme-warning) 14%, var(--theme-warning-bg));
+      box-shadow:
+        var(--theme-btn-shadow-offset) var(--theme-btn-shadow-offset) 0
+          color-mix(in srgb, var(--theme-warning) 55%, var(--theme-shadow-brutal)),
+        0 6px 14px color-mix(in srgb, var(--theme-warning) 22%, transparent);
+    }
+
+    .theme-btn--media:hover:not(:disabled) {
+      transform: translateY(-2px);
+      border-color: color-mix(in srgb, var(--theme-accent) 32%, var(--theme-border-strong));
+      background-color: var(--theme-surface);
+      box-shadow:
+        var(--theme-btn-shadow-offset) var(--theme-btn-shadow-offset) 0 var(--theme-shadow-brutal),
+        0 6px 16px var(--theme-shadow-outer);
+    }
+  }
+
+  .theme-btn--default:active:not(:disabled) {
+    transform: translateY(1px);
+    box-shadow: 1px 1px 0 var(--theme-shadow-brutal);
+    transition-duration: 0.12s;
+  }
+
+  .theme-btn--inset:active:not(:disabled) {
+    transform: translateY(2px);
+    box-shadow: inset 0 3px 10px var(--theme-shadow-inner);
+    transition-duration: 0.12s;
+  }
+
+  .theme-btn--outline:active:not(:disabled) {
+    transform: translate(0, 0);
+    border-color: var(--theme-complement);
+    background-color: color-mix(in srgb, var(--theme-complement) 10%, var(--theme-complement-bg));
+    box-shadow: 1px 1px 0 color-mix(in srgb, var(--theme-complement) 35%, var(--theme-shadow-brutal));
+    transition-duration: 0.12s;
+  }
+
+  .theme-btn--ghost:active:not(:disabled):not(.is-ghost-tinted) {
+    transform: translateY(0);
+    background-color: color-mix(in srgb, var(--theme-surface) 55%, transparent);
+    box-shadow: none;
+    transition-duration: 0.12s;
+  }
+
+  .theme-btn--ghost.is-ghost-tinted:active:not(:disabled),
+  .theme-btn--tray.is-ghost-tinted:active:not(:disabled),
+  .theme-btn--tray-color.is-ghost-tinted:active:not(:disabled) {
+    transform: translateY(0);
+    border-color: color-mix(in srgb, var(--theme-accent) 40%, var(--theme-border-strong));
+    background-color: color-mix(in srgb, var(--theme-surface) 68%, var(--theme-accent));
+    box-shadow: none;
+    transition-duration: 0.12s;
+  }
+
+  .theme-btn--tray:active:not(:disabled):not(.is-ghost-tinted),
+  .theme-btn--tray-color:active:not(:disabled):not(.is-ghost-tinted) {
+    transform: translateY(0);
+    background-color: color-mix(in srgb, var(--theme-surface-raised) 88%, var(--theme-surface));
+    box-shadow: none;
+    transition-duration: 0.12s;
+  }
+
+  .theme-btn--cardless:active:not(:disabled) {
+    transform: none;
+    background-color: transparent;
+    box-shadow: none;
+    color: color-mix(in srgb, var(--theme-accent) 82%, var(--theme-text));
+    transition-duration: 0.12s;
+  }
+
+  .theme-btn--accent:active:not(:disabled) {
+    transform: translateY(1px);
+    box-shadow: 1px 1px 0 color-mix(in srgb, var(--theme-accent) 45%, var(--theme-shadow-brutal));
+    transition-duration: 0.12s;
+  }
+
+  .theme-btn--action:active:not(:disabled) {
+    transform: translateY(1px);
+    background-color: color-mix(in srgb, var(--theme-accent) 82%, black);
+    box-shadow: 1px 1px 0 color-mix(in srgb, var(--theme-shadow-brutal) 90%, black);
+    transition-duration: 0.12s;
+  }
+
+  .theme-btn--success:active:not(:disabled),
+  .theme-btn--error:active:not(:disabled),
+  .theme-btn--warning:active:not(:disabled) {
+    transform: translateY(1px);
+    transition-duration: 0.12s;
+  }
+
+  .theme-btn--success:active:not(:disabled) {
+    box-shadow: 1px 1px 0 color-mix(in srgb, var(--theme-success) 50%, var(--theme-shadow-brutal));
+  }
+
+  .theme-btn--error:active:not(:disabled) {
+    box-shadow: 1px 1px 0 color-mix(in srgb, var(--theme-error) 50%, var(--theme-shadow-brutal));
+  }
+
+  .theme-btn--warning:active:not(:disabled) {
+    box-shadow: 1px 1px 0 color-mix(in srgb, var(--theme-warning) 50%, var(--theme-shadow-brutal));
+  }
+
+  .theme-btn--media:active:not(:disabled) {
+    transform: translateY(1px);
+    box-shadow: 1px 1px 0 color-mix(in srgb, var(--theme-shadow-brutal) 70%, transparent);
+    transition-duration: 0.12s;
+  }
+
+  .theme-btn.is-active:not(:disabled):not(.theme-btn--ghost):not(.theme-btn--tray):not(
+      .theme-btn--tray-color
+    ) {
+    transform: translateY(1px);
+    box-shadow:
+      inset 0 2px 6px var(--theme-shadow-inner),
+      0 0 0 1px var(--theme-focus);
+  }
+
+  .theme-btn--cardless.is-active:not(:disabled):not(.theme-border-glow--ink):not(.theme-border-glow--icon) {
+    transform: none;
+    border: none;
+    background-color: transparent;
+    box-shadow: none;
+    color: var(--theme-accent);
+    font-weight: 600;
+  }
+
+  .theme-text-success {
+    color: var(--theme-success);
+  }
+
+  .theme-text-error {
+    color: var(--theme-error);
+  }
+
+  .theme-text-warning {
+    color: var(--theme-warning);
+  }
+
+  .theme-text-info {
+    color: var(--theme-info);
+  }
+
+  .theme-badge {
+    display: inline-block;
+    border-radius: var(--theme-radius-control);
+    padding: 0.2em 0.5em;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.3;
+  }
+
+  .theme-badge--success {
+    border: 1px solid var(--theme-success-border);
+    background-color: var(--theme-success-bg);
+    color: var(--theme-success);
+  }
+
+  .theme-badge--error {
+    border: 1px solid var(--theme-error-border);
+    background-color: var(--theme-error-bg);
+    color: var(--theme-error);
+  }
+
+  .theme-badge--warning {
+    border: 1px solid var(--theme-warning-border);
+    background-color: var(--theme-warning-bg);
+    color: var(--theme-warning);
+  }
+
+  .theme-badge--info {
+    border: 1px solid var(--theme-info-border);
+    background-color: var(--theme-info-bg);
+    color: var(--theme-info);
+  }
+
+  /* Complementary outline callouts — sage / amber / rose / indigo (product ref .cs/.ca/.cr) */
+  .theme-callout {
+    border-radius: 0.8125rem;
+    border: 1px solid var(--theme-border);
+    background-color: var(--theme-surface);
+    padding: 0.9rem 1.1rem;
+  }
+
+  .theme-callout--accent {
+    border-color: var(--theme-accent-border);
+    background-color: var(--theme-info-bg);
+    color: var(--theme-text);
+  }
+
+  .theme-callout--success {
+    border-color: var(--theme-success-border);
+    background-color: var(--theme-success-bg);
+    color: var(--theme-text);
+  }
+
+  .theme-callout--warning {
+    border-color: var(--theme-warning-border);
+    background-color: var(--theme-warning-bg);
+    color: var(--theme-text);
+  }
+
+  .theme-callout--error {
+    border-color: var(--theme-error-border);
+    background-color: var(--theme-error-bg);
+    color: var(--theme-text);
+  }
+
+  .theme-callout__label {
+    color: inherit;
+  }
+
+  .theme-callout--accent .theme-callout__label {
+    color: var(--theme-accent);
+  }
+
+  .theme-callout--success .theme-callout__label {
+    color: var(--theme-success);
+  }
+
+  .theme-callout--warning .theme-callout__label {
+    color: var(--theme-warning);
+  }
+
+  .theme-callout--error .theme-callout__label {
+    color: var(--theme-error);
+  }
+
+  .theme-swatch {
+    border-radius: 0.125rem;
+    border: 1px solid var(--theme-border);
+    min-height: 3rem;
+  }
+
+  .theme-token-table th,
+  .theme-token-table td {
+    border-color: var(--theme-border);
+  }
+}

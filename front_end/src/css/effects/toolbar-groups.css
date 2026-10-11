@@ -1,0 +1,121 @@
+/**
+ * Toolbar composites — mode switcher tray + control cluster shell.
+ * Used by ToolbarModeGroup / ToolbarControlTray (PdfViewer, side panels).
+ */
+
+@layer components {
+  .theme .theme-toolbar-mode-group.theme-btn-group--toggle {
+    flex-shrink: 1;
+    align-self: flex-start;
+    width: fit-content;
+    min-width: 0;
+  }
+
+  .theme .theme-toolbar-mode-group .theme-btn.theme-btn--tray[data-size='xs'],
+  .theme .theme-toolbar-mode-group .theme-btn.theme-btn--tray-color[data-size='xs'] {
+    min-height: 1.375rem;
+    min-width: 1.375rem;
+    padding: 0;
+  }
+
+  .theme .theme-toolbar-mode-group .theme-doc-editor__color-btn-wrap {
+    display: inline-flex;
+  }
+
+  .theme .theme-toolbar-control-tray.theme-card {
+    flex: 0 0 auto;
+    width: fit-content;
+    max-width: 100%;
+    padding: 0;
+    border-width: 1px;
+    border-color: var(--theme-border);
+    background: color-mix(in srgb, var(--theme-surface) 88%, var(--theme-surface-raised));
+    transition:
+      border-color 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .theme .theme-card.theme-card--border-tooltip {
+    /* Housing-weight frame (VurifyIcon bordered) + soft float — not hard brutal. */
+    border: 2px solid var(--theme-border-strong);
+    box-shadow:
+      0 10px 28px var(--theme-shadow-outer),
+      0 2px 6px color-mix(in srgb, var(--theme-shadow-brutal) 35%, transparent);
+  }
+
+  .theme .theme-toolbar-control-tray.theme-card.theme-card--border-tooltip {
+    border: 2px solid var(--theme-border-strong);
+    box-shadow:
+      0 10px 28px var(--theme-shadow-outer),
+      0 2px 6px color-mix(in srgb, var(--theme-shadow-brutal) 35%, transparent);
+  }
+
+  .theme .theme-toolbar-control-tray .theme-card__content {
+    width: auto;
+    min-width: 0;
+    display: inline-flex;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+  }
+
+  .theme .theme-toolbar-control-tray .theme-card__body {
+    display: inline-flex;
+    align-items: center;
+    width: auto;
+    min-width: 0;
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+    color: inherit;
+  }
+
+  .theme .theme-toolbar-control-tray__inner {
+    --theme-btn-group-pad: 3px;
+    --theme-btn-group-gap: 2px;
+    --theme-btn-group-radius-inner: max(
+      0px,
+      calc(var(--theme-radius-control) - var(--theme-btn-group-pad) - 1px)
+    );
+    display: inline-flex;
+    align-items: center;
+    gap: var(--theme-btn-group-gap);
+    padding: var(--theme-btn-group-pad);
+  }
+
+  .theme .theme-toolbar-control-tray__inner--compact {
+    --theme-btn-group-pad: 2px;
+    --theme-btn-group-gap: 1px;
+  }
+
+  .theme .theme-toolbar-control-tray__zoom-step {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.0625rem;
+  }
+
+  .theme .theme-toolbar-control-tray__value {
+    min-width: 3.5rem;
+    padding-inline: 0.125rem;
+    text-align: center;
+    color: var(--type-muted);
+  }
+
+  @media (hover: hover) {
+    .theme .theme-toolbar-control-tray.theme-card:hover {
+      border-color: color-mix(in srgb, var(--theme-accent) 40%, var(--theme-border-strong));
+      background: color-mix(in srgb, var(--theme-surface) 92%, var(--theme-surface-raised));
+    }
+
+    .theme .theme-toolbar-control-tray.theme-card.theme-card--border-tooltip:hover {
+      border-color: color-mix(in srgb, var(--theme-accent) 40%, var(--theme-border-strong));
+    }
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .theme .theme-toolbar-control-tray.theme-card:hover,
+    .theme .theme-toolbar-control-tray.theme-card:active {
+      transform: none;
+    }
+  }
+}

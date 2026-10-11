@@ -1,0 +1,155 @@
+/**
+ * Card data display composites — layout system + cinematic scrims.
+ */
+
+@layer components {
+  .theme .theme-card-arrangement {
+    --arr-gap: 1.25rem;
+    --arr-pad: 1.5rem;
+    --arr-pad-sm: 1rem;
+  }
+
+  /* Cinematic scrims — transparent mid-field, weighted foot or edge */
+  .theme .theme-card--has-bg.theme-card--bg-scrim-strong::after {
+    background: linear-gradient(
+      185deg,
+      rgb(0 0 0 / 0.08) 0%,
+      rgb(0 0 0 / 0) 38%,
+      rgb(0 0 0 / 0.72) 100%
+    );
+  }
+
+  .theme .theme-card--has-bg.theme-card--bg-scrim-full::after {
+    background: linear-gradient(
+      165deg,
+      rgb(0 0 0 / 0.55) 0%,
+      rgb(0 0 0 / 0.35) 45%,
+      rgb(0 0 0 / 0.62) 100%
+    );
+  }
+
+  .theme .theme-card--has-bg.theme-card--bg-scrim-top::after {
+    background: linear-gradient(
+      to bottom,
+      rgb(0 0 0 / 0.7) 0%,
+      rgb(0 0 0 / 0.12) 52%,
+      transparent 100%
+    );
+  }
+
+  .theme .theme-card--has-bg.theme-card--bg-scrim-foot::after {
+    background: linear-gradient(
+      to top,
+      rgb(0 0 0 / 0.88) 0%,
+      rgb(0 0 0 / 0.35) 38%,
+      transparent 72%
+    );
+  }
+
+  .theme .theme-card--has-bg.theme-card--bg-scrim-vignette::after {
+    background: radial-gradient(
+      ellipse 120% 90% at 50% 100%,
+      rgb(0 0 0 / 0.75) 0%,
+      rgb(0 0 0 / 0.15) 55%,
+      transparent 78%
+    );
+  }
+
+  .theme .theme-card--has-bg.theme-card--bg-scrim-on-dark .theme-card__content,
+  .theme .theme-card--has-bg.theme-card--bg-scrim-on-dark .theme-card__body {
+    color: rgb(255 255 255 / 0.97);
+  }
+
+  .theme .theme-card--has-bg.theme-card--bg-scrim-on-dark .type-muted {
+    color: rgb(255 255 255 / 0.68);
+  }
+
+  .theme .theme-card--has-bg.theme-card--bg-scrim-on-dark .type-faint {
+    color: rgb(255 255 255 / 0.48);
+  }
+
+  .theme .theme-card--has-bg.theme-card--bg-scrim-on-dark .theme-card__title {
+    color: rgb(255 255 255 / 0.97);
+  }
+
+  .theme .theme-card-arrangement-media {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .theme .theme-card-arrangement-media__scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(
+      165deg,
+      rgb(0 0 0 / 0.42) 0%,
+      rgb(0 0 0 / 0.18) 100%
+    );
+  }
+
+  .theme .theme-card-arrangement-media__scrim--foot {
+    background: linear-gradient(
+      to top,
+      rgb(0 0 0 / 0.82) 0%,
+      rgb(0 0 0 / 0.2) 45%,
+      transparent 100%
+    );
+  }
+
+  .theme .theme-card-arrangement-media__scrim--edge {
+    background: linear-gradient(
+      to right,
+      rgb(0 0 0 / 0.5) 0%,
+      transparent 72%
+    );
+  }
+
+  .theme .theme-card-arrangement__rule {
+    height: 1px;
+    width: 100%;
+    border: 0;
+    margin: 0;
+    background: color-mix(in srgb, currentColor 18%, transparent);
+  }
+
+  .theme .theme-card-arrangement__rule--accent {
+    background: var(--theme-accent);
+    height: 2px;
+    width: 2.5rem;
+  }
+
+  .theme .theme-card-arrangement__rail {
+    border-left: 2px solid var(--theme-accent);
+    padding-left: var(--arr-pad);
+  }
+
+  .theme .theme-card-arrangement-portrait {
+    max-width: 17.5rem;
+  }
+
+  .theme .theme-card-arrangement-portrait.theme-card--has-bg {
+    min-height: 22rem;
+  }
+
+  .theme .theme-card-arrangement-wide {
+    max-width: 28rem;
+  }
+
+  .theme .theme-card-arrangement-wide.theme-card--has-bg {
+    min-height: 14rem;
+  }
+
+  .theme .theme-card-arrangement__index {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.04em;
+    line-height: 0.85;
+  }
+
+  .theme .theme-card-arrangement__price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.35rem;
+  }
+}

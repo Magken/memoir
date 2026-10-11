@@ -1,0 +1,33 @@
+{
+  "byTopicId": {
+    "topic.8htxhn": {
+      "phaseId": "ph.pffnkj",
+      "title": "Ownership and incident impact",
+      "description": "Walk through a real incident or delivery you owned. Bring concrete decisions, outcomes, and what you learned-this shows how you handle responsibility in this role.",
+      "probeLabels": {
+        "probe.owned_service": "owned service",
+        "probe.reliability_scale": "reliability scale",
+        "probe.reliability_tradeoff": "reliability tradeoff",
+        "probe.long_term": "long term"
+      }
+    },
+    "topic.stjc0v": {
+      "phaseId": "ph.9f2477",
+      "title": "Deep API and reliability ownership",
+      "description": "Walk me through a specific time when an API or service you owned regressed or failed in production. What happened, and how did you respond?",
+      "probeLabels": {
+        "probe.regression": "regression",
+        "probe.reliability_tradeoff": "reliability tradeoff",
+        "probe.long_term": "long term"
+      }
+    },
+    "topic.2i4r1d": {
+      "phaseId": "ph.9e6lmn",
+      "title": "Closing questions and next steps",
+      "description": "Wrap up with your questions and confirm the next steps and timeline for this role.",
+      "probeLabels": {
+        "probe.closing.1": "closing"
+      }
+    }
+  }
+}

@@ -1,0 +1,119 @@
+/**
+ * Tooltips — portaled popovers (hover or click).
+ */
+
+@layer components {
+  .theme .theme-tooltip-trigger {
+    display: inline-flex;
+    vertical-align: middle;
+    align-items: center;
+  }
+
+  .theme .theme-tooltip-portal-host {
+    pointer-events: none;
+  }
+
+  .theme .theme-tooltip-portal-host--interactive {
+    pointer-events: auto;
+  }
+
+  .theme .theme-tooltip {
+    width: max-content;
+    max-width: min(16rem, calc(100vw - 1.5rem));
+    /* Housing-weight frame (VurifyIcon bordered) + soft float depth. */
+    border: 2px solid var(--theme-border-strong);
+    border-radius: var(--theme-radius-control);
+    background-color: var(--theme-surface);
+    color: var(--theme-text);
+    padding: 0.35rem 0.55rem;
+    box-shadow:
+      0 10px 28px var(--theme-shadow-outer),
+      0 2px 6px color-mix(in srgb, var(--theme-shadow-brutal) 35%, transparent);
+    opacity: 0;
+    transform: translateY(0.15rem);
+    transition:
+      opacity 0.18s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .theme .theme-tooltip--visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .theme .theme-tooltip--top.theme-tooltip--visible {
+    animation: theme-tooltip-in-top 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .theme .theme-tooltip--bottom.theme-tooltip--visible {
+    animation: theme-tooltip-in-bottom 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .theme .theme-tooltip--left.theme-tooltip--visible,
+  .theme .theme-tooltip--right.theme-tooltip--visible {
+    animation: theme-tooltip-in-side 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .theme .theme-tooltip__content {
+    color: var(--theme-text);
+  }
+
+  .theme .theme-tooltip--interactive {
+    max-width: min(20rem, calc(100vw - 1.5rem));
+    padding: 0.5rem 0.65rem;
+  }
+
+  .theme .theme-tooltip__content--interactive {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  @keyframes theme-tooltip-in-top {
+    from {
+      opacity: 0;
+      transform: translateY(0.35rem);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes theme-tooltip-in-bottom {
+    from {
+      opacity: 0;
+      transform: translateY(-0.35rem);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes theme-tooltip-in-side {
+    from {
+      opacity: 0;
+      transform: translateX(0.2rem);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-tooltip,
+    .theme .theme-tooltip--top.theme-tooltip--visible,
+    .theme .theme-tooltip--bottom.theme-tooltip--visible,
+    .theme .theme-tooltip--left.theme-tooltip--visible,
+    .theme .theme-tooltip--right.theme-tooltip--visible {
+      animation: none;
+      transition-duration: 0.01ms;
+    }
+  }
+}

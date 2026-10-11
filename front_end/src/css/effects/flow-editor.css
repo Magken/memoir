@@ -1,0 +1,1678 @@
+/**
+ * FlowEditor — React Flow workbench (@xyflow/react).
+ */
+
+@layer components {
+  .theme .theme-flow-editor {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 56rem;
+    height: 40rem;
+    min-width: 0;
+    min-height: 28rem;
+    border: 1px solid var(--theme-border);
+    border-radius: var(--theme-radius-control);
+    background: var(--theme-surface);
+    /* Visible so palette cast shadow isn’t clipped (closed state still clips host) */
+    overflow: visible;
+  }
+
+  .theme .theme-flow-editor--embed {
+    height: 20rem;
+    min-height: 14rem;
+    display: flex;
+    flex-direction: column;
+    max-width: none;
+  }
+
+  .theme .theme-flow-editor--embed .theme-flow-editor__stage {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  /* Viewer: keep the composed card, hide edit chrome. */
+  .theme .theme-flow-editor--embed .theme-flow-editor__node-actions,
+  .theme .theme-flow-editor--embed .theme-flow-editor__node-drag-grip {
+    display: none;
+  }
+
+  .theme .theme-flow-editor--embed .theme-flow-editor__node-title {
+    pointer-events: none;
+  }
+
+  .theme .theme-flow-editor--embed .theme-flow-editor__node {
+    cursor: grab;
+  }
+
+  .theme .theme-flow-editor--embed .theme-flow-editor__node:active {
+    cursor: grabbing;
+  }
+
+  .theme .theme-flow-editor__chrome {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid var(--theme-border);
+    background: color-mix(in srgb, var(--theme-surface-raised) 55%, var(--theme-surface));
+  }
+
+  .theme .theme-flow-editor__titlebar {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    min-width: 0;
+    padding: 0.3125rem 0.5rem;
+    min-height: 2rem;
+  }
+
+  .theme .theme-flow-editor__tools {
+    min-width: 0;
+    border-top: 1px solid color-mix(in srgb, var(--theme-border) 65%, transparent);
+  }
+
+  /* Match MarkdownRenderer / Mermaid tools row density */
+  .theme .theme-flow-editor__tools-inner {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    min-height: 2rem;
+    width: max-content;
+  }
+
+  /* toolbar-groups.css uses align-self:flex-start — recenter on this row */
+  .theme .theme-flow-editor__tools-inner .theme-toolbar-mode-group {
+    align-self: center;
+  }
+
+  .theme .theme-flow-editor__tools-inner .theme-menu,
+  .theme .theme-flow-editor__tools-inner .theme-nmenu {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /*
+   * Style lane — CodeEditor toolbar-lane collapse.
+   * Flex default min-width:auto + inner width:max-content was preventing true
+   * collapse, so the hidden lane still reserved space and threw off ModeGroup pad.
+   */
+  .theme .theme-flow-editor__style-lane {
+    --theme-flow-editor-style-lane-max: 0;
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    min-width: 0;
+    max-width: var(--theme-flow-editor-style-lane-max);
+    margin: 0;
+    /* Cancel tools-inner gap so a closed lane adds no space after canvas opts */
+    margin-inline-start: calc(-1 * 0.25rem);
+    padding: 0;
+    border: 0;
+    opacity: 0;
+    overflow: hidden;
+    pointer-events: none;
+    transform: translateX(-0.25rem);
+    transition:
+      max-width 0.2s cubic-bezier(0.33, 1, 0.48, 1),
+      opacity 0.16s cubic-bezier(0.33, 1, 0.48, 1),
+      transform 0.2s cubic-bezier(0.33, 1, 0.48, 1),
+      margin-inline-start 0.2s cubic-bezier(0.33, 1, 0.48, 1);
+  }
+
+  .theme .theme-flow-editor__style-lane--open {
+    --theme-flow-editor-style-lane-max: 40rem;
+    margin-inline-start: 0;
+    opacity: 1;
+    overflow: visible;
+    pointer-events: auto;
+    transform: translateX(0);
+  }
+
+  .theme .theme-flow-editor__style-lane-clip {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .theme .theme-flow-editor__style-lane--open .theme-flow-editor__style-lane-clip {
+    overflow: visible;
+  }
+
+  .theme .theme-flow-editor__style-lane-inner {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    width: max-content;
+    min-width: 0;
+    padding: 0;
+    margin: 0;
+    border: 0;
+  }
+
+  .theme .theme-flow-editor__style-lane--open .theme-flow-editor__style-lane-inner {
+    padding-inline-start: 0.25rem;
+    margin-inline-start: 0.125rem;
+    border-inline-start: 1px solid var(--theme-border);
+  }
+
+  .theme .theme-flow-editor__style-menus {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-flow-editor__style-lane {
+      transition: none;
+    }
+  }
+
+  .theme .theme-flow-editor__tools-inner .theme-btn {
+    transition:
+      background 0.18s ease,
+      border-color 0.18s ease,
+      color 0.18s ease,
+      transform 0.18s cubic-bezier(0.33, 1, 0.48, 1),
+      opacity 0.18s ease;
+  }
+
+  .theme .theme-flow-editor__tools-inner .theme-btn:active:not(:disabled) {
+    transform: scale(0.94);
+  }
+
+  .theme .theme-flow-editor__toolbar-divider {
+    display: inline-block;
+    flex-shrink: 0;
+    width: 1px;
+    max-width: 1px;
+    height: 1rem;
+    margin: 0;
+    background: var(--theme-border);
+    opacity: 1;
+    overflow: hidden;
+  }
+
+  .theme .theme-flow-editor__body {
+    flex: 1 1 auto;
+    display: flex;
+    min-height: 0;
+    min-width: 0;
+  }
+
+  .theme .theme-flow-editor__body--palette-closed .theme-flow-editor__canvas {
+    flex: 1 1 auto;
+  }
+
+  .theme .theme-flow-editor__palette-host {
+    position: relative;
+    z-index: 2;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    width: var(--theme-flow-palette-width, 10.5rem);
+    min-width: 0;
+    overflow: visible;
+    border-inline-end: 1px solid var(--theme-border);
+    background: color-mix(in srgb, var(--theme-surface-raised) 35%, var(--theme-surface));
+    box-shadow: 6px 0 20px color-mix(in srgb, var(--theme-shadow-brutal) 12%, transparent);
+    transition:
+      width 0.28s cubic-bezier(0.33, 1, 0.48, 1),
+      border-color 0.2s ease,
+      opacity 0.22s ease,
+      box-shadow 0.28s ease;
+  }
+
+  .theme .theme-flow-editor__palette-host--closed {
+    width: 0;
+    overflow: hidden;
+    border-inline-end-color: transparent;
+    opacity: 0;
+    pointer-events: none;
+    box-shadow: 6px 0 20px color-mix(in srgb, var(--theme-shadow-brutal) 0%, transparent);
+  }
+
+  .theme .theme-flow-editor__palette-inner {
+    display: flex;
+    flex-direction: column;
+    width: var(--theme-flow-palette-width, 10.5rem);
+    min-width: var(--theme-flow-palette-width, 10.5rem);
+    height: 100%;
+    min-height: 0;
+  }
+
+  .theme .theme-flow-editor__palette {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    height: 100%;
+    border-right: none;
+    background: transparent;
+  }
+
+  .theme .theme-flow-editor__palette-head {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.125rem;
+    padding: 0.25rem 0.375rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--theme-border) 55%, transparent);
+  }
+
+  .theme .theme-flow-editor__palette-search {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .theme .theme-flow-editor__palette-search .theme-field {
+    margin: 0;
+  }
+
+  .theme .theme-flow-editor__palette-close {
+    flex-shrink: 0;
+  }
+
+  /* Compact chrome search — no validation feedback slot */
+  .theme .theme-flow-editor__palette-search .theme-field__feedback {
+    display: none;
+  }
+
+  .theme .theme-flow-editor__palette-empty {
+    margin: 0;
+    padding: 0.375rem 0.25rem;
+  }
+
+  .theme .theme-flow-editor__palette-scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .theme .theme-flow-editor__palette-sections {
+    padding: 0.125rem 0.375rem 0.375rem;
+  }
+
+  .theme .theme-flow-editor__palette-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    padding: 0.25rem 0.0625rem 0.3125rem;
+  }
+
+  .theme .theme-flow-editor__palette-section + .theme-flow-editor__palette-section {
+    margin-top: 0.0625rem;
+    border-top: 1px solid color-mix(in srgb, var(--theme-accent) 38%, transparent);
+  }
+
+  .theme .theme-flow-editor__palette-section-label {
+    margin: 0;
+    padding: 0.0625rem 0.25rem 0.1875rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--theme-accent) 42%, transparent);
+    color: var(--theme-accent);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    line-height: 1.2;
+    font-size: 0.625rem;
+  }
+
+  .theme .theme-flow-editor__palette-list {
+    list-style: none;
+    margin: 0;
+    padding: 0.0625rem 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .theme .theme-flow-editor__palette-item.theme-card.theme-card--ghost {
+    --theme-card-shadow-offset: 2px;
+    --theme-card-shadow-offset-sm: 1px;
+    --theme-card-duration: 0.2s;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.3125rem;
+    width: 100%;
+    margin: 0;
+    padding: 0.1875rem 0.3125rem;
+    border-radius: calc(var(--theme-radius-control) - 0.0625rem);
+    border-color: color-mix(in srgb, var(--theme-border) 36%, transparent);
+    background: color-mix(in srgb, var(--theme-surface) 22%, transparent);
+    box-shadow: none;
+    color: var(--theme-text);
+    text-align: left;
+    cursor: grab;
+    overflow: hidden;
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .theme .theme-flow-editor__palette-item.theme-card.theme-card--ghost:hover {
+      transform: translateY(-1px);
+      border-color: color-mix(in srgb, var(--theme-accent) 55%, var(--theme-border));
+      background-color: color-mix(in srgb, var(--theme-surface) 78%, transparent);
+      box-shadow:
+        2px 2px 0 color-mix(in srgb, var(--theme-shadow-brutal) 78%, transparent),
+        0 0 0 1px color-mix(in srgb, var(--theme-accent) 18%, transparent);
+    }
+  }
+
+  .theme .theme-flow-editor__palette-item.theme-card.theme-card--ghost:active {
+    cursor: grabbing;
+    transform: translateY(0) scale(0.985);
+    transition-duration: 0.12s;
+  }
+
+  .theme .theme-flow-editor__palette-item.theme-card.theme-card--ghost:focus-visible {
+    outline: 2px solid var(--theme-focus);
+    outline-offset: 1px;
+  }
+
+  .theme .theme-flow-editor__palette-item-icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 1.125rem;
+    height: 1.125rem;
+    border-radius: 0.25rem;
+    background: color-mix(in srgb, var(--theme-surface-raised) 65%, transparent);
+    color: var(--theme-text-muted);
+  }
+
+  .theme .theme-flow-editor__palette-item:hover .theme-flow-editor__palette-item-icon,
+  .theme .theme-flow-editor__palette-item:focus-within .theme-flow-editor__palette-item-icon {
+    color: var(--theme-text);
+    background: color-mix(in srgb, var(--theme-accent) 14%, var(--theme-surface-raised));
+  }
+
+  .theme .theme-flow-editor__palette-item-copy {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    min-width: 0;
+  }
+
+  .theme .theme-flow-editor__palette-item-label {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.75rem;
+    line-height: 1.2;
+  }
+
+  .theme .theme-flow-editor__palette-item-tag-slot {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition:
+      grid-template-rows 0.2s cubic-bezier(0.33, 1, 0.48, 1),
+      opacity 0.16s ease;
+  }
+
+  .theme .theme-flow-editor__palette-item:hover .theme-flow-editor__palette-item-tag-slot,
+  .theme .theme-flow-editor__palette-item:focus-within .theme-flow-editor__palette-item-tag-slot {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+
+  .theme .theme-flow-editor__palette-item-tag-clip {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .theme .theme-flow-editor__palette-item-tag {
+    max-width: 100%;
+    margin-top: 0.125rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-flow-editor__palette-item-tag-slot {
+      transition: none;
+    }
+  }
+
+  .theme .theme-flow-editor__stage {
+    position: relative;
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    background: color-mix(in srgb, var(--theme-surface) 92%, var(--theme-border));
+  }
+
+  /* Hide interaction chrome while html-to-image clones the stage. */
+  .theme .theme-flow-editor__stage--exporting .react-flow__nodesselection,
+  .theme .theme-flow-editor__stage--exporting .react-flow__selection,
+  .theme .theme-flow-editor__stage--exporting .react-flow__handle,
+  .theme .theme-flow-editor__stage--exporting .react-flow__resize-control,
+  .theme .theme-flow-editor__stage--exporting .react-flow__edgeupdater,
+  .theme .theme-flow-editor__stage--exporting .react-flow__node-toolbar,
+  .theme .theme-flow-editor__stage--exporting .theme-flow-editor__canvas-zoom,
+  .theme .theme-flow-editor__stage--exporting .react-flow__minimap,
+  .theme .theme-flow-editor__stage--exporting .react-flow__panel,
+  .theme .theme-flow-editor__stage--exporting .theme-scroll__rail,
+  .theme .theme-flow-editor__stage--exporting .theme-flow-editor__node-drag-grip {
+    display: none !important;
+  }
+
+  .theme .theme-flow-editor__stage--exporting .react-flow__node.selected,
+  .theme .theme-flow-editor__stage--exporting .theme-flow-editor__node--selected,
+  .theme .theme-flow-editor__stage--exporting .theme-flow-editor__group-frame--selected {
+    box-shadow: none !important;
+    outline: none !important;
+    filter: none !important;
+  }
+
+  .theme .theme-flow-editor__stage--exporting .theme-card,
+  .theme .theme-flow-editor__stage--exporting .theme-flow-editor__node-drag-grip {
+    box-shadow: none !important;
+  }
+
+  .theme .theme-flow-editor__stage--exporting .theme-flow-editor__port-section,
+  .theme .theme-flow-editor__stage--exporting .theme-flow-editor__port-section-header,
+  .theme .theme-flow-editor__stage--exporting .theme-flow-editor__port-field input,
+  .theme .theme-flow-editor__stage--exporting .theme-flow-editor__port-field .theme-field-control {
+    box-shadow: none !important;
+    filter: none !important;
+  }
+
+  .theme .theme-flow-editor__stage--exporting .react-flow__edge.selected .react-flow__edge-path {
+    stroke-width: inherit;
+  }
+
+  .theme .theme-flow-editor__canvas-zoom {
+    position: absolute;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    z-index: 2;
+    pointer-events: auto;
+  }
+
+  .theme .theme-flow-editor__react-flow {
+    width: 100%;
+    height: 100%;
+    --xy-edge-label-background-color: var(--theme-surface-raised);
+    --xy-edge-label-color: var(--theme-text-muted);
+  }
+
+  /* Expanded cards paint above compact neighbors while / after opening */
+  .theme .theme-flow-editor .react-flow__node:has(.theme-flow-editor__node--expanded) {
+    z-index: 8;
+  }
+
+  .theme .theme-flow-editor .react-flow__node.selected {
+    z-index: 10;
+  }
+
+  /* RF default z-index:-1 hides under overflow:hidden ancestors */
+  .theme .theme-flow-editor .react-flow__background {
+    z-index: 0;
+  }
+
+  .theme .theme-flow-editor__background {
+    --xy-background-pattern-color-props: color-mix(in srgb, var(--theme-border) 70%, transparent);
+  }
+
+  .theme .theme-flow-editor__controls {
+    display: none;
+  }
+
+  .theme .theme-flow-editor__minimap.react-flow__panel {
+    --xy-minimap-background-color: color-mix(in srgb, var(--theme-surface-raised) 80%, transparent);
+    --xy-minimap-mask-color: color-mix(in srgb, var(--theme-surface) 55%, transparent);
+    /* Match canvas-zoom inset (0.5rem); Panel default is margin: 15px */
+    margin: 0.5rem !important;
+    left: 0 !important;
+    right: auto !important;
+    bottom: 0 !important;
+    border: 1px solid var(--theme-border);
+    border-radius: var(--theme-radius-control);
+    overflow: hidden;
+  }
+
+  .theme .theme-flow-editor__node.theme-card {
+    min-width: 8.5rem;
+    padding: 0;
+    /* Keep Card’s native 2px border-strong — do not thin to 1px */
+    border: 2px solid var(--theme-border-strong);
+    border-radius: var(--theme-radius-control);
+    background: var(--theme-surface-raised);
+    color: var(--theme-text);
+    box-shadow: none;
+    overflow: visible;
+    transform: none;
+    cursor: default;
+  }
+
+  .theme .theme-flow-editor__node.theme-card.theme-flow-editor__node--chrome {
+    background: var(--flow-node-fill, var(--theme-surface-raised));
+    border-color: var(--flow-node-border-color, var(--theme-border-strong));
+    border-style: var(--flow-node-border-style, solid);
+    border-width: var(--flow-node-border-width, 2px);
+  }
+
+  .theme .theme-flow-editor__group-frame {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border: 1.5px dashed color-mix(in srgb, var(--theme-accent) 50%, var(--theme-border));
+    border-radius: var(--theme-radius-control);
+    background: color-mix(in srgb, var(--theme-accent) 6%, transparent);
+    cursor: grab;
+  }
+
+  .theme .theme-flow-editor__group-frame:active {
+    cursor: grabbing;
+  }
+
+  .theme .theme-flow-editor__group-frame--selected {
+    border-style: solid;
+    border-color: var(--theme-accent);
+    background: color-mix(in srgb, var(--theme-accent) 10%, transparent);
+  }
+
+  .theme .theme-flow-editor__group-frame-drag {
+    position: absolute;
+    top: 0.2rem;
+    left: 0.3rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--theme-text-muted);
+    opacity: 0.55;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /*
+   * Screen-space rename (NodeToolbar) — persistent <input>, above viewport (z:2).
+   * Force text selection / caret; RF ancestors set user-select:none.
+   */
+  .theme .theme-flow-editor__react-flow .react-flow__node-toolbar.theme-flow-editor__group-rename-toolbar {
+    z-index: 1000 !important;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    pointer-events: all !important;
+    -webkit-user-select: text !important;
+    user-select: text !important;
+  }
+
+  .theme .theme-flow-editor__group-frame-title {
+    display: block;
+    box-sizing: border-box;
+    min-width: 4.5rem;
+    max-width: 14rem;
+    margin: 0;
+    padding: 0.15rem 0.4rem;
+    border-radius: 0.25rem;
+    border: 1px solid color-mix(in srgb, var(--theme-border) 70%, transparent);
+    background: color-mix(in srgb, var(--theme-surface-raised) 94%, transparent);
+    color: var(--theme-text-muted);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    line-height: 1.35rem;
+    min-height: 1.6rem;
+    text-align: left;
+    cursor: text;
+    pointer-events: auto !important;
+    -webkit-user-select: text !important;
+    user-select: text !important;
+    caret-color: var(--theme-text);
+    outline: none;
+    box-shadow: none;
+  }
+
+  .theme .theme-flow-editor__group-frame-title:hover {
+    color: var(--theme-text);
+    border-color: var(--theme-border);
+  }
+
+  .theme .theme-flow-editor__group-frame-title:focus {
+    color: var(--theme-text);
+    border-color: color-mix(in srgb, var(--theme-accent) 45%, var(--theme-border));
+  }
+
+  .theme .theme-flow-editor__react-flow .react-flow__node-flowGroup {
+    z-index: 1;
+  }
+
+  /* Right/bottom-only frame fits — CSS ease. Left/up edge moves use --snap (+ JS lerp). */
+  .theme .theme-flow-editor__react-flow .react-flow__node-flowGroup.theme-flow-editor__group-node--smooth {
+    transition:
+      width 0.28s cubic-bezier(0.33, 1, 0.48, 1),
+      height 0.28s cubic-bezier(0.33, 1, 0.48, 1);
+  }
+
+  .theme .theme-flow-editor__react-flow .react-flow__node-flowGroup.theme-flow-editor__group-node--snap,
+  .theme .theme-flow-editor__react-flow .react-flow__node-flowGroup.dragging {
+    transition: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-flow-editor__react-flow .react-flow__node-flowGroup.theme-flow-editor__group-node--smooth {
+      transition: none;
+    }
+  }
+
+  .theme .theme-flow-editor__react-flow .react-flow__edge-path {
+    stroke: var(--theme-text);
+    stroke-width: 2.5;
+  }
+
+  .theme .theme-flow-editor__react-flow .react-flow__edge.selected .react-flow__edge-path {
+    stroke: var(--theme-accent);
+  }
+
+  /* Marker tips — solid paint so PNG export doesn’t lose context-stroke */
+  .theme .theme-flow-editor__react-flow marker path,
+  .theme .theme-flow-editor__react-flow marker polygon {
+    fill: var(--theme-text);
+    stroke: none;
+  }
+
+  .theme .theme-flow-editor__react-flow .react-flow__edge.selected marker path,
+  .theme .theme-flow-editor__react-flow .react-flow__edge.selected marker polygon {
+    fill: var(--theme-accent);
+  }
+
+  /* Connector labels — full caption pill; don’t clip between nodes */
+  .theme .theme-flow-editor__react-flow .react-flow__edge-text {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    fill: var(--theme-text-muted);
+  }
+
+  .theme .theme-flow-editor__react-flow .react-flow__edge-textbg {
+    fill: var(--theme-surface-raised);
+    stroke: var(--theme-border);
+    stroke-width: 1px;
+  }
+
+  .theme .theme-flow-editor__react-flow .react-flow__edge .react-flow__edge-textwrapper {
+    /* Keep the pill readable over crossings; layout already padded the gap */
+    pointer-events: none;
+  }
+
+  .theme .theme-flow-editor__react-flow .react-flow__edge.selected .react-flow__edge-text {
+    fill: var(--theme-text);
+  }
+
+  .theme .theme-flow-editor__react-flow .react-flow__edge.selected .react-flow__edge-textbg {
+    stroke: color-mix(in srgb, var(--theme-accent) 45%, var(--theme-border));
+    fill: color-mix(in srgb, var(--theme-accent) 8%, var(--theme-surface-raised));
+  }
+
+  /* RF default pane cursor is grab — force Select tool to default. */
+  .theme .theme-flow-editor__react-flow.theme-flow-editor__react-flow--select,
+  .theme .theme-flow-editor__react-flow.theme-flow-editor__react-flow--select .react-flow__pane {
+    cursor: default;
+  }
+
+  .theme .theme-flow-editor__react-flow.theme-flow-editor__react-flow--pan,
+  .theme .theme-flow-editor__react-flow.theme-flow-editor__react-flow--pan .react-flow__pane {
+    cursor: grab;
+  }
+
+  .theme .theme-flow-editor__react-flow.theme-flow-editor__react-flow--pan .react-flow__pane:active {
+    cursor: grabbing;
+  }
+
+  .theme .theme-flow-editor__node.theme-card:hover,
+  .theme .theme-flow-editor__node.theme-card:active,
+  .theme .theme-flow-editor__node.theme-card:focus-visible {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .theme .theme-flow-editor__node.theme-card .theme-card__content {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    min-width: 0;
+    color: var(--theme-text);
+  }
+
+  .theme .theme-flow-editor__node.theme-card .theme-card__body {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    min-width: 0;
+    color: var(--theme-text);
+  }
+
+  .theme .theme-flow-editor__node-shell {
+    position: relative;
+    min-width: 0;
+  }
+
+  .theme .theme-flow-editor__node--sm {
+    min-width: 11rem;
+    width: 12rem;
+    max-width: 14rem;
+  }
+
+  .theme .theme-flow-editor__node--md {
+    min-width: 13rem;
+    width: 14.5rem;
+    max-width: 17rem;
+  }
+
+  .theme .theme-flow-editor__node--lg,
+  .theme .theme-flow-editor__node--note {
+    min-width: 18rem;
+    width: 20rem;
+    max-width: 24rem;
+  }
+
+  .theme .theme-flow-editor__node--selected.theme-card {
+    border-color: color-mix(in srgb, var(--theme-accent) 55%, var(--theme-border-strong));
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--theme-accent) 30%, transparent);
+  }
+
+  .theme .theme-flow-editor__node--display {
+    border-left-width: 3px;
+    border-left-color: var(--theme-info, var(--theme-accent));
+    background: color-mix(in srgb, var(--theme-info, var(--theme-accent)) 6%, var(--theme-surface-raised));
+  }
+
+  .theme .theme-flow-editor__node--action {
+    border-left-width: 3px;
+    border-left-color: var(--theme-accent);
+    background: color-mix(in srgb, var(--theme-accent) 6%, var(--theme-surface-raised));
+  }
+
+  .theme .theme-flow-editor__node--io {
+    border-left-width: 3px;
+    border-left-color: color-mix(in srgb, var(--theme-success, #22c55e) 75%, var(--theme-border));
+    background: color-mix(in srgb, var(--theme-success, #22c55e) 5%, var(--theme-surface-raised));
+  }
+
+  .theme .theme-flow-editor__node--flow {
+    border-left-width: 3px;
+    border-left-color: color-mix(in srgb, var(--theme-warning, #f59e0b) 75%, var(--theme-border));
+    background: color-mix(in srgb, var(--theme-warning, #f59e0b) 5%, var(--theme-surface-raised));
+  }
+
+  /* Header band — drag handle (except nodrag children below) */
+  .theme .theme-flow-editor__node-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.375rem;
+    padding: 0.5rem 0.625rem;
+    background: color-mix(in srgb, var(--theme-surface) 55%, var(--theme-surface-raised));
+    cursor: grab;
+    min-width: 0;
+  }
+
+  .theme .theme-flow-editor__node-header:active {
+    cursor: grabbing;
+  }
+
+  .theme .theme-flow-editor__node--expanded .theme-flow-editor__node-header {
+    border-bottom: var(--theme-divider-line-strong);
+  }
+
+  .theme .theme-flow-editor__node-header-lead {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    min-width: 0;
+    flex: 1 1 auto;
+    overflow: hidden;
+  }
+
+  /* Six-dot grip — drag affordance only; whole header remains the RF dragHandle. */
+  .theme .theme-flow-editor__node-drag-grip {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    margin-inline-start: -0.125rem;
+    color: var(--theme-text-muted);
+    opacity: 0.55;
+    cursor: grab;
+    pointer-events: none;
+  }
+
+  .theme .theme-flow-editor__node-header:hover .theme-flow-editor__node-drag-grip,
+  .theme .theme-flow-editor__node--selected .theme-flow-editor__node-drag-grip {
+    opacity: 0.85;
+  }
+
+  .theme .theme-flow-editor__node-header:active .theme-flow-editor__node-drag-grip {
+    cursor: grabbing;
+  }
+
+  .theme .theme-flow-editor__node-icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    color: var(--theme-text-muted);
+    cursor: grab;
+  }
+
+  .theme .theme-flow-editor__node-icon:active {
+    cursor: grabbing;
+  }
+
+  /* Rename — text cursor wins over header grab (EditableTitle) */
+  .theme .theme-flow-editor__node-title {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .theme .theme-flow-editor__node-title .theme-editable-title__input {
+    height: 1.25rem;
+    line-height: 1.25rem;
+  }
+
+  .theme .theme-flow-editor__node-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.0625rem;
+    flex-shrink: 0;
+    cursor: default;
+  }
+
+  .theme .theme-flow-editor__node-actions .theme-btn,
+  .theme .theme-flow-editor__node-actions button {
+    cursor: pointer;
+  }
+
+  /* FAB-style add — same xs footprint as sibling header ghosts, circular action chrome */
+  .theme .theme-flow-editor__node-quick-action.theme-btn.theme-btn--action {
+    margin-inline-start: 2px;
+    border-radius: 999px;
+  }
+
+  .theme .theme-flow-editor__node-body-slot {
+    display: grid;
+    transition:
+      grid-template-rows 0.22s cubic-bezier(0.33, 1, 0.48, 1),
+      opacity 0.18s ease;
+  }
+
+  .theme .theme-flow-editor__node-body-slot--open {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+
+  .theme .theme-flow-editor__node-body-slot--closed {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .theme .theme-flow-editor__node-body-clip {
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  .theme .theme-flow-editor__node-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    min-width: 0;
+    background: var(--theme-surface-raised);
+    cursor: default;
+  }
+
+  .theme .theme-flow-editor__node-preview {
+    min-width: 0;
+    padding: 0.25rem 0.65rem 0.5rem;
+  }
+
+  /* While dragging: grab cursor, no selection/hover paint, no tooltips (incl. portal) */
+  .theme .react-flow__node.dragging,
+  .theme .react-flow__node.dragging * {
+    cursor: grabbing !important;
+    user-select: none !important;
+  }
+
+  .theme .react-flow__node.dragging .theme-tooltip,
+  .theme .react-flow__node.dragging [role='tooltip'] {
+    display: none !important;
+  }
+
+  .theme:has(.react-flow__node.dragging) .theme-tooltip-portal-host {
+    display: none !important;
+    pointer-events: none !important;
+  }
+
+  .theme .react-flow__node.dragging .theme-flow-editor__node-title .theme-editable-title__input:hover,
+  .theme .react-flow__node.dragging .theme-btn:hover {
+    color: inherit;
+  }
+
+  .theme .theme-flow-editor__node-kind {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem;
+    margin: 0;
+    padding: 0.375rem 0.625rem 0.125rem;
+  }
+
+  .theme .theme-flow-editor__node-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.25rem 0.625rem 0.625rem;
+    min-width: 0;
+    cursor: default;
+  }
+
+  .theme .theme-flow-editor__node-content :is(input, textarea),
+  .theme .theme-flow-editor__node-content .theme-field-control,
+  .theme .theme-flow-editor__node-content .theme-input {
+    cursor: text;
+  }
+
+  .theme .theme-flow-editor__node-content--caps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.5rem;
+  }
+
+  .theme .theme-flow-editor__port-chrome {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.375rem 0.5rem 0.5rem;
+    border-top: var(--theme-divider-line);
+    cursor: default;
+  }
+
+  .theme .theme-flow-editor__port-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    min-width: 0;
+    border-radius: var(--theme-radius-control);
+    overflow: hidden;
+  }
+
+  .theme .theme-flow-editor__port-section--in {
+    border: 1px solid color-mix(in srgb, var(--theme-error) 35%, var(--theme-border));
+    background: color-mix(in srgb, var(--theme-error) 6%, var(--theme-surface-raised));
+  }
+
+  .theme .theme-flow-editor__port-section--out {
+    border: 1px solid color-mix(in srgb, var(--theme-success, #22c55e) 35%, var(--theme-border));
+    background: color-mix(in srgb, var(--theme-success, #22c55e) 6%, var(--theme-surface-raised));
+  }
+
+  .theme .theme-flow-editor__port-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.25rem;
+    min-height: 1.5rem;
+    padding: 0.125rem 0.25rem;
+    border-bottom: var(--theme-divider-line);
+  }
+
+  .theme .theme-flow-editor__port-section--in .theme-flow-editor__port-section-header {
+    background: color-mix(in srgb, var(--theme-error) 10%, transparent);
+  }
+
+  .theme .theme-flow-editor__port-section--out .theme-flow-editor__port-section-header {
+    background: color-mix(in srgb, var(--theme-success, #22c55e) 10%, transparent);
+  }
+
+  .theme .theme-flow-editor__port-section-title {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.375rem;
+    margin: 0;
+    padding: 0 0.125rem;
+    color: var(--theme-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.625rem;
+    line-height: 1.25rem;
+  }
+
+  .theme .theme-flow-editor__port-section-count {
+    font-weight: 600;
+  }
+
+  .theme .theme-flow-editor__port-section--in .theme-flow-editor__port-section-title {
+    color: color-mix(in srgb, var(--theme-error) 75%, var(--theme-text));
+  }
+
+  .theme .theme-flow-editor__port-section--out .theme-flow-editor__port-section-title {
+    color: color-mix(in srgb, var(--theme-success, #22c55e) 75%, var(--theme-text));
+  }
+
+  .theme .theme-flow-editor__port-section-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1875rem;
+    min-width: 0;
+    padding: 0.25rem;
+  }
+
+  .theme .theme-flow-editor__port-section-scroll {
+    max-height: 7.5rem;
+    min-height: 0;
+  }
+
+  .theme .theme-flow-editor__port-section-scroll .theme-scroll__viewport {
+    max-height: 7.5rem;
+  }
+
+  .theme .theme-flow-editor__port-row {
+    display: flex;
+    align-items: center;
+    gap: 0.125rem;
+    min-width: 0;
+  }
+
+  .theme .theme-flow-editor__port-field {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .theme .theme-flow-editor__port-field .theme-field {
+    margin: 0;
+  }
+
+  .theme .theme-flow-editor__port-section--in .theme-flow-editor__port-field .theme-field-control,
+  .theme .theme-flow-editor__port-section--in .theme-flow-editor__port-field input {
+    color: color-mix(in srgb, var(--theme-error) 70%, var(--theme-text));
+  }
+
+  .theme .theme-flow-editor__port-section--out .theme-flow-editor__port-field .theme-field-control,
+  .theme .theme-flow-editor__port-section--out .theme-flow-editor__port-field input {
+    color: color-mix(in srgb, var(--theme-success, #22c55e) 55%, var(--theme-text));
+  }
+
+  .theme .theme-flow-editor__port-action {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .theme .theme-flow-editor__port-empty {
+    margin: 0;
+    padding: 0.125rem 0.25rem;
+    line-height: 1.25rem;
+  }
+
+  .theme .theme-flow-editor__port-add,
+  .theme .theme-flow-editor__port-remove {
+    cursor: pointer;
+  }
+
+  .theme .theme-flow-editor__port-remove-disabled {
+    display: inline-flex;
+    cursor: not-allowed;
+  }
+
+  .theme .theme-flow-editor__port-remove-disabled .theme-btn:disabled {
+    pointer-events: none;
+    opacity: 0.4;
+  }
+
+  /* Book-tab connector handles — stick out from the card, color-coded In/Out */
+  .theme .theme-flow-editor__handle.theme-flow-editor__handle--tab {
+    width: 0.875rem !important;
+    height: 1.375rem !important;
+    border: 1px solid color-mix(in srgb, var(--theme-border-strong) 55%, transparent) !important;
+    box-shadow: none !important;
+    cursor: crosshair;
+    z-index: 3;
+  }
+
+  .theme .theme-flow-editor__handle--in {
+    background: color-mix(in srgb, var(--theme-error) 88%, var(--theme-surface-raised)) !important;
+    border-color: color-mix(in srgb, var(--theme-error) 55%, var(--theme-border)) !important;
+  }
+
+  .theme .theme-flow-editor__handle--out {
+    background: color-mix(in srgb, var(--theme-success, #22c55e) 88%, var(--theme-surface-raised)) !important;
+    border-color: color-mix(in srgb, var(--theme-success, #22c55e) 55%, var(--theme-border)) !important;
+  }
+
+  .theme .theme-flow-editor__handle--side-left {
+    border-radius: 0.3125rem 0.0625rem 0.0625rem 0.3125rem !important;
+    left: -0.7rem !important;
+  }
+
+  .theme .theme-flow-editor__handle--side-right {
+    border-radius: 0.0625rem 0.3125rem 0.3125rem 0.0625rem !important;
+    right: -0.7rem !important;
+  }
+
+  .theme .theme-flow-editor__handle--side-top {
+    width: 1.375rem !important;
+    height: 0.875rem !important;
+    border-radius: 0.3125rem 0.3125rem 0.0625rem 0.0625rem !important;
+    top: -0.7rem !important;
+  }
+
+  .theme .theme-flow-editor__handle--side-bottom {
+    width: 1.375rem !important;
+    height: 0.875rem !important;
+    border-radius: 0.0625rem 0.0625rem 0.3125rem 0.3125rem !important;
+    bottom: -0.7rem !important;
+  }
+
+  .theme .theme-flow-editor__handle-tab-hit {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .theme .theme-flow-editor__handle .theme-tooltip-trigger {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Action circles removed — quick actions live in the node header next to expand. */
+
+  .theme .theme-flow-editor__inspector {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    width: 14.5rem;
+    min-height: 0;
+    border-left: 1px solid var(--theme-border);
+    background: color-mix(in srgb, var(--theme-surface-raised) 35%, var(--theme-surface));
+    box-shadow: -6px 0 20px color-mix(in srgb, var(--theme-shadow-brutal) 12%, transparent);
+  }
+
+  .theme .theme-flow-editor__inspector-chrome {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.375rem;
+    padding: 0.25rem 0.375rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--theme-border) 55%, transparent);
+  }
+
+  .theme .theme-flow-editor__inspector-heading {
+    margin: 0;
+  }
+
+  .theme .theme-flow-editor__inspector-mode {
+    flex-shrink: 0;
+  }
+
+  .theme .theme-flow-editor__inspector-scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .theme .theme-flow-editor__inspector-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.125rem 0.375rem 0.375rem;
+  }
+
+  .theme .theme-flow-editor__inspector-panel--enter {
+    animation: theme-flow-inspector-in 0.22s cubic-bezier(0.33, 1, 0.48, 1) both;
+  }
+
+  @keyframes theme-flow-inspector-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.35rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .theme .theme-flow-editor__inspector-identity {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+  }
+
+  .theme .theme-flow-editor__inspector-title-edit {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .theme .theme-flow-editor__inspector-identity-icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: calc(var(--theme-radius-control) - 0.0625rem);
+    border: 1px solid color-mix(in srgb, var(--theme-border) 70%, transparent);
+    background: color-mix(in srgb, var(--theme-surface) 80%, transparent);
+    color: var(--theme-text-muted);
+  }
+
+  .theme .theme-flow-editor__inspector-title {
+    margin: 0;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .theme .theme-flow-editor__inspector-banner {
+    margin: 0;
+    padding: 0.3125rem 0.4375rem;
+    border-radius: calc(var(--theme-radius-control) - 0.0625rem);
+    background: color-mix(in srgb, var(--theme-accent) 10%, var(--theme-surface));
+    color: var(--theme-text-muted);
+  }
+
+  .theme .theme-flow-editor__inspector-sector {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    padding: 0.5rem 0 0.125rem;
+    border-top: 1px solid color-mix(in srgb, var(--theme-accent) 38%, transparent);
+  }
+
+  .theme .theme-flow-editor__inspector-panel > .theme-flow-editor__inspector-sector:first-child {
+    padding-top: 0.25rem;
+    border-top: none;
+  }
+
+  .theme .theme-flow-editor__inspector-sector-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.375rem;
+    padding: 0.0625rem 0.125rem 0.1875rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--theme-accent) 42%, transparent);
+  }
+
+  .theme .theme-flow-editor__inspector-sector-label {
+    margin: 0;
+    color: var(--theme-accent);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    line-height: 1.2;
+    font-size: 0.625rem;
+  }
+
+  .theme .theme-flow-editor__inspector-sector-count {
+    flex-shrink: 0;
+    font-weight: 600;
+    line-height: 1.2;
+    font-size: 0.625rem;
+  }
+
+  .theme .theme-flow-editor__inspector-sector-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4375rem;
+  }
+
+  .theme .theme-flow-editor__inspector-stats {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0.25rem;
+    margin: 0;
+  }
+
+  .theme .theme-flow-editor__inspector-stat-wrap {
+    display: inline-flex;
+    width: auto;
+    max-width: 100%;
+  }
+
+  .theme .theme-flow-editor__inspector-stat {
+    display: inline-flex;
+    align-items: baseline;
+    justify-content: flex-start;
+    gap: 0.35rem;
+    width: auto;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .theme .theme-flow-editor__inspector-stat-label {
+    color: var(--theme-text-muted);
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .theme .theme-flow-editor__inspector-stat-value {
+    flex-shrink: 0;
+    font-weight: 600;
+  }
+
+  .theme .theme-flow-editor__inspector-tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    align-items: flex-start;
+  }
+
+  .theme .theme-flow-editor__inspector-chip {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .theme .theme-flow-editor__inspector-port-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .theme .theme-flow-editor__inspector-port-list,
+  .theme .theme-flow-editor__inspector-var-list,
+  .theme .theme-flow-editor__inspector-member-list,
+  .theme .theme-flow-editor__inspector-map-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .theme .theme-flow-editor__inspector-port-scroll {
+    max-height: 8rem;
+    min-height: 0;
+  }
+
+  .theme .theme-flow-editor__inspector-port-row {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    min-width: 0;
+    padding: 0.125rem 0;
+  }
+
+  .theme .theme-flow-editor__inspector-port-field {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .theme .theme-flow-editor__inspector-port-name {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .theme .theme-flow-editor__inspector-port-type {
+    flex-shrink: 0;
+  }
+
+  .theme .theme-flow-editor__inspector-port-remove-disabled {
+    display: inline-flex;
+  }
+
+  .theme .theme-flow-editor__inspector-vars {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .theme .theme-flow-editor__inspector-var-row,
+  .theme .theme-flow-editor__inspector-var-add {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr) auto;
+    gap: 0.25rem;
+    align-items: center;
+  }
+
+  .theme .theme-flow-editor__inspector-path {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.375rem;
+    border-radius: calc(var(--theme-radius-control) - 0.0625rem);
+    border: 1px dashed color-mix(in srgb, var(--theme-border) 70%, transparent);
+    background: color-mix(in srgb, var(--theme-surface) 60%, transparent);
+  }
+
+  .theme .theme-flow-editor__inspector-path-arrow {
+    flex-shrink: 0;
+  }
+
+  .theme .theme-flow-editor__inspector-kv {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    margin: 0;
+  }
+
+  .theme .theme-flow-editor__inspector-kv--inline {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem 0.5rem;
+  }
+
+  .theme .theme-flow-editor__inspector-notes {
+    margin: 0;
+    line-height: 1.35;
+  }
+
+  .theme .theme-flow-editor__inspector-empty-line {
+    margin: 0;
+  }
+
+  /* Inspector Input — hide validation slot like palette search */
+  .theme .theme-flow-editor__inspector .theme-field__feedback {
+    display: none;
+  }
+
+  .theme .theme-flow-editor__inspector .theme-field {
+    margin: 0;
+  }
+
+  .theme .theme-flow-editor__inspector .theme-field {
+    margin: 0;
+  }
+
+  /* ── Templates panel (same host as palette; wider cards) ── */
+  .theme .theme-flow-editor__templates {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    height: 100%;
+    background: transparent;
+  }
+
+  .theme .theme-flow-editor__template-sections {
+    padding: 0.125rem 0.375rem 0.375rem;
+  }
+
+  .theme .theme-flow-editor__template-section-icon {
+    display: inline-block;
+    margin-inline-end: 0.25rem;
+    vertical-align: -0.05em;
+    opacity: 0.7;
+  }
+
+  .theme .theme-flow-editor__template-list {
+    list-style: none;
+    margin: 0;
+    padding: 0.25rem 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  /* Same ghost housing as note/palette rows — denser shadow vars + light border */
+  .theme .theme-flow-editor__template-card.theme-card.theme-card--ghost {
+    --theme-card-shadow-offset: 2px;
+    --theme-card-shadow-offset-sm: 1px;
+    --theme-card-duration: 0.2s;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    text-align: left;
+    cursor: grab;
+    border-radius: calc(var(--theme-radius-control) - 0.0625rem);
+    border-color: color-mix(in srgb, var(--theme-border) 36%, transparent);
+    background: color-mix(in srgb, var(--theme-surface) 22%, transparent);
+    box-shadow: none;
+    color: var(--theme-text);
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .theme .theme-flow-editor__template-card.theme-card.theme-card--ghost:hover {
+      transform: translateY(-1px);
+      border-color: color-mix(in srgb, var(--theme-accent) 55%, var(--theme-border));
+      background-color: color-mix(in srgb, var(--theme-surface) 78%, transparent);
+      box-shadow:
+        2px 2px 0 color-mix(in srgb, var(--theme-shadow-brutal) 78%, transparent),
+        0 0 0 1px color-mix(in srgb, var(--theme-accent) 18%, transparent);
+    }
+  }
+
+  .theme .theme-flow-editor__template-card.theme-card.theme-card--ghost:active {
+    cursor: grabbing;
+    transform: translateY(0) scale(0.985);
+    transition-duration: 0.12s;
+  }
+
+  .theme .theme-flow-editor__template-card.theme-card.theme-card--ghost:focus-visible {
+    outline: 2px solid var(--theme-focus);
+    outline-offset: 1px;
+  }
+
+  .theme .theme-flow-editor__template-card-preview {
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+    min-height: 5.75rem;
+    padding: 0.375rem;
+    background: color-mix(in srgb, var(--theme-surface) 88%, var(--theme-border));
+    border-bottom: 1px solid color-mix(in srgb, var(--theme-border) 70%, transparent);
+  }
+
+  .theme .theme-flow-editor__template-card-preview .theme-wireframe-wrap {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+  }
+
+  .theme .theme-flow-editor__template-card-preview .theme-wireframe {
+    flex: 1 1 auto;
+  }
+
+  .theme .theme-flow-editor__template-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    padding: 0.375rem 0.4375rem 0.4375rem;
+  }
+
+  .theme .theme-flow-editor__template-card-topline {
+    display: flex;
+    flex-direction: column;
+    gap: 0.0625rem;
+    min-width: 0;
+  }
+
+  .theme .theme-flow-editor__template-card-title {
+    margin: 0;
+  }
+
+  .theme .theme-flow-editor__template-card-count {
+    line-height: 1.2;
+  }
+
+  /* Palette-style hover expand — desc + tags collapsed until hover/focus */
+  .theme .theme-flow-editor__template-card-details {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition:
+      grid-template-rows 0.2s cubic-bezier(0.33, 1, 0.48, 1),
+      opacity 0.16s ease;
+  }
+
+  .theme .theme-flow-editor__template-card:hover .theme-flow-editor__template-card-details,
+  .theme .theme-flow-editor__template-card:focus-visible .theme-flow-editor__template-card-details {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+
+  .theme .theme-flow-editor__template-card-details-clip {
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .theme .theme-flow-editor__template-card-desc {
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .theme .theme-flow-editor__template-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-flow-editor__template-card-details {
+      transition: none;
+    }
+  }
+
+  @media (hover: none) {
+    .theme .theme-flow-editor__template-card-details {
+      grid-template-rows: 1fr;
+      opacity: 1;
+    }
+  }
+
+  .theme .theme-flow-editor--showcase {
+    max-width: none;
+    height: 44rem;
+  }
+
+  .theme .theme-flow-editor--showcase-embed {
+    height: 16rem;
+  }
+}

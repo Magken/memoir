@@ -1,0 +1,286 @@
+/**
+ * Infinite typography marquee — GSAP track loop (.theme-type-marquee__track).
+ * Bordered variants stack `theme-card--*` for neobrutal shadow + surface tokens.
+ */
+
+@layer components {
+  .theme .theme-type-marquee {
+    --type-marquee-gap: clamp(1.25rem, 3vw, 2.5rem);
+    --type-marquee-sep-gap: 0.65em;
+    --type-marquee-fade-size: clamp(2rem, 7vw, 4.5rem);
+    --type-marquee-fade-bg: var(--theme-page-bg);
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  /* ─── Theme card shell ─── */
+
+  .theme .theme-type-marquee.theme-card {
+    padding: 0;
+    width: 100%;
+  }
+
+  .theme .theme-type-marquee.theme-card--flat {
+    --type-marquee-fade-bg: var(--theme-surface);
+  }
+
+  .theme .theme-type-marquee.theme-card--raised,
+  .theme .theme-type-marquee.theme-card--outline {
+    --type-marquee-fade-bg: var(--theme-surface-raised);
+  }
+
+  .theme .theme-type-marquee.theme-card--ghost {
+    --type-marquee-fade-bg: color-mix(in srgb, var(--theme-surface) 50%, var(--theme-page-bg));
+  }
+
+  .theme .theme-type-marquee.theme-card--inset {
+    --type-marquee-fade-bg: var(--theme-surface-inset);
+  }
+
+  /* Marquee scroll hosts — no card lift on hover */
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .theme .theme-type-marquee.theme-card--raised:hover,
+    .theme .theme-type-marquee.theme-card--flat:hover,
+    .theme .theme-type-marquee.theme-card--outline:hover,
+    .theme .theme-type-marquee.theme-card--inset:hover,
+    .theme .theme-type-marquee.theme-card--ghost:hover,
+    .theme .theme-type-marquee.theme-card--shape-pill:hover {
+      transform: none;
+    }
+  }
+
+  .theme .theme-type-marquee.theme-card--shape-pill {
+    width: min(100%, 42rem);
+    max-width: 100%;
+    margin-inline: auto;
+    padding: 0;
+  }
+
+  /* Legacy band without card class — flat strip fallback */
+  .theme .theme-type-marquee:not(.theme-card) {
+    border-block: 1px solid var(--theme-border);
+    background: color-mix(in srgb, var(--theme-page-bg) 92%, var(--theme-border) 8%);
+  }
+
+  /* ─── Edge vanish (mask) ─── */
+
+  .theme .theme-type-marquee--fade .theme-type-marquee__viewport {
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent 0,
+      #000 var(--type-marquee-fade-size),
+      #000 calc(100% - var(--type-marquee-fade-size)),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      90deg,
+      transparent 0,
+      #000 var(--type-marquee-fade-size),
+      #000 calc(100% - var(--type-marquee-fade-size)),
+      transparent 100%
+    );
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+  }
+
+  .theme .theme-type-marquee--no-fade .theme-type-marquee__viewport {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .theme .theme-type-marquee--fade::before,
+  .theme .theme-type-marquee--fade::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: var(--type-marquee-fade-size);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .theme .theme-type-marquee--fade::before {
+    left: 0;
+    background: linear-gradient(
+      90deg,
+      var(--type-marquee-fade-bg) 0%,
+      color-mix(in srgb, var(--type-marquee-fade-bg) 8%, transparent) 55%,
+      transparent 100%
+    );
+  }
+
+  .theme .theme-type-marquee--fade::after {
+    right: 0;
+    background: linear-gradient(
+      270deg,
+      var(--type-marquee-fade-bg) 0%,
+      color-mix(in srgb, var(--type-marquee-fade-bg) 8%, transparent) 55%,
+      transparent 100%
+    );
+  }
+
+  /* ─── Variant tints (on top of card surfaces) ─── */
+
+  .theme .theme-type-marquee--ghost:not(.theme-card) {
+    border: none;
+    background: transparent;
+    --type-marquee-fade-bg: var(--theme-page-bg);
+  }
+
+  .theme .theme-type-marquee--ghost .theme-type-marquee__sep {
+    opacity: 0.35;
+  }
+
+  .theme .theme-type-marquee--accent.theme-card {
+    border-color: color-mix(in srgb, var(--type-accent) 38%, var(--theme-border-strong));
+    background-color: color-mix(in srgb, var(--type-accent) 9%, var(--theme-surface-raised));
+  }
+
+  .theme .theme-type-marquee--gradient.theme-card {
+    background: linear-gradient(
+      90deg,
+      var(--theme-surface-raised) 0%,
+      color-mix(in srgb, var(--type-accent) 7%, var(--theme-surface-raised)) 50%,
+      var(--theme-surface-raised) 100%
+    );
+  }
+
+  .theme .theme-type-marquee--gradient:not(.theme-card) {
+    border: none;
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--theme-page-bg) 100%, transparent) 0%,
+      color-mix(in srgb, var(--type-accent) 6%, var(--theme-page-bg)) 50%,
+      color-mix(in srgb, var(--theme-page-bg) 100%, transparent) 100%
+    );
+  }
+
+  .theme .theme-type-marquee--outline:not(.theme-card) {
+    border-block-width: 2px;
+    border-color: var(--theme-border-strong);
+    background: transparent;
+  }
+
+  .theme .theme-type-marquee--invert.theme-card {
+    background-color: var(--theme-text);
+    border-color: color-mix(in srgb, var(--theme-text) 88%, var(--theme-border-strong));
+    --type-marquee-fade-bg: var(--theme-text);
+    color: var(--theme-page-bg);
+  }
+
+  .theme .theme-type-marquee--invert:not(.theme-card) {
+    background: var(--theme-text);
+    border-color: transparent;
+    --type-marquee-fade-bg: var(--theme-text);
+  }
+
+  .theme .theme-type-marquee--invert .theme-type-marquee__sep {
+    opacity: 0.42;
+    color: color-mix(in srgb, var(--theme-page-bg) 70%, transparent);
+  }
+
+  .theme .theme-type-marquee--pill:not(.theme-card) {
+    width: min(100%, 42rem);
+    margin-inline: auto;
+    border: 1px solid var(--theme-border);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--theme-surface-raised) 88%, transparent);
+  }
+
+  .theme .theme-type-marquee--pill .theme-type-marquee__viewport,
+  .theme .theme-type-marquee--pill.theme-card--shape-pill .theme-type-marquee__viewport {
+    padding-block: clamp(0.65rem, 2vw, 0.95rem);
+  }
+
+  .theme .theme-type-marquee--dense {
+    --type-marquee-gap: clamp(0.55rem, 1.8vw, 1.1rem);
+    --type-marquee-sep-gap: 0.35em;
+    border: none;
+    background: transparent;
+    --type-marquee-fade-bg: var(--theme-page-bg);
+  }
+
+  .theme .theme-type-marquee--dense .theme-type-marquee__viewport {
+    padding-block: 0.45rem;
+  }
+
+  /* ─── Structure ─── */
+
+  .theme .theme-type-marquee__viewport {
+    overflow: hidden;
+    padding-block: clamp(0.85rem, 2.5vw, 1.35rem);
+    cursor: default;
+  }
+
+  .theme .theme-type-marquee__viewport:hover {
+    cursor: grab;
+  }
+
+  .theme .theme-type-marquee__track {
+    display: flex;
+    width: max-content;
+    align-items: center;
+    will-change: transform;
+  }
+
+  .theme .theme-type-marquee__measure {
+    position: absolute;
+    width: max-content;
+    visibility: hidden;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: var(--type-marquee-gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .theme .theme-type-marquee__list {
+    display: flex;
+    align-items: center;
+    gap: var(--type-marquee-gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    flex-shrink: 0;
+  }
+
+  .theme .theme-type-marquee__item {
+    display: inline-flex;
+    align-items: baseline;
+    gap: var(--type-marquee-sep-gap);
+    white-space: nowrap;
+  }
+
+  .theme .theme-type-marquee__sep {
+    font-size: 0.72em;
+    line-height: 1;
+    opacity: 0.55;
+  }
+
+  .theme .theme-type-marquee__static {
+    display: none;
+    margin: 0;
+    padding: 0.85rem 1.25rem 1rem;
+    text-align: center;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-type-marquee__viewport {
+      display: none;
+    }
+
+    .theme .theme-type-marquee__static {
+      display: block;
+    }
+
+    .theme .theme-type-marquee--fade::before,
+    .theme .theme-type-marquee--fade::after {
+      display: none;
+    }
+  }
+}

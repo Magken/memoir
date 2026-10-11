@@ -1,0 +1,1054 @@
+{
+  "kind": "interview_brief",
+  "tools": {
+    "tool.doc.q1bbhg": {
+      "type": "doc",
+      "title": "Ship-or-wait product memo",
+      "prompt": {
+        "brief": "You are advising a hiring manager who has two minutes to decide whether to ship a beta this quarter. Write a concise memo that opens with your ship-or-wait call, supports it with at least one metric and a rejected alternative, and explains what you would monitor if you ship. Keep your writing clear and structured so a manager can skim and understand your reasoning quickly.",
+        "structure": [
+          {
+            "id": "s1",
+            "hint": "What changed in the product or market that led to this decision point?",
+            "label": "Context",
+            "minParagraphs": 1
+          },
+          {
+            "id": "s2",
+            "hint": "State your ship-or-wait decision in the first sentence and briefly explain why.",
+            "label": "Recommendation",
+            "minParagraphs": 1
+          },
+          {
+            "id": "s3",
+            "hint": "What could go wrong if you ship, and what would you watch to catch issues early?",
+            "label": "Risks",
+            "minParagraphs": 1
+          }
+        ],
+        "requirements": [
+          "Include at least one concrete metric that supports your recommendation.",
+          "Name one alternative you considered and rejected.",
+          "State a clear ship-or-wait call in the first sentence of the Recommendation section."
+        ]
+      },
+      "timing": {
+        "mode": "timed",
+        "limitMinutes": 15
+      },
+      "analysis": {
+        "templateIds": [
+          "mark.doc.essay.v1",
+          "mark.doc.approach.v1",
+          "mark.doc.authorship.v1"
+        ]
+      },
+      "maxWords": 500,
+      "minWords": 180,
+      "assessment": {
+        "kind": "rubric",
+        "dimensions": [
+          {
+            "key": "clarity",
+            "bands": [
+              {
+                "id": "limited",
+                "label": "1 - Limited",
+                "descriptor": "No clear ship-or-wait call, or the decision is vague or buried."
+              },
+              {
+                "id": "developing",
+                "label": "2 - Developing",
+                "descriptor": "A decision is present but hedged, unclear, or not in the first sentence."
+              },
+              {
+                "id": "competent",
+                "label": "3 - Competent",
+                "descriptor": "Clear ship-or-wait call in the first sentence with a brief rationale."
+              },
+              {
+                "id": "strong",
+                "label": "4 - Strong",
+                "descriptor": "Unambiguous call in the first sentence plus a crisp, skimmable rationale."
+              }
+            ],
+            "label": "Clarity of recommendation",
+            "weight": 0.35,
+            "criterion": "Recommendation is unambiguous and stated in the first sentence of the Recommendation section. Raters look for a clear ship-or-wait call that is easy to find and understand.",
+            "structureIds": [
+              "s2"
+            ]
+          },
+          {
+            "key": "evidence",
+            "bands": [
+              {
+                "id": "limited",
+                "label": "1 - Limited",
+                "descriptor": "No metric or rejected alternative; relies on opinion only."
+              },
+              {
+                "id": "developing",
+                "label": "2 - Developing",
+                "descriptor": "Includes either a metric or a rejected alternative, but not both."
+              },
+              {
+                "id": "competent",
+                "label": "3 - Competent",
+                "descriptor": "Names a metric and a rejected alternative, but with thin linkage to the recommendation."
+              },
+              {
+                "id": "strong",
+                "label": "4 - Strong",
+                "descriptor": "Metric and rejected alternative are clearly tied to the recommendation with concrete numbers or signals."
+              }
+            ],
+            "label": "Evidence and alternatives",
+            "weight": 0.4,
+            "criterion": "Uses at least one concrete metric and names a rejected alternative. Grades Context and Risks for specific, relevant evidence supporting the decision.",
+            "structureIds": [
+              "s1",
+              "s3"
+            ]
+          },
+          {
+            "key": "risk",
+            "bands": [
+              {
+                "id": "limited",
+                "label": "1 - Limited",
+                "descriptor": "No risk named, or only vague statements about possible problems."
+              },
+              {
+                "id": "developing",
+                "label": "2 - Developing",
+                "descriptor": "Names a risk but does not describe how to monitor or respond."
+              },
+              {
+                "id": "competent",
+                "label": "3 - Competent",
+                "descriptor": "Identifies a specific risk and a plausible signal to watch."
+              },
+              {
+                "id": "strong",
+                "label": "4 - Strong",
+                "descriptor": "Names a specific downside, a concrete owner or metric to watch, and what would trigger a rethink."
+              }
+            ],
+            "label": "Risk awareness and monitoring",
+            "weight": 0.25,
+            "criterion": "Names a concrete risk of shipping and describes how to monitor for issues. Grades the Risks section for specificity and a plausible watch plan.",
+            "structureIds": [
+              "s3"
+            ]
+          }
+        ]
+      },
+      "editorKind": "doc",
+      "instructions": "Write a short product memo recommending whether to ship a beta this quarter. Your audience is a hiring manager who will skim for a clear call, evidence, and risk awareness. Include a metric, a rejected alternative, and a clear ship-or-wait decision in your first sentence. Aim for a concise, structured response."
+    },
+    "tool.form.he5jad": {
+      "type": "form_quiz",
+      "title": "Eligibility & Work Authorization Screening",
+      "timing": {
+        "mode": "timed",
+        "limitMinutes": 6,
+        "estimatedMinutes": 8
+      },
+      "analysis": {
+        "attachPack": "pack.form_gate",
+        "templateIds": [
+          "mark.form.key.v1"
+        ]
+      },
+      "artifact": {
+        "inline": {
+          "id": "tf_staff_security_elig",
+          "title": "Eligibility & Work Authorization Screening",
+          "schema": "vurify/test-form",
+          "version": 1,
+          "sections": [
+            {
+              "id": "sec.elig",
+              "title": "Eligibility & Work Authorization",
+              "description": "Confirm your eligibility and experience for this Staff Security Engineer opportunity. All questions are required."
+            }
+          ],
+          "settings": {
+            "showHintsInTake": false,
+            "shuffleQuestions": true
+          },
+          "answerKey": {
+            "q.auth": {
+              "kind": "mcq_single",
+              "optionId": "opt.auth.yes"
+            },
+            "q.name": {
+              "kind": "short_text",
+              "match": "regex",
+              "value": ".{2,}"
+            },
+            "q.email": {
+              "kind": "short_text",
+              "match": "regex",
+              "value": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$",
+              "rejects": [
+                "test@test.com",
+                "noreply@"
+              ],
+              "caseSensitive": false
+            },
+            "q.oncall": {
+              "kind": "mcq_single",
+              "optionId": "opt.oncall.yes"
+            },
+            "q.incident": {
+              "kind": "mcq_single",
+              "optionId": "opt.incident.yes"
+            },
+            "q.day_to_day": {
+              "kind": "short_text",
+              "match": "regex",
+              "value": ".{10,}"
+            },
+            "q.experience": {
+              "kind": "mcq_single",
+              "optionIds": [
+                "opt.exp.6_8",
+                "opt.exp.9plus"
+              ]
+            },
+            "q.sponsorship": {
+              "kind": "mcq_single",
+              "optionId": "opt.sponsorship.no"
+            }
+          },
+          "questions": [
+            {
+              "id": "q.name",
+              "kind": "short_text",
+              "points": 1,
+              "prompt": "Full legal name",
+              "required": true,
+              "sectionId": "sec.elig"
+            },
+            {
+              "id": "q.email",
+              "kind": "short_text",
+              "points": 1,
+              "prompt": "Email address",
+              "required": true,
+              "sectionId": "sec.elig",
+              "inputFormat": "email"
+            },
+            {
+              "id": "q.auth",
+              "kind": "mcq_single",
+              "points": 1,
+              "prompt": "Are you legally authorized to work in the country where this role is based?",
+              "options": [
+                {
+                  "id": "opt.auth.yes",
+                  "label": "Yes"
+                },
+                {
+                  "id": "opt.auth.no",
+                  "label": "No"
+                }
+              ],
+              "required": true,
+              "sectionId": "sec.elig"
+            },
+            {
+              "id": "q.sponsorship",
+              "kind": "mcq_single",
+              "points": 1,
+              "prompt": "Do you require current or future work visa sponsorship to remain employed in this country?",
+              "options": [
+                {
+                  "id": "opt.sponsorship.no",
+                  "label": "No"
+                },
+                {
+                  "id": "opt.sponsorship.yes",
+                  "label": "Yes"
+                }
+              ],
+              "required": true,
+              "sectionId": "sec.elig"
+            },
+            {
+              "id": "q.incident",
+              "kind": "mcq_single",
+              "points": 1,
+              "prompt": "Have you led security incident response for multi-service platforms?",
+              "options": [
+                {
+                  "id": "opt.incident.yes",
+                  "label": "Yes"
+                },
+                {
+                  "id": "opt.incident.no",
+                  "label": "No"
+                }
+              ],
+              "required": true,
+              "sectionId": "sec.elig"
+            },
+            {
+              "id": "q.experience",
+              "kind": "mcq_single",
+              "points": 1,
+              "prompt": "Years of professional security engineering experience",
+              "options": [
+                {
+                  "id": "opt.exp.0_2",
+                  "label": "0-2"
+                },
+                {
+                  "id": "opt.exp.3_5",
+                  "label": "3-5"
+                },
+                {
+                  "id": "opt.exp.6_8",
+                  "label": "6-8"
+                },
+                {
+                  "id": "opt.exp.9plus",
+                  "label": "9+"
+                }
+              ],
+              "required": true,
+              "sectionId": "sec.elig"
+            },
+            {
+              "id": "q.oncall",
+              "kind": "mcq_single",
+              "points": 1,
+              "prompt": "Are you able to participate in a rotating on-call schedule?",
+              "options": [
+                {
+                  "id": "opt.oncall.yes",
+                  "label": "Yes"
+                },
+                {
+                  "id": "opt.oncall.no",
+                  "label": "No"
+                }
+              ],
+              "required": true,
+              "sectionId": "sec.elig"
+            },
+            {
+              "id": "q.day_to_day",
+              "kind": "short_text",
+              "points": 1,
+              "prompt": "Briefly describe your typical day-to-day responsibilities in your most recent security engineering role.",
+              "required": true,
+              "sectionId": "sec.elig"
+            }
+          ]
+        },
+        "docKind": "form"
+      },
+      "answerKey": {
+        "q.auth": {
+          "kind": "mcq_single",
+          "optionId": "opt.auth.yes"
+        },
+        "q.name": {
+          "kind": "short_text",
+          "match": "regex",
+          "value": ".{2,}"
+        },
+        "q.email": {
+          "kind": "short_text",
+          "match": "regex",
+          "value": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$",
+          "rejects": [
+            "test@test.com",
+            "noreply@"
+          ],
+          "caseSensitive": false
+        },
+        "q.oncall": {
+          "kind": "mcq_single",
+          "optionId": "opt.oncall.yes"
+        },
+        "q.incident": {
+          "kind": "mcq_single",
+          "optionId": "opt.incident.yes"
+        },
+        "q.day_to_day": {
+          "kind": "short_text",
+          "match": "regex",
+          "value": ".{10,}"
+        },
+        "q.experience": {
+          "kind": "mcq_single",
+          "optionIds": [
+            "opt.exp.6_8",
+            "opt.exp.9plus"
+          ]
+        },
+        "q.sponsorship": {
+          "kind": "mcq_single",
+          "optionId": "opt.sponsorship.no"
+        }
+      },
+      "editorKind": "testform",
+      "instructions": "Please answer all required questions to confirm your eligibility for this Staff Security Engineer role. This section screens for legal work status, sponsorship, and minimum experience. You must pass all required checks to proceed to the main interview.",
+      "passThreshold": {
+        "mode": "required_items",
+        "requiredQuestionIds": [
+          "q.name",
+          "q.email",
+          "q.auth",
+          "q.sponsorship",
+          "q.incident",
+          "q.experience",
+          "q.oncall",
+          "q.day_to_day"
+        ]
+      }
+    },
+    "tool.coding.b7o8xa": {
+      "type": "coding",
+      "tests": {
+        "cases": [
+          {
+            "id": "t1",
+            "args": [
+              [
+                2,
+                7,
+                11,
+                15
+              ],
+              9
+            ],
+            "name": "basic pair",
+            "hidden": false,
+            "compare": "deep_equal",
+            "expected": [
+              0,
+              1
+            ],
+            "description": "Finds indices of two numbers that sum to target in a typical array"
+          },
+          {
+            "id": "t2",
+            "args": [
+              [
+                1,
+                2,
+                3,
+                4,
+                4
+              ],
+              8
+            ],
+            "name": "hidden later pair",
+            "hidden": true,
+            "compare": "deep_equal",
+            "expected": [
+              3,
+              4
+            ],
+            "description": "Hidden: finds a pair later in the array"
+          }
+        ],
+        "runner": "hidden_cases_v1",
+        "entryPoint": "twoSum"
+      },
+      "title": "Two-sum coding drill",
+      "timing": {
+        "mode": "timed",
+        "limitMinutes": 20,
+        "estimatedMinutes": 20
+      },
+      "analysis": {
+        "attachPack": "pack.coding",
+        "templateIds": [
+          "mark.code.tests.v1",
+          "mark.code.method.v1"
+        ]
+      },
+      "artifact": {
+        "inline": {
+          "files": [
+            {
+              "path": "src/solve.ts",
+              "content": "export function twoSum(nums: number[], target: number): number[] {\n  // TODO: Implement your solution\n  throw new Error('not implemented');\n}\n",
+              "language": "typescript"
+            },
+            {
+              "path": "src/solve.py",
+              "content": "def twoSum(nums, target):\n    # TODO: Implement your solution\n    raise NotImplementedError\n",
+              "language": "python"
+            },
+            {
+              "path": "tests/cases.json",
+              "content": "{\n  \"runner\": \"hidden_cases_v1\",\n  \"entryPoint\": \"twoSum\",\n  \"cases\": [\n    {\n      \"id\": \"t1\",\n      \"name\": \"basic pair\",\n      \"description\": \"Finds indices of two numbers that sum to target in a typical array\",\n      \"args\": [[2, 7, 11, 15], 9],\n      \"expected\": [0, 1],\n      \"compare\": \"deep_equal\",\n      \"hidden\": false\n    },\n    {\n      \"id\": \"t2\",\n      \"name\": \"hidden later pair\",\n      \"description\": \"Hidden: finds a pair later in the array\",\n      \"args\": [[1, 2, 3, 4, 4], 8],\n      \"expected\": [3, 4],\n      \"compare\": \"deep_equal\",\n      \"hidden\": true\n    }\n  ]\n}\n",
+              "language": "json"
+            },
+            {
+              "path": "README.md",
+              "content": "# Two-sum Coding Drill\n\n## Problem\nGiven an array of integers `nums` and an integer `target`, return the indices of the two numbers in `nums` that add up to `target`. Each input will have exactly one solution, and you may not use the same element twice. Return the indices as a list of two integers. The order of indices should match the sample outputs unless otherwise specified.\n\n## Function\nImplement `twoSum(nums, target)` where:\n- `nums`: list of integers (e.g. `[2, 7, 11, 15]`)\n- `target`: integer (the sum to find)\n- returns: a list `[i, j]` of two indices such that `nums[i] + nums[j] == target`\n\n## Examples\n\n### Example 1\n**Input:** nums = [2, 7, 11, 15], target = 9\n**Output:** [0, 1]\n**Explanation:** nums[0] + nums[1] = 2 + 7 = 9, so return [0, 1].\n\n### Example 2\n**Input:** nums = [3, 3], target = 6\n**Output:** [0, 1]\n**Explanation:** nums[0] + nums[1] = 3 + 3 = 6, so return [0, 1].\n\n## Constraints\n- 2 <= nums.length <= 10^4\n- -10^9 <= nums[i], target <= 10^9\n- Exactly one valid answer per test case\n- You may not use the same element twice\n\n## Scoring\nVisible examples match the sample tests in `tests/cases.json`. Run also checks hidden cases. Your function's return value must match the expected output exactly (deep equality).",
+              "language": "markdown"
+            }
+          ],
+          "title": "Two-sum coding drill",
+          "folders": [
+            "src",
+            "tests"
+          ],
+          "openIds": [
+            "src/solve.ts",
+            "README.md"
+          ],
+          "activeId": "src/solve.ts"
+        },
+        "docKind": "code"
+      },
+      "languages": [
+        "typescript",
+        "python"
+      ],
+      "editorKind": "code",
+      "instructions": "You will implement twoSum(nums, target) in the code workspace so it returns the indices of the two values that add up to target. Carefully read the README for problem details, input/output examples, and constraints. Run will check your function against both visible sample cases and hidden edge cases, so your return value must match the expected output exactly.",
+      "defaultLanguage": "typescript"
+    },
+    "tool.coding.j8sx8g": {
+      "type": "coding",
+      "tests": {
+        "cases": [
+          {
+            "id": "t1",
+            "args": [
+              0
+            ],
+            "name": "base_zero",
+            "hidden": false,
+            "compare": "exact",
+            "expected": 0,
+            "timeoutMs": 2000,
+            "description": "Fibonacci of 0"
+          },
+          {
+            "id": "t2",
+            "args": [
+              1
+            ],
+            "name": "base_one",
+            "hidden": false,
+            "compare": "exact",
+            "expected": 1,
+            "timeoutMs": 2000,
+            "description": "Fibonacci of 1"
+          },
+          {
+            "id": "t3",
+            "args": [
+              5
+            ],
+            "name": "small_n",
+            "hidden": false,
+            "compare": "exact",
+            "expected": 5,
+            "timeoutMs": 2000,
+            "description": "Fibonacci of 5"
+          },
+          {
+            "id": "t4",
+            "args": [
+              10
+            ],
+            "name": "medium_n",
+            "hidden": true,
+            "compare": "exact",
+            "expected": 55,
+            "timeoutMs": 2000,
+            "description": "Fibonacci of 10"
+          },
+          {
+            "id": "t5",
+            "args": [
+              2
+            ],
+            "name": "edge_case",
+            "hidden": true,
+            "compare": "exact",
+            "expected": 1,
+            "timeoutMs": 2000,
+            "description": "Fibonacci of 2"
+          }
+        ],
+        "runner": "hidden_cases_v1",
+        "entryPoint": "solve",
+        "referenceSolution": "// Author-only reference - should pass every case in tests/cases.json\n"
+      },
+      "title": "Recursive Fibonacci coding challenge",
+      "timing": {
+        "mode": "timed",
+        "limitMinutes": 20,
+        "estimatedMinutes": 20
+      },
+      "analysis": {
+        "attachPack": "pack.coding",
+        "templateIds": [
+          "mark.code.tests.v1",
+          "mark.code.method.v1"
+        ]
+      },
+      "artifact": {
+        "inline": {
+          "files": [
+            {
+              "path": "src/solve.ts",
+              "content": "export function solve(n: number): number {\n  // Implement this function recursively\n  return 0;\n}\n",
+              "language": "typescript"
+            },
+            {
+              "path": "src/solve.py",
+              "content": "def solve(n):\n    # Implement this function recursively\n    return 0\n",
+              "language": "python"
+            },
+            {
+              "path": "src/solve.java",
+              "content": "public class Solution {\n    public static int solve(int n) {\n        // Implement this function recursively\n        return 0;\n    }\n}\n",
+              "language": "java"
+            },
+            {
+              "path": "src/solve.go",
+              "content": "package main\nfunc solve(n int) int {\n    // Implement this function recursively\n    return 0\n}\n",
+              "language": "go"
+            },
+            {
+              "path": "src/solve.js",
+              "content": "function solve(n) {\n  // Implement this function recursively\n  return 0;\n}\n",
+              "language": "javascript"
+            },
+            {
+              "path": "README.md",
+              "content": "# Recursive Fibonacci\n\nImplement a function that computes the nth Fibonacci number using recursion.\n\nThe Fibonacci sequence is defined as:\n- solve(0) = 0\n- solve(1) = 1\n- solve(n) = solve(n-1) + solve(n-2) for n > 1\n\nYour solution must use recursion. Do not use iteration or memoization.\n",
+              "language": "markdown"
+            },
+            {
+              "path": "tests/cases.json",
+              "content": "{\n  \"runner\": \"hidden_cases_v1\",\n  \"entryPoint\": \"solve\",\n  \"cases\": [\n    {\n      \"id\": \"t1\",\n      \"name\": \"base_zero\",\n      \"description\": \"Fibonacci of 0\",\n      \"args\": [0],\n      \"expected\": 0,\n      \"compare\": \"exact\",\n      \"hidden\": false,\n      \"timeoutMs\": 2000\n    },\n    {\n      \"id\": \"t2\",\n      \"name\": \"base_one\",\n      \"description\": \"Fibonacci of 1\",\n      \"args\": [1],\n      \"expected\": 1,\n      \"compare\": \"exact\",\n      \"hidden\": false,\n      \"timeoutMs\": 2000\n    },\n    {\n      \"id\": \"t3\",\n      \"name\": \"small_n\",\n      \"description\": \"Fibonacci of 5\",\n      \"args\": [5],\n      \"expected\": 5,\n      \"compare\": \"exact\",\n      \"hidden\": false,\n      \"timeoutMs\": 2000\n    },\n    {\n      \"id\": \"t4\",\n      \"name\": \"medium_n\",\n      \"description\": \"Fibonacci of 10\",\n      \"args\": [10],\n      \"expected\": 55,\n      \"compare\": \"exact\",\n      \"hidden\": true,\n      \"timeoutMs\": 2000\n    },\n    {\n      \"id\": \"t5\",\n      \"name\": \"edge_case\",\n      \"description\": \"Fibonacci of 2\",\n      \"args\": [2],\n      \"expected\": 1,\n      \"compare\": \"exact\",\n      \"hidden\": true,\n      \"timeoutMs\": 2000\n    }\n  ]\n}\n",
+              "language": "json"
+            },
+            {
+              "path": "tests/reference.ts",
+              "content": "// Author-only reference - should pass every case in tests/cases.json\n",
+              "language": "typescript"
+            }
+          ],
+          "title": "Recursive Fibonacci coding challenge",
+          "folders": [
+            "src",
+            "tests"
+          ],
+          "openIds": [
+            "src/solve.ts"
+          ],
+          "activeId": "src/solve.ts"
+        },
+        "docKind": "code"
+      },
+      "languages": [
+        "typescript",
+        "python",
+        "java",
+        "go",
+        "javascript"
+      ],
+      "editorKind": "code",
+      "instructions": "Write a function called solve that returns the nth Fibonacci number using recursion. The Fibonacci sequence starts with 0 and 1, and each next number is the sum of the previous two. For example, solve(0) should return 0, solve(1) should return 1, and solve(5) should return 5. Your solution must use recursion only-do not use loops, iteration, or memoization. Make sure your code works for any non-negative integer input and handles the base cases correctly. Sample input/output:\n\nsolve(0) => 0\nsolve(1) => 1\nsolve(5) => 5\nsolve(10) => 55\n\nYour code will be tested against both visible and hidden cases. Check your logic and edge cases before submitting.",
+      "defaultLanguage": "typescript"
+    }
+  },
+  "phases": [
+    {
+      "id": "ph.0qloid",
+      "kind": "discussion",
+      "title": "Opening: motivation and interests in security/platform",
+      "summary": {
+        "blurb": "We will settle in with a short conversation about what excites you in security or platform engineering. Share a recent topic, challenge, or trend that caught your interest and why it matters to you. This is a warm-up, not a deep technical drill.",
+        "packLabel": "Opening talk"
+      },
+      "topicId": "topic.msxzbe",
+      "isClosing": false,
+      "isOpening": true,
+      "estimatedMinutes": 8
+    },
+    {
+      "id": "ph.fi4fpq",
+      "kind": "tool",
+      "title": "Eligibility & Work Authorization Screening",
+      "summary": {
+        "blurb": "Complete this required eligibility and work authorization screening before proceeding to the main interview. All items must be passed to continue.",
+        "packLabel": "Eligibility & Authorization Gate"
+      },
+      "toolRef": "tool.form.he5jad",
+      "isClosing": false,
+      "isOpening": false,
+      "estimatedMinutes": 8
+    },
+    {
+      "id": "ph.k5wuze",
+      "kind": "discussion",
+      "when": {
+        "all": [
+          {
+            "toolPassed": "tool.form.he5jad"
+          }
+        ]
+      },
+      "title": "Ownership and incident impact",
+      "onFail": {
+        "goToPhaseId": "ph.6mvyht"
+      },
+      "summary": {
+        "blurb": "Walk through a real incident or delivery you owned. Bring concrete decisions, outcomes, and what you learned-this shows how you handle responsibility in this role.",
+        "packLabel": "Impact stories"
+      },
+      "topicId": "topic.890lut",
+      "required": true,
+      "isClosing": false,
+      "isOpening": false,
+      "estimatedMinutes": 12
+    },
+    {
+      "id": "ph.8xz0sd",
+      "kind": "tool",
+      "title": "Recursive Fibonacci coding challenge",
+      "summary": {
+        "blurb": "You will write a recursive function to compute the nth Fibonacci number. A good answer uses recursion only, handles base cases, and matches the sample outputs. This challenge checks your understanding of recursion and problem breakdown.",
+        "packLabel": "Coding"
+      },
+      "toolRef": "tool.coding.j8sx8g",
+      "isClosing": false,
+      "isOpening": false,
+      "estimatedMinutes": 20
+    },
+    {
+      "id": "ph.6pltkr",
+      "kind": "tool",
+      "title": "Ship-or-wait product memo",
+      "summary": {
+        "blurb": "Write a concise memo recommending whether to ship a beta this quarter. Cover your decision, evidence, and risk plan so a hiring manager can skim and understand your reasoning.",
+        "packLabel": "Tradeoff memo"
+      },
+      "toolRef": "tool.doc.q1bbhg",
+      "isClosing": false,
+      "isOpening": false,
+      "estimatedMinutes": 15
+    },
+    {
+      "id": "ph.bd0xml",
+      "kind": "tool",
+      "title": "Two-sum coding drill",
+      "summary": {
+        "blurb": "You will implement a two-sum function in the workspace, check it against the README Input/Output examples, then Run so hidden cases grade your return value. Clear, correct solutions matter for this role.",
+        "packLabel": "Coding drill"
+      },
+      "toolRef": "tool.coding.b7o8xa",
+      "isClosing": false,
+      "isOpening": false,
+      "estimatedMinutes": 20
+    },
+    {
+      "id": "ph.6mvyht",
+      "kind": "discussion",
+      "title": "Closing questions and next steps",
+      "summary": {
+        "blurb": "Wrap up with your questions and confirm the next steps and timeline for this role.",
+        "packLabel": "Close"
+      },
+      "topicId": "topic.qm4ypl",
+      "isClosing": true,
+      "isOpening": false,
+      "estimatedMinutes": 5
+    }
+  ],
+  "analysis": {
+    "rollup": {
+      "weights": {
+        "coding-work": 0.3333,
+        "write": 0.3333,
+        "conversation": 0.3334
+      },
+      "templateId": "rollup.attempt.v1",
+      "weightSections": {
+        "coding-work": [
+          "ph.8xz0sd",
+          "ph.bd0xml"
+        ],
+        "write": [
+          "ph.6pltkr"
+        ],
+        "conversation": [
+          "ph.0qloid",
+          "ph.k5wuze",
+          "ph.6mvyht"
+        ]
+      },
+      "weightLabels": {
+        "coding-work": "Coding",
+        "write": "Writing",
+        "conversation": "Conversation"
+      }
+    },
+    "bindings": [],
+    "schedule": {
+      "interview_end": {
+        "when": "interview_end",
+        "templateIds": [
+          "rollup.attempt.v1"
+        ]
+      }
+    },
+    "overrides": {
+      "libraryIds": [
+        "iv.ownership.v1",
+        "custom.reviewer-note",
+        "custom.evidence-gate",
+        "custom.severity-band",
+        "custom.incident-themes",
+        "custom.oncall-ownership"
+      ],
+      "templateCards": {
+        "iv.ownership.v1": {
+          "title": "iv.ownership.v1",
+          "details": "",
+          "outputKind": "dimensions"
+        },
+        "custom.evidence-gate": {
+          "title": "Discussion evidence gate",
+          "details": "Whether discussion evidence is enough to continue the loop.",
+          "taxonomy": [],
+          "dimensions": [],
+          "enumValues": [],
+          "maxPerTurn": 3,
+          "outputKind": "passFail",
+          "justificationPolicy": "optional"
+        },
+        "custom.reviewer-note": {
+          "title": "Reviewer narrative note",
+          "details": "Short paragraph capturing residual ownership / incident concerns.",
+          "taxonomy": [],
+          "dimensions": [],
+          "enumValues": [],
+          "maxPerTurn": 3,
+          "outputKind": "paragraph",
+          "justificationPolicy": "none"
+        },
+        "custom.severity-band": {
+          "title": "Incident severity band",
+          "details": "Forced single outcome for how severe the incident story felt.",
+          "taxonomy": [],
+          "dimensions": [],
+          "enumValues": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "maxPerTurn": 3,
+          "outputKind": "enum",
+          "justificationPolicy": "always_required"
+        },
+        "custom.incident-themes": {
+          "title": "Incident story themes",
+          "details": "Tag themes that show up in ownership / incident narratives.",
+          "taxonomy": [
+            "ownership",
+            "calm",
+            "cross-team",
+            "metrics",
+            "escalation"
+          ],
+          "dimensions": [],
+          "enumValues": [],
+          "maxPerTurn": 3,
+          "outputKind": "taxonomy",
+          "justificationPolicy": "optional"
+        },
+        "custom.oncall-ownership": {
+          "title": "On-call ownership stress",
+          "details": "Score composure and outcome ownership under incident pressure.",
+          "taxonomy": [],
+          "dimensions": [
+            {
+              "key": "composed",
+              "label": "Stays composed",
+              "options": [
+                "weak",
+                "mixed",
+                "strong"
+              ],
+              "defaultOption": "mixed"
+            },
+            {
+              "key": "owns_outcome",
+              "label": "Owns the outcome",
+              "options": [
+                "weak",
+                "mixed",
+                "strong"
+              ],
+              "defaultOption": "mixed"
+            }
+          ],
+          "enumValues": [],
+          "maxPerTurn": 3,
+          "outputKind": "dimensions",
+          "justificationPolicy": "always_required"
+        }
+      }
+    }
+  },
+  "definition": {
+    "meta": {
+      "title": "Staff Security Engineer Full Interview",
+      "status": "draft",
+      "timing": {
+        "fitPolicy": "fit_proposed",
+        "slackMinutes": 5
+      },
+      "roleTitle": "Staff Security Engineer",
+      "proposedMinutes": 85,
+      "roleDescription": "Interview chrome\n- Title: Staff Security Engineer - 80m hardened loop\n- Role title: Staff Security Engineer\n- Role description: This is a senior technical security engineering position focused on designing, implementing, and reviewing robust security controls for large-scale systems. The role requires experience leading security initiatives, collaborating with engineering teams, and deep technical expertise in threat modeling, secure architecture, and incident response. Candidates should demonstrate technical breadth, practical ownership, and the ability to communicate risks and solutions effectively.\n- Proposed minutes: 85. This loop is designed to efficiently screen for technical depth, ownership, and practical security engineering ability.\n- Persona: Interviewer name: Jordan. Voice: Direct, evidence-seeking, and professional. Behaviour: Probes for specific examples and outcomes; never hints at solutions or reveals hidden test details; stays strictly within each section as designed.\n- System goals: Screen for baseline fit, assess technical ownership and practical security expertise, and validate hands-on security engineering ability.\n- Guardrails: Do not provide hints or coaching on coding or form answers. Do not invent or add any sections outside those specified in the brief.\n\nFlow I want (in this order)\n1. Opening talk\n2. Screening form (gate, required on timeline, onFail → closing talk)\n3. Coding exercise (≥2 test cases, required)\n4. Closing talk\n\nPer-section blocks\n\nOpening talk\n- Purpose: Welcome the candidate, set context for the interview, and establish a comfortable environment. Briefly introduce the process and invite the candidate to share a concise overview of their experience in security engineering at scale.\n- Summary/blurb: In this section, you will introduce yourself, outline the interview structure, and ask the candidate to share a high-level summary of their background and recent security engineering work. The goal is to set a collaborative tone and gather initial context.\n- Pack label: Welcome and context\n- Soft depth: 4-5 minutes\n- Probes:\n  - Can you briefly describe your most recent security engineering role and the types of systems you worked on? (required)\n  - What motivated you to focus on security engineering at this stage of your career?\n- Interviewer note: Keep it light and conversational; avoid deep technical dives here.\n\nScreening form (required, pass gate, on timeline)\n- Candidate-facing instructions: Please answer the following questions to confirm your baseline experience and eligibility for this Staff Security Engineer role. Your responses will determine whether you proceed to the technical assessment.\n- Blurb: This section checks for required experience in security engineering, relevant technical skills, and work authorization. You must pass this gate to continue.\n- Hard timer: 8 minutes\n- Pass gate: Yes (must meet all required criteria to proceed)\n- OnFail: Jump to closing talk (do not continue to coding)\n- Question types and answer keys:\n  - What is your primary email address? (short text, email regex)\n  - How many years of professional experience do you have in security engineering? (single MCQ: 0-2, 3-5, 6-9, 10+; answerKey: 6-9 or 10+ required)\n  - Have you led the design or review of security controls for distributed systems in a professional setting? (single MCQ: Yes/No; answerKey: Yes required)\n  - Please list the programming languages you have used in production security projects. (short text, must contain at least one of: Python, Go, Java, C++, Rust)\n  - Are you currently authorized to work in the relevant jurisdiction? (single MCQ: Yes/No; answerKey: Yes required)\n- Hints: You may clarify your answers if needed.\n- Required on the timeline: Yes\n\nCoding exercise\n- Title: Secure Data Pipeline Hardening\n- Instructions: You will implement a function to validate and sanitize incoming data records in a distributed data pipeline. The function must enforce strict input validation, reject malformed or suspicious records, and log relevant security events. Focus on correctness, security best practices, and clear code structure.\n- Languages: Python (default), Go, or Java\n- Inline starter: Function signature and basic structure provided; clear TODO comments indicate where to implement validation and logging logic. No solution code is present.\n- Entry point: validate_and_log(input_record)\n- Test cases: At least two cases required:\n  - Case 1 (happy path): Valid input record with all required fields and no suspicious content.\n  - Case 2 (edge/hidden): Input record with missing fields, unexpected data types, or known attack patterns (e.g., SQL injection attempt).\n- Required: Yes, all candidates passing the form gate must complete this section.\n- OnFail: No jump, as this is the last technical assessment before closing.\n\nClosing talk\n- Purpose: Wrap up the interview, provide space for candidate questions, and explain next steps.\n- Blurb: Thank the candidate for their time, address any questions they have about the process or role, and outline what happens after the interview.\n- Probe:\n  - Do you have any questions about the team, the role, or the next steps in the process? (required)\n- No hard timer; this is the final section.\n\nDecision\n- Soft weights and section sources:\n  - formMark: gate_only (screening form is a strict pass/fail gate; not blended into soft score)\n  - codingTests: 0.5 (coding exercise)\n  - codingMethod: 0.2 (coding exercise)\n  - interviewContent: 0.15 (opening talk)\n  - interviewDelivery: 0.15 (opening talk + closing talk)\n- weightSections:\n  - formMark: screening form (gate only)\n  - codingTests and codingMethod: coding exercise\n  - interviewContent: opening talk\n  - interviewDelivery: opening talk and closing talk\n- No When/OnFail logic on Decision itself.\n\nOverall expectations (spot-check list)\n- Opening talk comes first, closing talk is last.\n- Screening form is required on the timeline, with a hard 8-minute timer and pass gate; onFail jumps directly to closing talk.\n- Form questions have clear answer keys and use appropriate Creator-2 question kinds (short text, email regex, MCQ, contains).\n- Coding exercise is required for all who pass the form gate; includes at least two test cases (one happy, one edge/hidden), no solution in starter, and supports Python (default), Go, or Java.\n- No hard timers on talks.\n- Decision weights: formMark is gate_only; codingTests and codingMethod both sourced from the coding section; interviewContent from opening talk; interviewDelivery from opening and closing talks; weightSections are clearly mapped.\n- No invented sections or mechanics outside those required by the skeletal brief.\n- All mechanics and section order strictly follow the flow and rules above.",
+      "estimatedMinutes": 88,
+      "candidateDescription": "This is a front-end demo preset (not a live hiring brief). A sample CV is loaded automatically so Talk and scoring work offline — answer as yourself or play the sample candidate. Finish every stage to see the Decision results cards."
+    },
+    "persona": {
+      "name": "Kenrick",
+      "voice": "Direct and assertive",
+      "behaviourPrompt": "Be a fair, curious interviewer. Stay on the section goals."
+    },
+    "guardrails": [
+      "Do not reveal scoring criteria.",
+      "Do not ask about protected-class information.",
+      "Keep questions relevant to the Senior Software Engineer role.",
+      "Do not provide feedback or coaching during the interview."
+    ],
+    "systemGoals": [
+      "Assess technical depth and problem-solving skills.",
+      "Evaluate experience with complex projects and ownership.",
+      "Verify eligibility and readiness for the role.",
+      "Ensure clear and effective communication from the candidate."
+    ],
+    "probeDefaults": {
+      "maxFollowUps": 2
+    }
+  },
+  "topicLibrary": [
+    {
+      "id": "topic.msxzbe",
+      "label": "Motivation and interests in security/platform",
+      "probes": [
+        {
+          "id": "pr.open.1",
+          "goal": "What motivates you most about working in security or platform engineering?",
+          "hint": "Share a personal driver or value that keeps you engaged.",
+          "order": 0,
+          "required": true
+        },
+        {
+          "id": "pr.open.2",
+          "goal": "Describe a recent security or platform topic that sparked your interest. What drew you to it?",
+          "hint": "Pick a concrete example and explain why it stood out.",
+          "order": 1,
+          "required": true
+        }
+      ],
+      "purpose": "Start with a light conversation about what excites you in security or platform engineering. Share a recent topic, challenge, or trend that caught your interest and why it matters to you. This is a warm-up, not a deep technical drill.",
+      "targets": [],
+      "analysis": {
+        "attachPack": "pack.talk",
+        "templateIds": [
+          "iv.delivery.v1",
+          "iv.content.v1",
+          "synth.topic.v1"
+        ]
+      },
+      "maxFollowUps": 1,
+      "targetMinutes": 8,
+      "behaviourPromptOverride": "Keep the conversation light and welcoming. Encourage the candidate to share personal interests or motivations in security or platform engineering. Avoid deep technical follow-ups in this stage."
+    },
+    {
+      "id": "topic.890lut",
+      "label": "Ownership and incident impact",
+      "probes": [
+        {
+          "id": "pr.own1",
+          "goal": "Describe a recent incident or project where you had full ownership. What was the outcome?",
+          "hint": "Look for a specific example with measurable results.",
+          "order": 0,
+          "required": true
+        },
+        {
+          "id": "pr.own2",
+          "goal": "What was the hardest decision you made during this incident or project?",
+          "hint": "Ask for a real tradeoff or turning point.",
+          "order": 1,
+          "required": true
+        },
+        {
+          "id": "pr.own3",
+          "goal": "If you could do it again, what would you change and why?",
+          "hint": "Probe for reflection and learning.",
+          "order": 2,
+          "required": false
+        }
+      ],
+      "purpose": "Share a concrete story where you personally owned a delivery or incident from start to finish. Strong answers focus on your decisions, the impact you achieved, and what you learned. This section matters because it shows how you take responsibility and drive results in challenging situations.",
+      "targets": [],
+      "analysis": {
+        "attachPack": "pack.talk",
+        "templateIds": [
+          "iv.delivery.v1",
+          "iv.content.v1",
+          "synth.topic.v1",
+          "custom.oncall-ownership",
+          "custom.incident-themes",
+          "custom.severity-band",
+          "custom.evidence-gate",
+          "custom.reviewer-note"
+        ]
+      },
+      "maxFollowUps": 2,
+      "targetMinutes": 12
+    },
+    {
+      "id": "topic.qm4ypl",
+      "label": "Closing questions and next steps",
+      "probes": [
+        {
+          "id": "probe.closing.1",
+          "goal": "What questions do you have about the role, team, or next steps?",
+          "hint": "Invite any remaining questions and clarify the process.",
+          "order": 0,
+          "required": true
+        }
+      ],
+      "purpose": "Wrap up the interview by inviting your questions about the role, team, or process. We will confirm what happens next and make sure you leave with a clear sense of the timeline.",
+      "targets": [],
+      "analysis": {
+        "templateIds": [
+          "iv.question.v1"
+        ]
+      },
+      "maxFollowUps": 1,
+      "targetMinutes": 5
+    }
+  ],
+  "schemaVersion": 1,
+  "timingSummary": {
+    "notes": "Estimated minutes fit the proposed budget.",
+    "estimatedMinutes": 88
+  }
+}

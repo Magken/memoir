@@ -1,0 +1,22 @@
+[
+  {
+    "id": "doc.design.note",
+    "kind": "doc",
+    "startPrompt": "Write a short design note in the workspace covering the prompt and your reasoning."
+  },
+  {
+    "id": "doc.case.writeup",
+    "kind": "doc",
+    "startPrompt": "Respond to the written case. Structure your answer clearly and stay within the brief."
+  },
+  {
+    "id": "doc.tradeoff.memo",
+    "kind": "doc",
+    "startPrompt": "Draft a concise memo that names options, constraints, and the choice you would make."
+  },
+  {
+    "id": "doc.product.brief",
+    "kind": "doc",
+    "startPrompt": "Write your product case response. Cover the ask, your approach, and risks."
+  }
+]

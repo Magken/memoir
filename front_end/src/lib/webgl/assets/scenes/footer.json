@@ -1,0 +1,99 @@
+{
+  "id": "footer",
+  "label": "Footer",
+  "notes": "Footer scene at `/` under Projects. Places the Stone lantern at identity. Home is the copied session. Opens on Top, holds and pulses on the lamp cap, then hops Top → Home on landing's 4 s clock. Lantern inspect tag stays on the asset (`sceneInspectMarks`); the entrance still reuses that label so the Scene editor does not double-pin it. Look matches landing (max Focus, tele 135 mm). ACM peek 0.3 locked around Home.",
+  "objects": [
+    {
+      "id": "lantern",
+      "assetId": "stone-lantern",
+      "notes": "Lantern sculpture. Identity placement — GltfSubject normalize sits it on y=0.",
+      "position": [0, 0, 0],
+      "rotation": [0, 0, 0],
+      "scale": [1, 1, 1]
+    }
+  ],
+  "camera": {
+    "position": [
+      1.5316877049712345,
+      1.1430109414187022,
+      0.6665590050320024
+    ],
+    "target": [
+      0.43490187769045136,
+      0.9353338880661404,
+      -0.7525480659087648
+    ],
+    "orbit": {
+      "azimuth": 0.6579782057064556,
+      "polar": 1.4555183246789034,
+      "radius": 1.8055286727735116
+    },
+    "up": [0, 1, 0],
+    "quaternion": [
+      -0.05451759023368637,
+      0.3225499722489556,
+      0.01861207410686697,
+      0.9447978294083609
+    ],
+    "look": {
+      "focus": 1,
+      "focalLength": 135,
+      "focalDistance": 0,
+      "noise": "off",
+      "grain": 0
+    },
+    "acm": {
+      "intensity": 0.3,
+      "lock": true
+    }
+  },
+  "view": {
+    "lightColor": "#f2c48a",
+    "meshColor": "#000000",
+    "lightGain": 0.05,
+    "scatter": 1.5
+  },
+  "viewpoints": [
+    {
+      "id": "entrance-start",
+      "label": "Top",
+      "notes": "From-above pose of the Top inspect tag. The load crane holds here, then drops into Home. Label matches the asset mark so sceneInspectMarks does not double-pin the cap.",
+      "position": [
+        -0.005590911492065141,
+        1.3988513618834952,
+        0.0023428747137600936
+      ],
+      "camera": [
+        -0.30575304088497085,
+        2.1749769611489573,
+        0.17563958629001586
+      ],
+      "target": [
+        -0.005590911492065141,
+        1.3988513618834952,
+        0.0023428747137600936
+      ],
+      "orbit": {
+        "azimuth": -1.047202485117389,
+        "polar": 0.42,
+        "radius": 0.8500000000000001
+      },
+      "up": [0, 1, 0]
+    }
+  ],
+  "transitions": [],
+  "cameraMotions": [
+    {
+      "id": "top-to-home",
+      "label": "Top to Home",
+      "notes": "Hold on the lamp top and pulse there, then hop straight into Home on landing's clock — same orbit lerp as clicking the view. No early slow-mo; that rush has to be repaid. Not a boom-arc. Do not name this Back to front.",
+      "kind": "journey",
+      "from": "entrance-start",
+      "to": "home",
+      "duration": 4,
+      "hold": 0.4,
+      "impulseAt": 0,
+      "playOnLoad": true
+    }
+  ]
+}

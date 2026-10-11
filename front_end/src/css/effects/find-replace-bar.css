@@ -1,0 +1,215 @@
+/**
+ * Find / replace bar — compact stacked find + replace (ExpandableSearchBar field scale).
+ */
+
+@layer components {
+  .theme .theme-find-replace-bar {
+    --theme-find-replace-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --theme-find-replace-duration: 0.32s;
+    --theme-find-replace-row-gap: 0.25rem;
+    --theme-find-replace-stack-gap: 0.3125rem;
+    --theme-find-replace-expand-slot: 1rem;
+    --theme-btn-group-gap: 3px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+    min-width: 0;
+    overflow: visible;
+    padding: 0.25rem 0.3125rem;
+    border: 1px solid color-mix(in srgb, var(--theme-border) 82%, transparent);
+    border-radius: var(--theme-radius-control);
+    background: color-mix(in srgb, var(--theme-surface-raised) 58%, var(--theme-surface));
+  }
+
+  .theme .theme-find-replace-bar__row {
+    display: flex;
+    align-items: center;
+    gap: var(--theme-find-replace-row-gap);
+    min-width: 0;
+  }
+
+  .theme .theme-find-replace-bar__row--find {
+    padding-block-end: 0;
+  }
+
+  .theme .theme-find-replace-bar__expand {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: var(--theme-find-replace-expand-slot);
+    min-width: var(--theme-find-replace-expand-slot);
+    height: 1.625rem;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: var(--theme-radius-control);
+    background: transparent;
+    color: var(--type-muted);
+    cursor: pointer;
+    transition:
+      color 0.18s var(--theme-find-replace-ease),
+      background-color 0.18s var(--theme-find-replace-ease);
+  }
+
+  .theme .theme-find-replace-bar__expand-icon {
+    width: 0.875rem;
+    height: 0.875rem;
+    transition: transform var(--theme-find-replace-duration) var(--theme-find-replace-ease);
+    transform-origin: 50% 50%;
+  }
+
+  .theme .theme-find-replace-bar__expand[aria-expanded='true'] .theme-find-replace-bar__expand-icon {
+    transform: rotate(90deg);
+  }
+
+  .theme .theme-find-replace-bar__expand:hover:not(:disabled) {
+    color: var(--theme-accent);
+    background: color-mix(in srgb, var(--theme-surface-raised) 72%, transparent);
+  }
+
+  .theme .theme-find-replace-bar__expand[aria-expanded='true'] {
+    color: var(--theme-accent);
+  }
+
+  .theme .theme-find-replace-bar__expand:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .theme .theme-find-replace-bar__expand-spacer {
+    flex-shrink: 0;
+    width: var(--theme-find-replace-expand-slot);
+    min-width: var(--theme-find-replace-expand-slot);
+  }
+
+  .theme .theme-find-replace-bar__replace-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--theme-find-replace-duration) var(--theme-find-replace-ease);
+  }
+
+  .theme .theme-find-replace-bar--replace-open .theme-find-replace-bar__replace-panel {
+    grid-template-rows: 1fr;
+  }
+
+  .theme .theme-find-replace-bar__replace-panel-inner {
+    overflow: visible;
+    min-height: 0;
+    opacity: 0;
+    transition: opacity calc(var(--theme-find-replace-duration) * 0.85) var(--theme-find-replace-ease);
+  }
+
+  .theme .theme-find-replace-bar--replace-open .theme-find-replace-bar__replace-panel-inner {
+    opacity: 1;
+    padding-block-start: var(--theme-find-replace-stack-gap);
+    padding-block-end: 0.125rem;
+  }
+
+  .theme .theme-find-replace-bar__field {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .theme .theme-find-replace-bar--shadowless .theme-find-replace-bar__field.theme-field__control-shell {
+    box-shadow: none;
+  }
+
+  .theme .theme-find-replace-bar[data-size='xs'] .theme-find-replace-bar__field.theme-field__control-shell {
+    --theme-field-control-pad-block: 0.22rem;
+    --theme-field-control-pad-inline: 0.5rem;
+    width: 100%;
+    min-height: 1.625rem;
+    font-size: 0.8125rem;
+    border-radius: calc(var(--theme-radius-control) - 2px);
+    overflow: visible;
+  }
+
+  .theme .theme-find-replace-bar__field .theme-field__control-row {
+    gap: 0.25rem;
+  }
+
+  .theme .theme-find-replace-bar__field .theme-field__control-row--has-trailing {
+    gap: 0.125rem;
+    padding-inline-end: 0.3125rem;
+  }
+
+  .theme .theme-find-replace-bar__input.theme-field__control {
+    min-width: 0;
+    padding-block: var(--theme-field-control-pad-block);
+    padding-inline: 0.125rem 0;
+    line-height: 1.25;
+  }
+
+  .theme .theme-find-replace-bar__options {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--theme-btn-group-gap);
+    flex-shrink: 0;
+    margin-inline-start: 0.0625rem;
+    padding-inline-start: 0.25rem;
+    border-inline-start: 1px solid color-mix(in srgb, var(--theme-border) 72%, transparent);
+  }
+
+  .theme .theme-find-replace-bar__toggle.theme-btn--tray[data-option='whole-word'] {
+    text-decoration: underline;
+    text-underline-offset: 0.1em;
+  }
+
+  .theme .theme-find-replace-bar__meta {
+    flex-shrink: 0;
+  }
+
+  .theme .theme-find-replace-bar__close.theme-btn,
+  .theme .theme-find-replace-bar__actions .theme-btn {
+    flex-shrink: 0;
+  }
+
+  .theme .theme-find-replace-bar__actions {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--theme-btn-group-gap);
+    flex-shrink: 0;
+  }
+
+  .theme .theme-find-replace-bar__row--replace .theme-find-replace-bar__field {
+    flex: 1 1 auto;
+  }
+
+  .theme .theme-forms-find-replace-demo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 40rem;
+  }
+
+  .theme .theme-forms-find-replace-demo__bar {
+    width: 100%;
+  }
+
+  .theme .theme-forms-find-replace-demo__body {
+    border: 2px solid var(--theme-border-strong);
+    border-radius: var(--theme-radius-control);
+    padding: 1rem 1.125rem;
+    background: color-mix(in srgb, var(--theme-surface) 98%, var(--theme-surface-raised));
+    max-height: 11rem;
+    overflow: auto;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-find-replace-bar__replace-panel,
+    .theme .theme-find-replace-bar__replace-panel-inner,
+    .theme .theme-find-replace-bar__expand-icon {
+      transition: none;
+    }
+
+    .theme .theme-find-replace-bar__expand[aria-expanded='true'] .theme-find-replace-bar__expand-icon {
+      transform: rotate(90deg);
+    }
+
+    .theme .theme-find-replace-bar--replace-open .theme-find-replace-bar__replace-panel-inner {
+      opacity: 1;
+    }
+  }
+}

@@ -1,0 +1,45 @@
+/* Shared editor catalog feature / MCT action tables (Theme showcases). */
+@layer theme {
+  .theme .theme-editor-feature-table-scroll.theme-scroll {
+    width: 100%;
+  }
+
+  .theme .theme-editor-feature-category-row th {
+    background: color-mix(in srgb, var(--theme-surface-muted, #f4f4f5) 72%, transparent);
+    font-weight: 600;
+  }
+
+  .theme .theme-editor-feature-fidelity {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.1em 0.45em;
+    border-radius: 4px;
+    line-height: 1.35;
+  }
+
+  .theme .theme-editor-feature-fidelity--full {
+    background: color-mix(in srgb, var(--theme-success, #16a34a) 18%, transparent);
+    color: var(--theme-success, #16a34a);
+  }
+
+  .theme .theme-editor-feature-fidelity--partial {
+    background: color-mix(in srgb, var(--theme-warning, #ca8a04) 18%, transparent);
+    color: var(--theme-warning, #ca8a04);
+  }
+
+  .theme .theme-editor-feature-fidelity--fallback {
+    background: color-mix(in srgb, var(--theme-text-muted, #71717a) 14%, transparent);
+    color: var(--theme-text-muted, #71717a);
+  }
+
+  .theme .theme-editor-feature-fidelity--native {
+    background: color-mix(in srgb, var(--theme-accent, #2563eb) 14%, transparent);
+    color: var(--theme-accent, #2563eb);
+  }
+
+  .theme .theme-editor-feature-fidelity--na,
+  .theme .theme-editor-feature-fidelity.theme-editor-feature-fidelity--na {
+    color: var(--theme-text-muted, #a1a1aa);
+  }
+}

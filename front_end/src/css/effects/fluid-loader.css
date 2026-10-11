@@ -1,0 +1,311 @@
+/**
+ * Fluid loaders — liquid-fill vessels with an animated wave surface (ref.liquid-loader).
+ * Shapes: tube (thermometer) · bottle · circle · drop. `--fluid-value` (0–1) drives level;
+ * tones map the liquid color; the wave SVG scrolls horizontally for a seamless surface.
+ * Companion to progress-loaders.css (radial + bar). Scale ticks mirror the radial gauge.
+ */
+
+@layer components {
+  .theme .theme-fluid-loader {
+    --fluid-size: 9rem;
+    --fluid-value: 0;
+    --fluid-color: var(--theme-accent);
+    position: relative;
+    display: inline-flex;
+    flex-shrink: 0;
+    color: var(--fluid-color);
+  }
+
+  .theme .theme-fluid-loader--sm {
+    --fluid-size: 6rem;
+  }
+  .theme .theme-fluid-loader--md {
+    --fluid-size: 9rem;
+  }
+  .theme .theme-fluid-loader--lg {
+    --fluid-size: 12.5rem;
+  }
+
+  /* tones → liquid color */
+  .theme .theme-fluid-loader--accent {
+    --fluid-color: var(--theme-accent);
+  }
+  .theme .theme-fluid-loader--success {
+    --fluid-color: var(--theme-success);
+  }
+  .theme .theme-fluid-loader--error {
+    --fluid-color: var(--theme-error);
+  }
+  .theme .theme-fluid-loader--warning {
+    --fluid-color: var(--theme-warning);
+  }
+  .theme .theme-fluid-loader--info {
+    --fluid-color: var(--theme-info);
+  }
+
+  /* shape footprints */
+  .theme .theme-fluid-loader--tube {
+    width: calc(var(--fluid-size) * 0.46);
+    height: var(--fluid-size);
+  }
+  .theme .theme-fluid-loader--bottle {
+    width: calc(var(--fluid-size) * 0.62);
+    height: var(--fluid-size);
+  }
+  .theme .theme-fluid-loader--circle,
+  .theme .theme-fluid-loader--drop {
+    width: var(--fluid-size);
+    height: var(--fluid-size);
+  }
+
+  .theme .theme-fluid-loader__vessel {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border: 2px solid var(--theme-border-strong);
+    background: color-mix(in srgb, var(--theme-text) 6%, transparent);
+  }
+
+  .theme .theme-fluid-loader--tube .theme-fluid-loader__vessel {
+    border-radius: 999px;
+  }
+  .theme .theme-fluid-loader--circle .theme-fluid-loader__vessel {
+    border-radius: 50%;
+  }
+  .theme .theme-fluid-loader--drop .theme-fluid-loader__vessel {
+    border-radius: 50% 50% 50% 50% / 64% 64% 36% 36%;
+  }
+  .theme .theme-fluid-loader--bottle .theme-fluid-loader__vessel {
+    border-radius: 0 0 28% 28%;
+    clip-path: polygon(
+      34% 0,
+      66% 0,
+      66% 11%,
+      86% 22%,
+      86% 100%,
+      14% 100%,
+      14% 22%,
+      34% 11%
+    );
+  }
+
+  .theme .theme-fluid-loader__liquid {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: calc(var(--fluid-value, 0) * 100%);
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--fluid-color) 78%, white 8%),
+      var(--fluid-color)
+    );
+    transition: height 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .theme .theme-fluid-loader--glow .theme-fluid-loader__liquid {
+    box-shadow: 0 0 1.2rem color-mix(in srgb, var(--fluid-color) 70%, transparent);
+  }
+
+  /* color-scale gradients — anchored to the vessel so the visible color shifts
+     as the level rises (low end ≠ high end, like ref.liquid-loader). */
+  .theme .theme-fluid-loader--gradient .theme-fluid-loader__liquid {
+    background: var(--fluid-grad);
+    background-repeat: no-repeat;
+    background-position: bottom;
+    background-size: 100% calc(100% / max(var(--fluid-value, 0.0001), 0.04));
+  }
+
+  .theme .theme-fluid-loader--gradient .theme-fluid-loader__wave {
+    fill: var(--fluid-wave);
+  }
+
+  .theme .theme-fluid-loader--gradient .theme-fluid-loader__wave--back {
+    fill: color-mix(in srgb, var(--fluid-wave) 60%, transparent);
+  }
+
+  .theme .theme-fluid-loader--gradient.theme-fluid-loader--glow .theme-fluid-loader__liquid {
+    box-shadow: 0 0 1.2rem color-mix(in srgb, var(--fluid-wave) 70%, transparent);
+  }
+
+  .theme .theme-fluid-loader--gradient .theme-fluid-loader__tick--label .theme-fluid-loader__tick-mark,
+  .theme .theme-fluid-loader--gradient .theme-fluid-loader__tick:hover .theme-fluid-loader__tick-mark {
+    background: var(--fluid-wave);
+  }
+
+  /* low → high (bottom → top); --fluid-wave is the high-end crest color */
+  .theme .theme-fluid-loader--grad-thermal {
+    --fluid-grad: linear-gradient(to top, #00bcf2, #f59e0b 52%, #f3481a 80%, #ff0909);
+    --fluid-wave: #ff3b30;
+    --fluid-color: #ff3b30;
+  }
+  .theme .theme-fluid-loader--grad-cold {
+    --fluid-grad: linear-gradient(to top, #1d4ed8, #2563eb 45%, #38bdf8 80%, #a5f3fc);
+    --fluid-wave: #7dd3fc;
+    --fluid-color: #38bdf8;
+  }
+  .theme .theme-fluid-loader--grad-heat {
+    --fluid-grad: linear-gradient(to top, #7f1d1d, #dc2626 45%, #f97316 80%, #fde047);
+    --fluid-wave: #fbbf24;
+    --fluid-color: #f97316;
+  }
+  .theme .theme-fluid-loader--grad-rainbow {
+    --fluid-grad: linear-gradient(
+      to top,
+      #8b5cf6,
+      #3b82f6 18%,
+      #22d3ee 36%,
+      #22c55e 54%,
+      #eab308 72%,
+      #f97316 88%,
+      #ef4444
+    );
+    --fluid-wave: #fb7185;
+    --fluid-color: #22d3ee;
+  }
+  .theme .theme-fluid-loader--grad-sunset {
+    --fluid-grad: linear-gradient(to top, #6d28d9, #db2777 42%, #f97316 78%, #fde047);
+    --fluid-wave: #fbbf24;
+    --fluid-color: #db2777;
+  }
+  .theme .theme-fluid-loader--grad-ocean {
+    --fluid-grad: linear-gradient(to top, #0c4a6e, #0891b2 45%, #22d3ee 80%, #a7f3d0);
+    --fluid-wave: #67e8f9;
+    --fluid-color: #0891b2;
+  }
+  .theme .theme-fluid-loader--grad-aurora {
+    --fluid-grad: linear-gradient(to top, #1e3a8a, #4338ca 38%, #0891b2 64%, #10b981 86%, #a3e635);
+    --fluid-wave: #6ee7b7;
+    --fluid-color: #10b981;
+  }
+
+  .theme .theme-fluid-loader__wave {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    width: 200%;
+    height: calc(var(--fluid-size) * 0.085);
+    fill: var(--fluid-color);
+  }
+
+  .theme .theme-fluid-loader__wave--back {
+    fill: color-mix(in srgb, var(--fluid-color) 60%, transparent);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .theme .theme-fluid-loader__wave {
+      animation: theme-fluid-wave 2.1s linear infinite;
+    }
+    .theme .theme-fluid-loader__wave--back {
+      animation: theme-fluid-wave 3.4s linear infinite reverse;
+    }
+  }
+
+  @keyframes theme-fluid-wave {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* center value / unit / icon */
+  .theme .theme-fluid-loader__center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.05em;
+    text-align: center;
+    color: #fff;
+    pointer-events: none;
+    /* read clearly over both the liquid and the empty vessel */
+    mix-blend-mode: difference;
+  }
+
+  .theme .theme-fluid-loader__metric {
+    font-size: calc(var(--fluid-size) * 0.2);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .theme .theme-fluid-loader__unit {
+    font-size: calc(var(--fluid-size) * 0.09);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.82);
+  }
+
+  .theme .theme-fluid-loader__center svg {
+    width: calc(var(--fluid-size) * 0.22);
+    height: calc(var(--fluid-size) * 0.22);
+    color: #fff;
+  }
+
+  /* side scale — hover a stripe to reveal its value */
+  .theme .theme-fluid-loader__ticks {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 100%;
+    margin-left: 0.4rem;
+    width: 0;
+    pointer-events: none;
+  }
+
+  .theme .theme-fluid-loader__tick {
+    position: absolute;
+    bottom: var(--tick-pos, 0%);
+    left: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    transform: translateY(50%);
+    pointer-events: auto;
+  }
+
+  .theme .theme-fluid-loader__tick-mark {
+    width: calc(var(--fluid-size) * 0.07);
+    height: 2px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--theme-text) 32%, transparent);
+    transition: background-color 0.15s ease, width 0.15s ease;
+  }
+
+  .theme .theme-fluid-loader__tick--label .theme-fluid-loader__tick-mark,
+  .theme .theme-fluid-loader__tick:hover .theme-fluid-loader__tick-mark {
+    background: var(--fluid-color);
+    width: calc(var(--fluid-size) * 0.11);
+  }
+
+  .theme .theme-fluid-loader__tick-value {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.12em;
+    padding: 0.05em 0.4em;
+    border-radius: 0.35rem;
+    border: 1px solid var(--theme-border);
+    background: var(--theme-surface-raised, var(--theme-surface));
+    box-shadow: 0 2px 6px color-mix(in srgb, var(--theme-shadow-brutal) 30%, transparent);
+    font-size: calc(var(--fluid-size) * 0.085);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    color: var(--theme-text);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+
+  .theme .theme-fluid-loader__tick-unit {
+    font-size: 0.78em;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--theme-text-muted);
+  }
+
+  .theme .theme-fluid-loader__tick--label .theme-fluid-loader__tick-value,
+  .theme .theme-fluid-loader__tick:hover .theme-fluid-loader__tick-value {
+    opacity: 1;
+  }
+}

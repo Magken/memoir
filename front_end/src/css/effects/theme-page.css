@@ -1,0 +1,9 @@
+/**
+ * Theme lab page — section spacing and scroll runway for scrub demos.
+ */
+
+@layer components {
+  .theme .theme-page__scroll-runway {
+    padding-block: min(28svh, 16rem);
+  }
+}

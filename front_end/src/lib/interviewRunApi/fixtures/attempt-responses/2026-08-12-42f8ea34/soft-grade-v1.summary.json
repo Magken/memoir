@@ -1,0 +1,55 @@
+{
+  "overall": 0.109,
+  "excluded": [],
+  "byWeight": {
+    "codingTests": {
+      "unit": 0,
+      "included": true,
+      "weight": 0.25,
+      "sources": 1
+    },
+    "codingMethod": {
+      "unit": 0,
+      "included": true,
+      "weight": 0.1,
+      "sources": 1
+    },
+    "essay": {
+      "unit": 0,
+      "included": true,
+      "weight": 0.15,
+      "sources": 1
+    },
+    "interviewDelivery": {
+      "unit": 0.16898148148148143,
+      "included": true,
+      "weight": 0.2,
+      "sources": 18
+    },
+    "interviewContent": {
+      "unit": 0.25,
+      "included": true,
+      "weight": 0.3,
+      "sources": 2
+    }
+  },
+  "formGate": {
+    "passed": false,
+    "gradedScore": 4,
+    "gradedMax": 16,
+    "ungradedIds": [],
+    "authorHints": []
+  },
+  "artifacts": {
+    "topicSynths": 3,
+    "toolSynths": 3,
+    "histograms": [
+      "iv.content.v1",
+      "iv.ownership.v1",
+      "iv.question.v1",
+      "mark.code.method.v1",
+      "iv.delivery.v1"
+    ],
+    "targetMisses": 0
+  }
+}

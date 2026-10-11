@@ -1,0 +1,457 @@
+/**
+ * Draw canvas — docked chrome around Excalidraw (stock LayerUI hidden).
+ */
+
+@layer components {
+  .theme .theme-draw-canvas {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 56rem;
+    height: 40rem;
+    min-width: 0;
+    min-height: 28rem;
+    border: 1px solid var(--theme-border);
+    border-radius: var(--theme-radius-control);
+    background: var(--theme-surface);
+    overflow: hidden;
+  }
+
+  .theme .theme-draw-canvas__chrome {
+    position: sticky;
+    top: 0;
+    z-index: 110;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid var(--theme-border);
+    background: color-mix(in srgb, var(--theme-surface-raised) 55%, var(--theme-surface));
+  }
+
+  .theme .theme-draw-canvas__titlebar {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.3125rem 0.5rem;
+    min-height: 2rem;
+    min-width: 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--theme-border) 55%, transparent);
+  }
+
+  .theme .theme-draw-canvas__history {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: 0.0625rem;
+  }
+
+  .theme .theme-draw-canvas__ribbon {
+    padding: 0.3125rem 0.5rem;
+    min-height: 0;
+    border-bottom: 1px solid var(--theme-border);
+  }
+
+  .theme .theme-draw-canvas__ribbon-scroll {
+    min-width: 0;
+  }
+
+  .theme .theme-draw-canvas__ribbon-inner {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    width: max-content;
+    min-height: 1.75rem;
+  }
+
+  .theme .theme-draw-canvas__toolbar-divider {
+    display: inline-block;
+    flex-shrink: 0;
+    width: 1px;
+    max-width: 1px;
+    height: 1.25rem;
+    margin: 0;
+    background: var(--theme-border);
+    opacity: 1;
+    overflow: hidden;
+  }
+
+  .theme .theme-draw-canvas__compact-menu {
+    min-width: 2rem;
+  }
+
+  .theme .theme-draw-canvas__color-btn-wrap {
+    position: relative;
+    display: inline-flex;
+  }
+
+  .theme .theme-draw-canvas__hint {
+    flex-shrink: 0;
+    padding: 0.1875rem 0.625rem 0.3125rem;
+    font-size: 0.6875rem;
+    line-height: 1.3;
+    color: var(--type-muted);
+    border-bottom: 1px solid color-mix(in srgb, var(--theme-border) 55%, transparent);
+  }
+
+  /* Layer 3 — single-row format ribbon */
+  .theme .theme-draw-canvas__format-ribbon {
+    flex-shrink: 0;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    border-bottom: 0 solid var(--theme-border);
+    background: color-mix(in srgb, var(--theme-surface-raised) 35%, var(--theme-surface));
+    transition:
+      max-height 0.2s var(--theme-menu-ease, ease),
+      opacity 0.16s var(--theme-menu-ease, ease),
+      border-bottom-width 0.16s ease;
+  }
+
+  .theme .theme-draw-canvas__format-ribbon--open {
+    max-height: 3.25rem;
+    opacity: 1;
+    overflow: visible;
+    border-bottom-width: 1px;
+    pointer-events: auto;
+  }
+
+  .theme .theme-draw-canvas__format-ribbon:not(.theme-draw-canvas__format-ribbon--open) {
+    pointer-events: none;
+  }
+
+  .theme .theme-draw-canvas__format-scroll {
+    min-width: 0;
+  }
+
+  .theme .theme-draw-canvas__format-inner {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: max-content;
+    min-height: 2.5rem;
+    padding: 0.3125rem 0.5rem;
+  }
+
+  .theme .theme-draw-canvas__format-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    flex-shrink: 0;
+  }
+
+  /* Extra gap so tray hover shadows on iconDropdown menus don't collide */
+  .theme .theme-draw-canvas__format-group--menus {
+    gap: 0.375rem;
+  }
+
+  .theme .theme-draw-canvas__format-group-label {
+    font-size: 0.5625rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--type-muted);
+    margin-inline-end: 0.125rem;
+    white-space: nowrap;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-draw-canvas__format-ribbon {
+      transition: none;
+    }
+  }
+
+  .theme .theme-draw-canvas__body {
+    display: flex;
+    flex: 1 1 auto;
+    min-height: 0;
+    min-width: 0;
+  }
+
+  .theme .theme-draw-canvas__stage {
+    position: relative;
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    background: var(--theme-surface);
+  }
+
+  .theme .theme-draw-canvas__excalidraw {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Hide Excalidraw floating LayerUI — docked chrome owns tools/menus/footer */
+  .theme .theme-draw-canvas__excalidraw .App-menu,
+  .theme .theme-draw-canvas__excalidraw .App-menu_top,
+  .theme .theme-draw-canvas__excalidraw .App-menu_bottom,
+  .theme .theme-draw-canvas__excalidraw .App-toolbar,
+  .theme .theme-draw-canvas__excalidraw .App-toolbar-content,
+  .theme .theme-draw-canvas__excalidraw .layer-ui__wrapper__top-right,
+  .theme .theme-draw-canvas__excalidraw .layer-ui__wrapper__footer,
+  .theme .theme-draw-canvas__excalidraw .FixedSideContainer,
+  .theme .theme-draw-canvas__excalidraw .Island.App-toolbar,
+  .theme .theme-draw-canvas__excalidraw .sidebar-trigger,
+  .theme .theme-draw-canvas__excalidraw .HelpButton,
+  .theme .theme-draw-canvas__excalidraw .undo-redo-buttons,
+  .theme .theme-draw-canvas__excalidraw .zoom-actions,
+  .theme .theme-draw-canvas__excalidraw .footer-center,
+  .theme .theme-draw-canvas__excalidraw .main-menu-trigger,
+  .theme .theme-draw-canvas__excalidraw .ToolIcon__library,
+  .theme .theme-draw-canvas__excalidraw .layer-ui__wrapper__footer-left,
+  .theme .theme-draw-canvas__excalidraw .layer-ui__wrapper__footer-right,
+  .theme .theme-draw-canvas__excalidraw .user-list-wrapper,
+  .theme .theme-draw-canvas__excalidraw .welcome-screen-center,
+  .theme .theme-draw-canvas__excalidraw .HintViewer {
+    display: none !important;
+  }
+
+  .theme .theme-draw-canvas__excalidraw .excalidraw {
+    --ui-font: inherit;
+  }
+
+  .theme .theme-draw-canvas__scroll-back {
+    position: absolute;
+    left: 50%;
+    bottom: 0.75rem;
+    z-index: 520;
+    transform: translateX(-50%);
+  }
+
+  .theme .theme-draw-canvas__toast {
+    position: absolute;
+    left: 50%;
+    bottom: 2.75rem;
+    z-index: 520;
+    transform: translateX(-50%);
+    max-width: min(90%, 20rem);
+    padding: 0.375rem 0.75rem;
+    border: 2px solid var(--theme-border);
+    border-radius: var(--theme-radius-control);
+    background: var(--theme-surface-raised);
+    box-shadow: 3px 3px 0 var(--theme-border);
+    font-size: 0.75rem;
+    color: var(--theme-text);
+    pointer-events: none;
+  }
+
+  .theme .theme-draw-canvas__context-menu {
+    position: fixed;
+    z-index: 1200;
+    min-width: 11rem;
+    max-width: 16rem;
+    padding: 0.25rem;
+    border: 2px solid var(--theme-border);
+    border-radius: var(--theme-radius-control);
+    background: var(--theme-surface-raised);
+    box-shadow: 4px 4px 0 var(--theme-border);
+  }
+
+  .theme .theme-draw-canvas__context-item {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.375rem 0.5rem;
+    border: 0;
+    border-radius: calc(var(--theme-radius-control) - 2px);
+    background: transparent;
+    color: var(--theme-text);
+    font: inherit;
+    font-size: 0.75rem;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .theme .theme-draw-canvas__context-item:hover,
+  .theme .theme-draw-canvas__context-item:focus-visible {
+    background: color-mix(in srgb, var(--theme-accent) 16%, transparent);
+    outline: none;
+  }
+
+  .theme .theme-draw-canvas__context-item:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .theme .theme-draw-canvas__context-sep {
+    height: 1px;
+    margin: 0.25rem 0.375rem;
+    background: var(--theme-border);
+  }
+
+  .theme .theme-draw-canvas__footer {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.3125rem 0.5rem;
+    border-top: 1px solid var(--theme-border);
+    background: color-mix(in srgb, var(--theme-surface-raised) 45%, var(--theme-surface));
+  }
+
+  .theme .theme-draw-canvas__footer-spacer {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .theme .theme-draw-canvas__presentation-nav__counter {
+    min-width: 3.25rem;
+    text-align: center;
+    color: var(--type-muted);
+  }
+
+  .theme .theme-draw-canvas--presentation {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    min-height: 0;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .theme .theme-draw-canvas__search-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .theme .theme-draw-canvas__search-hit {
+    display: flex;
+    width: 100%;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.375rem 0.5rem;
+    border: 1px solid var(--theme-border);
+    border-radius: var(--theme-radius-control);
+    background: var(--theme-surface);
+    color: var(--theme-text);
+    font: inherit;
+    font-size: 0.75rem;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .theme .theme-draw-canvas__search-hit:hover {
+    border-color: var(--theme-accent);
+  }
+
+  .theme .theme-draw-canvas__help-grid {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .theme .theme-draw-canvas__help-section-title {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--type-muted);
+    margin-bottom: 0.25rem;
+  }
+
+  .theme .theme-draw-canvas__help-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.75rem;
+    padding: 0.125rem 0;
+  }
+
+  .theme .theme-draw-canvas__help-keys {
+    flex-shrink: 0;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    color: var(--type-muted);
+  }
+
+  .theme .theme-draw-canvas__color-popover {
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .theme .theme-draw-canvas__color-popover--portal {
+    position: fixed;
+    z-index: 1200;
+    margin-top: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .theme .theme-draw-canvas__link-editor {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .theme .theme-draw-canvas__link-editor-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .theme .theme-draw-canvas__link-editor-icon {
+    flex-shrink: 0;
+    width: 0.875rem;
+    height: 0.875rem;
+    color: var(--type-muted);
+  }
+
+  .theme .theme-draw-canvas__link-editor-field {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .theme .theme-draw-canvas__export-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  /* Headless read-only embed (DocEditor excalidraw code blocks) */
+  .theme .theme-draw-canvas--headless {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    border: 1px solid var(--theme-border);
+    border-radius: var(--theme-radius-control);
+    overflow: hidden;
+    background: var(--theme-surface);
+  }
+
+  .theme .theme-draw-canvas--headless-error {
+    border-color: color-mix(in srgb, #ef4444 45%, var(--theme-border));
+    height: auto;
+    min-height: 0;
+  }
+
+  .theme .theme-draw-canvas--headless .theme-draw-canvas__stage {
+    flex: 1 1 auto;
+    min-height: 0;
+    position: relative;
+  }
+
+  .theme .theme-draw-canvas__doc-zoom {
+    position: absolute;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    z-index: 7;
+    pointer-events: auto;
+  }
+}
+
+/* Portaled color menus must beat unlayered page chrome (same as doc-editor). */
+.theme .theme-draw-canvas__color-popover--portal {
+  position: fixed;
+  z-index: 1200;
+  margin-top: 0;
+}

@@ -1,0 +1,61 @@
+/**
+ * VurifyAvatar — identity mark with housing-weight 2px border (same scale as
+ * VurifyIcon--bordered). Circle frame, no shadow.
+ * Letter: accent on transparent fill (reads against page/menu bg). Photo: cropped fill.
+ */
+
+@layer components {
+  .theme .theme-vurify-avatar {
+    --vurify-avatar-border: 2px;
+    box-sizing: border-box;
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: var(--vurify-avatar-border) solid var(--theme-accent);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--theme-accent);
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    user-select: none;
+  }
+
+  /* Match VurifyIcon--bordered rem ramp so menu media reads with category glyphs. */
+  .theme .theme-vurify-avatar--sm {
+    width: 1.9rem;
+    height: 1.9rem;
+    font-size: 0.85rem;
+  }
+
+  .theme .theme-vurify-avatar--md {
+    width: 2.4rem;
+    height: 2.4rem;
+    font-size: 1.05rem;
+  }
+
+  .theme .theme-vurify-avatar--lg {
+    width: 2.9rem;
+    height: 2.9rem;
+    font-size: 1.25rem;
+  }
+
+  .theme .theme-vurify-avatar--photo {
+    background: transparent;
+  }
+
+  .theme .theme-vurify-avatar__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .theme .theme-vurify-avatar__letter {
+    display: block;
+    transform: translateY(0.04em);
+  }
+}

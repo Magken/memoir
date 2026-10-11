@@ -1,0 +1,301 @@
+/**
+ * BotChat — workbench chrome (sidebar, titlebar, thread, empty state, status bar).
+ * Message/composer/avatar chrome lives in chat-shared.css (shared with DmChat).
+ */
+
+@layer components {
+  .theme .theme-bot-chat {
+    --theme-bot-chat-sidebar-width: 15rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 56rem;
+    height: 40rem;
+    min-width: 0;
+    min-height: 28rem;
+    border: 1px solid var(--theme-border);
+    border-radius: var(--theme-radius-control);
+    background: var(--theme-surface);
+    overflow: hidden;
+  }
+
+  .theme .theme-bot-chat--showcase {
+    max-width: none;
+    height: min(48rem, calc(100dvh - 8rem));
+    min-height: 34rem;
+  }
+
+  .theme .theme-bot-chat--embed {
+    max-width: none;
+    height: 28rem;
+    min-height: 20rem;
+  }
+
+  .theme .theme-bot-chat__titlebar.theme-editor-titlebar {
+    flex-shrink: 0;
+    gap: 0.375rem;
+    min-width: 0;
+    padding: 0.3125rem 0.5rem;
+    min-height: 2rem;
+    border-bottom: 1px solid var(--theme-border);
+    background: color-mix(in srgb, var(--theme-surface-raised) 55%, var(--theme-surface));
+    overflow: visible;
+  }
+
+  .theme .theme-bot-chat__titlebar-leading {
+    display: flex;
+    align-items: center;
+    gap: 0.125rem;
+  }
+
+  .theme .theme-bot-chat__body {
+    flex: 1 1 auto;
+    display: flex;
+    min-height: 0;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .theme .theme-bot-chat__sidebar {
+    position: relative;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    width: var(--theme-bot-chat-sidebar-width);
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    border-right: 1px solid var(--theme-border);
+    background: color-mix(in srgb, var(--theme-surface-raised) 45%, var(--theme-surface));
+    transition:
+      width 0.32s cubic-bezier(0.33, 1, 0.48, 1),
+      opacity 0.32s cubic-bezier(0.33, 1, 0.48, 1);
+  }
+
+  .theme .theme-bot-chat--sidebar-closed .theme-bot-chat__sidebar {
+    width: 0;
+    overflow: hidden;
+    opacity: 0;
+    border-right-color: transparent;
+    pointer-events: none;
+  }
+
+  .theme .theme-bot-chat__sidebar-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.375rem;
+    flex-shrink: 0;
+    padding: 0.5rem 0.5rem 0.375rem;
+  }
+
+  .theme .theme-bot-chat__search {
+    flex-shrink: 0;
+    padding: 0 0.5rem 0.5rem;
+  }
+
+  .theme .theme-bot-chat__conv-scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .theme .theme-bot-chat__conv-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    min-width: var(--theme-bot-chat-sidebar-width);
+    padding: 0 0.375rem 0.5rem;
+  }
+
+  .theme .theme-bot-chat__conv-empty {
+    padding: 0.75rem 0.5rem;
+    text-align: center;
+  }
+
+  .theme .theme-bot-chat__conv-section {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 0.25rem;
+    margin: 0.375rem 0.125rem 0.125rem;
+    padding: 0.125rem 0.25rem;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .theme .theme-bot-chat__conv-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    width: 100%;
+    min-width: 0;
+    padding: 0.375rem 0.375rem;
+    border: 1px solid transparent;
+    border-radius: var(--theme-radius-control);
+    background: transparent;
+    color: var(--theme-text);
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .theme .theme-bot-chat__conv-item:hover {
+    background: color-mix(in srgb, var(--theme-surface-raised) 70%, transparent);
+  }
+
+  .theme .theme-bot-chat__conv-item--active {
+    border-color: var(--theme-border);
+    background: var(--theme-surface);
+  }
+
+  .theme .theme-bot-chat__conv-title-btn {
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+    gap: 0.375rem;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .theme .theme-bot-chat__conv-pin {
+    flex-shrink: 0;
+    color: var(--theme-text-muted);
+  }
+
+  .theme .theme-bot-chat__conv-title {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .theme .theme-bot-chat__conv-unread {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1rem;
+    height: 1rem;
+    padding: 0 0.25rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--theme-accent, var(--theme-text)) 85%, transparent);
+    color: var(--theme-surface);
+    font-size: 0.625rem;
+    line-height: 1;
+  }
+
+  .theme .theme-bot-chat__conv-menu {
+    flex-shrink: 0;
+    opacity: 0;
+    transition: opacity 0.12s ease;
+  }
+
+  .theme .theme-bot-chat__conv-item:hover .theme-bot-chat__conv-menu,
+  .theme .theme-bot-chat__conv-item:focus-within .theme-bot-chat__conv-menu,
+  .theme .theme-bot-chat__conv-item--active .theme-bot-chat__conv-menu {
+    opacity: 1;
+  }
+
+  .theme .theme-bot-chat__main {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .theme .theme-bot-chat__thread {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
+    min-width: 0;
+  }
+
+  .theme .theme-bot-chat__thread-scroll {
+    height: 100%;
+  }
+
+  .theme .theme-bot-chat__thread-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-height: 100%;
+    padding: 0.75rem;
+  }
+
+  /* Lazy-load anchor — zero-size, observed by the caller's IntersectionObserver. */
+  .theme .theme-bot-chat__thread-top-sentinel {
+    height: 1px;
+    flex: none;
+  }
+
+  .theme .theme-bot-chat__empty {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    min-height: 100%;
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .theme .theme-bot-chat__prompts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.375rem;
+    max-width: 28rem;
+  }
+
+  .theme .theme-bot-chat__prompt {
+    padding: 0.375rem 0.75rem;
+    border: 1px solid var(--theme-border);
+    border-radius: 999px;
+    background: var(--theme-surface-raised);
+    color: var(--theme-text);
+    cursor: pointer;
+  }
+
+  .theme .theme-bot-chat__prompt:hover {
+    background: color-mix(in srgb, var(--theme-surface-raised) 60%, var(--theme-surface));
+  }
+
+  .theme .theme-bot-chat__status {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+    padding: 0.1875rem 0.5rem;
+    min-height: 1.375rem;
+    border-top: 1px solid var(--theme-border);
+    background: color-mix(in srgb, var(--theme-surface-raised) 40%, var(--theme-surface));
+  }
+
+  .theme .theme-bot-chat__status-spacer {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .theme .theme-bot-chat__status .type-caption {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-bot-chat__sidebar {
+      transition: none;
+    }
+  }
+}

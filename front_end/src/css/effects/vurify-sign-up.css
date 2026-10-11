@@ -1,0 +1,1021 @@
+/**
+ * Vurify Sign up wizard — menu-chrome edges, fixed header/footer, ThemeScroll mini rail.
+ */
+
+@layer components {
+  .theme .theme-vurify-sign-up {
+    --vurify-sign-up-cap-pop: 3.75rem;
+    --vurify-sign-up-chrome-top: 0.65rem;
+    --vurify-sign-up-chrome-inline: clamp(1.25rem, 4vw, 3rem);
+    --vurify-sign-up-close-reserve: clamp(5.75rem, 11vw, 7.5rem);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: 100%;
+    min-height: 0;
+    margin: 0;
+    color: var(--theme-text);
+  }
+
+  .theme .theme-vurify-sign-up__header {
+    position: relative;
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    box-sizing: border-box;
+    min-height: 0;
+    padding: var(--vurify-sign-up-chrome-top) var(--vurify-sign-up-close-reserve) 0
+      var(--vurify-sign-up-chrome-inline);
+    background: var(--theme-surface);
+    border-bottom: 1px solid var(--theme-border);
+    z-index: 1;
+    overflow: visible;
+  }
+
+  /* Menu dock Close — absolute top-right, same housing · default lg size. */
+  .theme .theme-vurify-sign-up__close {
+    position: absolute;
+    top: var(--vurify-sign-up-chrome-top);
+    right: var(--vurify-sign-up-chrome-inline);
+    z-index: 2;
+    padding-top: 4px;
+    padding-bottom: 0.35em;
+  }
+
+  .theme .theme-vurify-sign-up__steps {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0.25rem;
+    width: 100%;
+    min-width: 0;
+    min-height: 2.35rem;
+    padding-block: 0.15rem 0.55rem;
+  }
+
+  .theme .theme-vurify-sign-up__scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 100%;
+  }
+
+  .theme .theme-vurify-sign-up__scroll.theme-scroll,
+  .theme .theme-vurify-sign-up__scroll.theme-rounded-scroll {
+    min-height: 0;
+  }
+
+  .theme .theme-vurify-sign-up__scroll .theme-scroll__viewport,
+  .theme .theme-vurify-sign-up__scroll .theme-rounded-scroll__viewport {
+    min-height: 0;
+  }
+
+  .theme .theme-vurify-sign-up__scroll-inner {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    width: 100%;
+    min-width: 0;
+    min-height: 100%;
+    padding: 1rem var(--vurify-sign-up-close-reserve) 1.1rem
+      var(--vurify-sign-up-chrome-inline);
+    overflow: visible;
+  }
+
+  /*
+   * Step 0 — join as · a/an · toggle, hairline, copy card.
+   * Cap room is padding-top on the statement so EMPLOYERS never shifts the row.
+   */
+  .theme .theme-vurify-sign-up__type {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.65rem;
+    width: max-content;
+    max-width: 100%;
+    margin: 0;
+    overflow: visible;
+  }
+
+  .theme .theme-vurify-sign-up__statement {
+    --vurify-sign-up-cap-pop: 3.75rem;
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    column-gap: clamp(0.55rem, 1.4vw, 0.95rem);
+    row-gap: 0.55rem;
+    margin: 0;
+    padding-top: var(--vurify-sign-up-cap-pop);
+    text-align: center;
+    line-height: 1.1;
+    max-width: 100%;
+    overflow: visible;
+  }
+
+  .theme .theme-vurify-sign-up__lead,
+  .theme .theme-vurify-sign-up__article {
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+    /* Match pricing statement (`page-scene--home-pricing__lead` / type-display-lg). */
+    font-family: var(--font-display);
+    font-size: clamp(2.75rem, 5.5vw, 4.25rem);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+    color: var(--theme-text);
+  }
+
+  .theme .theme-vurify-sign-up__lead {
+    flex-wrap: nowrap;
+    column-gap: 0.38em;
+  }
+
+  .theme .theme-vurify-sign-up__lead-join,
+  .theme .theme-vurify-sign-up__lead-as,
+  .theme .theme-vurify-sign-up__lead-join.theme-page-scroll-type,
+  .theme .theme-vurify-sign-up__lead-as.theme-page-scroll-type {
+    display: inline-flex;
+    align-items: center;
+    overflow: visible;
+  }
+
+  .theme .theme-vurify-sign-up__lead-join .theme-page-scroll-type__text,
+  .theme .theme-vurify-sign-up__lead-as .theme-page-scroll-type__text,
+  .theme .theme-vurify-sign-up__lead-join .theme-scroll-type__line,
+  .theme .theme-vurify-sign-up__lead-as .theme-scroll-type__line {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* Palette word — Candidate = accent · Employer seats = complement. */
+  .theme .theme-vurify-sign-up__lead-as {
+    transition: color 0.36s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .theme
+    .theme-vurify-sign-up__type[data-audience='candidates']
+    .theme-vurify-sign-up__lead-as,
+  .theme
+    .theme-vurify-sign-up__type[data-audience='candidates']
+    .theme-vurify-sign-up__lead-as
+    .theme-scroll-type__word {
+    color: var(--theme-accent);
+  }
+
+  .theme
+    .theme-vurify-sign-up__type[data-audience='recruiters']
+    .theme-vurify-sign-up__lead-as,
+  .theme
+    .theme-vurify-sign-up__type[data-audience='agencies']
+    .theme-vurify-sign-up__lead-as,
+  .theme
+    .theme-vurify-sign-up__type[data-audience='recruiters']
+    .theme-vurify-sign-up__lead-as
+    .theme-scroll-type__word,
+  .theme
+    .theme-vurify-sign-up__type[data-audience='agencies']
+    .theme-vurify-sign-up__lead-as
+    .theme-scroll-type__word {
+    color: var(--theme-complement);
+  }
+
+  /* a|an — same computed size as join/as (explicit size; never `font: inherit`). */
+  .theme .theme-vurify-sign-up__article {
+    --type-anim-duration: 0.36s;
+    --type-anim-stagger: 40ms;
+    --type-anim-unit-height: 1.28em;
+    position: relative;
+    display: inline-grid;
+    align-items: center;
+    justify-items: start;
+    overflow: visible;
+    color: var(--theme-text);
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+
+  .theme .theme-vurify-sign-up__article-sizer {
+    grid-area: 1 / 1;
+    display: inline-grid;
+    justify-items: start;
+    align-items: center;
+    visibility: hidden;
+    pointer-events: none;
+    user-select: none;
+    font: inherit;
+    letter-spacing: inherit;
+    line-height: inherit;
+  }
+
+  .theme .theme-vurify-sign-up__article-sizer > span {
+    grid-area: 1 / 1;
+    white-space: nowrap;
+    font: inherit;
+  }
+
+  .theme .theme-vurify-sign-up__article-label,
+  .theme .theme-vurify-sign-up__article-label.type-anim {
+    grid-area: 1 / 1;
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
+    overflow: visible;
+    font: inherit;
+    font-size: 1em;
+    letter-spacing: inherit;
+    line-height: inherit;
+    color: inherit;
+  }
+
+  .theme .theme-vurify-sign-up__article .type-anim__face {
+    font: inherit;
+    font-size: 1em;
+  }
+
+  .theme .theme-vurify-sign-up__article .type-anim__track {
+    align-items: center;
+    overflow: visible;
+  }
+
+  .theme .theme-vurify-sign-up__article .type-anim--flip .type-anim__unit {
+    height: var(--type-anim-unit-height);
+    padding-block: 0.1em 0.16em;
+    box-sizing: content-box;
+    overflow: visible;
+  }
+
+  .theme
+    .theme-vurify-sign-up__article:is([data-flip-phase='out'], [data-flip-phase='in'])
+    .type-anim--flip
+    .type-anim__unit {
+    overflow: hidden;
+  }
+
+  .theme
+    .theme-vurify-sign-up__article
+    .theme-vurify-sign-up__article-label
+    .type-anim__unit-inner {
+    transition: none;
+  }
+
+  .theme
+    .theme-vurify-sign-up__article[data-flip-phase='out']
+    .theme-vurify-sign-up__article-label--out.type-anim--enter.type-anim--flip:not(
+      .type-anim--line
+    )
+    .type-anim__unit-inner {
+    transform: rotateX(0deg);
+    opacity: 1;
+    animation-name: vurify-menu-type-flip-out;
+    animation-duration: var(--type-anim-duration);
+    animation-timing-function: var(--type-anim-ease, cubic-bezier(0.22, 1, 0.36, 1));
+    animation-fill-mode: forwards;
+  }
+
+  .theme .theme-vurify-sign-up__tier {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    align-self: center;
+    padding: 0;
+    overflow: visible;
+    position: relative;
+    z-index: 1;
+  }
+
+  .theme .theme-vurify-sign-up__tier-control {
+    display: inline-flex;
+    flex: none;
+    justify-content: center;
+    width: max-content;
+    max-width: none;
+  }
+
+  /*
+   * Longer plan labels than Pricing (Recruiter / Agency vs Solo / Team).
+   * Wide track + tight plan type/pad so labels clear the sliding outlines.
+   */
+  .theme .theme-vurify-sign-up__tier-control.theme-radio-group--vurify-tiered {
+    --vurify-tiered-track-w: 28.5rem;
+    --vurify-tiered-track-h: 4rem;
+    --vurify-tiered-type-min: 1rem;
+    --vurify-tiered-type: 1.5rem;
+    --vurify-tiered-plan-type: 1.05rem;
+    --vurify-tiered-pad-inline: 0.6rem;
+    --vurify-tiered-plan-pad-inline: 0.55rem;
+    --vurify-tiered-pad-block: 0.35rem;
+    --vurify-tiered-pad-underline: 0.58rem;
+  }
+
+  .theme
+    .theme-vurify-sign-up
+    .theme-vurify-sign-up__tier-control
+    .theme-vurify-tiered {
+    margin-top: 0;
+    width: var(--vurify-tiered-track-w);
+    max-width: none;
+    flex-shrink: 0;
+  }
+
+  /* Hairline between statement and descriptor card. */
+  .theme .theme-vurify-sign-up__rule {
+    flex: none;
+    width: min(100%, 28.5rem);
+    height: 1px;
+    margin: 0;
+    background: var(--theme-border);
+  }
+
+  /*
+   * Descriptor card — Vurify nest · compact fixed height so toggle never shifts.
+   */
+  .theme .theme-vurify-sign-up__copy-card {
+    width: min(100%, 28.5rem);
+    max-width: 28.5rem;
+  }
+
+  .theme .theme-vurify-sign-up__copy-card.theme-card {
+    text-align: center;
+  }
+
+  .theme .theme-vurify-sign-up__copy {
+    --sign-up-copy-anim: 0.42s;
+    --sign-up-copy-ease: cubic-bezier(0.7, 0, 0.3, 1);
+    position: relative;
+    box-sizing: border-box;
+    display: grid;
+    width: 100%;
+    margin: 0;
+    padding: 0.1rem 0.25rem;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .theme .theme-vurify-sign-up__copy-sizer {
+    grid-area: 1 / 1;
+    display: grid;
+    justify-items: center;
+    visibility: hidden;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .theme .theme-vurify-sign-up__copy-sizer-item {
+    grid-area: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    width: 100%;
+  }
+
+  .theme .theme-vurify-sign-up__copy-live {
+    grid-area: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.35rem;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .theme .theme-vurify-sign-up__copy-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    transition: color 0.36s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .theme .theme-vurify-sign-up__copy[data-audience='candidates'] .theme-vurify-sign-up__copy-live .theme-vurify-sign-up__copy-title {
+    color: var(--theme-accent);
+  }
+
+  .theme .theme-vurify-sign-up__copy[data-audience='recruiters'] .theme-vurify-sign-up__copy-live .theme-vurify-sign-up__copy-title,
+  .theme .theme-vurify-sign-up__copy[data-audience='agencies'] .theme-vurify-sign-up__copy-live .theme-vurify-sign-up__copy-title {
+    color: var(--theme-complement);
+  }
+
+  .theme .theme-vurify-sign-up__copy-body {
+    margin: 0;
+    max-width: 22rem;
+    line-height: 1.5;
+    color: var(--theme-text-muted);
+  }
+
+  .theme .theme-vurify-sign-up__copy[data-phase='out'][data-direction='forward'] .theme-vurify-sign-up__copy-live .theme-vurify-sign-up__copy-title,
+  .theme .theme-vurify-sign-up__copy[data-phase='out'][data-direction='forward'] .theme-vurify-sign-up__copy-live .theme-vurify-sign-up__copy-body {
+    animation: vurify-sign-up-out-to-left var(--sign-up-copy-anim) both var(--sign-up-copy-ease);
+  }
+
+  .theme .theme-vurify-sign-up__copy[data-phase='out'][data-direction='back'] .theme-vurify-sign-up__copy-live .theme-vurify-sign-up__copy-title,
+  .theme .theme-vurify-sign-up__copy[data-phase='out'][data-direction='back'] .theme-vurify-sign-up__copy-live .theme-vurify-sign-up__copy-body {
+    animation: vurify-sign-up-out-to-right var(--sign-up-copy-anim) both var(--sign-up-copy-ease);
+  }
+
+  .theme .theme-vurify-sign-up__copy[data-phase='in'][data-direction='forward'] .theme-vurify-sign-up__copy-live .theme-vurify-sign-up__copy-title,
+  .theme .theme-vurify-sign-up__copy[data-phase='in'][data-direction='forward'] .theme-vurify-sign-up__copy-live .theme-vurify-sign-up__copy-body {
+    animation: vurify-sign-up-in-from-right var(--sign-up-copy-anim) both var(--sign-up-copy-ease);
+  }
+
+  .theme .theme-vurify-sign-up__copy[data-phase='in'][data-direction='back'] .theme-vurify-sign-up__copy-live .theme-vurify-sign-up__copy-title,
+  .theme .theme-vurify-sign-up__copy[data-phase='in'][data-direction='back'] .theme-vurify-sign-up__copy-live .theme-vurify-sign-up__copy-body {
+    animation: vurify-sign-up-in-from-left var(--sign-up-copy-anim) both var(--sign-up-copy-ease);
+  }
+
+  .theme .theme-vurify-sign-up__copy[data-phase='out'] .theme-vurify-sign-up__copy-live .theme-vurify-sign-up__copy-body,
+  .theme .theme-vurify-sign-up__copy[data-phase='in'] .theme-vurify-sign-up__copy-live .theme-vurify-sign-up__copy-body {
+    animation-delay: 45ms;
+  }
+
+  .theme .theme-vurify-sign-up__body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .theme .theme-vurify-sign-up__body[data-phase='out'][data-direction='forward'],
+  .theme .theme-vurify-sign-up__footer-count[data-phase='out'][data-direction='forward'] {
+    animation: vurify-sign-up-out-to-left 0.22s both cubic-bezier(0.7, 0, 0.3, 1);
+  }
+
+  .theme .theme-vurify-sign-up__body[data-phase='out'][data-direction='back'],
+  .theme .theme-vurify-sign-up__footer-count[data-phase='out'][data-direction='back'] {
+    animation: vurify-sign-up-out-to-right 0.22s both cubic-bezier(0.7, 0, 0.3, 1);
+  }
+
+  .theme .theme-vurify-sign-up__body[data-phase='in'][data-direction='forward'],
+  .theme .theme-vurify-sign-up__footer-count[data-phase='in'][data-direction='forward'] {
+    animation: vurify-sign-up-in-from-right 0.52s both cubic-bezier(0.7, 0, 0.3, 1);
+  }
+
+  .theme .theme-vurify-sign-up__body[data-phase='in'][data-direction='back'],
+  .theme .theme-vurify-sign-up__footer-count[data-phase='in'][data-direction='back'] {
+    animation: vurify-sign-up-in-from-left 0.52s both cubic-bezier(0.7, 0, 0.3, 1);
+  }
+
+  @keyframes vurify-sign-up-out-to-left {
+    to {
+      opacity: 0;
+      transform: translate3d(-1.25rem, 0, 0);
+    }
+  }
+
+  @keyframes vurify-sign-up-out-to-right {
+    to {
+      opacity: 0;
+      transform: translate3d(1.25rem, 0, 0);
+    }
+  }
+
+  @keyframes vurify-sign-up-in-from-right {
+    from {
+      opacity: 0;
+      transform: translate3d(1.25rem, 0, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes vurify-sign-up-in-from-left {
+    from {
+      opacity: 0;
+      transform: translate3d(-1.25rem, 0, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  .theme .theme-vurify-sign-up__stub {
+    margin: 0;
+    text-align: center;
+    padding: 1.5rem 0;
+    max-width: 36rem;
+  }
+
+  .theme .theme-vurify-sign-up__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    max-width: 48rem;
+  }
+
+  .theme .theme-vurify-sign-up__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.85rem 1.25rem;
+  }
+
+  .theme .theme-vurify-sign-up__field--wide {
+    grid-column: 1 / -1;
+  }
+
+  .theme .theme-vurify-sign-up__field .theme-vurify-input {
+    max-width: none;
+  }
+
+  .theme .theme-vurify-sign-up__phone-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-block-start: 0.2rem;
+  }
+
+  .theme .theme-vurify-sign-up__terms {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.55rem 0.65rem;
+    margin-block-start: 0.35rem;
+  }
+
+  .theme .theme-vurify-sign-up__terms-check {
+    flex: none;
+  }
+
+  .theme .theme-vurify-sign-up__terms-copy {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem 0.4rem;
+    min-width: 0;
+  }
+
+  .theme .theme-vurify-sign-up__terms-link {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.2em;
+  }
+
+  .theme .theme-vurify-sign-up__terms-link-icon {
+    width: 0.85em;
+    height: 0.85em;
+    flex: none;
+    align-self: center;
+    stroke-width: 2;
+  }
+
+  .theme .theme-vurify-sign-up__password-strength {
+    --sign-up-strength-duration: 0.42s;
+    --sign-up-strength-ease: cubic-bezier(0.7, 0, 0.3, 1);
+    display: grid;
+    grid-template-rows: 0fr;
+    width: 100%;
+    max-width: 16rem;
+    margin-block-start: 0;
+    opacity: 0;
+    transform: translate3d(0, 0.45rem, 0);
+    pointer-events: none;
+    transition:
+      grid-template-rows var(--sign-up-strength-duration) var(--sign-up-strength-ease),
+      opacity var(--sign-up-strength-duration) var(--sign-up-strength-ease),
+      transform var(--sign-up-strength-duration) var(--sign-up-strength-ease),
+      margin-block-start var(--sign-up-strength-duration) var(--sign-up-strength-ease);
+  }
+
+  .theme .theme-vurify-sign-up__password-strength[data-visible='true'] {
+    grid-template-rows: 1fr;
+    margin-block-start: 0.35rem;
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    pointer-events: auto;
+  }
+
+  .theme .theme-vurify-sign-up__password-strength-bar {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  /* Label + track on one row; fill width/tone already tween with password updates. */
+  .theme .theme-vurify-sign-up__password-strength .theme-bar-loader {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.55rem;
+  }
+
+  .theme .theme-vurify-sign-up__password-strength .theme-bar-loader__head {
+    flex: none;
+    margin: 0;
+  }
+
+  .theme .theme-vurify-sign-up__password-strength .theme-bar-loader__track {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .theme .theme-vurify-sign-up__password-strength .theme-bar-loader__fill {
+    transition:
+      width 0.52s cubic-bezier(0.7, 0, 0.3, 1),
+      background-color 0.36s cubic-bezier(0.22, 1, 0.36, 1),
+      color 0.36s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* Personal Account — OR + Google, same chrome as login. */
+  .theme .theme-vurify-sign-up__oauth {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+    width: 100%;
+    margin-block-start: 0.55rem;
+  }
+
+  .theme .theme-vurify-sign-up__oauth-divider {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  .theme .theme-vurify-sign-up__oauth-line {
+    flex: 1 1 auto;
+    height: 1px;
+    background-color: var(--theme-border);
+  }
+
+  .theme .theme-vurify-sign-up__oauth-label {
+    flex: none;
+  }
+
+  .theme .theme-vurify-sign-up__google {
+    align-self: flex-start;
+  }
+
+  .theme .theme-vurify-sign-up__docs {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    max-width: 48rem;
+  }
+
+  .theme .theme-vurify-sign-up__checklist {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .theme .theme-vurify-sign-up__check-wrap {
+    margin: 0;
+    padding: 0;
+  }
+
+  .theme .theme-vurify-sign-up__check-card {
+    width: 100%;
+  }
+
+  .theme .theme-vurify-sign-up__check-card .theme-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .theme .theme-vurify-sign-up__check-wrap[data-done='true'] .theme-card--vurify,
+  .theme .theme-vurify-sign-up__check-wrap[data-done='true'] .theme-card--vurify .theme-card__inner {
+    border-color: var(--theme-accent);
+  }
+
+  .theme .theme-vurify-sign-up__check-head {
+    display: flex;
+    gap: 0.65rem;
+    align-items: flex-start;
+  }
+
+  .theme .theme-vurify-sign-up__check-icon {
+    width: 1.1rem;
+    height: 1.1rem;
+    flex-shrink: 0;
+    margin-block-start: 0.15rem;
+    color: var(--theme-text-muted);
+  }
+
+  .theme .theme-vurify-sign-up__check-icon--done {
+    color: var(--theme-accent);
+  }
+
+  .theme .theme-vurify-sign-up__check-copy {
+    display: grid;
+    gap: 0.2rem;
+    min-width: 0;
+  }
+
+  .theme .theme-vurify-sign-up__check-rule {
+    width: 100%;
+    height: 1px;
+    background: var(--theme-border);
+  }
+
+  .theme .theme-vurify-sign-up__upload {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    min-width: 0;
+  }
+
+  .theme .theme-vurify-sign-up__upload-status {
+    margin: 0;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .theme .theme-vurify-sign-up__upload-progress {
+    width: 100%;
+  }
+
+  .theme .theme-vurify-sign-up__data-upload {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .theme .theme-vurify-sign-up__data-upload .theme-field,
+  .theme .theme-vurify-sign-up__data-upload .theme-field__file-rows,
+  .theme .theme-vurify-sign-up__data-upload .theme-field__file-list,
+  .theme .theme-vurify-sign-up__data-upload .theme-field__file-motion-wrap,
+  .theme .theme-vurify-sign-up__data-upload .theme-field__file-motion-inner {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .theme .theme-vurify-sign-up__cv-divider {
+    flex: none;
+    width: 100%;
+    height: 1px;
+    margin: 0.35rem 0 0.15rem;
+    background: var(--theme-border);
+  }
+
+  .theme .theme-vurify-sign-up__cv-extract-wait {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    width: 100%;
+    min-width: 0;
+    padding-block: 0.15rem 0.35rem;
+  }
+
+  .theme .theme-vurify-sign-up__cv-extract-title {
+    margin: 0;
+  }
+
+  .theme .theme-vurify-sign-up__cv-extract-status {
+    margin: 0;
+  }
+
+  .theme .theme-vurify-sign-up__cv-extract-bar {
+    width: 100%;
+    margin-block-start: 0.15rem;
+  }
+
+  .theme .theme-vurify-sign-up__cv-review {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    min-width: 0;
+    max-width: min(72rem, 100%);
+  }
+
+  .theme .theme-vurify-sign-up__cv-review-head {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-width: 0;
+  }
+
+  .theme .theme-vurify-sign-up__cv-review-head > :first-child {
+    min-width: 0;
+  }
+
+  .theme .theme-vurify-sign-up__cv-tips {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .theme .theme-vurify-sign-up__cv-tips > li {
+    position: relative;
+    margin: 0;
+    padding-inline-start: 0.95rem;
+    color: var(--theme-muted, var(--theme-fg-muted));
+    font-size: var(--type-caption-size, 0.8125rem);
+    line-height: 1.45;
+  }
+
+  .theme .theme-vurify-sign-up__cv-tips > li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 0.28rem;
+    height: 0.28rem;
+    border-radius: 999px;
+    background: var(--theme-accent, currentColor);
+    opacity: 0.7;
+  }
+
+  .theme .theme-vurify-sign-up__viewer {
+    width: 100%;
+    min-width: 0;
+    max-height: none;
+    max-width: min(72rem, 100%);
+  }
+
+  .theme .theme-vurify-sign-up__viewer--polishing {
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .theme .theme-vurify-sign-up__viewer.theme-vurify-viewer,
+  .theme .theme-vurify-sign-up__viewer .theme-vurify-viewer__stage {
+    max-height: none;
+  }
+
+  .theme .theme-vurify-sign-up__status {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.55rem;
+    margin-block-start: 0.5rem;
+  }
+
+  .theme .theme-vurify-sign-up__status-error-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.45rem 0.75rem;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .theme .theme-vurify-sign-up__status-error-row .theme-vurify-sign-up__error {
+    flex: 1 1 12rem;
+    min-width: 0;
+  }
+
+  .theme .theme-vurify-sign-up__try-again {
+    flex: none;
+    align-self: baseline;
+  }
+
+  .theme .theme-vurify-sign-up__error {
+    margin: 0;
+    color: var(--theme-danger, #c0392b);
+    white-space: pre-line;
+  }
+
+  .theme .theme-vurify-sign-up__success {
+    margin: 0;
+    color: var(--theme-accent);
+    white-space: pre-line;
+  }
+
+  .theme .theme-vurify-sign-up__footer {
+    flex: none;
+    box-sizing: border-box;
+    padding: 0 var(--vurify-sign-up-close-reserve) 0.85rem var(--vurify-sign-up-chrome-inline);
+    background: var(--theme-surface);
+    border-top: 1px solid var(--theme-border);
+    z-index: 1;
+  }
+
+  .theme .theme-vurify-sign-up__actions {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 0.75rem 1rem;
+    padding-block-start: 1rem;
+  }
+
+  .theme .theme-vurify-sign-up__actions > :first-child {
+    justify-self: start;
+  }
+
+  .theme .theme-vurify-sign-up__actions > :last-child {
+    justify-self: end;
+  }
+
+  .theme .theme-vurify-sign-up__actions-end {
+    justify-self: end;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-width: 0;
+  }
+
+  .theme .theme-vurify-sign-up__footer-count {
+    justify-self: center;
+    margin: 0;
+    max-width: min(14rem, 42vw);
+    min-width: 0;
+    text-align: center;
+    font-family: var(--theme-font-sans);
+    font-size: clamp(0.78rem, 1.4vw, 0.88rem);
+    font-weight: 550;
+    line-height: 1.25;
+    letter-spacing: 0;
+    color: var(--theme-muted, var(--theme-fg-muted));
+    white-space: normal;
+  }
+
+  .theme .theme-vurify-sign-up__footer-count[data-complete='true'] {
+    color: var(--theme-accent);
+    font-weight: 650;
+  }
+
+  .theme .theme-vurify-sign-up__footer-count:empty {
+    min-width: 0;
+  }
+
+  /* GSAP enter/exit targets only — no restyle. */
+  .theme .theme-vurify-sign-up__anim-from-right,
+  .theme .theme-vurify-sign-up__anim-from-left,
+  .theme .theme-vurify-sign-up__anim-body {
+    will-change: transform, opacity;
+  }
+
+  @media (max-width: 640px) {
+    .theme .theme-vurify-sign-up__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .theme .theme-vurify-sign-up__statement {
+      padding-top: calc(var(--vurify-sign-up-cap-pop) * 0.85);
+    }
+
+    .theme .theme-vurify-sign-up__tier-control.theme-radio-group--vurify-tiered {
+      --vurify-tiered-track-w: min(28.5rem, 94vw);
+      --vurify-tiered-track-h: 3.65rem;
+      --vurify-tiered-type-min: 0.9rem;
+      --vurify-tiered-type: 1.3rem;
+      --vurify-tiered-plan-type: 0.95rem;
+      --vurify-tiered-pad-inline: 0.45rem;
+      --vurify-tiered-plan-pad-inline: 0.4rem;
+      --vurify-tiered-pad-block: 0.28rem;
+      --vurify-tiered-pad-underline: 0.5rem;
+    }
+
+    .theme .theme-vurify-sign-up__rule,
+    .theme .theme-vurify-sign-up__copy-card {
+      width: min(100%, 94vw);
+      max-width: 28.5rem;
+    }
+
+    .theme .theme-vurify-sign-up__header,
+    .theme .theme-vurify-sign-up__scroll-inner,
+    .theme .theme-vurify-sign-up__footer {
+      padding-inline-end: calc(var(--vurify-sign-up-close-reserve) * 0.85);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-vurify-sign-up__body[data-phase='out'],
+    .theme .theme-vurify-sign-up__body[data-phase='in'],
+    .theme .theme-vurify-sign-up__footer-count[data-phase='out'],
+    .theme .theme-vurify-sign-up__footer-count[data-phase='in'],
+    .theme .theme-vurify-sign-up__copy[data-phase='out'] .theme-vurify-sign-up__copy-live .theme-vurify-sign-up__copy-title,
+    .theme .theme-vurify-sign-up__copy[data-phase='out'] .theme-vurify-sign-up__copy-live .theme-vurify-sign-up__copy-body,
+    .theme .theme-vurify-sign-up__copy[data-phase='in'] .theme-vurify-sign-up__copy-live .theme-vurify-sign-up__copy-title,
+    .theme .theme-vurify-sign-up__copy[data-phase='in'] .theme-vurify-sign-up__copy-live .theme-vurify-sign-up__copy-body {
+      animation: none;
+    }
+
+    .theme .theme-vurify-sign-up__password-strength,
+    .theme .theme-vurify-sign-up__password-strength .theme-bar-loader__fill {
+      transition-duration: 0.01ms;
+    }
+  }
+}

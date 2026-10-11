@@ -1,0 +1,115 @@
+/**
+ * SVG `<text>` stroke trace — ref.text-trace-1 (Happy Coding).
+ * Ghost reserves layout; SVG overlays ghost; pad absorbs stroke bleed.
+ */
+
+@layer components {
+  .theme {
+    --type-trace-draw-duration: 1s;
+    --type-trace-dash: 400px;
+    --type-trace-stroke: max(1px, 0.05em);
+    --type-trace-pad: max(2px, 0.06em);
+  }
+
+  .theme .type-trace {
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+    color: inherit;
+    vertical-align: baseline;
+    overflow: visible;
+    padding: var(--type-trace-pad);
+    isolation: isolate;
+  }
+
+  .theme .type-trace__ghost {
+    display: block;
+    visibility: hidden;
+    white-space: pre-wrap;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .theme .type-trace__svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+    color: inherit;
+  }
+
+  .theme .type-trace__text {
+    fill: transparent;
+    stroke: currentColor;
+    stroke-width: var(--type-trace-stroke);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: var(--type-trace-dash);
+    stroke-dashoffset: 0;
+    font: inherit;
+    letter-spacing: inherit;
+    transition: stroke-dashoffset var(--type-trace-draw-duration) ease;
+  }
+
+  .theme .type-trace:not(.type-trace--ready):not(.type-trace--static) .type-trace__svg {
+    visibility: hidden;
+  }
+
+  .theme .type-trace__fallback {
+    display: none;
+  }
+
+  .theme .type-trace--trace-in.type-trace--hover.type-trace--ready .type-trace__text {
+    stroke-dashoffset: var(--type-trace-dash);
+  }
+
+  .theme .type-trace--trace-in.type-trace--hover.type-trace--ready:hover .type-trace__text,
+  .theme .type-trace--trace-in.type-trace--hover.type-trace--ready:focus-within .type-trace__text,
+  .theme
+    .theme-card:hover
+    .type-trace--trace-in.type-trace--parent-hover.type-trace--ready
+    .type-trace__text {
+    stroke-dashoffset: 0;
+  }
+
+  .theme .type-trace--trace-out.type-trace--hover.type-trace--ready .type-trace__text {
+    stroke-dashoffset: 0;
+  }
+
+  .theme
+    .type-trace--trace-out.type-trace--hover:not(.type-trace--parent-hover).type-trace--ready:hover
+    .type-trace__text,
+  .theme
+    .type-trace--trace-out.type-trace--hover:not(.type-trace--parent-hover).type-trace--ready:focus-within
+    .type-trace__text,
+  .theme
+    .theme-card:hover
+    .type-trace--trace-out.type-trace--parent-hover.type-trace--ready
+    .type-trace__text {
+    stroke-dashoffset: var(--type-trace-dash);
+  }
+
+  .theme .type-trace--parent-hover {
+    pointer-events: none;
+  }
+
+  .theme .type-trace--static .type-trace__svg {
+    display: none;
+  }
+
+  .theme .type-trace--static .type-trace__fallback {
+    display: inline;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .type-trace__svg {
+      display: none;
+    }
+
+    .theme .type-trace__fallback {
+      display: inline;
+    }
+  }
+}

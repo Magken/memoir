@@ -1,0 +1,191 @@
+/** SVG stroke-dash menu icons — ref.animated-icon-1 */
+
+@property --length {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 24;
+}
+
+@property --offset {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: -38;
+}
+
+@layer components {
+  .theme .theme-stroke-menu-icon {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 5rem;
+    height: 5rem;
+    cursor: pointer;
+  }
+
+  .theme .theme-stroke-menu-icon--no-hit {
+    cursor: inherit;
+  }
+
+  .theme .theme-stroke-menu-icon__input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
+  }
+
+  .theme .theme-stroke-menu-icon__svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .theme .theme-stroke-menu-icon path {
+    fill: none;
+    stroke: var(--theme-text);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    --length: 24;
+    --offset: -38;
+    stroke-dasharray: var(--length) var(--total-length);
+    stroke-dashoffset: var(--offset);
+    transition:
+      --length 0.8s cubic-bezier(0.645, 0.045, 0.355, 1),
+      --offset 0.8s cubic-bezier(0.645, 0.045, 0.355, 1),
+      transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+  }
+
+  .theme .theme-stroke-menu-icon__hit {
+    fill: color-mix(in srgb, var(--theme-accent) 22%, transparent);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .theme .theme-stroke-menu-icon:not(.theme-stroke-menu-icon--no-hit):hover .theme-stroke-menu-icon__hit,
+  .theme .theme-stroke-menu-icon:not(.theme-stroke-menu-icon--no-hit):focus-within .theme-stroke-menu-icon__hit {
+    opacity: 1;
+  }
+
+  /* Open = `.is-open` (decorative) or checked checkbox (interactive). */
+  .theme .theme-stroke-menu-icon--cross:is(.is-open, :has(> .theme-stroke-menu-icon__input:checked)) .line--1,
+  .theme .theme-stroke-menu-icon--cross:is(.is-open, :has(> .theme-stroke-menu-icon__input:checked)) .line--3 {
+    --length: 22.627416998;
+  }
+
+  .theme .theme-stroke-menu-icon--cross:is(.is-open, :has(> .theme-stroke-menu-icon__input:checked)) .line--2 {
+    --length: 0;
+  }
+
+  .theme .theme-stroke-menu-icon--back:is(.is-open, :has(> .theme-stroke-menu-icon__input:checked)) .line--1,
+  .theme .theme-stroke-menu-icon--back:is(.is-open, :has(> .theme-stroke-menu-icon__input:checked)) .line--3 {
+    --length: 8.602325267;
+  }
+
+  .theme .theme-stroke-menu-icon--cross-1 .line--1,
+  .theme .theme-stroke-menu-icon--cross-1 .line--3 {
+    --total-length: 126.64183044433594;
+  }
+
+  .theme .theme-stroke-menu-icon--cross-1 .line--2 {
+    --total-length: 70;
+  }
+
+  .theme .theme-stroke-menu-icon--cross-1:is(.is-open, :has(> .theme-stroke-menu-icon__input:checked)) .line--1,
+  .theme .theme-stroke-menu-icon--cross-1:is(.is-open, :has(> .theme-stroke-menu-icon__input:checked)) .line--3 {
+    --offset: -94.1149185097;
+  }
+
+  .theme .theme-stroke-menu-icon--cross-1:is(.is-open, :has(> .theme-stroke-menu-icon__input:checked)) .line--2 {
+    --offset: -50;
+  }
+
+  .theme .theme-stroke-menu-icon--cross-2 .line--1,
+  .theme .theme-stroke-menu-icon--cross-2 .line--3 {
+    --total-length: 111.22813415527344;
+    --offset: -50.22813415527344;
+  }
+
+  .theme .theme-stroke-menu-icon--cross-2 .line--2 {
+    --total-length: 99;
+  }
+
+  .theme .theme-stroke-menu-icon--cross-2:is(.is-open, :has(> .theme-stroke-menu-icon__input:checked)) .theme-stroke-menu-icon__svg path {
+    transform: translateX(30px);
+  }
+
+  .theme .theme-stroke-menu-icon--cross-2:is(.is-open, :has(> .theme-stroke-menu-icon__input:checked)) .line--1,
+  .theme .theme-stroke-menu-icon--cross-2:is(.is-open, :has(> .theme-stroke-menu-icon__input:checked)) .line--3 {
+    --offset: -16.9705627485;
+  }
+
+  .theme .theme-stroke-menu-icon--cross-2:is(.is-open, :has(> .theme-stroke-menu-icon__input:checked)) .line--2 {
+    --offset: -20;
+  }
+
+  .theme .theme-stroke-menu-icon--back-1 .line--1,
+  .theme .theme-stroke-menu-icon--back-1 .line--3 {
+    --total-length: 126.38166809082031;
+  }
+
+  .theme .theme-stroke-menu-icon--back-1 .line--2 {
+    --total-length: 80;
+  }
+
+  .theme .theme-stroke-menu-icon--back-1:is(.is-open, :has(> .theme-stroke-menu-icon__input:checked)) .line--1,
+  .theme .theme-stroke-menu-icon--back-1:is(.is-open, :has(> .theme-stroke-menu-icon__input:checked)) .line--3 {
+    --offset: -109.1770175568;
+  }
+
+  .theme .theme-stroke-menu-icon--back-2 .line--1,
+  .theme .theme-stroke-menu-icon--back-2 .line--3 {
+    --total-length: 103.35061645507812;
+    --offset: -42.35061645507812;
+  }
+
+  .theme .theme-stroke-menu-icon--back-2 .line--2 {
+    --total-length: 99;
+  }
+
+  .theme .theme-stroke-menu-icon--back-2:is(.is-open, :has(> .theme-stroke-menu-icon__input:checked)) .theme-stroke-menu-icon__svg path {
+    transform: translateX(31px);
+  }
+
+  .theme .theme-stroke-menu-icon--back-2:is(.is-open, :has(> .theme-stroke-menu-icon__input:checked)) .line--1,
+  .theme .theme-stroke-menu-icon--back-2:is(.is-open, :has(> .theme-stroke-menu-icon__input:checked)) .line--3 {
+    --offset: -8.602325267;
+  }
+
+  .theme .theme-stroke-menu-icon--back-2:is(.is-open, :has(> .theme-stroke-menu-icon__input:checked)) .line--2 {
+    --offset: -7;
+  }
+
+  .theme .theme-stroke-icons-showcase__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    max-width: 28rem;
+  }
+
+  .theme .theme-stroke-icons-showcase__cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 9rem;
+    border-radius: var(--theme-radius-lg, 0.75rem);
+    border: 1px solid var(--theme-border);
+    background-color: var(--theme-surface);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-stroke-menu-icon path {
+      transition: none;
+    }
+
+    .theme .theme-stroke-menu-icon--cross-2:is(.is-open, :has(> .theme-stroke-menu-icon__input:checked)) .theme-stroke-menu-icon__svg path,
+    .theme .theme-stroke-menu-icon--back-2:is(.is-open, :has(> .theme-stroke-menu-icon__input:checked)) .theme-stroke-menu-icon__svg path {
+      transform: none;
+    }
+  }
+}

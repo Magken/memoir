@@ -1,0 +1,144 @@
+/**
+ * GRAS search — float label + eirene underline.
+ * Icon + input stay fixed. Only the label transforms up on focus (no padding swap).
+ */
+
+@layer components {
+  .theme .theme-gras-search {
+    display: block;
+    width: 100%;
+    color: var(--theme-text);
+    padding-bottom: 0.45rem;
+  }
+
+  .theme .theme-gras-search__shell {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    /* Same top/bottom pad on icon + field — center would sit the icon above the type line. */
+    align-items: flex-start;
+    gap: 0.75rem;
+    width: 100%;
+    /* Fixed pad — never changes on focus, so the bar does not jump. */
+    padding: 1.25rem 0 0.2rem;
+  }
+
+  .theme .theme-gras-search__icon-slot {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    /* Match .theme-gras-search__field so the glyph sits on the type line. */
+    padding: 0.35rem 0 0.15rem;
+  }
+
+  /*
+   * Leave clip: mask is the icon box (not shorter). Stroke must not clip at rest.
+   * yPercent leave still has a real height because the char is the icon size.
+   */
+  .theme .theme-gras-search__icon-slot .theme-scroll-enter,
+  .theme .theme-gras-search__icon-slot .theme-scroll-enter__mask {
+    display: block;
+    overflow: hidden;
+    line-height: 0;
+  }
+
+  .theme .theme-gras-search__icon-slot .theme-scroll-enter__char {
+    display: inline-flex;
+    align-items: center;
+    line-height: 0;
+    transform-origin: 50% 100%;
+  }
+
+  .theme .theme-gras-search__icon {
+    display: block;
+    flex-shrink: 0;
+    width: 1.35rem;
+    height: 1.35rem;
+    color: var(--theme-text-muted);
+    opacity: 0.9;
+  }
+
+  .theme .theme-gras-search.is-focused .theme-gras-search__icon {
+    color: var(--theme-text);
+    opacity: 1;
+  }
+
+  .theme .theme-gras-search__field {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin: 0;
+    padding: 0.35rem 0 0.15rem;
+    border: 0;
+    background: transparent;
+    color: var(--theme-text);
+    outline: none;
+    box-shadow: none;
+    line-height: 1.35;
+  }
+
+  /*
+   * Resting: same band as the input caret (icon + description over the type line).
+   * Focus/value: translate up only — do not change shell padding.
+   * Base duration = settle-back (blur); .is-label-up shortens lift slightly.
+   */
+  .theme .theme-gras-search__float {
+    position: absolute;
+    left: 2.1rem;
+    right: 2.5rem;
+    top: 1.25rem;
+    margin: 0;
+    padding: 0.35rem 0 0.15rem;
+    color: var(--theme-text-muted);
+    pointer-events: none;
+    overflow: hidden;
+    transform: translate3d(0, 0, 0);
+    transform-origin: 0 50%;
+    transition:
+      transform 0.52s cubic-bezier(0.33, 0.12, 0.2, 1),
+      font-size 0.52s cubic-bezier(0.33, 0.12, 0.2, 1),
+      letter-spacing 0.52s cubic-bezier(0.33, 0.12, 0.2, 1),
+      padding 0.52s cubic-bezier(0.33, 0.12, 0.2, 1),
+      color 0.52s cubic-bezier(0.33, 0.12, 0.2, 1);
+  }
+
+  /* Codrops leave needs a block clip the same height as the type line. */
+  .theme .theme-gras-search__float .theme-scroll-enter {
+    display: block;
+    max-width: 100%;
+  }
+
+  .theme .theme-gras-search__float .theme-scroll-enter__mask {
+    display: block;
+    overflow: hidden;
+    padding-block: 0.28em;
+  }
+
+  .theme .theme-gras-search__float .theme-scroll-enter__line,
+  .theme .theme-gras-search__float .theme-scroll-enter__word {
+    display: inline-flex;
+  }
+
+  .theme .theme-gras-search__float .theme-scroll-enter__char {
+    display: inline-block;
+    transform-origin: 50% 100%;
+  }
+
+  .theme .theme-gras-search.is-label-up .theme-gras-search__float {
+    padding: 0;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transform: translate3d(0, -1.15rem, 0);
+    transition-duration: 0.4s;
+  }
+
+  .theme .theme-gras-search__clear {
+    flex-shrink: 0;
+  }
+
+  /* Wipe starts at CSS default scaleX(0); LCL startLclListIn/Out drives it. */
+
+  .theme .theme-gras-search.theme-hairline-fx--eirene .theme-hairline-fx__pill {
+    background: currentColor;
+  }
+}

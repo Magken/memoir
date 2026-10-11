@@ -1,0 +1,177 @@
+/**
+ * Product reveal card — ref.data-card-1 · [ProductRevealCard](ProductRevealCard.tsx).
+ * Dual-image clip reveal, category tab, accent price pill, tag cluster, cart CTA.
+ */
+
+@layer components {
+  .theme {
+    --product-reveal-ease-out: cubic-bezier(0.19, 1, 0.22, 1);
+    --product-reveal-duration: 350ms;
+  }
+
+  .theme .theme-product-reveal-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+    gap: 1.5rem;
+  }
+
+  .theme .theme-product-reveal-card {
+    --product-reveal-pad: 1rem;
+    --product-reveal-radius: 2.5rem;
+    --product-reveal-inner-radius: calc(var(--product-reveal-radius) - var(--product-reveal-pad));
+    --product-reveal-category-radius: 1rem;
+    --product-reveal-accent: var(--theme-accent);
+    --product-reveal-accent-fg: var(--theme-accent-text);
+
+    container-type: inline-size;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) max-content;
+    gap: 0.35rem 1rem;
+    padding: var(--product-reveal-pad);
+    border: 2px solid var(--theme-border-strong);
+    border-radius: var(--product-reveal-radius);
+    background-color: var(--theme-surface-raised);
+    color: var(--theme-text);
+    box-shadow: 0 1.25rem 2.5rem -0.875rem color-mix(in srgb, var(--theme-shadow-brutal) 25%, transparent);
+  }
+
+  .theme .theme-product-reveal-card--tone-cool {
+    --product-reveal-accent: color-mix(in srgb, var(--theme-focus) 40%, var(--theme-accent));
+  }
+
+  .theme .theme-product-reveal-card--tone-warm {
+    --product-reveal-accent: color-mix(in srgb, var(--theme-accent) 65%, #e85d4c);
+  }
+
+  .theme .theme-product-reveal-card--tone-deep {
+    --product-reveal-accent: color-mix(in srgb, var(--theme-accent) 55%, #008bc9);
+  }
+
+  .theme .theme-product-reveal-card__thumb-stack {
+    position: relative;
+    display: grid;
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  .theme .theme-product-reveal-card__thumb-stack .theme-product-reveal-card__img {
+    grid-area: 1 / 1;
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: var(--product-reveal-inner-radius);
+    object-fit: cover;
+    box-shadow: inset 6px 8px 16px color-mix(in srgb, var(--theme-shadow-brutal) 22%, transparent);
+  }
+
+  .theme .theme-product-reveal-card__thumb-stack .theme-product-reveal-card__img:first-child {
+    filter: brightness(0.82) grayscale(1);
+  }
+
+  .theme .theme-product-reveal-card__thumb-stack .theme-product-reveal-card__img:last-child {
+    clip-path: inset(100% round var(--product-reveal-inner-radius));
+  }
+
+  .theme .theme-product-reveal-card:has(.theme-product-reveal-card__cta:hover) .theme-product-reveal-card__thumb-stack .theme-product-reveal-card__img:last-child,
+  .theme .theme-product-reveal-card:has(.theme-product-reveal-card__cta:focus-visible) .theme-product-reveal-card__thumb-stack .theme-product-reveal-card__img:last-child {
+    clip-path: inset(0 round var(--product-reveal-inner-radius));
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .theme .theme-product-reveal-card__thumb-stack .theme-product-reveal-card__img:last-child {
+      transition: clip-path var(--product-reveal-duration) var(--product-reveal-ease-out);
+    }
+  }
+
+  .theme .theme-product-reveal-card__category {
+    position: relative;
+    z-index: 1;
+    grid-column: 1 / -1;
+    grid-row: 1;
+    align-self: start;
+    justify-self: start;
+    max-width: calc(100% - (var(--product-reveal-category-radius) + var(--product-reveal-inner-radius)));
+    margin: 0;
+    padding: 0.65em 1.25em;
+    min-height: calc(var(--product-reveal-category-radius) * 2);
+    border-end-end-radius: var(--product-reveal-category-radius);
+    background-color: var(--theme-surface-raised);
+    filter: drop-shadow(4px 4px 2px color-mix(in srgb, var(--theme-shadow-brutal) 15%, transparent));
+  }
+
+  .theme .theme-product-reveal-card__category::before,
+  .theme .theme-product-reveal-card__category::after {
+    content: '';
+    position: absolute;
+    height: var(--product-reveal-category-radius);
+    aspect-ratio: 1;
+    background-color: inherit;
+    mask-image: radial-gradient(
+      circle at 100% 100%,
+      transparent var(--product-reveal-category-radius),
+      #000 calc(var(--product-reveal-category-radius) + 1px)
+    );
+  }
+
+  .theme .theme-product-reveal-card__category::before {
+    top: 0;
+    left: 100%;
+  }
+
+  .theme .theme-product-reveal-card__category::after {
+    top: 100%;
+    left: 0;
+  }
+
+  .theme .theme-product-reveal-card__title {
+    grid-column: 1;
+    align-self: center;
+    padding-block: 0.5rem;
+  }
+
+  .theme .theme-product-reveal-card__price {
+    grid-column: 2;
+    align-self: center;
+    padding: 0.45em 0.9em;
+    border-radius: var(--theme-radius-pill);
+    background-color: var(--product-reveal-accent);
+    color: var(--product-reveal-accent-fg);
+  }
+
+  .theme .theme-product-reveal-card__description {
+    grid-column: 1 / -1;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  .theme .theme-product-reveal-card__tags {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-block: 0.35rem;
+  }
+
+  .theme .theme-product-reveal-card__tag {
+    padding: 0.45em 0.9em;
+    border-radius: var(--theme-radius-pill);
+    background-color: color-mix(in srgb, var(--product-reveal-accent) 18%, var(--theme-surface));
+    color: var(--theme-text);
+  }
+
+  .theme .theme-product-reveal-card__cta-wrap {
+    grid-column: 1 / -1;
+  }
+
+  .theme .theme-product-reveal-card__cta.theme-btn {
+    border-radius: var(--theme-radius-pill);
+    background-color: var(--product-reveal-accent);
+    color: var(--product-reveal-accent-fg);
+    border-color: transparent;
+  }
+
+  .theme .theme-product-reveal-card__cta.theme-btn:hover {
+    background-color: color-mix(in srgb, var(--product-reveal-accent) 78%, var(--theme-text));
+  }
+}

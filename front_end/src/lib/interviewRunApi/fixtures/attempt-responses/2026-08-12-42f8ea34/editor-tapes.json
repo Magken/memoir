@@ -1,0 +1,167 @@
+{
+  "schema": "vurify/editor-tapes",
+  "schemaVersion": 1,
+  "briefId": "42f8ea34-9144-4b77-b3fd-35d58d02c6ce",
+  "byKind": {
+    "form": {
+      "schema": "vurify/editor-tape",
+      "schemaVersion": 1,
+      "briefId": "42f8ea34-9144-4b77-b3fd-35d58d02c6ce",
+      "attemptId": "local:42f8ea34-9144-4b77-b3fd-35d58d02c6ce:2026-08-12T15:12:47.175Z",
+      "phaseId": "ph.form",
+      "kind": "form",
+      "startedAt": "2026-08-12T15:18:00.000Z",
+      "endedAt": "2026-08-12T15:22:00.000Z",
+      "durationMs": 240000,
+      "initial": { "title": "Screening", "responses": {} },
+      "events": [
+        { "t": 0, "type": "checkpoint", "checkpoint": { "title": "Screening", "responses": {} } },
+        {
+          "t": 12000,
+          "type": "patch",
+          "patches": [{ "op": "set_response", "questionId": "q1", "value": { "text": "Ada" } }]
+        },
+        {
+          "t": 48000,
+          "type": "patch",
+          "patches": [{ "op": "set_response", "questionId": "q2", "value": { "optionId": "opt_a" } }]
+        },
+        { "t": 240000, "type": "session_end" }
+      ],
+      "final": {
+        "title": "Screening",
+        "responses": {
+          "q1": { "text": "Ada" },
+          "q2": { "optionId": "opt_a" }
+        }
+      }
+    },
+    "coding": {
+      "schema": "vurify/editor-tape",
+      "schemaVersion": 1,
+      "briefId": "42f8ea34-9144-4b77-b3fd-35d58d02c6ce",
+      "attemptId": "local:42f8ea34-9144-4b77-b3fd-35d58d02c6ce:2026-08-12T15:12:47.175Z",
+      "phaseId": "ph.coding",
+      "kind": "coding",
+      "startedAt": "2026-08-12T15:22:10.000Z",
+      "endedAt": "2026-08-12T15:26:10.000Z",
+      "durationMs": 240000,
+      "initial": {
+        "title": "Solution",
+        "activeId": "src/solve.ts",
+        "openIds": ["src/solve.ts"],
+        "files": [
+          {
+            "path": "src/solve.ts",
+            "language": "typescript",
+            "content": "export function solve() {\n  return 0\n}\n"
+          }
+        ]
+      },
+      "events": [
+        {
+          "t": 0,
+          "type": "checkpoint",
+          "checkpoint": {
+            "title": "Solution",
+            "activeId": "src/solve.ts",
+            "openIds": ["src/solve.ts"],
+            "files": [
+              {
+                "path": "src/solve.ts",
+                "language": "typescript",
+                "content": "export function solve() {\n  return 0\n}\n"
+              }
+            ]
+          }
+        },
+        {
+          "t": 18000,
+          "type": "patch",
+          "patches": [
+            {
+              "op": "splice",
+              "path": "src/solve.ts",
+              "start": 34,
+              "end": 35,
+              "text": "1"
+            }
+          ]
+        },
+        { "t": 90000, "type": "action", "action": "run" },
+        {
+          "t": 90000,
+          "type": "checkpoint",
+          "checkpoint": {
+            "title": "Solution",
+            "activeId": "src/solve.ts",
+            "openIds": ["src/solve.ts"],
+            "files": [
+              {
+                "path": "src/solve.ts",
+                "language": "typescript",
+                "content": "export function solve() {\n  return 1\n}\n"
+              }
+            ]
+          }
+        },
+        { "t": 240000, "type": "session_end" }
+      ],
+      "final": {
+        "title": "Solution",
+        "activeId": "src/solve.ts",
+        "openIds": ["src/solve.ts"],
+        "files": [
+          {
+            "path": "src/solve.ts",
+            "language": "typescript",
+            "content": "export function solve() {\n  return 1\n}\n"
+          }
+        ]
+      }
+    },
+    "doc": {
+      "schema": "vurify/editor-tape",
+      "schemaVersion": 1,
+      "briefId": "42f8ea34-9144-4b77-b3fd-35d58d02c6ce",
+      "attemptId": "local:42f8ea34-9144-4b77-b3fd-35d58d02c6ce:2026-08-12T15:12:47.175Z",
+      "phaseId": "ph.doc",
+      "kind": "doc",
+      "startedAt": "2026-08-12T15:26:20.000Z",
+      "endedAt": "2026-08-12T15:28:00.000Z",
+      "durationMs": 100000,
+      "initial": { "title": "Essay", "markdown": "" },
+      "events": [
+        { "t": 0, "type": "checkpoint", "checkpoint": { "title": "Essay", "markdown": "" } },
+        {
+          "t": 8000,
+          "type": "patch",
+          "patches": [{ "op": "splice", "start": 0, "end": 0, "text": "I would start by naming the risk." }]
+        },
+        {
+          "t": 40000,
+          "type": "action",
+          "action": "paste",
+          "detail": { "chars": 48 }
+        },
+        {
+          "t": 40000,
+          "type": "patch",
+          "patches": [
+            {
+              "op": "splice",
+              "start": 33,
+              "end": 33,
+              "text": " Then I would write a mitigation."
+            }
+          ]
+        },
+        { "t": 100000, "type": "session_end" }
+      ],
+      "final": {
+        "title": "Essay",
+        "markdown": "I would start by naming the risk. Then I would write a mitigation."
+      }
+    }
+  }
+}

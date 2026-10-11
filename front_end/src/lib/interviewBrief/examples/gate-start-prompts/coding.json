@@ -1,0 +1,22 @@
+[
+  {
+    "id": "coding.workspace.open",
+    "kind": "coding",
+    "startPrompt": "Open the workspace and implement the function. Hidden tests run on submit."
+  },
+  {
+    "id": "coding.clarify.ok",
+    "kind": "coding",
+    "startPrompt": "Solve the challenge in the editor. Clarify constraints in chat if needed. Do not ask for the solution."
+  },
+  {
+    "id": "coding.timed.open",
+    "kind": "coding",
+    "startPrompt": "You have a timed coding stage. Read the prompt, then write and submit your solution."
+  },
+  {
+    "id": "coding.cases.open",
+    "kind": "coding",
+    "startPrompt": "Implement the required behaviour. Focus on correctness against the hidden cases."
+  }
+]

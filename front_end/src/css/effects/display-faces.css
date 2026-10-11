@@ -1,0 +1,199 @@
+/**
+ * Free self-hosted display faces (Fontsource → bundled woff2, no CDN / no Adobe kit).
+ * `.theme-face--1`…`--23` Codrops stand-ins; `--24`…`--35` odd lab; `--36`…`--49` elegant / futuristic lab.
+ * Cormorant Garamond + DM Sans load from typography-fonts.css (imported earlier).
+ */
+@import '@fontsource/libre-baskerville/400.css';
+@import '@fontsource/libre-baskerville/400-italic.css';
+@import '@fontsource/oswald/300.css';
+@import '@fontsource/fredoka/400.css';
+@import '@fontsource/nunito/400.css';
+@import '@fontsource/space-mono/400.css';
+@import '@fontsource/bebas-neue/400.css';
+@import '@fontsource/black-ops-one/400.css';
+@import '@fontsource/archivo-black/400.css';
+@import '@fontsource/anton/400.css';
+@import '@fontsource/playfair-display/400.css';
+@import '@fontsource/syne/400.css';
+@import '@fontsource/syne/700.css';
+@import '@fontsource/instrument-serif/400.css';
+@import '@fontsource/outfit/500.css';
+@import '@fontsource/fraunces/100.css';
+@import '@fontsource/bricolage-grotesque/600.css';
+@import '@fontsource/bodoni-moda/400.css';
+@import '@fontsource/teko/700.css';
+@import '@fontsource/unbounded/400.css';
+@import '@fontsource/cormorant-infant/300.css';
+@import '@fontsource/foldit/700.css';
+@import '@fontsource/moirai-one/400.css';
+@import '@fontsource/rubik-glitch/400.css';
+@import '@fontsource/monoton/400.css';
+@import '@fontsource/megrim/400.css';
+@import '@fontsource/plaster/400.css';
+@import '@fontsource/grenze-gotisch/700.css';
+@import '@fontsource/major-mono-display/400.css';
+@import '@fontsource/bungee-shade/400.css';
+@import '@fontsource/codystar/400.css';
+@import '@fontsource/frijole/400.css';
+@import '@fontsource/wallpoet/400.css';
+@import '@fontsource/orbitron/700.css';
+@import '@fontsource/tomorrow/600.css';
+@import '@fontsource/turret-road/700.css';
+@import '@fontsource/goldman/700.css';
+@import '@fontsource/audiowide/400.css';
+@import '@fontsource/oxanium/600.css';
+@import '@fontsource/aldrich/400.css';
+@import '@fontsource/space-grotesk/600.css';
+@import '@fontsource/bruno-ace/400.css';
+@import '@fontsource/jura/600.css';
+@import '@fontsource/italiana/400.css';
+@import '@fontsource/marcellus/400.css';
+@import '@fontsource/gilda-display/400.css';
+@import '@fontsource/cinzel/600.css';
+
+.theme-face--1 { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 400; }
+.theme-face--2 { font-family: 'Libre Baskerville', Georgia, serif; font-weight: 400; }
+.theme-face--3 { font-family: 'DM Sans', system-ui, sans-serif; font-weight: 600; }
+.theme-face--4 { font-family: 'Libre Baskerville', Georgia, serif; font-weight: 400; font-style: italic; }
+.theme-face--5 { font-family: 'Oswald', system-ui, sans-serif; font-weight: 300; text-transform: uppercase; }
+.theme-face--6 { font-family: 'Fredoka', system-ui, sans-serif; font-weight: 400; }
+.theme-face--7 { font-family: 'Nunito', system-ui, sans-serif; font-weight: 400; }
+.theme-face--8 { font-family: 'Space Mono', ui-monospace, monospace; font-weight: 400; text-transform: lowercase; }
+.theme-face--9 { font-family: 'Bebas Neue', system-ui, sans-serif; font-weight: 400; }
+.theme-face--10 { font-family: 'Black Ops One', system-ui, sans-serif; font-weight: 400; }
+.theme-face--11 { font-family: 'Archivo Black', system-ui, sans-serif; font-weight: 400; }
+.theme-face--12 { font-family: 'Anton', system-ui, sans-serif; font-weight: 400; }
+.theme-face--13 { font-family: 'Playfair Display', Georgia, serif; font-weight: 400; }
+.theme-face--14 { font-family: 'Syne', system-ui, sans-serif; font-weight: 400; }
+.theme-face--15 { font-family: 'Syne', system-ui, sans-serif; font-weight: 700; }
+.theme-face--16 { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; }
+.theme-face--17 { font-family: 'Outfit', system-ui, sans-serif; font-weight: 500; }
+.theme-face--18 { font-family: 'Fraunces', Georgia, serif; font-weight: 100; }
+.theme-face--19 { font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 600; }
+.theme-face--20 { font-family: 'Bodoni Moda', Georgia, serif; font-weight: 400; }
+.theme-face--21 { font-family: 'Teko', system-ui, sans-serif; font-weight: 700; }
+.theme-face--22 { font-family: 'Unbounded', system-ui, sans-serif; font-weight: 400; }
+.theme-face--23 { font-family: 'Cormorant Infant', Georgia, serif; font-weight: 300; }
+.theme-face--24 { font-family: 'Foldit', system-ui, sans-serif; font-weight: 700; }
+.theme-face--25 { font-family: 'Moirai One', system-ui, sans-serif; font-weight: 400; }
+.theme-face--26 { font-family: 'Rubik Glitch', system-ui, sans-serif; font-weight: 400; }
+.theme-face--27 { font-family: 'Monoton', system-ui, sans-serif; font-weight: 400; }
+.theme-face--28 { font-family: 'Megrim', system-ui, sans-serif; font-weight: 400; }
+.theme-face--29 { font-family: 'Plaster', system-ui, sans-serif; font-weight: 400; }
+.theme-face--30 { font-family: 'Grenze Gotisch', Georgia, serif; font-weight: 700; }
+.theme-face--31 { font-family: 'Major Mono Display', ui-monospace, monospace; font-weight: 400; }
+.theme-face--32 { font-family: 'Bungee Shade', system-ui, sans-serif; font-weight: 400; }
+.theme-face--33 { font-family: 'Codystar', system-ui, sans-serif; font-weight: 400; }
+.theme-face--34 { font-family: 'Frijole', system-ui, sans-serif; font-weight: 400; }
+.theme-face--35 { font-family: 'Wallpoet', system-ui, sans-serif; font-weight: 400; }
+.theme-face--36 { font-family: 'Orbitron', system-ui, sans-serif; font-weight: 700; }
+.theme-face--37 { font-family: 'Tomorrow', system-ui, sans-serif; font-weight: 600; }
+.theme-face--38 { font-family: 'Turret Road', system-ui, sans-serif; font-weight: 700; }
+.theme-face--39 { font-family: 'Goldman', system-ui, sans-serif; font-weight: 700; }
+.theme-face--40 { font-family: 'Audiowide', system-ui, sans-serif; font-weight: 400; }
+.theme-face--41 { font-family: 'Oxanium', system-ui, sans-serif; font-weight: 600; }
+.theme-face--42 { font-family: 'Aldrich', system-ui, sans-serif; font-weight: 400; }
+.theme-face--43 { font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 600; }
+.theme-face--44 { font-family: 'Bruno Ace', system-ui, sans-serif; font-weight: 400; }
+.theme-face--45 { font-family: 'Jura', system-ui, sans-serif; font-weight: 600; }
+.theme-face--46 { font-family: 'Italiana', Georgia, serif; font-weight: 400; }
+.theme-face--47 { font-family: 'Marcellus', Georgia, serif; font-weight: 400; }
+.theme-face--48 { font-family: 'Gilda Display', Georgia, serif; font-weight: 400; }
+.theme-face--49 { font-family: 'Cinzel', Georgia, serif; font-weight: 600; }
+
+.theme-face-specimen {
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  line-height: 1.15;
+  color: var(--theme-text);
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.theme-face-treatment {
+  min-width: 0;
+  max-width: 100%;
+  color: var(--theme-text);
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  line-height: 1;
+  overflow-wrap: anywhere;
+}
+
+.theme-face-treatment--left {
+  text-align: left;
+}
+
+.theme-face-treatment--right {
+  text-align: right;
+}
+
+.theme-face-treatment--sides {
+  text-align: justify;
+  text-align-last: right;
+}
+
+.theme-face-treatment--height {
+  line-height: 1.4;
+}
+
+.theme-face-treatment--height-medium {
+  line-height: 0.9;
+}
+
+.theme-face-treatment--medium {
+  font-size: clamp(2rem, 6vw, 4rem);
+  margin-top: 1.5rem;
+}
+
+.theme-face-treatment--larger {
+  font-size: clamp(3rem, 27vw, 7rem);
+}
+
+.theme-face-treatment--upper {
+  text-transform: uppercase;
+}
+
+.theme-face-treatment--sub {
+  display: block;
+  font-size: clamp(1.5rem, 5vw, 3.25rem);
+  margin-top: 1rem;
+}
+
+.theme-face-treatment--text,
+.theme-face-treatment--small,
+.theme-face-treatment--body {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+.theme-face-treatment--subheading {
+  font-family: var(--font-display);
+  font-size: clamp(1.125rem, 2.25vw, 1.5rem);
+  line-height: 1.35;
+  font-weight: 600;
+}
+
+.theme-face-treatment--bold {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  line-height: 1.5;
+  font-weight: 700;
+}
+
+.theme-face-treatment--italic {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+.theme-face-treatment--underline {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  line-height: 1.5;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}

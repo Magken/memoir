@@ -1,0 +1,99 @@
+/**
+ * Prose inline links — paragraph copy with embedded nav links.
+ * Rest sizes are large vs body; hover animates `font-size` so the link
+ * expands and pushes surrounding copy. `:has()` dims prose to grey.
+ * Sizes: --sm · --md · --lg.
+ */
+@layer components {
+  .theme .theme-prose-inline {
+    --theme-prose-inline-rest: color-mix(in srgb, var(--theme-text, #ffffff) 92%, transparent);
+    --theme-prose-inline-dim: color-mix(in srgb, var(--theme-text, #ffffff) 38%, transparent);
+    --theme-prose-inline-link: #ffffff;
+    --theme-prose-inline-expand-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --theme-prose-inline-expand-dur: 0.38s;
+    color: var(--theme-prose-inline-rest);
+    transition: color 0.28s var(--theme-prose-inline-expand-ease);
+  }
+
+  .theme .theme-prose-inline:has(.theme-prose-inline__link:is(:hover, :focus-visible)) {
+    color: var(--theme-prose-inline-dim);
+  }
+
+  .theme .theme-prose-inline__p {
+    margin: 0;
+    max-width: 42ch;
+    font: inherit;
+    line-height: 1.7;
+    text-wrap: pretty;
+  }
+
+  .theme .theme-prose-inline__p + .theme-prose-inline__p {
+    margin-top: 1.15rem;
+  }
+
+  .theme .theme-prose-inline__link {
+    position: relative;
+    display: inline;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--theme-prose-inline-link);
+    font-family: var(--font-display-sans);
+    font-size: var(--theme-prose-inline-link-size, 1.55em);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    /* Buttons default to nowrap — multi-word labels must wrap with the paragraph. */
+    white-space: normal;
+    text-decoration: underline;
+    text-decoration-thickness: from-font;
+    text-underline-offset: 0.14em;
+    cursor: pointer;
+    vertical-align: baseline;
+    transition:
+      font-size var(--theme-prose-inline-expand-dur) var(--theme-prose-inline-expand-ease),
+      color 0.28s var(--theme-prose-inline-expand-ease),
+      text-decoration-color 0.28s var(--theme-prose-inline-expand-ease);
+  }
+
+  .theme .theme-prose-inline__link--sm {
+    --theme-prose-inline-link-size: 1.45em;
+    --theme-prose-inline-link-size-hover: 2.25em;
+    font-weight: 600;
+  }
+
+  .theme .theme-prose-inline__link--md {
+    --theme-prose-inline-link-size: 1.85em;
+    --theme-prose-inline-link-size-hover: 2.85em;
+    font-weight: 600;
+  }
+
+  .theme .theme-prose-inline__link--lg {
+    --theme-prose-inline-link-size: 2.35em;
+    --theme-prose-inline-link-size-hover: 3.45em;
+    font-weight: 700;
+    text-decoration-thickness: 0.06em;
+  }
+
+  .theme .theme-prose-inline:has(.theme-prose-inline__link:is(:hover, :focus-visible))
+    .theme-prose-inline__link:not(:hover):not(:focus-visible) {
+    color: color-mix(in srgb, var(--theme-prose-inline-link) 55%, transparent);
+    text-decoration-color: color-mix(in srgb, var(--theme-prose-inline-link) 35%, transparent);
+  }
+
+  .theme .theme-prose-inline__link:is(:hover, :focus-visible) {
+    font-size: var(--theme-prose-inline-link-size-hover, 2.2em);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-prose-inline,
+    .theme .theme-prose-inline__link {
+      transition: color 0.01ms linear;
+    }
+
+    .theme .theme-prose-inline__link:is(:hover, :focus-visible) {
+      font-size: var(--theme-prose-inline-link-size-hover, 2.2em);
+    }
+  }
+}

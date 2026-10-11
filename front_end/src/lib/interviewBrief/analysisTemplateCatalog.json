@@ -1,0 +1,797 @@
+{
+  "sectionTypes": {
+    "discussion.opening": {
+      "label": "Opening / warmup",
+      "host": "discussion"
+    },
+    "discussion.deep": {
+      "label": "Deep discussion",
+      "host": "discussion"
+    },
+    "discussion.conflict": {
+      "label": "Conflict / leadership",
+      "host": "discussion"
+    },
+    "discussion.design": {
+      "label": "Design talk",
+      "host": "discussion"
+    },
+    "discussion.closing": {
+      "label": "Closing",
+      "host": "discussion"
+    },
+    "tool.form": {
+      "label": "Form tool",
+      "host": "tool"
+    },
+    "tool.coding": {
+      "label": "Coding tool",
+      "host": "tool"
+    },
+    "tool.doc": {
+      "label": "Doc / essay",
+      "host": "tool"
+    }
+  },
+  "templates": {
+    "iv.delivery.v1": {
+      "label": "How they speak (clarity, composure)",
+      "summary": "Scores clarity, composure, and structure while the candidate talks.",
+      "sectionTypes": [
+        "discussion.opening",
+        "discussion.deep",
+        "discussion.conflict",
+        "discussion.design",
+        "discussion.closing"
+      ],
+      "conflictsWith": [],
+      "outputKind": "dimensions",
+      "justificationPolicy": "always_required",
+      "dimensions": [
+        {
+          "key": "clarity",
+          "label": "Clarity",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "manner"
+        },
+        {
+          "key": "composure",
+          "label": "Composure",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "manner"
+        },
+        {
+          "key": "structure",
+          "label": "Structure",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "manner"
+        }
+      ],
+      "interpretationRole": "grade.dimensions",
+      "decisionBucket": "interviewDelivery",
+      "afterTurnEligible": "answer"
+    },
+    "iv.content.v1": {
+      "label": "Substance vs the topic",
+      "summary": "Judges substance against the topic purpose and probe goals.",
+      "sectionTypes": [
+        "discussion.deep",
+        "discussion.design"
+      ],
+      "conflictsWith": [
+        "iv.star.v1",
+        "iv.ownership.v1"
+      ],
+      "outputKind": "dimensions",
+      "justificationPolicy": "always_required",
+      "dimensions": [
+        {
+          "key": "relevance",
+          "label": "Relevance",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "accumulative"
+        },
+        {
+          "key": "depth",
+          "label": "Depth",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "accumulative"
+        },
+        {
+          "key": "specificity",
+          "label": "Specificity",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "accumulative"
+        }
+      ],
+      "interpretationRole": "grade.dimensions",
+      "decisionBucket": "interviewContent"
+    },
+    "iv.star.v1": {
+      "label": "STAR completeness",
+      "summary": "Checks Situation, Task, Action, and Result completeness on behavioural answers.",
+      "sectionTypes": [
+        "discussion.deep"
+      ],
+      "conflictsWith": [
+        "iv.content.v1"
+      ],
+      "outputKind": "dimensions",
+      "justificationPolicy": "always_required",
+      "dimensions": [
+        {
+          "key": "situation",
+          "label": "Situation",
+          "options": [
+            "missing",
+            "thin",
+            "present"
+          ],
+          "defaultOption": "thin",
+          "evidenceModel": "accumulative"
+        },
+        {
+          "key": "task",
+          "label": "Task",
+          "options": [
+            "missing",
+            "thin",
+            "present"
+          ],
+          "defaultOption": "thin",
+          "evidenceModel": "accumulative"
+        },
+        {
+          "key": "action",
+          "label": "Action",
+          "options": [
+            "missing",
+            "thin",
+            "present"
+          ],
+          "defaultOption": "thin",
+          "evidenceModel": "accumulative"
+        },
+        {
+          "key": "result",
+          "label": "Result",
+          "options": [
+            "missing",
+            "thin",
+            "present"
+          ],
+          "defaultOption": "thin",
+          "evidenceModel": "accumulative"
+        }
+      ],
+      "interpretationRole": "grade.dimensions",
+      "decisionBucket": "interviewContent"
+    },
+    "iv.ownership.v1": {
+      "label": "Ownership vs blame-shift",
+      "summary": "Looks for agency versus blame-shift. Best on conflict topics.",
+      "sectionTypes": [
+        "discussion.conflict"
+      ],
+      "conflictsWith": [
+        "iv.content.v1"
+      ],
+      "outputKind": "dimensions",
+      "justificationPolicy": "always_required",
+      "dimensions": [
+        {
+          "key": "agency",
+          "label": "Agency",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "accumulative"
+        },
+        {
+          "key": "blameShift",
+          "label": "Blame-shift",
+          "options": [
+            "low",
+            "mixed",
+            "high"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "accumulative",
+          "polarity": "negative"
+        }
+      ],
+      "interpretationRole": "grade.dimensions",
+      "decisionBucket": "interviewContent"
+    },
+    "iv.tradeoff.v1": {
+      "label": "Design / tradeoff reasoning",
+      "summary": "Weighs options, constraints, and the choice they defend.",
+      "sectionTypes": [
+        "discussion.design"
+      ],
+      "conflictsWith": [],
+      "outputKind": "dimensions",
+      "justificationPolicy": "always_required",
+      "dimensions": [
+        {
+          "key": "options",
+          "label": "Options considered",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "accumulative"
+        },
+        {
+          "key": "constraints",
+          "label": "Constraints",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "accumulative"
+        },
+        {
+          "key": "choice",
+          "label": "Choice defended",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "accumulative"
+        }
+      ],
+      "interpretationRole": "grade.dimensions",
+      "decisionBucket": "interviewContent"
+    },
+    "iv.question.v1": {
+      "label": "Quality of their questions",
+      "summary": "Rates the questions the candidate asks at the close, including clarifying and curiosity asks.",
+      "sectionTypes": [
+        "discussion.closing"
+      ],
+      "conflictsWith": [],
+      "outputKind": "dimensions",
+      "justificationPolicy": "always_required",
+      "dimensions": [
+        {
+          "key": "relevance",
+          "label": "Relevance",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "accumulative"
+        },
+        {
+          "key": "depth",
+          "label": "Depth",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "accumulative"
+        }
+      ],
+      "interpretationRole": "grade.dimensions",
+      "decisionBucket": "interviewDelivery",
+      "afterTurnEligible": "clarify"
+    },
+    "synth.topic.v1": {
+      "label": "Short topic summary for the reviewer",
+      "summary": "Writes a short reviewer paragraph when the topic ends.",
+      "sectionTypes": [
+        "discussion.opening",
+        "discussion.deep",
+        "discussion.conflict",
+        "discussion.design",
+        "discussion.closing"
+      ],
+      "conflictsWith": [],
+      "outputKind": "paragraph",
+      "justificationPolicy": "none",
+      "interpretationRole": "narrative.paragraph"
+    },
+    "synth.tool.v1": {
+      "label": "Short tool summary for the reviewer",
+      "summary": "Writes a short reviewer paragraph after a tool stage.",
+      "sectionTypes": [
+        "tool.form",
+        "tool.coding",
+        "tool.doc"
+      ],
+      "conflictsWith": [],
+      "outputKind": "paragraph",
+      "justificationPolicy": "none",
+      "interpretationRole": "narrative.paragraph"
+    },
+    "mark.form.key.v1": {
+      "label": "Mark against the answer key",
+      "summary": "Marks the form against the answer key.",
+      "sectionTypes": [
+        "tool.form"
+      ],
+      "conflictsWith": [],
+      "outputKind": "passFail",
+      "justificationPolicy": "optional",
+      "interpretationRole": "grade.passFail",
+      "decisionBucket": "formMark"
+    },
+    "mark.form.reasoning.v1": {
+      "label": "Free-text form notes",
+      "summary": "Notes on free-text or unkeyed form items. Does not count in the Decision mix.",
+      "sectionTypes": [
+        "tool.form"
+      ],
+      "conflictsWith": [],
+      "outputKind": "paragraph",
+      "justificationPolicy": "always_required",
+      "interpretationRole": "narrative.paragraph"
+    },
+    "mark.code.tests.v1": {
+      "label": "Run hidden tests",
+      "summary": "Runs hidden tests against the submission.",
+      "sectionTypes": [
+        "tool.coding"
+      ],
+      "conflictsWith": [],
+      "outputKind": "passFail",
+      "justificationPolicy": "optional",
+      "interpretationRole": "grade.passFail",
+      "decisionBucket": "codingTests"
+    },
+    "mark.code.method.v1": {
+      "label": "Approach, clarity, complexity",
+      "summary": "Scores approach, clarity, and complexity of the solution.",
+      "sectionTypes": [
+        "tool.coding"
+      ],
+      "conflictsWith": [],
+      "outputKind": "dimensions",
+      "justificationPolicy": "always_required",
+      "dimensions": [
+        {
+          "key": "approach",
+          "label": "Approach",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "accumulative"
+        },
+        {
+          "key": "clarity",
+          "label": "Clarity",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "manner"
+        },
+        {
+          "key": "complexity",
+          "label": "Complexity",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "accumulative"
+        }
+      ],
+      "interpretationRole": "grade.dimensions",
+      "decisionBucket": "codingMethod"
+    },
+    "mark.code.structure.v1": {
+      "label": "Organization, naming, modularity",
+      "summary": "Scores organization, naming, and modularity.",
+      "sectionTypes": [
+        "tool.coding"
+      ],
+      "conflictsWith": [],
+      "outputKind": "dimensions",
+      "justificationPolicy": "always_required",
+      "dimensions": [
+        {
+          "key": "organization",
+          "label": "Organization",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "manner"
+        },
+        {
+          "key": "naming",
+          "label": "Naming",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "manner"
+        },
+        {
+          "key": "modularity",
+          "label": "Modularity",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "manner"
+        }
+      ],
+      "interpretationRole": "grade.dimensions",
+      "decisionBucket": "codingMethod"
+    },
+    "mark.doc.essay.v1": {
+      "label": "Written essay rubric",
+      "summary": "Essay rubric for the written assessment.",
+      "sectionTypes": [
+        "tool.doc"
+      ],
+      "conflictsWith": [],
+      "outputKind": "dimensions",
+      "justificationPolicy": "always_required",
+      "dimensions": [
+        {
+          "key": "relevance",
+          "label": "Relevance",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "accumulative"
+        },
+        {
+          "key": "structure",
+          "label": "Structure",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "manner"
+        },
+        {
+          "key": "depth",
+          "label": "Depth",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "accumulative"
+        }
+      ],
+      "interpretationRole": "grade.dimensions",
+      "decisionBucket": "essay"
+    },
+    "mark.code.approach.v1": {
+      "label": "How they worked (exploration, iteration)",
+      "summary": "How they worked in the editor (exploration and iteration), not hidden tests.",
+      "sectionTypes": [
+        "tool.coding"
+      ],
+      "conflictsWith": [],
+      "outputKind": "dimensions",
+      "justificationPolicy": "always_required",
+      "sourceWeight": 0.5,
+      "interpretationRole": "grade.dimensions",
+      "decisionBucket": "codingMethod",
+      "dimensions": [
+        {
+          "key": "exploration",
+          "label": "Exploration",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "accumulative"
+        },
+        {
+          "key": "iteration",
+          "label": "Iteration",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "accumulative"
+        },
+        {
+          "key": "debugging",
+          "label": "Debugging",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "accumulative"
+        },
+        {
+          "key": "planfulness",
+          "label": "Planfulness",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "accumulative"
+        }
+      ]
+    },
+    "mark.doc.approach.v1": {
+      "label": "How they wrote (exploration, iteration)",
+      "summary": "How they wrote (exploration and iteration), not hidden tests.",
+      "sectionTypes": [
+        "tool.doc"
+      ],
+      "conflictsWith": [],
+      "outputKind": "dimensions",
+      "justificationPolicy": "always_required",
+      "sourceWeight": 0.5,
+      "interpretationRole": "grade.dimensions",
+      "decisionBucket": "essay",
+      "dimensions": [
+        {
+          "key": "exploration",
+          "label": "Exploration",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "accumulative"
+        },
+        {
+          "key": "iteration",
+          "label": "Iteration",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "accumulative"
+        },
+        {
+          "key": "debugging",
+          "label": "Debugging",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "accumulative"
+        },
+        {
+          "key": "planfulness",
+          "label": "Planfulness",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "accumulative"
+        }
+      ]
+    },
+    "mark.doc.authorship.v1": {
+      "label": "Human agency vs dump/paste",
+      "summary": "Whether the writing looks like their own work versus a dump or paste.",
+      "sectionTypes": [
+        "tool.doc"
+      ],
+      "conflictsWith": [],
+      "outputKind": "dimensions",
+      "justificationPolicy": "always_required",
+      "sourceWeight": 0.5,
+      "interpretationRole": "grade.dimensions",
+      "decisionBucket": "essay",
+      "dimensions": [
+        {
+          "key": "human_agency",
+          "label": "Human agency",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "accumulative"
+        }
+      ]
+    },
+    "mark.code.authorship.v1": {
+      "label": "Human agency vs dump/paste (coding)",
+      "summary": "Whether the code looks like their own work versus a dump or paste.",
+      "sectionTypes": [
+        "tool.coding"
+      ],
+      "conflictsWith": [],
+      "outputKind": "dimensions",
+      "justificationPolicy": "always_required",
+      "sourceWeight": 0.5,
+      "interpretationRole": "grade.dimensions",
+      "decisionBucket": "codingMethod",
+      "dimensions": [
+        {
+          "key": "human_agency",
+          "label": "Human agency",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "accumulative"
+        }
+      ]
+    },
+    "mark.assist.use.v1": {
+      "label": "How they used Assist / Copilot",
+      "summary": "How they used Assist or Copilot. Counts once in the Decision mix.",
+      "sectionTypes": [
+        "tool.coding",
+        "tool.doc"
+      ],
+      "conflictsWith": [],
+      "outputKind": "dimensions",
+      "justificationPolicy": "always_required",
+      "sourceWeight": 0.5,
+      "interpretationRole": "grade.dimensions",
+      "decisionBucket": "codingMethod",
+      "dimensions": [
+        {
+          "key": "asked_well",
+          "label": "Asked well",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "accumulative"
+        },
+        {
+          "key": "over_reliance",
+          "label": "Over-reliance",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "accumulative"
+        },
+        {
+          "key": "applied_judgment",
+          "label": "Applied judgment",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "accumulative"
+        },
+        {
+          "key": "integrity",
+          "label": "Integrity",
+          "options": [
+            "weak",
+            "mixed",
+            "strong"
+          ],
+          "defaultOption": "mixed",
+          "evidenceModel": "accumulative"
+        }
+      ]
+    },
+    "mark.doc.brief.v1": {
+      "label": "Short written mark",
+      "summary": "Lighter written mark for short responses.",
+      "sectionTypes": [
+        "tool.doc"
+      ],
+      "conflictsWith": [],
+      "outputKind": "scalar",
+      "justificationPolicy": "always_required",
+      "interpretationRole": "grade.scalar",
+      "decisionBucket": "essay"
+    },
+    "rollup.attempt.v1": {
+      "label": "Decision package for the attempt",
+      "summary": "End-of-interview overview: one finding per section with a score chip and jump link.",
+      "sectionTypes": [],
+      "conflictsWith": [],
+      "outputKind": "paragraph",
+      "justificationPolicy": "always_required",
+      "interpretationRole": "narrative.rollup"
+    },
+    "sig.security.v1": {
+      "label": "Security overview",
+      "summary": "Session integrity (paste, leave, reconnect). Not a Decision source. Not VPN.",
+      "sectionTypes": [],
+      "conflictsWith": [],
+      "outputKind": "scalar",
+      "justificationPolicy": "always_required",
+      "interpretationRole": "collect.scalar"
+    },
+    "sig.clarity.v1": {
+      "label": "Clarity overview",
+      "summary": "Work-state overview from Talk and tools. Not how they speak, not a diagnosis, not a Decision source.",
+      "sectionTypes": [],
+      "conflictsWith": [],
+      "outputKind": "scalar",
+      "justificationPolicy": "always_required",
+      "interpretationRole": "collect.scalar"
+    }
+  }
+}

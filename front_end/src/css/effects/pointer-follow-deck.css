@@ -1,0 +1,192 @@
+/**
+ * Soft 3D floating illustration deck — pointer follow (`--iso-follow-x/y`).
+ * Stronger tilt than the offer accordion rest pose so standalone hosts read clearly.
+ * `--iso-follow-*` @property registered in webgpu-isometric-accordion.css.
+ */
+@layer components {
+  .theme .theme-pointer-follow-deck {
+    --iso-follow-x: 0;
+    --iso-follow-y: 0;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    /* Inherit host min-height — `0` + % height collapses when parent only has min-height (timeline). */
+    min-height: inherit;
+    overflow: visible;
+    perspective: 920px;
+    perspective-origin: 45% 42%;
+    transform-style: preserve-3d;
+    pointer-events: auto;
+  }
+
+  .theme .theme-pointer-follow-deck__deck {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: inherit;
+    overflow: visible;
+    transform-style: preserve-3d;
+    transform: rotateX(calc(var(--iso-follow-y) * 18deg))
+      rotateY(calc(var(--iso-follow-x) * 28deg))
+      translate3d(
+        calc(var(--iso-follow-x) * 1.05rem),
+        calc(var(--iso-follow-y) * -0.75rem),
+        0
+      );
+    pointer-events: none;
+  }
+
+  .theme .theme-pointer-follow-deck__card {
+    position: absolute;
+    inset: 10%;
+    border-radius: var(--theme-radius-surface, 0.65rem);
+    border: 1px solid color-mix(in srgb, var(--theme-border) 70%, transparent);
+    background: color-mix(in srgb, var(--theme-page-bg) 88%, var(--theme-text) 12%);
+    box-shadow:
+      0 0.85rem 1.75rem color-mix(in srgb, var(--theme-text) 14%, transparent),
+      0 0.2rem 0.45rem color-mix(in srgb, var(--theme-text) 8%, transparent);
+    transform-style: preserve-3d;
+    overflow: hidden;
+  }
+
+  .theme .theme-pointer-follow-deck__card--ghost {
+    inset: 16% 2% 0 20%;
+    opacity: 0.55;
+    transform: translate3d(-0.85rem, 0.75rem, -2rem) rotateZ(-5.5deg);
+    filter: saturate(0.78) brightness(0.96);
+  }
+
+  .theme .theme-pointer-follow-deck__card--mid {
+    inset: 11% 5% 3% 12%;
+    opacity: 0.72;
+    transform: translate3d(-0.4rem, 0.4rem, -1rem) rotateZ(-2.75deg);
+    filter: saturate(0.9);
+  }
+
+  .theme .theme-pointer-follow-deck__card--front {
+    inset: 4%;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: color-mix(in srgb, var(--theme-page-bg) 92%, transparent);
+    transform: translate3d(0, 0, 0.35rem);
+  }
+
+  /* Contain — floating art, no crop frame. */
+  .theme .theme-pointer-follow-deck[data-fit='contain'] .theme-pointer-follow-deck__card {
+    overflow: visible;
+  }
+
+  .theme .theme-pointer-follow-deck[data-fit='contain'] .theme-pointer-follow-deck__card--front {
+    inset: 0;
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    overflow: visible;
+  }
+
+  .theme .theme-pointer-follow-deck[data-fit='contain'] .theme-pointer-follow-deck__card--ghost,
+  .theme .theme-pointer-follow-deck[data-fit='contain'] .theme-pointer-follow-deck__card--mid {
+    background: color-mix(in srgb, var(--theme-accent, var(--theme-text)) 14%, var(--theme-page-bg));
+    border-color: color-mix(in srgb, var(--theme-border) 55%, transparent);
+    box-shadow:
+      0 0.65rem 1.35rem color-mix(in srgb, var(--theme-text) 12%, transparent),
+      0 0.15rem 0.35rem color-mix(in srgb, var(--theme-text) 6%, transparent);
+  }
+
+  .theme .theme-pointer-follow-deck img,
+  .theme .theme-pointer-follow-deck video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    object-position: center;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .theme .theme-pointer-follow-deck[data-fit='contain'] img,
+  .theme .theme-pointer-follow-deck[data-fit='contain'] video {
+    object-fit: contain;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    filter: drop-shadow(0 0.85rem 1.6rem color-mix(in srgb, var(--theme-text) 22%, transparent));
+  }
+
+  /* Bare float — tilt the illustration only; no stacked plates or drop-shadow. */
+  .theme .theme-pointer-follow-deck[data-plain='true'] .theme-pointer-follow-deck__card--ghost,
+  .theme .theme-pointer-follow-deck[data-plain='true'] .theme-pointer-follow-deck__card--mid {
+    display: none;
+  }
+
+  .theme .theme-pointer-follow-deck[data-plain='true'] .theme-pointer-follow-deck__card {
+    box-shadow: none;
+    background: transparent;
+    border-color: transparent;
+  }
+
+  .theme .theme-pointer-follow-deck[data-plain='true'][data-fit='contain'] {
+    height: auto;
+    min-height: 0;
+  }
+
+  .theme .theme-pointer-follow-deck[data-plain='true'][data-fit='contain'] .theme-pointer-follow-deck__deck {
+    height: auto;
+    min-height: 0;
+  }
+
+  .theme
+    .theme-pointer-follow-deck[data-plain='true'][data-fit='contain']
+    .theme-pointer-follow-deck__card--front {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: auto;
+  }
+
+  .theme .theme-pointer-follow-deck[data-plain='true'][data-fit='contain'] img,
+  .theme .theme-pointer-follow-deck[data-plain='true'][data-fit='contain'] video {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    max-height: none;
+    filter: none;
+  }
+
+  /* Scroll / idle autopivot — stronger tilt so wobble reads without hovering. */
+  .theme .theme-pointer-follow-deck[data-auto-pivot='true'] .theme-pointer-follow-deck__deck,
+  .theme .theme-pointer-follow-deck[data-idle-wobble='true'] .theme-pointer-follow-deck__deck {
+    transform: rotateX(calc(var(--iso-follow-y) * 24deg))
+      rotateY(calc(var(--iso-follow-x) * 36deg))
+      rotateZ(calc(var(--iso-follow-x) * -8deg))
+      translate3d(
+        calc(var(--iso-follow-x) * 1.15rem),
+        calc(var(--iso-follow-y) * -0.85rem),
+        0
+      );
+  }
+
+  @media (hover: none), (pointer: coarse) {
+    .theme .theme-pointer-follow-deck[data-auto-pivot='true'] .theme-pointer-follow-deck__deck {
+      transform: rotateX(calc(var(--iso-follow-y) * 28deg))
+        rotateY(calc(var(--iso-follow-x) * 40deg))
+        rotateZ(calc(var(--iso-follow-x) * -10deg))
+        translate3d(
+          calc(var(--iso-follow-x) * 1.25rem),
+          calc(var(--iso-follow-y) * -0.95rem),
+          0
+        );
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-pointer-follow-deck__deck {
+      transform: none;
+    }
+  }
+}

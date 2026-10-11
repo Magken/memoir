@@ -1,0 +1,319 @@
+/**
+ * Gyroscopic loader — neobrutal rings, accent + border palette (no multi-color orbits).
+ */
+
+@layer components {
+  @keyframes theme-loader-spin3d {
+    from {
+      transform: rotate3d(0.45, 0.55, 0.5, 360deg);
+    }
+    to {
+      transform: rotate3d(0.45, 0.55, 0.5, 0deg);
+    }
+  }
+
+  @keyframes theme-loader-spin3d-tilt-a {
+    from {
+      transform: rotate3d(1, 1, 1, 72deg) rotate3d(0.45, 0.55, 0.5, 360deg);
+    }
+    to {
+      transform: rotate3d(1, 1, 1, 72deg) rotate3d(0.45, 0.55, 0.5, 0deg);
+    }
+  }
+
+  @keyframes theme-loader-spin3d-tilt-b {
+    from {
+      transform: rotate3d(1, 1.4, 0.45, 72deg) rotate3d(0.45, 0.55, 0.5, 360deg);
+    }
+    to {
+      transform: rotate3d(1, 1.4, 0.45, 72deg) rotate3d(0.45, 0.55, 0.5, 0deg);
+    }
+  }
+
+  @keyframes theme-loader-spin3d-tilt-c {
+    from {
+      transform: rotate3d(0.55, 1, 1.35, 72deg) rotate3d(0.45, 0.55, 0.5, 360deg);
+    }
+    to {
+      transform: rotate3d(0.55, 1, 1.35, 72deg) rotate3d(0.45, 0.55, 0.5, 0deg);
+    }
+  }
+
+  .theme .theme-loader {
+    --loader-ring-strong: var(--theme-accent);
+    --loader-ring-mid: color-mix(in srgb, var(--theme-accent) 52%, var(--theme-border-strong));
+    --loader-ring-soft: color-mix(in srgb, var(--theme-accent) 28%, var(--theme-border));
+    --loader-ring-weight: 2px;
+    --loader-orbit-step: 11%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .theme .theme-loader--button {
+    width: 1.375rem;
+    height: 1.375rem;
+    --loader-ring-weight: 2px;
+    --loader-orbit-step: 13%;
+    overflow: visible;
+  }
+
+  .theme .theme-loader--sm {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .theme .theme-loader--md {
+    width: 3.75rem;
+    height: 3.75rem;
+    --loader-ring-weight: 2.5px;
+  }
+
+  .theme .theme-loader--lg {
+    width: 5.5rem;
+    height: 5.5rem;
+    --loader-ring-weight: 3px;
+  }
+
+  .theme .theme-loader--page {
+    width: 8rem;
+    height: 8rem;
+    --loader-ring-weight: 3px;
+  }
+
+  /* Triad reads larger at 100% box — tighter dimensions per size */
+  .theme .theme-loader--triad.theme-loader--button {
+    width: 0.875rem;
+    height: 0.875rem;
+    --loader-ring-weight: 1.5px;
+  }
+
+  .theme .theme-loader--triad.theme-loader--sm {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .theme .theme-loader--triad.theme-loader--md {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .theme .theme-loader--triad.theme-loader--lg {
+    width: 4.25rem;
+    height: 4.25rem;
+  }
+
+  .theme .theme-loader--triad.theme-loader--page {
+    width: 5.5rem;
+    height: 5.5rem;
+  }
+
+  .theme .theme-loader-gyro {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .theme .theme-loader-gyro__orbit {
+    position: absolute;
+    box-sizing: border-box;
+    border-radius: 50%;
+    border-style: solid;
+    border-width: var(--loader-ring-weight);
+  }
+
+  .theme .theme-loader-gyro__orbit--a {
+    inset: 0;
+    border-color: var(--loader-ring-strong);
+    box-shadow: 2px 2px 0 color-mix(in srgb, var(--theme-shadow-brutal) 75%, transparent);
+    animation: theme-loader-spin3d 2.8s linear infinite;
+  }
+
+  .theme .theme-loader-gyro__orbit--b {
+    inset: var(--loader-orbit-step);
+    border-color: var(--loader-ring-mid);
+    animation: theme-loader-spin3d 2.1s linear 0.08s infinite;
+  }
+
+  .theme .theme-loader-gyro__orbit--c {
+    inset: calc(var(--loader-orbit-step) * 2);
+    border-color: var(--loader-ring-soft);
+    animation: theme-loader-spin3d 1.5s linear infinite;
+  }
+
+  .theme .theme-loader-gyro__orbit--w1 {
+    inset: calc(var(--loader-orbit-step) * 3);
+    border-color: color-mix(in srgb, var(--theme-border-strong) 88%, var(--theme-accent));
+    animation: theme-loader-spin3d-tilt-a 3.6s linear infinite;
+  }
+
+  .theme .theme-loader-gyro__orbit--w2 {
+    inset: calc(var(--loader-orbit-step) * 3.35);
+    border-color: color-mix(in srgb, var(--theme-border-strong) 72%, var(--theme-accent));
+    animation: theme-loader-spin3d-tilt-b 3.2s linear 0.12s infinite;
+  }
+
+  .theme .theme-loader-gyro__orbit--w3 {
+    inset: calc(var(--loader-orbit-step) * 3.7);
+    border-color: color-mix(in srgb, var(--theme-border-strong) 58%, var(--theme-accent));
+    animation: theme-loader-spin3d-tilt-c 2.8s linear 0.18s infinite;
+  }
+
+  .theme .theme-loader-gyro__core {
+    position: relative;
+    z-index: 1;
+    width: 22%;
+    height: 22%;
+    border: var(--loader-ring-weight) solid var(--theme-border-strong);
+    border-radius: 50%;
+    background-color: var(--theme-surface);
+    box-shadow: inset 1px 1px 0 color-mix(in srgb, var(--theme-shadow-brutal) 40%, transparent);
+  }
+
+  .theme .theme-loader--button .theme-loader-gyro__orbit--w3,
+  .theme .theme-loader--button .theme-loader-gyro__orbit--w2 {
+    display: none;
+  }
+
+  .theme .theme-loader--button .theme-loader-gyro__orbit--w1 {
+    inset: calc(var(--loader-orbit-step) * 2.6);
+  }
+
+  .theme .theme-loader--button .theme-loader-gyro__core {
+    width: 28%;
+    height: 28%;
+  }
+
+  .theme .theme-loader-page {
+    display: flex;
+    min-height: 12rem;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    width: 100%;
+    color: var(--theme-text);
+    background-color: transparent;
+  }
+
+  .theme .theme-loader-page--fill {
+    min-height: min(100svh, 28rem);
+    background-color: var(--theme-page-bg);
+  }
+
+  .theme .theme-loader-page--compact {
+    min-height: 0;
+    gap: 0.75rem;
+  }
+
+  .theme .theme-content-load-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    background-color: color-mix(in srgb, var(--theme-page-bg) 82%, transparent);
+    backdrop-filter: blur(4px);
+    transition: opacity 0.35s ease-out, visibility 0.35s ease-out;
+  }
+
+  .theme .theme-content-load-overlay--hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-content-load-overlay {
+      transition: none;
+    }
+  }
+
+  .theme .theme-loader-page__label {
+    color: var(--theme-text-muted);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-loader-gyro__orbit {
+      animation: none;
+    }
+
+    .theme .theme-loader-gyro__orbit--b,
+    .theme .theme-loader-gyro__orbit--c {
+      opacity: 0.65;
+    }
+
+    .theme .theme-loader-triad__ring {
+      animation: none;
+    }
+  }
+
+  /* Triad — three perspective rings (partial borders, 1s spin) */
+  @keyframes theme-loader-triad-one {
+    0% {
+      transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg);
+    }
+    100% {
+      transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg);
+    }
+  }
+
+  @keyframes theme-loader-triad-two {
+    0% {
+      transform: rotateX(50deg) rotateY(10deg) rotateZ(0deg);
+    }
+    100% {
+      transform: rotateX(50deg) rotateY(10deg) rotateZ(360deg);
+    }
+  }
+
+  @keyframes theme-loader-triad-three {
+    0% {
+      transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg);
+    }
+    100% {
+      transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg);
+    }
+  }
+
+  .theme .theme-loader-triad {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    perspective: 800px;
+  }
+
+  .theme .theme-loader-triad__ring {
+    position: absolute;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border-color: transparent;
+    border-style: solid;
+    border-width: var(--loader-ring-weight);
+  }
+
+  .theme .theme-loader-triad__ring--one {
+    inset: 0;
+    animation: theme-loader-triad-one 1s linear infinite;
+    border-bottom-color: var(--loader-ring-strong);
+  }
+
+  .theme .theme-loader-triad__ring--two {
+    inset: 0;
+    animation: theme-loader-triad-two 1s linear infinite;
+    border-right-color: color-mix(in srgb, var(--loader-ring-strong) 82%, var(--theme-text));
+  }
+
+  .theme .theme-loader-triad__ring--three {
+    inset: 0;
+    animation: theme-loader-triad-three 1s linear infinite;
+    border-top-color: color-mix(in srgb, var(--loader-ring-strong) 64%, var(--theme-border-strong));
+  }
+}

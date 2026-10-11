@@ -1,0 +1,148 @@
+{
+  "id": "landing",
+  "label": "Landing",
+  "notes": "Current-product landing at `/`. Places The Creation of Adam and GRAS. Opens at the back of Adam, then plays one smooth back-to-front crane into Home.",
+  "objects": [
+    {
+      "id": "adam",
+      "assetId": "the-creation-of-adam",
+      "notes": "Primary sculpture. Identity placement — GltfSubject normalize sits it on y=0.",
+      "position": [0, 0, 0],
+      "rotation": [0, 0, 0],
+      "scale": [1, 1, 1]
+    },
+    {
+      "id": "gras",
+      "assetId": "gras-letters",
+      "notes": "Starts at the copied scene pointer (top of G). Home-facing yaw; double the last scene size; lamps start dark.",
+      "position": [
+        -0.06910566132542367,
+        0.32882994149494826,
+        -0.020445913613065754
+      ],
+      "rotation": [
+        0.018640610082839588,
+        -0.20466298634758742,
+        0.09147313781843466
+      ],
+      "scale": [0.1, 0.1, 0.1],
+      "lightGain": 0
+    }
+  ],
+  "camera": {
+    "position": [-0.5054449693328621, 0.20935624209362158, -0.10912691270966193],
+    "target": [0.07211756881207634, 0.3130456736689876, -0.00020925034262128808],
+    "orbit": {
+      "azimuth": -1.7571889295087268,
+      "polar": 1.745419226128741,
+      "radius": 0.5968191022951148
+    },
+    "up": [0, 1, 0],
+    "look": {
+      "focus": 1,
+      "focalLength": 135,
+      "focalDistance": 0,
+      "noise": "off",
+      "grain": 0
+    },
+    "acm": {
+      "intensity": 0.3,
+      "lock": true
+    }
+  },
+  "view": {
+    "lightColor": "#f2c48a",
+    "meshColor": "#000000",
+    "lightGain": 0.05,
+    "scatter": 1.5
+  },
+  "viewpoints": [
+    {
+      "id": "back-of-scene",
+      "label": "Back of scene",
+      "notes": "Captured opposite-side orbit of the landing sculpture — scene camera, not an object inspect mark.",
+      "position": [0.05028552835531321, 0.27856532646983845, 0.0024437998666976247],
+      "camera": [0.46060052924629785, 0.006298760296870376, 0.06340836206686079],
+      "target": [0.05028552835531321, 0.27856532646983845, 0.0024437998666976247],
+      "orbit": {
+        "azimuth": 1.4232955175918045,
+        "polar": 2.151622402796464,
+        "radius": 0.49618964202817206
+      },
+      "up": [0, 1, 0]
+    },
+    {
+      "id": "scene-pointer",
+      "label": "Scene pointer",
+      "notes": "Copied scene tag. Pin is the top of GRAS; selecting it looks at that origin from Home.",
+      "position": [
+        -0.06910566132542367,
+        0.32882994149494826,
+        -0.020445913613065754
+      ],
+      "camera": [-0.5054449693328621, 0.20935624209362158, -0.10912691270966193],
+      "target": [
+        -0.06910566132542367,
+        0.32882994149494826,
+        -0.020445913613065754
+      ],
+      "up": [0, 1, 0]
+    }
+  ],
+  "transitions": [],
+  "cameraMotions": [
+    {
+      "id": "back-to-front",
+      "label": "Back to front",
+      "notes": "Short hold, then up and around Adam as one smooth crane (stills are the shape, not corners): polar boom, 180° yaw in the same ease, drop into Home.",
+      "kind": "boom-arc",
+      "from": "back-of-scene",
+      "to": "home",
+      "duration": 4,
+      "hold": 0.5,
+      "playOnLoad": true,
+      "waypoints": [
+        {
+          "target": [0.05028552835531321, 0.27856532646983845, 0.0024437998666976247],
+          "orbit": {
+            "azimuth": 1.3977541139041865,
+            "polar": 1.6578219315013023,
+            "radius": 0.4961896420281867
+          }
+        },
+        {
+          "target": [0.05028552835531321, 0.27856532646983845, 0.0024437998666976247],
+          "orbit": {
+            "azimuth": 1.3551851077578756,
+            "polar": 0.7638728024302486,
+            "radius": 0.4961896420281941
+          }
+        },
+        {
+          "target": [0.05028552835531321, 0.27856532646983845, 0.0024437998666976247],
+          "orbit": {
+            "azimuth": 2.547117279851561,
+            "polar": 0.1083101077786638,
+            "radius": 0.49618964202819127
+          }
+        },
+        {
+          "target": [0.05028552835531321, 0.27856532646983845, 0.0024437998666976247],
+          "orbit": {
+            "azimuth": -2.0588491858603075,
+            "polar": 0.491431162929285,
+            "radius": 0.4961896420281901
+          }
+        },
+        {
+          "target": [0.05028552835531321, 0.27856532646983845, 0.0024437998666976247],
+          "orbit": {
+            "azimuth": -1.718297136003751,
+            "polar": 1.027800638446702,
+            "radius": 0.4961896420281908
+          }
+        }
+      ]
+    }
+  ]
+}

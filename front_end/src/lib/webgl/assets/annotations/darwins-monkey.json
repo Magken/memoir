@@ -1,0 +1,22 @@
+{
+  "assetId": "darwins-monkey",
+  "units": "m",
+  "upAxis": "y",
+  "notes": "Darwin's Monkey glTF Binary (.glb). Same ceramic SSS host, baked mesh-net cage, and PointLight moat as The Creation of Adam. Normalize to metres, Y-up, sit on ground y=0. Home is the toolkit default framing until a closer session is pasted. Prime marks in the model viewer, then paste JSON here.",
+  "annotations": [
+    {
+      "id": "viewpoint-home",
+      "kind": "viewpoint",
+      "label": "Home",
+      "position": [0, 0.5, 0],
+      "camera": [2.4, 1.6, 3.2],
+      "target": [0, 0.5, 0],
+      "orbit": {
+        "azimuth": 0.6435011087932843,
+        "polar": 1.3024301158889897,
+        "radius": 4.148493702538309
+      },
+      "up": [0, 1, 0]
+    }
+  ]
+}

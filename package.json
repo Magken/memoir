@@ -1,0 +1,9 @@
+{
+  "name": "memoir",
+  "private": true,
+  "scripts": {
+    "install:front_end": "npm install --prefix front_end",
+    "dev": "npm --prefix front_end run dev:vite -- --port 5174 --host 127.0.0.1",
+    "typecheck": "cd front_end && npx tsc --noEmit -p ."
+  }
+}

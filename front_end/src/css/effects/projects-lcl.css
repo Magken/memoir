@@ -1,0 +1,322 @@
+/* Projects LCL — GrasSearch + pinned header + Lenis body (LclTable recipe). */
+
+@layer components {
+  .theme .theme-projects-lcl .theme-lcl-layout__tile {
+    pointer-events: none;
+  }
+
+  .theme .theme-projects-lcl__panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    padding: 0.35rem 0.15rem 0.25rem;
+    pointer-events: auto;
+    color: var(--theme-text);
+  }
+
+  .theme .theme-projects-lcl__search {
+    flex-shrink: 0;
+  }
+
+  .theme .theme-projects-lcl__table-shell {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+    width: 100%;
+  }
+
+  /* Header table stays outside Lenis — does not scroll away. */
+  .theme .theme-projects-lcl__table-head {
+    flex-shrink: 0;
+  }
+
+  .theme .theme-projects-lcl__head-block {
+    position: relative;
+    flex-shrink: 0;
+    width: 100%;
+  }
+
+  .theme .theme-projects-lcl__head-block > .theme-hairline-fx__wipe {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+  }
+
+  .theme .theme-projects-lcl__scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+    height: 100%;
+  }
+
+  /*
+   * Leave: keep nano gutter / overflow so rows do not widen when the thumb hides.
+   * Only force the rest (transparent) rail - beat :hover / :focus-within from the clicked row.
+   */
+  .theme .theme-projects-lcl.is-leaving .theme-projects-lcl__panel,
+  .theme .theme-projects-lcl.is-leaving .theme-projects-lcl__scroll {
+    pointer-events: none;
+  }
+
+  .theme .theme-projects-lcl.is-leaving .theme-projects-lcl__scroll .theme-scroll__viewport,
+  .theme
+    .theme-projects-lcl.is-leaving
+    .theme-projects-lcl__scroll:is(:hover, :focus-within)
+    .theme-scroll__viewport {
+    scrollbar-color: transparent transparent;
+  }
+
+  .theme .theme-projects-lcl.is-leaving .theme-projects-lcl__scroll .theme-scroll__viewport::-webkit-scrollbar-thumb,
+  .theme
+    .theme-projects-lcl.is-leaving
+    .theme-projects-lcl__scroll:is(:hover, :focus-within)
+    .theme-scroll__viewport::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
+
+  .theme .theme-projects-lcl__scroll-content {
+    padding-bottom: 0.5rem;
+  }
+
+  .theme .theme-projects-lcl__table {
+    table-layout: fixed;
+    width: 100%;
+  }
+
+  .theme .theme-projects-lcl__table th:nth-child(1),
+  .theme .theme-projects-lcl__table td:nth-child(1) {
+    width: 22%;
+  }
+
+  .theme .theme-projects-lcl__table th:nth-child(2),
+  .theme .theme-projects-lcl__table td:nth-child(2) {
+    width: 40%;
+  }
+
+  .theme .theme-projects-lcl__table th:nth-child(3),
+  .theme .theme-projects-lcl__table td:nth-child(3) {
+    width: 18%;
+  }
+
+  .theme .theme-projects-lcl__table th:nth-child(4),
+  .theme .theme-projects-lcl__table td:nth-child(4) {
+    width: 20%;
+  }
+
+  .theme .theme-projects-lcl__thead {
+    border-bottom: 0;
+    user-select: none;
+  }
+
+  .theme .theme-projects-lcl__thead th {
+    padding-top: 0.45rem;
+    padding-bottom: 0.55rem;
+    cursor: default;
+    user-select: none;
+  }
+
+  /* Beat lcl-table `__head` pointer — labels are chrome, not links. */
+  .theme .theme-projects-lcl__table .theme-lcl-table__head,
+  .theme .theme-projects-lcl__head {
+    cursor: default;
+    user-select: none;
+  }
+
+  .theme .theme-projects-lcl__head .type-body {
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+
+  .theme .theme-projects-lcl__access-head {
+    text-align: center;
+    cursor: pointer;
+  }
+
+  /*
+   * Access Fab seats: absolute slots, GSAP x to selected-left / idle-right piles.
+   * Opaque neutral faces; selected = white / black icon.
+   */
+  .theme .theme-projects-lcl__access-filters {
+    position: relative;
+    display: block;
+    width: 4.75rem;
+    height: 1.75rem;
+    margin-inline: auto;
+    cursor: pointer;
+  }
+
+  .theme .theme-projects-lcl__access-fab-slot {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    display: inline-flex;
+    will-change: transform;
+    cursor: pointer;
+  }
+
+  /* Fab enter unit — clip rise with the head list in/out. */
+  .theme .theme-projects-lcl__access-fab-slot .theme-scroll-enter__mask {
+    display: block;
+    overflow: hidden;
+    line-height: 0;
+  }
+
+  .theme .theme-projects-lcl__access-fab.theme-fab {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    margin: 0;
+    border-radius: 9999px;
+    border: 1px solid color-mix(in srgb, var(--theme-text) 28%, transparent);
+    background: #1a1a1a;
+    box-shadow: 1px 1px 0 color-mix(in srgb, #000000 45%, transparent);
+    cursor: pointer;
+  }
+
+  .theme .theme-projects-lcl__access-fab--git:not(.is-on) {
+    color: #ffffff;
+  }
+
+  .theme .theme-projects-lcl__access-fab--npm:not(.is-on) {
+    color: #cb3837;
+  }
+
+  .theme .theme-projects-lcl__access-fab--website:not(.is-on) {
+    color: #0969da;
+  }
+
+  .theme .theme-projects-lcl__access-fab.is-on,
+  .theme .theme-projects-lcl__access-fab[aria-pressed='true'] {
+    color: #0a0a0a;
+    background: #ffffff;
+    border-color: #ffffff;
+    box-shadow: 2px 2px 0 color-mix(in srgb, #000000 35%, transparent);
+  }
+
+  .theme .theme-projects-lcl__more-head {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .theme .theme-projects-lcl__name .theme-lcl-table__cell,
+  .theme .theme-projects-lcl__desc .theme-lcl-table__cell {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .theme .theme-projects-lcl__name .theme-lcl-table__cell {
+    font-weight: 600;
+    width: 100%;
+    text-align: start;
+    cursor: pointer;
+  }
+
+  .theme .theme-projects-lcl__name .theme-scroll-enter,
+  .theme .theme-projects-lcl__desc .theme-scroll-enter {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .theme .theme-projects-lcl__desc .theme-scroll-enter__mask,
+  .theme .theme-projects-lcl__desc .theme-scroll-enter__line,
+  .theme .theme-projects-lcl__desc .theme-scroll-enter__word {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .theme .theme-projects-lcl__desc .theme-scroll-enter__char {
+    white-space: nowrap;
+  }
+
+  .theme .theme-projects-lcl__access .theme-lcl-table__cell {
+    display: flex;
+    width: 100%;
+    max-width: 100%;
+    justify-content: center;
+  }
+
+  .theme .theme-projects-lcl__access-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .theme .theme-projects-lcl__access-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: inherit;
+    opacity: 0.95;
+  }
+
+  .theme .theme-projects-lcl__access-icon--git {
+    color: #ffffff;
+  }
+
+  .theme .theme-projects-lcl__access-icon--npm {
+    color: #cb3837;
+  }
+
+  .theme .theme-projects-lcl__access-icon--pip {
+    color: #3776ab;
+  }
+
+  .theme .theme-projects-lcl__access-icon--website {
+    color: #0969da;
+  }
+
+  .theme .theme-projects-lcl__more {
+    position: static;
+    text-align: center;
+  }
+
+  .theme .theme-projects-lcl__more .theme-lcl-table__cell {
+    display: flex;
+    width: 100%;
+    max-width: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .theme .theme-projects-lcl__more-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .theme .theme-projects-lcl__more-btn {
+    margin-inline: 0;
+  }
+
+  .theme .theme-projects-lcl__sentinel {
+    height: 1px;
+    width: 100%;
+  }
+
+  .theme .theme-projects-lcl__empty {
+    margin-top: 0.75rem;
+  }
+}
+
+/*
+ * Unlayered — beat `__rule` theme-border. Only the head divider is white;
+ * body row pills stay gray in lcl-table.
+ */
+.theme .theme-projects-lcl__head-block .theme-hairline-fx__rule {
+  background: var(--theme-text, #ffffff);
+}

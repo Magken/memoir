@@ -1,0 +1,24 @@
+/* DocEditor HTML / print export — dev mirror of docExportStyles.ts */
+@layer theme {
+  .doc-export-preview {
+    background: var(--theme-page-bg, #fff);
+    color: var(--theme-text, #1a1a1a);
+  }
+
+  .doc-export-preview .doc-export-page-break {
+    break-after: page;
+    page-break-after: always;
+  }
+
+  .doc-export-preview .doc-export-diagram,
+  .doc-export-preview .doc-export-image,
+  .doc-export-preview figure.doc-export-diagram {
+    break-inside: avoid;
+    overflow: visible;
+  }
+
+  .doc-export-preview .doc-export-diagram img {
+    max-width: 100%;
+    height: auto;
+  }
+}

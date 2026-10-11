@@ -1,0 +1,71 @@
+{
+  "assetId": "statue-of-an-owl",
+  "units": "m",
+  "upAxis": "y",
+  "notes": "Statue of an Owl glTF Binary (.glb). Same ceramic SSS host, baked mesh-net cage, and PointLight moat as The Creation of Adam. Normalize to metres, Y-up, sit on ground y=0. Home is the copied closer framing from the model viewer. Marks: owl back (inspect), owl wing tip (impulse poke on the Projects crane). Prime more marks in the model viewer, then paste JSON here.",
+  "annotations": [
+    {
+      "id": "viewpoint-home",
+      "kind": "viewpoint",
+      "label": "Home",
+      "position": [0, 0.5, 0],
+      "camera": [
+        0.49931829332721644,
+        0.43782871957531,
+        1.4953581871696315
+      ],
+      "target": [
+        0.1361769368019713,
+        0.7439689339856105,
+        -0.08254764360960437
+      ],
+      "orbit": {
+        "azimuth": 0.22620261914845075,
+        "polar": 1.7576646016364943,
+        "radius": 1.6478410986819363
+      },
+      "up": [0, 1, 0],
+      "quaternion": [
+        0.09270215564373084,
+        0.11236805995231465,
+        -0.010529671730389392,
+        0.9892769356731252
+      ]
+    },
+    {
+      "id": "point-owl-back",
+      "kind": "point",
+      "label": "owl back",
+      "position": [
+        -0.14357058721848387,
+        1.2581720471783737,
+        -0.13917638568678203
+      ],
+      "normal": [
+        -0.07348231087720077,
+        -0.2211667984732273,
+        -0.9724636739957174
+      ],
+      "faceIndex": 25338,
+      "objectName": "Object_2"
+    },
+    {
+      "id": "point-owl-wing-tip",
+      "kind": "point",
+      "label": "owl wing tip",
+      "position": [
+        0.2848335277682722,
+        1.1836090710599918,
+        0.04105958945399113
+      ],
+      "normal": [
+        0.5993715600619931,
+        0.7988477598667604,
+        -0.05095085420982733
+      ],
+      "faceIndex": 483,
+      "objectName": "Object_2",
+      "impulse": true
+    }
+  ]
+}

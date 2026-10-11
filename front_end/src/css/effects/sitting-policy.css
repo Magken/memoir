@@ -1,0 +1,9 @@
+/**
+ * Sitting policy overlay host + live-gate freeze while policyHold.
+ */
+
+@layer components {
+  .theme .page-scene--interview__live[data-policy-hold='true'] {
+    pointer-events: none;
+  }
+}

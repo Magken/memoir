@@ -1,0 +1,20 @@
+# Vurify
+
+> Vurify helps employers see talent beyond the résumé. Build interview paths for a role, run live interviews, and get structured output that shows who rose and why.
+
+Vurify is an AI-assisted hiring interview platform for organisations: role briefs, candidate intake, live interview stages (talk, forms, coding, writing), and decision-ready output cards.
+
+## Public pages
+- https://vurify.org/ — product home
+- https://vurify.org/try-interview — public try-an-interview demo
+- https://vurify.org/deck — short product presentation
+
+## Product focus
+- Structured interview briefs for hiring roles
+- Live multi-stage interviews (conversation, assessments, tools)
+- Output cards that surface candidate signal beyond the CV
+- Organisation workspace for building and running interviews
+
+## Contact
+- Contact@vurify.co
+- Info@vurify.co

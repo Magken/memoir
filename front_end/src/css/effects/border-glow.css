@@ -1,0 +1,422 @@
+/**
+ * Palette-linked gradient border glow — static ring at rest, animated gradient + shadow on hover.
+ * Surface: [Button](Button.tsx) · [Card](Card.md). Ink: cardless / icon-only / `.type-glow`.
+ */
+
+@layer components {
+  .theme {
+    --theme-border-glow-width: 2px;
+    --theme-border-glow-duration: 0.32s;
+    --theme-border-glow-enter-duration: 0.42s;
+    --theme-border-glow-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --theme-border-glow-slide-duration: 1.2s;
+    --theme-border-glow-gradient: linear-gradient(
+      90deg,
+      var(--theme-glow-border-from),
+      var(--theme-glow-border-mid),
+      var(--theme-glow-border-from)
+    );
+    --theme-ink-glow-gradient: linear-gradient(
+      90deg,
+      var(--theme-glow-ink-from),
+      var(--theme-glow-ink-mid),
+      var(--theme-glow-ink-from)
+    );
+    --theme-ink-glow-bloom:
+      0 0 6px var(--theme-glow-ink-shadow),
+      0 0 14px color-mix(in srgb, var(--theme-glow-ink-mid) 50%, white);
+  }
+
+  @keyframes theme-border-glow-slide {
+    from {
+      background-position: 0% 50%;
+    }
+
+    to {
+      background-position: 200% 50%;
+    }
+  }
+
+  @keyframes theme-border-glow-outline-enter {
+    0% {
+      opacity: 0;
+      padding: 0;
+    }
+
+    100% {
+      opacity: 1;
+      padding: var(--theme-border-glow-width);
+    }
+  }
+
+  @keyframes theme-ink-glow-fill {
+    0% {
+      background-size: 0% 100%;
+    }
+
+    100% {
+      background-size: 200% auto;
+    }
+  }
+
+  @keyframes theme-ink-glow-bloom {
+    0% {
+      text-shadow: 0 0 0 transparent;
+    }
+
+    100% {
+      text-shadow: var(--theme-ink-glow-bloom);
+    }
+  }
+
+  @keyframes theme-ink-icon-enter {
+    0% {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes theme-ink-icon-mask-enter {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes theme-ink-icon-halo-enter {
+    0% {
+      opacity: 0;
+      transform: scale(0.82);
+    }
+
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes theme-icon-svg-glow-enter {
+    0% {
+      color: currentColor;
+      filter: drop-shadow(0 0 0 transparent);
+    }
+
+    100% {
+      color: var(--theme-glow-ink-mid);
+      filter:
+        drop-shadow(0 0 2px var(--theme-glow-ink-from))
+        drop-shadow(0 0 6px var(--theme-glow-ink-mid))
+        drop-shadow(0 0 14px var(--theme-glow-ink-shadow));
+    }
+  }
+
+  @keyframes theme-icon-svg-glow-pulse {
+    0%,
+    100% {
+      filter:
+        drop-shadow(0 0 2px var(--theme-glow-ink-from))
+        drop-shadow(0 0 6px var(--theme-glow-ink-mid))
+        drop-shadow(0 0 12px var(--theme-glow-ink-shadow));
+    }
+
+    50% {
+      filter:
+        drop-shadow(0 0 4px var(--theme-glow-ink-mid))
+        drop-shadow(0 0 10px var(--theme-glow-ink-from))
+        drop-shadow(0 0 18px var(--theme-glow-ink-shadow));
+    }
+  }
+
+  .theme .theme-border-glow {
+    position: relative;
+    isolation: isolate;
+    transition: box-shadow var(--theme-border-glow-enter-duration) var(--theme-border-glow-ease);
+  }
+
+  .theme .theme-btn.theme-border-glow:not(.theme-border-glow--ink):not(.theme-border-glow--icon),
+  .theme .theme-border-glow--ink,
+  .theme .theme-border-glow--icon {
+    overflow: visible;
+  }
+
+  .theme .theme-card.theme-border-glow {
+    overflow: hidden;
+  }
+
+  .theme .theme-border-glow:not(.theme-border-glow--ink):not(.theme-border-glow--icon)::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: var(--theme-border-glow-width);
+    background: var(--theme-glow-border-rest);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+    transition:
+      opacity var(--theme-border-glow-duration) var(--theme-border-glow-ease),
+      padding var(--theme-border-glow-duration) var(--theme-border-glow-ease);
+  }
+
+  @media (hover: hover) {
+    .theme
+      .theme-border-glow:not(.theme-border-glow--ink):not(.theme-border-glow--icon):is(
+        :hover,
+        :focus-visible
+      ):not(:disabled)::before {
+      background: var(--theme-border-glow-gradient);
+      background-size: 200% 100%;
+      background-position: 0% 50%;
+      animation:
+        theme-border-glow-outline-enter var(--theme-border-glow-enter-duration)
+          var(--theme-border-glow-ease) forwards,
+        theme-border-glow-slide var(--theme-border-glow-slide-duration) linear
+          var(--theme-border-glow-enter-duration) infinite;
+    }
+
+    .theme
+      .theme-border-glow:not(.theme-border-glow--ink):not(.theme-border-glow--icon):is(
+        :hover,
+        :focus-visible
+      ):not(:disabled) {
+      box-shadow:
+        0 0 8px var(--theme-glow-shadow),
+        0 0 16px color-mix(in srgb, var(--theme-glow-border-mid) 45%, white);
+    }
+  }
+
+  .theme .theme-btn.theme-border-glow:not(.theme-border-glow--ink):not(.theme-border-glow--icon) {
+    border-color: transparent;
+  }
+
+  .theme .theme-card.theme-border-glow:not(.theme-border-glow--ink):not(.theme-border-glow--icon) {
+    border-color: transparent;
+  }
+
+  /* SVG icon glow — drop-shadow on the stroke shape (no icon card / halo box) */
+  .theme .theme-btn__icon-svg-glow-host {
+    display: inline-flex;
+    line-height: 0;
+  }
+
+  .theme .theme-btn__icon--svg-glow,
+  .theme .theme-btn__icon-svg-glow-host .theme-btn__icon,
+  .theme .theme-btn__icon-svg-glow-host svg {
+    transition:
+      color var(--theme-border-glow-duration) var(--theme-border-glow-ease),
+      filter var(--theme-border-glow-duration) var(--theme-border-glow-ease);
+  }
+
+  @media (hover: hover) {
+    .theme
+      .theme-border-glow--icon.theme-btn:is(:hover, :focus-visible):not(:disabled)
+      .theme-btn__icon--svg-glow,
+    .theme
+      .theme-border-glow--icon.theme-btn:is(:hover, :focus-visible):not(:disabled)
+      .theme-btn__icon-svg-glow-host
+      .theme-btn__icon,
+    .theme
+      .theme-border-glow--icon.theme-btn:is(:hover, :focus-visible):not(:disabled)
+      .theme-btn__icon-svg-glow-host
+      svg {
+      animation:
+        theme-icon-svg-glow-enter var(--theme-border-glow-enter-duration)
+          var(--theme-border-glow-ease) forwards,
+        theme-icon-svg-glow-pulse calc(var(--theme-border-glow-slide-duration) * 1.4) ease-in-out
+          var(--theme-border-glow-enter-duration) infinite;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme
+      .theme-border-glow--icon.theme-btn:is(:hover, :focus-visible)
+      .theme-btn__icon--svg-glow,
+    .theme
+      .theme-border-glow--icon.theme-btn:is(:hover, :focus-visible)
+      .theme-btn__icon-svg-glow-host
+      .theme-btn__icon,
+    .theme
+      .theme-border-glow--icon.theme-btn:is(:hover, :focus-visible)
+      .theme-btn__icon-svg-glow-host
+      svg {
+      animation: none;
+      color: var(--theme-glow-ink-mid);
+      filter:
+        drop-shadow(0 0 2px var(--theme-glow-ink-from))
+        drop-shadow(0 0 6px var(--theme-glow-ink-mid))
+        drop-shadow(0 0 12px var(--theme-glow-ink-shadow));
+    }
+  }
+
+  /* Ink flow — fill sweep + bloom on text; masked gradient on icons */
+  .theme .theme-btn__icon-glow {
+    position: relative;
+    display: inline-flex;
+    line-height: 0;
+    isolation: isolate;
+  }
+
+  .theme .theme-btn__icon-glow::before {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  .theme .theme-btn__icon-glow::after {
+    content: '';
+    position: absolute;
+    inset: -5px;
+    z-index: -1;
+    border-radius: 0.4em;
+    pointer-events: none;
+    opacity: 0;
+    transform: scale(0.82);
+    background: radial-gradient(
+      circle at 50% 50%,
+      color-mix(in srgb, var(--theme-glow-ink-mid) 62%, white) 0%,
+      color-mix(in srgb, var(--theme-glow-ink-shadow) 75%, transparent) 38%,
+      transparent 72%
+    );
+    transition:
+      opacity var(--theme-border-glow-duration) var(--theme-border-glow-ease),
+      transform var(--theme-border-glow-duration) var(--theme-border-glow-ease);
+  }
+
+  .theme .type-glow,
+  .theme .theme-border-glow--ink.theme-btn .theme-btn__label,
+  .theme .theme-border-glow--ink.theme-btn .type-anim__face {
+    transition:
+      color var(--theme-border-glow-duration) var(--theme-border-glow-ease),
+      text-shadow var(--theme-border-glow-duration) var(--theme-border-glow-ease),
+      background-size var(--theme-border-glow-duration) var(--theme-border-glow-ease),
+      -webkit-text-fill-color var(--theme-border-glow-duration) var(--theme-border-glow-ease);
+  }
+
+  @media (hover: hover) {
+    .theme
+      .theme-border-glow--ink.theme-btn:is(:hover, :focus-visible):not(:disabled)
+      .theme-btn__label,
+    .theme
+      .theme-border-glow--ink.theme-btn:is(:hover, :focus-visible):not(:disabled)
+      .type-anim__face,
+    .theme .type-glow:is(:hover, :focus-visible) {
+      background-image: var(--theme-ink-glow-gradient);
+      background-repeat: repeat;
+      background-position: 0% 50%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+      animation:
+        theme-ink-glow-fill var(--theme-border-glow-enter-duration) var(--theme-border-glow-ease)
+          forwards,
+        theme-ink-glow-bloom var(--theme-border-glow-enter-duration) var(--theme-border-glow-ease)
+          forwards,
+        theme-border-glow-slide var(--theme-border-glow-slide-duration) linear
+          var(--theme-border-glow-enter-duration) infinite;
+    }
+
+    .theme
+      .theme-border-glow--ink.theme-btn:is(:hover, :focus-visible):not(:disabled)
+      .theme-btn__icon-glow::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      z-index: 0;
+      background-image: var(--theme-ink-glow-gradient);
+      background-size: 200% 100%;
+      background-position: 0% 50%;
+      border-radius: 0.15em;
+      animation:
+        theme-ink-icon-enter var(--theme-border-glow-enter-duration) var(--theme-border-glow-ease)
+          forwards,
+        theme-border-glow-slide var(--theme-border-glow-slide-duration) linear
+          var(--theme-border-glow-enter-duration) infinite;
+    }
+
+    .theme
+      .theme-border-glow--ink.theme-btn:is(:hover, :focus-visible):not(:disabled)
+      .theme-btn__icon-glow::after {
+      animation: theme-ink-icon-halo-enter var(--theme-border-glow-enter-duration)
+        var(--theme-border-glow-ease) forwards;
+    }
+
+    .theme
+      .theme-border-glow--ink.theme-btn:is(:hover, :focus-visible):not(:disabled)
+      .theme-btn__icon-glow
+      > .theme-btn__icon {
+      position: relative;
+      z-index: 1;
+      mix-blend-mode: destination-in;
+      color: #fff;
+      opacity: 0;
+      animation: theme-ink-icon-mask-enter calc(var(--theme-border-glow-enter-duration) * 0.55)
+        var(--theme-border-glow-ease) calc(var(--theme-border-glow-enter-duration) * 0.18) forwards;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme
+      .theme-border-glow:not(.theme-border-glow--ink):not(.theme-border-glow--icon):is(
+        :hover,
+        :focus-visible
+      )::before {
+      animation: none;
+      opacity: 1;
+      padding: var(--theme-border-glow-width);
+      background: var(--theme-border-glow-gradient);
+      background-size: 100% 100%;
+    }
+
+    .theme
+      .theme-border-glow--ink.theme-btn:is(:hover, :focus-visible)
+      .theme-btn__label,
+    .theme
+      .theme-border-glow--ink.theme-btn:is(:hover, :focus-visible)
+      .type-anim__face,
+    .theme .type-glow:is(:hover, :focus-visible) {
+      animation: none;
+      background-size: 200% auto;
+      text-shadow: var(--theme-ink-glow-bloom);
+    }
+
+    .theme
+      .theme-border-glow--ink.theme-btn:is(:hover, :focus-visible)
+      .theme-btn__icon-glow::before {
+      animation: none;
+      opacity: 1;
+      transform: none;
+      background-size: 100% 100%;
+      background-position: 50% 50%;
+    }
+
+    .theme
+      .theme-border-glow--ink.theme-btn:is(:hover, :focus-visible)
+      .theme-btn__icon-glow::after {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+
+    .theme
+      .theme-border-glow--ink.theme-btn:is(:hover, :focus-visible)
+      .theme-btn__icon-glow
+      > .theme-btn__icon {
+      animation: none;
+      opacity: 1;
+    }
+  }
+}

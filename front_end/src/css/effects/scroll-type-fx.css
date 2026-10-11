@@ -1,0 +1,121 @@
+.theme-scroll-type {
+  position: relative;
+}
+
+.theme-scroll-type__stage {
+  min-height: 72svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: clip;
+  padding-block: 4rem;
+}
+
+.theme-scroll-type--pinned .theme-scroll-type__stage {
+  min-height: 100svh;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.theme-scroll-type__title {
+  width: 100%;
+  margin: 0;
+  font-size: clamp(2rem, 6vw, 4.5rem);
+  line-height: 0.95;
+  color: var(--theme-text);
+  display: grid;
+  gap: 0.25em;
+  text-align: center;
+}
+
+.theme-scroll-type__line {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  min-width: 0;
+}
+
+.theme-scroll-type__title--sides {
+  text-align: left;
+}
+
+.theme-scroll-type__title--sides .theme-scroll-type__line {
+  justify-content: flex-start;
+}
+
+.theme-scroll-type__title--sides .theme-scroll-type__line:last-child {
+  justify-content: flex-end;
+}
+
+.theme-scroll-type__title--prose {
+  font-size: clamp(1rem, 2.4vw, 1.35rem);
+  line-height: 1.45;
+  max-width: 40rem;
+  margin-inline: auto;
+  text-align: left;
+}
+
+.theme-scroll-type__title--prose .theme-scroll-type__line {
+  justify-content: flex-start;
+}
+
+.theme-scroll-type__line--height {
+  line-height: 1.4;
+}
+
+.theme-scroll-type__line--height-medium {
+  line-height: 0.9;
+}
+
+.theme-scroll-type__line--medium {
+  font-size: clamp(2rem, 6vw, 4.5rem);
+  margin-top: 3rem;
+}
+
+.theme-scroll-type__line--larger {
+  font-size: clamp(4rem, 18vw, 12rem);
+}
+
+.theme-scroll-type__line--upper {
+  text-transform: uppercase;
+}
+
+.theme-scroll-type__line--sub {
+  display: flex;
+  font-size: clamp(1.5rem, 5vw, 3.75rem);
+  margin-top: 2rem;
+}
+
+.theme-scroll-type__word {
+  display: inline-flex;
+  white-space: nowrap;
+}
+
+.theme-scroll-type__space {
+  display: inline-block;
+  white-space: pre;
+}
+
+.theme-scroll-type__char-wrap {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.theme-scroll-type__char {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.theme-scroll-type__meta {
+  padding-block: 1rem 2rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-scroll-type__char,
+  .theme-scroll-type__word {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}

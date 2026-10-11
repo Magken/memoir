@@ -1,0 +1,688 @@
+{
+  "schema": "vurify/attempt-report",
+  "schemaVersion": 1,
+  "briefId": "42f8ea34-9144-4b77-b3fd-35d58d02c6ce",
+  "attemptId": "local:42f8ea34-9144-4b77-b3fd-35d58d02c6ce:2026-08-12T15:12:47.175Z",
+  "status": "partial",
+  "layer1": {
+    "overall": 0.109,
+    "byWeight": {
+      "codingTests": {
+        "label": "Coding tests",
+        "unit": 0,
+        "weight": 0.25,
+        "included": true,
+        "sources": [
+          {
+            "templateId": "mark.code.tests.v1",
+            "hostRef": "tool.coding.oh9vol",
+            "unit": 0
+          }
+        ],
+        "summary": "Code run status runtime_error; 0/4 cases passed. The function is unimplemented and throws an error immediately. There is no approach, clarity, or complexity to assess.",
+        "summaryDetail": "Code run status runtime_error; 0/4 cases passed. Failing cases: t1, t2, t3, t4 Candidate did not attempt the problem."
+      },
+      "codingMethod": {
+        "label": "Coding approach",
+        "unit": 0,
+        "weight": 0.1,
+        "included": true,
+        "sources": [
+          {
+            "templateId": "mark.code.method.v1",
+            "hostRef": "tool.coding.oh9vol",
+            "unit": 0
+          }
+        ],
+        "summary": "Code run status runtime_error; 0/4 cases passed. The function is unimplemented and throws an error immediately. There is no approach, clarity, or complexity to assess.",
+        "summaryDetail": "Approach 0% · Clarity 0% · Complexity 0% The function is unimplemented and throws an error immediately. There is no approach, clarity, or complexity to assess. Failing cases: t1, t2, t3, t4 Candidate did not attempt the problem.",
+        "axes": [
+          {
+            "key": "approach",
+            "label": "Approach",
+            "unit": 0
+          },
+          {
+            "key": "clarity",
+            "label": "Clarity",
+            "unit": 0
+          },
+          {
+            "key": "complexity",
+            "label": "Complexity",
+            "unit": 0
+          }
+        ]
+      },
+      "essay": {
+        "label": "Written essay",
+        "unit": 0,
+        "weight": 0.15,
+        "included": true,
+        "sources": [
+          {
+            "templateId": "mark.doc.essay.v1",
+            "hostRef": "tool.doc.4qhwxm",
+            "unit": 0
+          }
+        ],
+        "summary": "Empty or unusable answer — lowest bands assigned.",
+        "summaryDetail": "Clarity 0% · Evidence 0% · Risk awareness 0% Empty or unusable answer — lowest bands assigned. Candidate answer empty or thin under ## Your answer. Gap: empty_answer",
+        "axes": [
+          {
+            "key": "clarity",
+            "label": "Clarity",
+            "unit": 0
+          },
+          {
+            "key": "evidence",
+            "label": "Evidence",
+            "unit": 0
+          },
+          {
+            "key": "risk",
+            "label": "Risk awareness",
+            "unit": 0
+          }
+        ]
+      },
+      "interviewDelivery": {
+        "label": "Interview delivery",
+        "unit": 0.16898148148148143,
+        "weight": 0.2,
+        "included": true,
+        "sources": [
+          {
+            "templateId": "iv.delivery.v1",
+            "hostRef": "msg_clf0bpt3_msq8au80",
+            "unit": 0.16666666666666666
+          },
+          {
+            "templateId": "iv.delivery.v1",
+            "hostRef": "msg_tt46hf6o_msq8b8vm",
+            "unit": 0.08333333333333333
+          },
+          {
+            "templateId": "iv.delivery.v1",
+            "hostRef": "msg_vanyhwwr_msq8cxy6",
+            "unit": 0.3333333333333333
+          },
+          {
+            "templateId": "iv.delivery.v1",
+            "hostRef": "msg_cx0tjw40_msq8ev5k",
+            "unit": 0.5
+          },
+          {
+            "templateId": "iv.delivery.v1",
+            "hostRef": "msg_yst4fo5o_msq8glku",
+            "unit": 0.3333333333333333
+          },
+          {
+            "templateId": "iv.delivery.v1",
+            "hostRef": "msg_99hn4zcs_msq8hzy6",
+            "unit": 0.3333333333333333
+          },
+          {
+            "templateId": "iv.delivery.v1",
+            "hostRef": "msg_p4maz0qj_msq8imz0",
+            "unit": 0.16666666666666666
+          },
+          {
+            "templateId": "iv.delivery.v1",
+            "hostRef": "msg_hk1jaliz_msq8me5a",
+            "unit": 0.08333333333333333
+          },
+          {
+            "templateId": "iv.delivery.v1",
+            "hostRef": "msg_9fol0efi_msq8n2jg",
+            "unit": 0.08333333333333333
+          },
+          {
+            "templateId": "iv.delivery.v1",
+            "hostRef": "msg_ou5zzd0f_msq8nm2x",
+            "unit": 0.08333333333333333
+          },
+          {
+            "templateId": "iv.delivery.v1",
+            "hostRef": "msg_tb2f7io8_msq8olil",
+            "unit": 0.08333333333333333
+          },
+          {
+            "templateId": "iv.delivery.v1",
+            "hostRef": "msg_xpmj2sie_msq8ph13",
+            "unit": 0.08333333333333333
+          },
+          {
+            "templateId": "iv.delivery.v1",
+            "hostRef": "msg_jqskcrmf_msq8q7d1",
+            "unit": 0.08333333333333333
+          },
+          {
+            "templateId": "iv.delivery.v1",
+            "hostRef": "msg_y6igfpz9_msq8qyoe",
+            "unit": 0.08333333333333333
+          },
+          {
+            "templateId": "iv.delivery.v1",
+            "hostRef": "msg_fzg1tz9r_msq8raca",
+            "unit": 0.08333333333333333
+          },
+          {
+            "templateId": "iv.question.v1",
+            "hostRef": "msg_ptqggpfv_msq8tmk5",
+            "unit": 0.3333333333333333
+          },
+          {
+            "templateId": "iv.question.v1",
+            "hostRef": "msg_hzovpaly_msq8u1bq",
+            "unit": 0
+          },
+          {
+            "templateId": "iv.question.v1",
+            "hostRef": "topic.2i4r1d",
+            "unit": 0.125
+          }
+        ],
+        "summary": "The candidate asked if there is a woman in the team and then repeated 'woman' without further detail.",
+        "summaryDetail": "The candidate asked if there is a woman in the team and then repeated 'woman' without further detail. No additional questions about the role, team, or process were raised, and the follow-up from the interviewer did not yield a more specific or elaborated question.",
+        "axes": [
+          {
+            "key": "delivery.clarity",
+            "label": "delivery · Clarity",
+            "unit": 0
+          },
+          {
+            "key": "delivery.composure",
+            "label": "delivery · Composure",
+            "unit": 0.5
+          },
+          {
+            "key": "delivery.structure",
+            "label": "delivery · Structure",
+            "unit": 0
+          },
+          {
+            "key": "question.curiosity",
+            "label": "question · Curiosity",
+            "unit": 0.25
+          },
+          {
+            "key": "question.relevance",
+            "label": "question · Relevance",
+            "unit": 0.5
+          },
+          {
+            "key": "question.specificity",
+            "label": "question · Specificity",
+            "unit": 0.25
+          },
+          {
+            "key": "question.clarity",
+            "label": "question · Clarity",
+            "unit": 0
+          },
+          {
+            "key": "question.depth",
+            "label": "question · Depth",
+            "unit": 0
+          }
+        ]
+      },
+      "interviewContent": {
+        "label": "Interview content / ownership",
+        "unit": 0.25,
+        "weight": 0.3,
+        "included": true,
+        "sources": [
+          {
+            "templateId": "iv.content.v1",
+            "hostRef": "topic.8htxhn",
+            "unit": 0.5
+          },
+          {
+            "templateId": "iv.ownership.v1",
+            "hostRef": "topic.stjc0v",
+            "unit": 0
+          }
+        ],
+        "summary": "Jordan described owning the backend for a project called \"vurify\" where they implemented their first RAG system.",
+        "summaryDetail": "Jordan described owning the backend for a project called \"vurify\" where they implemented their first RAG system. They made the decision to use RPC functions instead of standard CRUD to boost security, which increased implementation time. For reliability and scale, they bundled similar APIs and set up automated checks for git commits, describing this as a step they personally drove. Specific quantitative outcomes were not named, but ownership and technical choices were clear.",
+        "axes": [
+          {
+            "key": "content.ownership",
+            "label": "content · Ownership of service",
+            "unit": 0.75
+          },
+          {
+            "key": "content.technical_depth",
+            "label": "content · Technical depth",
+            "unit": 0.5
+          },
+          {
+            "key": "content.outcome_clarity",
+            "label": "content · Clarity of result/outcome",
+            "unit": 0.25
+          },
+          {
+            "key": "ownership.ownership_decision",
+            "label": "ownership · Names a concrete reliability decision they personally owned",
+            "unit": 0
+          },
+          {
+            "key": "ownership.evidence_of_action",
+            "label": "ownership · Gives specific actions or tradeoffs handled after a production issue",
+            "unit": 0
+          }
+        ]
+      }
+    },
+    "formGate": {
+      "passed": false,
+      "gradedScore": 4,
+      "gradedMax": 16,
+      "ungradedIds": [],
+      "authorHints": []
+    },
+    "pendingCount": 2,
+    "contributions": [
+      {
+        "templateId": "mark.code.tests.v1",
+        "hostRef": "tool.coding.oh9vol",
+        "bucket": "codingTests",
+        "unit": 0,
+        "sourceWeight": 1,
+        "share": 1,
+        "towardOverall": 0
+      },
+      {
+        "templateId": "mark.code.method.v1",
+        "hostRef": "tool.coding.oh9vol",
+        "bucket": "codingMethod",
+        "unit": 0,
+        "sourceWeight": 1,
+        "share": 1,
+        "towardOverall": 0
+      },
+      {
+        "templateId": "mark.doc.essay.v1",
+        "hostRef": "tool.doc.4qhwxm",
+        "bucket": "essay",
+        "unit": 0,
+        "sourceWeight": 1,
+        "share": 1,
+        "towardOverall": 0
+      },
+      {
+        "templateId": "iv.delivery.v1",
+        "hostRef": "msg_clf0bpt3_msq8au80",
+        "bucket": "interviewDelivery",
+        "unit": 0.16666666666666666,
+        "sourceWeight": 1,
+        "share": 0.05555555555555555,
+        "towardOverall": 0.0018518518518518517
+      },
+      {
+        "templateId": "iv.delivery.v1",
+        "hostRef": "msg_tt46hf6o_msq8b8vm",
+        "bucket": "interviewDelivery",
+        "unit": 0.08333333333333333,
+        "sourceWeight": 1,
+        "share": 0.05555555555555555,
+        "towardOverall": 0.0009259259259259259
+      },
+      {
+        "templateId": "iv.delivery.v1",
+        "hostRef": "msg_vanyhwwr_msq8cxy6",
+        "bucket": "interviewDelivery",
+        "unit": 0.3333333333333333,
+        "sourceWeight": 1,
+        "share": 0.05555555555555555,
+        "towardOverall": 0.0037037037037037034
+      },
+      {
+        "templateId": "iv.delivery.v1",
+        "hostRef": "msg_cx0tjw40_msq8ev5k",
+        "bucket": "interviewDelivery",
+        "unit": 0.5,
+        "sourceWeight": 1,
+        "share": 0.05555555555555555,
+        "towardOverall": 0.005555555555555556
+      },
+      {
+        "templateId": "iv.delivery.v1",
+        "hostRef": "msg_yst4fo5o_msq8glku",
+        "bucket": "interviewDelivery",
+        "unit": 0.3333333333333333,
+        "sourceWeight": 1,
+        "share": 0.05555555555555555,
+        "towardOverall": 0.0037037037037037034
+      },
+      {
+        "templateId": "iv.delivery.v1",
+        "hostRef": "msg_99hn4zcs_msq8hzy6",
+        "bucket": "interviewDelivery",
+        "unit": 0.3333333333333333,
+        "sourceWeight": 1,
+        "share": 0.05555555555555555,
+        "towardOverall": 0.0037037037037037034
+      },
+      {
+        "templateId": "iv.delivery.v1",
+        "hostRef": "msg_p4maz0qj_msq8imz0",
+        "bucket": "interviewDelivery",
+        "unit": 0.16666666666666666,
+        "sourceWeight": 1,
+        "share": 0.05555555555555555,
+        "towardOverall": 0.0018518518518518517
+      },
+      {
+        "templateId": "iv.delivery.v1",
+        "hostRef": "msg_hk1jaliz_msq8me5a",
+        "bucket": "interviewDelivery",
+        "unit": 0.08333333333333333,
+        "sourceWeight": 1,
+        "share": 0.05555555555555555,
+        "towardOverall": 0.0009259259259259259
+      },
+      {
+        "templateId": "iv.delivery.v1",
+        "hostRef": "msg_9fol0efi_msq8n2jg",
+        "bucket": "interviewDelivery",
+        "unit": 0.08333333333333333,
+        "sourceWeight": 1,
+        "share": 0.05555555555555555,
+        "towardOverall": 0.0009259259259259259
+      },
+      {
+        "templateId": "iv.delivery.v1",
+        "hostRef": "msg_ou5zzd0f_msq8nm2x",
+        "bucket": "interviewDelivery",
+        "unit": 0.08333333333333333,
+        "sourceWeight": 1,
+        "share": 0.05555555555555555,
+        "towardOverall": 0.0009259259259259259
+      },
+      {
+        "templateId": "iv.delivery.v1",
+        "hostRef": "msg_tb2f7io8_msq8olil",
+        "bucket": "interviewDelivery",
+        "unit": 0.08333333333333333,
+        "sourceWeight": 1,
+        "share": 0.05555555555555555,
+        "towardOverall": 0.0009259259259259259
+      },
+      {
+        "templateId": "iv.delivery.v1",
+        "hostRef": "msg_xpmj2sie_msq8ph13",
+        "bucket": "interviewDelivery",
+        "unit": 0.08333333333333333,
+        "sourceWeight": 1,
+        "share": 0.05555555555555555,
+        "towardOverall": 0.0009259259259259259
+      },
+      {
+        "templateId": "iv.delivery.v1",
+        "hostRef": "msg_jqskcrmf_msq8q7d1",
+        "bucket": "interviewDelivery",
+        "unit": 0.08333333333333333,
+        "sourceWeight": 1,
+        "share": 0.05555555555555555,
+        "towardOverall": 0.0009259259259259259
+      },
+      {
+        "templateId": "iv.delivery.v1",
+        "hostRef": "msg_y6igfpz9_msq8qyoe",
+        "bucket": "interviewDelivery",
+        "unit": 0.08333333333333333,
+        "sourceWeight": 1,
+        "share": 0.05555555555555555,
+        "towardOverall": 0.0009259259259259259
+      },
+      {
+        "templateId": "iv.delivery.v1",
+        "hostRef": "msg_fzg1tz9r_msq8raca",
+        "bucket": "interviewDelivery",
+        "unit": 0.08333333333333333,
+        "sourceWeight": 1,
+        "share": 0.05555555555555555,
+        "towardOverall": 0.0009259259259259259
+      },
+      {
+        "templateId": "iv.question.v1",
+        "hostRef": "msg_ptqggpfv_msq8tmk5",
+        "bucket": "interviewDelivery",
+        "unit": 0.3333333333333333,
+        "sourceWeight": 1,
+        "share": 0.05555555555555555,
+        "towardOverall": 0.0037037037037037034
+      },
+      {
+        "templateId": "iv.question.v1",
+        "hostRef": "msg_hzovpaly_msq8u1bq",
+        "bucket": "interviewDelivery",
+        "unit": 0,
+        "sourceWeight": 1,
+        "share": 0.05555555555555555,
+        "towardOverall": 0
+      },
+      {
+        "templateId": "iv.question.v1",
+        "hostRef": "topic.2i4r1d",
+        "bucket": "interviewDelivery",
+        "unit": 0.125,
+        "sourceWeight": 1,
+        "share": 0.05555555555555555,
+        "towardOverall": 0.001388888888888889
+      },
+      {
+        "templateId": "iv.content.v1",
+        "hostRef": "topic.8htxhn",
+        "bucket": "interviewContent",
+        "unit": 0.5,
+        "sourceWeight": 1,
+        "share": 0.5,
+        "towardOverall": 0.075
+      },
+      {
+        "templateId": "iv.ownership.v1",
+        "hostRef": "topic.stjc0v",
+        "bucket": "interviewContent",
+        "unit": 0,
+        "sourceWeight": 1,
+        "share": 0.5,
+        "towardOverall": 0
+      }
+    ],
+    "charts": {
+      "bucketBars": [
+        {
+          "key": "codingTests",
+          "label": "Coding tests",
+          "unit": 0,
+          "weight": 0.25
+        },
+        {
+          "key": "codingMethod",
+          "label": "Coding approach",
+          "unit": 0,
+          "weight": 0.1
+        },
+        {
+          "key": "essay",
+          "label": "Written essay",
+          "unit": 0,
+          "weight": 0.15
+        },
+        {
+          "key": "interviewDelivery",
+          "label": "Interview delivery",
+          "unit": 0.16898148148148143,
+          "weight": 0.2
+        },
+        {
+          "key": "interviewContent",
+          "label": "Interview content / ownership",
+          "unit": 0.25,
+          "weight": 0.3
+        }
+      ],
+      "contributionTree": [
+        {
+          "bucket": "codingTests",
+          "templateId": "mark.code.tests.v1",
+          "label": "Run hidden tests",
+          "towardOverall": 0
+        },
+        {
+          "bucket": "codingMethod",
+          "templateId": "mark.code.method.v1",
+          "label": "Approach, clarity, complexity",
+          "towardOverall": 0
+        },
+        {
+          "bucket": "essay",
+          "templateId": "mark.doc.essay.v1",
+          "label": "Written essay rubric",
+          "towardOverall": 0
+        },
+        {
+          "bucket": "interviewDelivery",
+          "templateId": "iv.delivery.v1",
+          "label": "How they speak (clarity, composure)",
+          "towardOverall": 0.0018518518518518517
+        },
+        {
+          "bucket": "interviewDelivery",
+          "templateId": "iv.delivery.v1",
+          "label": "How they speak (clarity, composure)",
+          "towardOverall": 0.0009259259259259259
+        },
+        {
+          "bucket": "interviewDelivery",
+          "templateId": "iv.delivery.v1",
+          "label": "How they speak (clarity, composure)",
+          "towardOverall": 0.0037037037037037034
+        },
+        {
+          "bucket": "interviewDelivery",
+          "templateId": "iv.delivery.v1",
+          "label": "How they speak (clarity, composure)",
+          "towardOverall": 0.005555555555555556
+        },
+        {
+          "bucket": "interviewDelivery",
+          "templateId": "iv.delivery.v1",
+          "label": "How they speak (clarity, composure)",
+          "towardOverall": 0.0037037037037037034
+        },
+        {
+          "bucket": "interviewDelivery",
+          "templateId": "iv.delivery.v1",
+          "label": "How they speak (clarity, composure)",
+          "towardOverall": 0.0037037037037037034
+        },
+        {
+          "bucket": "interviewDelivery",
+          "templateId": "iv.delivery.v1",
+          "label": "How they speak (clarity, composure)",
+          "towardOverall": 0.0018518518518518517
+        },
+        {
+          "bucket": "interviewDelivery",
+          "templateId": "iv.delivery.v1",
+          "label": "How they speak (clarity, composure)",
+          "towardOverall": 0.0009259259259259259
+        },
+        {
+          "bucket": "interviewDelivery",
+          "templateId": "iv.delivery.v1",
+          "label": "How they speak (clarity, composure)",
+          "towardOverall": 0.0009259259259259259
+        },
+        {
+          "bucket": "interviewDelivery",
+          "templateId": "iv.delivery.v1",
+          "label": "How they speak (clarity, composure)",
+          "towardOverall": 0.0009259259259259259
+        },
+        {
+          "bucket": "interviewDelivery",
+          "templateId": "iv.delivery.v1",
+          "label": "How they speak (clarity, composure)",
+          "towardOverall": 0.0009259259259259259
+        },
+        {
+          "bucket": "interviewDelivery",
+          "templateId": "iv.delivery.v1",
+          "label": "How they speak (clarity, composure)",
+          "towardOverall": 0.0009259259259259259
+        },
+        {
+          "bucket": "interviewDelivery",
+          "templateId": "iv.delivery.v1",
+          "label": "How they speak (clarity, composure)",
+          "towardOverall": 0.0009259259259259259
+        },
+        {
+          "bucket": "interviewDelivery",
+          "templateId": "iv.delivery.v1",
+          "label": "How they speak (clarity, composure)",
+          "towardOverall": 0.0009259259259259259
+        },
+        {
+          "bucket": "interviewDelivery",
+          "templateId": "iv.delivery.v1",
+          "label": "How they speak (clarity, composure)",
+          "towardOverall": 0.0009259259259259259
+        },
+        {
+          "bucket": "interviewDelivery",
+          "templateId": "iv.question.v1",
+          "label": "Quality of their questions",
+          "towardOverall": 0.0037037037037037034
+        },
+        {
+          "bucket": "interviewDelivery",
+          "templateId": "iv.question.v1",
+          "label": "Quality of their questions",
+          "towardOverall": 0
+        },
+        {
+          "bucket": "interviewDelivery",
+          "templateId": "iv.question.v1",
+          "label": "Quality of their questions",
+          "towardOverall": 0.001388888888888889
+        },
+        {
+          "bucket": "interviewContent",
+          "templateId": "iv.content.v1",
+          "label": "Substance vs the topic",
+          "towardOverall": 0.075
+        },
+        {
+          "bucket": "interviewContent",
+          "templateId": "iv.ownership.v1",
+          "label": "Ownership vs blame-shift",
+          "towardOverall": 0
+        }
+      ]
+    }
+  },
+  "layer2": {},
+  "layer3": {
+    "analysisHosts": {
+      "turns": 19,
+      "tools": [
+        "tool.form.obg2dk",
+        "tool.coding.oh9vol",
+        "tool.doc.4qhwxm"
+      ],
+      "topics": [
+        "topic.8htxhn",
+        "topic.stjc0v",
+        "topic.2i4r1d"
+      ]
+    },
+    "tapePhaseIds": []
+  }
+}

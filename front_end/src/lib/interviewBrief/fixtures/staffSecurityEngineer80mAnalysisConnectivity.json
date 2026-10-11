@@ -1,0 +1,980 @@
+{
+  "kind": "interview_brief",
+  "tools": {
+    "tool.doc.ac2tn0": {
+      "type": "doc",
+      "title": "Rate limiter design note",
+      "prompt": {
+        "brief": "Design a rate limiter for platform service APIs.",
+        "structure": [
+          {
+            "id": "problem",
+            "hint": "Burst traffic and capacity assumptions",
+            "label": "Problem",
+            "minParagraphs": 1
+          },
+          {
+            "id": "approach",
+            "hint": "Token bucket vs sliding window",
+            "label": "Approach",
+            "minParagraphs": 1
+          },
+          {
+            "id": "tradeoffs",
+            "label": "Trade-offs",
+            "minParagraphs": 1
+          },
+          {
+            "id": "observability",
+            "label": "Observability",
+            "minParagraphs": 1
+          }
+        ],
+        "requirements": [
+          "Explain rate limiter choice for platform APIs with burst traffic",
+          "Include failure modes and concrete capacity numbers",
+          "Call out metrics and alerts you would ship"
+        ]
+      },
+      "timing": {
+        "mode": "timed",
+        "limitMinutes": 12,
+        "estimatedMinutes": 20
+      },
+      "analysis": {
+        "templateIds": [
+          "mark.doc.essay.v1",
+          "mark.doc.approach.v1",
+          "mark.doc.authorship.v1"
+        ]
+      },
+      "artifact": {
+        "inline": {
+          "title": "Rate limiter design note",
+          "markdown": "# Rate limiter\n\nDraft: compare token bucket and sliding window for bursty platform APIs.\n"
+        },
+        "docKind": "doc"
+      },
+      "maxWords": 400,
+      "minWords": 120,
+      "assessment": {
+        "kind": "rubric",
+        "dimensions": [
+          {
+            "key": "dim.clarity",
+            "bands": [
+              {
+                "id": "b1",
+                "label": "Vague",
+                "descriptor": "Vague: concrete evidence for Clarity."
+              },
+              {
+                "id": "b2",
+                "label": "Specific",
+                "descriptor": "Specific: concrete evidence for Clarity."
+              }
+            ],
+            "label": "Clarity",
+            "criterion": "What \"Clarity\" looks like for this role's written response."
+          }
+        ]
+      },
+      "editorKind": "doc",
+      "instructions": "Write a concise design note for a rate limiter covering token bucket vs sliding window, failure modes, and observability. Cite concrete capacity numbers."
+    },
+    "tool.form.he5jad": {
+      "type": "form_quiz",
+      "title": "Eligibility & Work Authorization Screening - Staff Security Engineer",
+      "timing": {
+        "mode": "timed",
+        "limitMinutes": 6,
+        "estimatedMinutes": 6
+      },
+      "analysis": {
+        "attachPack": "pack.form_gate",
+        "templateIds": [
+          "mark.form.key.v1"
+        ]
+      },
+      "artifact": {
+        "inline": {
+          "id": "tf_staff_security_elig",
+          "title": "Eligibility & Work Authorization Screening - Staff Security Engineer",
+          "schema": "vurify/test-form",
+          "version": 1,
+          "sections": [
+            {
+              "id": "sec.elig",
+              "title": "Eligibility & Work Authorization",
+              "description": "Confirm your eligibility and experience for this Staff Security Engineer opportunity. All questions are required."
+            }
+          ],
+          "settings": {
+            "showHintsInTake": false,
+            "shuffleQuestions": true
+          },
+          "answerKey": {
+            "q.auth": {
+              "kind": "mcq_single",
+              "optionId": "opt.auth.yes"
+            },
+            "q.email": {
+              "kind": "short_text",
+              "match": "regex",
+              "value": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$",
+              "rejects": [
+                "test@test.com",
+                "noreply@"
+              ],
+              "caseSensitive": false
+            },
+            "q.oncall": {
+              "kind": "mcq_single",
+              "optionId": "opt.oncall.yes"
+            },
+            "q.incident": {
+              "kind": "mcq_single",
+              "optionId": "opt.incident.yes"
+            },
+            "q.experience": {
+              "kind": "mcq_single",
+              "optionIds": [
+                "opt.exp.6_8",
+                "opt.exp.9plus"
+              ]
+            },
+            "q.sponsorship": {
+              "kind": "mcq_single",
+              "optionId": "opt.sponsorship.no"
+            }
+          },
+          "questions": [
+            {
+              "id": "q.name",
+              "kind": "short_text",
+              "points": 1,
+              "prompt": "Full legal name",
+              "required": true,
+              "sectionId": "sec.elig"
+            },
+            {
+              "id": "q.email",
+              "kind": "short_text",
+              "points": 1,
+              "prompt": "Email address",
+              "required": true,
+              "sectionId": "sec.elig",
+              "inputFormat": "email"
+            },
+            {
+              "id": "q.auth",
+              "kind": "mcq_single",
+              "points": 1,
+              "prompt": "Are you legally authorized to work in the country where this role is based?",
+              "options": [
+                {
+                  "id": "opt.auth.yes",
+                  "label": "Yes"
+                },
+                {
+                  "id": "opt.auth.no",
+                  "label": "No"
+                }
+              ],
+              "required": true,
+              "sectionId": "sec.elig"
+            },
+            {
+              "id": "q.sponsorship",
+              "kind": "mcq_single",
+              "points": 1,
+              "prompt": "Do you require current or future work visa sponsorship to remain employed in this country?",
+              "options": [
+                {
+                  "id": "opt.sponsorship.no",
+                  "label": "No"
+                },
+                {
+                  "id": "opt.sponsorship.yes",
+                  "label": "Yes"
+                }
+              ],
+              "required": true,
+              "sectionId": "sec.elig"
+            },
+            {
+              "id": "q.incident",
+              "kind": "mcq_single",
+              "points": 1,
+              "prompt": "Have you led security incident response for multi-service platforms?",
+              "options": [
+                {
+                  "id": "opt.incident.yes",
+                  "label": "Yes"
+                },
+                {
+                  "id": "opt.incident.no",
+                  "label": "No"
+                }
+              ],
+              "required": true,
+              "sectionId": "sec.elig"
+            },
+            {
+              "id": "q.experience",
+              "kind": "mcq_single",
+              "points": 1,
+              "prompt": "Years of professional security engineering experience",
+              "options": [
+                {
+                  "id": "opt.exp.0_2",
+                  "label": "0-2"
+                },
+                {
+                  "id": "opt.exp.3_5",
+                  "label": "3-5"
+                },
+                {
+                  "id": "opt.exp.6_8",
+                  "label": "6-8"
+                },
+                {
+                  "id": "opt.exp.9plus",
+                  "label": "9+"
+                }
+              ],
+              "required": true,
+              "sectionId": "sec.elig"
+            },
+            {
+              "id": "q.oncall",
+              "kind": "mcq_single",
+              "points": 1,
+              "prompt": "Are you able to participate in a rotating on-call schedule?",
+              "options": [
+                {
+                  "id": "opt.oncall.yes",
+                  "label": "Yes"
+                },
+                {
+                  "id": "opt.oncall.no",
+                  "label": "No"
+                }
+              ],
+              "required": true,
+              "sectionId": "sec.elig"
+            }
+          ]
+        },
+        "docKind": "form"
+      },
+      "answerKey": {
+        "q.auth": {
+          "kind": "mcq_single",
+          "optionId": "opt.auth.yes"
+        },
+        "q.email": {
+          "kind": "short_text",
+          "match": "regex",
+          "value": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$",
+          "rejects": [
+            "test@test.com",
+            "noreply@"
+          ],
+          "caseSensitive": false
+        },
+        "q.oncall": {
+          "kind": "mcq_single",
+          "optionId": "opt.oncall.yes"
+        },
+        "q.incident": {
+          "kind": "mcq_single",
+          "optionId": "opt.incident.yes"
+        },
+        "q.experience": {
+          "kind": "mcq_single",
+          "optionIds": [
+            "opt.exp.6_8",
+            "opt.exp.9plus"
+          ]
+        },
+        "q.sponsorship": {
+          "kind": "mcq_single",
+          "optionId": "opt.sponsorship.no"
+        }
+      },
+      "editorKind": "testform",
+      "instructions": "Please answer all required questions to confirm your eligibility for this Staff Security Engineer role. This section screens for legal work status, sponsorship, and minimum experience. You must pass all required checks to proceed to the main interview.",
+      "passThreshold": {
+        "mode": "required_items",
+        "requiredQuestionIds": [
+          "q.name",
+          "q.email",
+          "q.auth",
+          "q.sponsorship",
+          "q.incident",
+          "q.experience",
+          "q.oncall"
+        ]
+      }
+    },
+    "tool.coding.j8sx8g": {
+      "type": "coding",
+      "tests": {
+        "cases": [
+          {
+            "id": "t1",
+            "args": [
+              [
+                2,
+                7,
+                11,
+                15
+              ],
+              9
+            ],
+            "name": "basic",
+            "hidden": false,
+            "compare": "deep_equal",
+            "expected": [
+              0,
+              1
+            ],
+            "description": "Happy path with a solution present"
+          },
+          {
+            "id": "t2",
+            "args": [
+              [
+                1,
+                2,
+                3
+              ],
+              7
+            ],
+            "name": "no solution",
+            "hidden": true,
+            "compare": "deep_equal",
+            "expected": [],
+            "description": "No two numbers add up to target"
+          },
+          {
+            "id": "t3",
+            "args": [
+              [
+                3,
+                2,
+                4
+              ],
+              6
+            ],
+            "name": "multiple solutions",
+            "hidden": false,
+            "compare": "deep_equal",
+            "expected": [
+              1,
+              2
+            ],
+            "description": "Multiple pairs possible, return any valid one"
+          }
+        ],
+        "runner": "hidden_cases_v1",
+        "entryPoint": "solve"
+      },
+      "title": "Two-sum coding challenge",
+      "timing": {
+        "mode": "timed",
+        "limitMinutes": 20,
+        "estimatedMinutes": 20
+      },
+      "analysis": {
+        "attachPack": "pack.coding",
+        "templateIds": [
+          "mark.code.tests.v1",
+          "mark.code.method.v1"
+        ]
+      },
+      "artifact": {
+        "inline": {
+          "files": [
+            {
+              "path": "src/solve.ts",
+              "content": "export function solve(nums: number[], target: number): number[] {\n  // Implement your solution here\n  return []\n}\n",
+              "language": "typescript"
+            },
+            {
+              "path": "README.md",
+              "content": "# Two-sum\n\nReturn indices of the pair that sums to target.\n",
+              "language": "markdown"
+            }
+          ],
+          "title": "two-sum",
+          "folders": [
+            "src"
+          ],
+          "openIds": [
+            "src/solve.ts"
+          ],
+          "activeId": "src/solve.ts"
+        },
+        "docKind": "code"
+      },
+      "languages": [
+        "typescript"
+      ],
+      "editorKind": "code",
+      "instructions": "Implement a function that returns the indices of two numbers in an array that add up to the target value. Write clear code, handle edge cases, and make sure your solution works for any valid input. Your code will be tested against hidden cases, so check your logic carefully before submitting.",
+      "defaultLanguage": "typescript"
+    }
+  },
+  "editor": "creator2",
+  "phases": [
+    {
+      "id": "ph.0qloid",
+      "kind": "discussion",
+      "title": "Opening: recent platform work",
+      "summary": {
+        "blurb": "You will settle in with a short conversation about a recent platform project you owned. Share what you built and what made it interesting - this is a warm-up, not a deep technical grill.",
+        "packLabel": "Opening talk"
+      },
+      "topicId": "topic.msxzbe",
+      "isClosing": false,
+      "isOpening": true,
+      "estimatedMinutes": 8
+    },
+    {
+      "id": "ph.fi4fpq",
+      "kind": "tool",
+      "title": "Eligibility & Work Authorization Screening",
+      "summary": {
+        "blurb": "Complete this required eligibility and work authorization screening before proceeding to the main interview. All items must be passed to continue.",
+        "packLabel": "Eligibility & Authorization Gate"
+      },
+      "toolRef": "tool.form.he5jad",
+      "isClosing": false,
+      "isOpening": false,
+      "estimatedMinutes": 6
+    },
+    {
+      "id": "ph.k5wuze",
+      "kind": "discussion",
+      "when": {
+        "all": [
+          {
+            "toolPassed": "tool.form.he5jad"
+          }
+        ]
+      },
+      "title": "Ownership and incident impact",
+      "onFail": {
+        "goToPhaseId": "ph.6mvyht"
+      },
+      "summary": {
+        "blurb": "Walk through a real incident or delivery you owned. Bring concrete decisions, outcomes, and what you learned-this shows how you handle responsibility in this role.",
+        "packLabel": "Impact stories"
+      },
+      "topicId": "topic.890lut",
+      "required": true,
+      "isClosing": false,
+      "isOpening": false,
+      "estimatedMinutes": 12
+    },
+    {
+      "id": "ph.8xz0sd",
+      "kind": "tool",
+      "title": "Two-sum coding challenge",
+      "summary": {
+        "blurb": "Solve a timed coding challenge where you return indices of two numbers that add up to a target. Good answers handle edge cases and pass all hidden tests. This checks practical coding skill for the role.",
+        "packLabel": "Coding"
+      },
+      "toolRef": "tool.coding.j8sx8g",
+      "isClosing": false,
+      "isOpening": false,
+      "estimatedMinutes": 20
+    },
+    {
+      "id": "ph.v35g7z",
+      "kind": "tool",
+      "title": "Rate limiter design note",
+      "summary": {
+        "blurb": "Write a short design note on a rate limiter covering approach and tradeoffs so a reviewer can skim structure and depth.",
+        "packLabel": "Design note"
+      },
+      "toolRef": "tool.doc.ac2tn0",
+      "isClosing": false,
+      "isOpening": false,
+      "estimatedMinutes": 20
+    },
+    {
+      "id": "ph.6mvyht",
+      "kind": "discussion",
+      "title": "Closing questions and next steps",
+      "summary": {
+        "blurb": "Wrap up with your questions and confirm the next steps and timeline for this role.",
+        "packLabel": "Close"
+      },
+      "topicId": "topic.qm4ypl",
+      "isClosing": true,
+      "isOpening": false,
+      "estimatedMinutes": 5
+    }
+  ],
+  "analysis": {
+    "rollup": {
+      "weights": {
+        "coding-work": 0.3333,
+        "write": 0.3333,
+        "conversation": 0.3334
+      },
+      "templateId": "rollup.attempt.v1",
+      "weightSections": {
+        "coding-work": [
+          "ph.8xz0sd"
+        ],
+        "write": [
+          "ph.v35g7z"
+        ],
+        "conversation": [
+          "ph.0qloid",
+          "ph.k5wuze",
+          "ph.6mvyht"
+        ]
+      },
+      "weightLabels": {
+        "coding-work": "Coding",
+        "write": "Writing",
+        "conversation": "Conversation"
+      }
+    },
+    "bindings": [],
+    "schedule": {
+      "interview_end": {
+        "when": "interview_end",
+        "templateIds": [
+          "rollup.attempt.v1"
+        ]
+      }
+    },
+    "overrides": {
+      "libraryIds": [
+        "iv.ownership.v1",
+        "custom.reviewer-note",
+        "custom.evidence-gate",
+        "custom.severity-band",
+        "custom.incident-themes",
+        "custom.oncall-ownership",
+        "iv.delivery.v1",
+        "iv.content.v1",
+        "custom.impact",
+        "custom.incident-count"
+      ],
+      "templateCards": {
+        "iv.ownership.v1": {
+          "title": "Ownership vs blame-shift",
+          "subtitle": "Runs on each answer",
+          "details": "Looks for agency vs blame-shift — best on conflict topics.",
+          "outputKind": "dimensions",
+          "storageKey": "iv.ownership",
+          "justificationPolicy": "always_required",
+          "dimensions": [
+            {
+              "key": "agency",
+              "label": "Agency",
+              "options": [
+                "weak",
+                "mixed",
+                "strong"
+              ],
+              "defaultOption": "mixed",
+              "evidenceModel": "accumulative"
+            },
+            {
+              "key": "blameShift",
+              "label": "Blame-shift",
+              "options": [
+                "low",
+                "mixed",
+                "high"
+              ],
+              "defaultOption": "mixed",
+              "evidenceModel": "accumulative",
+              "polarity": "negative"
+            }
+          ],
+          "taxonomy": [],
+          "maxPerTurn": 3,
+          "enumValues": []
+        },
+        "custom.reviewer-note": {
+          "title": "Reviewer narrative note",
+          "subtitle": "Runs on as scheduled",
+          "details": "Short paragraph capturing residual ownership / incident concerns.",
+          "outputKind": "paragraph",
+          "storageKey": "custom.reviewer-note",
+          "justificationPolicy": "none",
+          "dimensions": [],
+          "taxonomy": [],
+          "maxPerTurn": 3,
+          "enumValues": []
+        },
+        "custom.evidence-gate": {
+          "title": "Discussion evidence gate",
+          "subtitle": "Runs on as scheduled",
+          "details": "Whether discussion evidence is enough to continue the loop.",
+          "outputKind": "passFail",
+          "storageKey": "custom.evidence-gate",
+          "justificationPolicy": "optional",
+          "dimensions": [],
+          "taxonomy": [],
+          "maxPerTurn": 3,
+          "enumValues": []
+        },
+        "custom.severity-band": {
+          "title": "Incident severity band",
+          "subtitle": "Runs on as scheduled",
+          "details": "Forced single outcome for how severe the incident story felt.",
+          "outputKind": "enum",
+          "storageKey": "custom.severity-band",
+          "justificationPolicy": "always_required",
+          "dimensions": [],
+          "taxonomy": [],
+          "maxPerTurn": 3,
+          "enumValues": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ]
+        },
+        "custom.incident-themes": {
+          "title": "Incident story themes",
+          "subtitle": "Runs on as scheduled",
+          "details": "Tag themes that show up in ownership / incident narratives.",
+          "outputKind": "taxonomy",
+          "storageKey": "custom.incident-themes",
+          "justificationPolicy": "optional",
+          "dimensions": [],
+          "taxonomy": [
+            "ownership",
+            "calm",
+            "cross-team",
+            "metrics",
+            "escalation"
+          ],
+          "maxPerTurn": 3,
+          "enumValues": []
+        },
+        "custom.oncall-ownership": {
+          "title": "On-call ownership stress",
+          "subtitle": "Runs on as scheduled",
+          "details": "Score composure and outcome ownership under incident pressure.",
+          "outputKind": "dimensions",
+          "storageKey": "custom.oncall-ownership",
+          "justificationPolicy": "always_required",
+          "dimensions": [
+            {
+              "key": "composed",
+              "label": "Stays composed",
+              "options": [
+                "weak",
+                "mixed",
+                "strong"
+              ],
+              "defaultOption": "mixed"
+            },
+            {
+              "key": "owns_outcome",
+              "label": "Owns the outcome",
+              "options": [
+                "weak",
+                "mixed",
+                "strong"
+              ],
+              "defaultOption": "mixed"
+            }
+          ],
+          "taxonomy": [],
+          "maxPerTurn": 3,
+          "enumValues": []
+        },
+        "iv.delivery.v1": {
+          "title": "How they speak (clarity, composure)",
+          "subtitle": "Runs on each answer",
+          "details": "Scores clarity, composure, and structure while the candidate talks.",
+          "outputKind": "dimensions",
+          "storageKey": "iv.delivery",
+          "justificationPolicy": "always_required",
+          "dimensions": [
+            {
+              "key": "clarity",
+              "label": "Clarity",
+              "options": [
+                "weak",
+                "mixed",
+                "strong"
+              ],
+              "defaultOption": "mixed",
+              "evidenceModel": "manner"
+            },
+            {
+              "key": "composure",
+              "label": "Composure",
+              "options": [
+                "weak",
+                "mixed",
+                "strong"
+              ],
+              "defaultOption": "mixed",
+              "evidenceModel": "manner"
+            },
+            {
+              "key": "structure",
+              "label": "Structure",
+              "options": [
+                "weak",
+                "mixed",
+                "strong"
+              ],
+              "defaultOption": "mixed",
+              "evidenceModel": "manner"
+            }
+          ],
+          "taxonomy": [],
+          "maxPerTurn": 3,
+          "enumValues": []
+        },
+        "iv.content.v1": {
+          "title": "Substance vs the topic",
+          "subtitle": "Runs on each answer",
+          "details": "Judges substance against the topic purpose and probe goals.",
+          "outputKind": "dimensions",
+          "storageKey": "iv.content",
+          "justificationPolicy": "always_required",
+          "dimensions": [
+            {
+              "key": "relevance",
+              "label": "Relevance",
+              "options": [
+                "weak",
+                "mixed",
+                "strong"
+              ],
+              "defaultOption": "mixed",
+              "evidenceModel": "accumulative"
+            },
+            {
+              "key": "depth",
+              "label": "Depth",
+              "options": [
+                "weak",
+                "mixed",
+                "strong"
+              ],
+              "defaultOption": "mixed",
+              "evidenceModel": "accumulative"
+            },
+            {
+              "key": "specificity",
+              "label": "Specificity",
+              "options": [
+                "weak",
+                "mixed",
+                "strong"
+              ],
+              "defaultOption": "mixed",
+              "evidenceModel": "accumulative"
+            }
+          ],
+          "taxonomy": [],
+          "maxPerTurn": 3,
+          "enumValues": []
+        },
+        "custom.impact": {
+          "title": "Impact evidence rubric CANARY",
+          "subtitle": "Runs on end of section",
+          "details": "Score named impact evidence on this discussion.",
+          "outputKind": "dimensions",
+          "storageKey": "custom.impact",
+          "justificationPolicy": "always_required",
+          "dimensions": [
+            {
+              "key": "impact",
+              "label": "Impact",
+              "options": [
+                "absent",
+                "emerging",
+                "consistent"
+              ],
+              "defaultOption": "mixed",
+              "optionNotes": [
+                "Not shown in the answer.",
+                "One named instance of a metric they moved.",
+                "Several named instances."
+              ],
+              "evidenceModel": "accumulative"
+            }
+          ],
+          "taxonomy": [],
+          "maxPerTurn": 3,
+          "enumValues": []
+        },
+        "custom.incident-count": {
+          "title": "Incident count score CANARY",
+          "subtitle": "Runs on end of section",
+          "details": "Count distinct named incidents in the story.",
+          "criterion": "Named distinct incidents, not vibes.",
+          "outputKind": "scalar",
+          "storageKey": "custom.incident-count",
+          "justificationPolicy": "always_required",
+          "dimensions": [],
+          "taxonomy": [],
+          "maxPerTurn": 3,
+          "enumValues": []
+        }
+      }
+    }
+  },
+  "definition": {
+    "meta": {
+      "title": "Staff Security Engineer - 80m hardened loop",
+      "status": "draft",
+      "timing": {
+        "fitPolicy": "fit_proposed",
+        "slackMinutes": 5
+      },
+      "roleTitle": "Staff Security Engineer",
+      "proposedMinutes": 85,
+      "roleDescription": "Interview chrome\n- Title: Staff Security Engineer 80m Hardened Loop\n- Role title: Staff Security Engineer\n- Role description: This interview assesses senior security engineering candidates for a staff-level platform role. Focus areas include multi-service platform security, on-call incident response, and technical mentorship. Candidates must demonstrate calm, precise ownership under pressure, and a track record of leading security initiatives across complex systems.\n- Proposed minutes: 85 (fit: allows for eligibility screening, deep ownership discussion, and candidate Q&A)\n- Persona: Jordan (Staff Security Interviewer)\n  - Voice: Calm, exacting, and evidence-driven\n  - Behaviour: Probes for specific examples and metrics; never reveals solution paths or hints; remains within the current section; maintains a professional, unhurried tone\n- System goals:\n  - Screen for basic eligibility and work authorization\n  - Assess ownership, incident response skills, and mentorship under pressure\n  - Ensure only eligible candidates proceed to deep assessment\n  - Avoid adding any extra sections or coding/writing elements not in scope\n- Guardrails:\n  - No solution hints or coaching\n  - Do not invent sections outside the described flow\n  - Strict adherence to section order and gating\n\nFlow I want\n1. Opening talk\n2. Eligibility / work-authorization screening form (form before deep talk)\n3. Deep ownership / on-call incident talk (when form passed)\n4. Short closing\n\nSection blocks\n\nOpening talk\n- Purpose: Welcome the candidate, set expectations for the staff security platform loop, and establish a calm, professional tone. Briefly outline the interview structure and reinforce the focus on ownership and incident response.\n- Pack label: Introduction & Overview\n- Soft depth: 4-5 minutes\n- Probes:\n  - \"Can you briefly describe your current role and the scope of your security responsibilities?\" (required)\n  - \"What motivated you to pursue staff-level security engineering roles?\"\n- Interviewer note: Keep it light, focus on rapport-building and context-setting. No hard timer.\n\nEligibility / work-authorization screening form\n- Candidate instructions: Please answer the following required questions to confirm your eligibility for this role. You must complete this section before proceeding.\n- Timer: 6 minutes (hard limit; screening form)\n- Pass gate: Candidates must pass all required eligibility checks to proceed.\n- OnFail: Jump to Closing talk (bypass deep talk if not eligible).\n- Question types and answer keys:\n  - Full legal name (short text, required)\n  - Email address (short text, email regex, required)\n  - Are you legally authorized to work in [region/country]? (single MCQ: Yes/No, required, answerKey: Yes)\n  - Do you require current or future sponsorship? (single MCQ: Yes/No, required, answerKey: No)\n  - Have you led security incident response for multi-service platforms? (single MCQ: Yes/No, required, answerKey: Yes)\n  - Years of professional security engineering experience (dropdown: 0-2, 3-5, 6-8, 9+, required, answerKey: 6-8, 9+)\n  - Are you able to participate in a rotating on-call schedule? (single MCQ: Yes/No, required, answerKey: Yes)\n- Required on the timeline.\n- No nested or filler questions.\n- Shuffle allowed if grading works.\n\nDeep ownership / on-call incident talk\n- Purpose: Assess the candidate's ability to take ownership of security incidents, lead during high-pressure situations, and mentor others. Focus on concrete examples from multi-service platforms and how the candidate balances technical depth with calm leadership.\n- Pack label: Incident Ownership & Mentorship Deep Dive\n- Soft depth: 35-40 minutes\n- Minimum candidate turns: 5\n- Follow-ups: Strongly encouraged for depth and evidence\n- When: Only proceed if candidate passes the eligibility form gate\n- Probes:\n  - \"Describe a high-severity security incident you led on a multi-service platform. What was your role from detection to resolution?\" (required)\n  - \"How did you coordinate with engineering and operations teams during the incident?\"\n  - \"What metrics or signals did you use to assess incident severity and impact?\"\n  - \"Can you share how you mentored or coached others during or after the incident?\"\n- Extraction targets:\n  - Outcome summary (string)\n  - Severity rating (enum: Low, Moderate, High, Critical)\n  - Ownership evidence (boolean)\n  - Mentorship impact (string)\n- Behaviour override for this section: Push for concrete metrics, timelines, and evidence of calm leadership. Avoid generalities; seek specific actions and results.\n- Interviewer notes:\n  - Probe for depth and clarity\n  - Encourage candidate to quantify impact where possible\n\nShort closing\n- Purpose: Allow the candidate to ask questions, clarify next steps, and close the interview on a positive, informative note.\n- Pack label: Wrap-up & Candidate Q&A\n- Soft depth: 4-5 minutes\n- Probe:\n  - \"What questions do you have about the team, our platform security approach, or next steps?\"\n- No hard timer.\n- Always last on the spine.\n\nDecision\n- Assessment is multi-section. Soft weights and section sources as follows:\n  - formMark: gate_only (eligibility screening form is a required gate, not blended into soft score)\n  - interviewContent: 0.5 (opening talk + deep ownership/on-call talk)\n  - interviewDelivery: 0.5 (opening talk + deep ownership/on-call talk + closing)\n- weightSections:\n  - formMark → Eligibility / work-authorization screening form\n  - interviewContent → Opening talk, Deep ownership/on-call incident talk\n  - interviewDelivery → Opening talk, Deep ownership/on-call incident talk, Closing talk\n- No coding, writing, or template scoring sections.\n\nOverall expectations (spot-check list)\n- Opening talk is first; closing talk is last.\n- Eligibility/work-auth screening form comes before the deep talk.\n- Screening form has hard timer, pass gate, and onFail jumps to closing (not quietly continuing).\n- All form questions have clear answer keys and named Creator-2 kinds; required on the timeline.\n- Deep ownership/on-call talk only occurs when the form is passed; never free-text or unlocked.\n- Deep talk contains 3-4 concrete probes (≥1 required), extraction targets, and interviewer notes to push for evidence/metrics.\n- No hard timers on talks.\n- No coding, writing, or template packs are present (not implied by the skeletal brief).\n- Decision uses FE keys only: formMark gate_only, interviewContent, interviewDelivery; weightSections mapped as above.\n- End with a spot-check list as above.\n- No invented sections or assessment types outside the described flow.\n- Plain text only - no Markdown, no bold, no backticks.",
+      "estimatedMinutes": 71,
+      "candidateDescription": "Welcome to this interview template. You will be guided through a series of questions and exercises designed to assess general skills and competencies. Please answer each section as clearly and concretely as possible. If you have questions, ask for clarification at any time."
+    },
+    "persona": {
+      "name": "Morgan",
+      "voice": "Direct and assertive",
+      "behaviourPrompt": "Be a fair, curious interviewer. Stay on the section goals."
+    },
+    "guardrails": [
+      "Do not reveal scoring criteria.",
+      "Do not ask about protected-class information.",
+      "Keep questions relevant to the Senior Software Engineer role.",
+      "Do not provide feedback or coaching during the interview."
+    ],
+    "systemGoals": [
+      "Assess technical depth and problem-solving skills.",
+      "Evaluate experience with complex projects and ownership.",
+      "Verify eligibility and readiness for the role.",
+      "Ensure clear and effective communication from the candidate."
+    ],
+    "probeDefaults": {
+      "maxFollowUps": 2
+    }
+  },
+  "topicLibrary": [
+    {
+      "id": "topic.msxzbe",
+      "label": "Settle in with recent platform work",
+      "probes": [
+        {
+          "id": "pr.open.1",
+          "goal": "Briefly describe a recent platform project you worked on.",
+          "hint": "A short summary is fine - focus on what made it interesting.",
+          "order": 0,
+          "required": true
+        },
+        {
+          "id": "pr.open.2",
+          "goal": "What was your personal contribution to this project?",
+          "hint": "Name a concrete decision or action you owned.",
+          "order": 1,
+          "required": false
+        }
+      ],
+      "purpose": "Start with a light conversation about a recent platform project you owned. Share what you built and what made it interesting - this is a warm-up, not a deep technical grill.",
+      "targets": [],
+      "analysis": {
+        "attachPack": "pack.talk",
+        "templateIds": [
+          "iv.delivery.v1",
+          "iv.content.v1",
+          "synth.topic.v1"
+        ]
+      },
+      "maxFollowUps": 1,
+      "targetMinutes": 8
+    },
+    {
+      "id": "topic.890lut",
+      "label": "Ownership and incident impact",
+      "probes": [
+        {
+          "id": "pr.own1",
+          "goal": "Describe a recent incident or project where you had full ownership. What was the outcome?",
+          "hint": "Look for a specific example with measurable results.",
+          "order": 0,
+          "required": true
+        },
+        {
+          "id": "pr.own2",
+          "goal": "What was the hardest decision you made during this incident or project?",
+          "hint": "Ask for a real tradeoff or turning point.",
+          "order": 1,
+          "required": true
+        },
+        {
+          "id": "pr.own3",
+          "goal": "If you could do it again, what would you change and why?",
+          "hint": "Probe for reflection and learning.",
+          "order": 2,
+          "required": false
+        }
+      ],
+      "purpose": "Share a concrete story where you personally owned a delivery or incident from start to finish. Strong answers focus on your decisions, the impact you achieved, and what you learned. This section matters because it shows how you take responsibility and drive results in challenging situations.",
+      "targets": [],
+      "analysis": {
+        "attachPack": "pack.talk",
+        "templateIds": [
+          "iv.delivery.v1",
+          "iv.content.v1",
+          "synth.topic.v1",
+          "custom.oncall-ownership",
+          "custom.incident-themes",
+          "custom.severity-band",
+          "custom.evidence-gate",
+          "custom.reviewer-note",
+          "iv.ownership.v1",
+          "custom.impact",
+          "custom.incident-count"
+        ]
+      },
+      "maxFollowUps": 2,
+      "targetMinutes": 12
+    },
+    {
+      "id": "topic.qm4ypl",
+      "label": "Closing questions and next steps",
+      "probes": [
+        {
+          "id": "probe.closing.1",
+          "goal": "What questions do you have about the role, team, or next steps?",
+          "hint": "Invite any remaining questions and clarify the process.",
+          "order": 0,
+          "required": true
+        }
+      ],
+      "purpose": "Wrap up the interview by inviting your questions about the role, team, or process. We will confirm what happens next and make sure you leave with a clear sense of the timeline.",
+      "targets": [],
+      "analysis": {
+        "templateIds": [
+          "iv.question.v1"
+        ]
+      },
+      "maxFollowUps": 1,
+      "targetMinutes": 5
+    }
+  ],
+  "schemaVersion": 1,
+  "timingSummary": {
+    "notes": "Estimated minutes fit the proposed budget.",
+    "estimatedMinutes": 71
+  }
+}

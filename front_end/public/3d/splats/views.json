@@ -1,0 +1,38 @@
+{
+  "/3d/memoir-site-location1.ply": {
+    "home": {
+      "camera": [
+        0.1529,
+        0.2476,
+        0.382
+      ],
+      "target": [
+        0.147,
+        -0.1351,
+        -0.2548
+      ],
+      "fov": 50
+    },
+    "flip": false,
+    "views": [
+      {
+        "camera": [
+          0.147,
+          0.2594,
+          0.3747
+        ],
+        "target": [
+          0.147,
+          -0.1351,
+          -0.2548
+        ],
+        "fov": 50,
+        "id": "view-mv37602d",
+        "label": "View 1"
+      }
+    ]
+  },
+  "/3d/fort-mason.spz": {
+    "views": []
+  }
+}

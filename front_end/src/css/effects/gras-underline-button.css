@@ -1,0 +1,26 @@
+/**
+ * Inline GRAS label only — nest layout uses `.theme-lcl-layout__nest-item` from lcl-layout.css.
+ * Underline motion stays in link-hover-styles (`.theme-hairline-fx--eirene`). No second line recipe.
+ */
+@layer components {
+  .theme .theme-gras-underline-btn {
+    position: relative;
+    display: inline-block;
+    margin: 0;
+    padding: 0 0 0.35rem;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: start;
+    text-decoration: none;
+    cursor: pointer;
+    overflow: visible;
+  }
+
+  .theme .theme-gras-underline-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+    pointer-events: none;
+  }
+}

@@ -1,0 +1,233 @@
+/* Menu LCL — Home chrome: top-center Menu, bottom-left horizontal Quick access. */
+
+@layer components {
+  .theme .theme-menu-lcl {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    pointer-events: none;
+  }
+
+  .theme .theme-menu-lcl:not(.is-live) {
+    visibility: hidden;
+  }
+
+  .theme .theme-menu-lcl.is-live {
+    visibility: visible;
+  }
+
+  .theme .theme-menu-lcl__menu {
+    /*
+     * Optical match to Megrim "Menu" — glyphs don't fill the full em, so a 1em
+     * stroke-filled box reads ~2× too tall. Cap the icon to ~cap-height.
+     * Aspect follows viewBox="0 38 62 24" (62/24 ≈ 2.58).
+     */
+    --menu-lcl-icon-h: 0.52em;
+    --menu-lcl-icon-w: 1.35em;
+    position: absolute;
+    top: clamp(1.25rem, 4vh, 2.5rem);
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0;
+    /* Shared em so the icon tracks Megrim Menu size. */
+    font-size: clamp(1.85rem, 3.4vw, 2.75rem);
+    line-height: 1;
+    pointer-events: auto;
+    z-index: 2;
+  }
+
+  /*
+   * Enter: __char height = icon height so yPercent ≈ Menu letters; overflow hidden.
+   * Beat `.theme-stroke-menu-icon` 5rem (imported after this file) with higher specificity.
+   */
+  .theme .theme-menu-lcl__menu-icon-enter {
+    display: inline-block;
+    flex-shrink: 0;
+    margin-bottom: 0;
+    margin-inline-end: 0.14em;
+    font-size: 1em;
+    line-height: 1;
+    /* Match eirene label lift — icon sits outside the underline button. */
+    transform: translate3d(0, 0, 0);
+    transition: transform 0.4s cubic-bezier(0.8, 0, 0.1, 1);
+  }
+
+  .theme .theme-menu-lcl__menu:is(:hover, :focus-within) .theme-menu-lcl__menu-icon-enter {
+    transform: translate3d(0, -4px, 0);
+    transition-duration: 0.2s;
+    transition-delay: 0.05s;
+    transition-timing-function: cubic-bezier(0.2, 0.57, 0.67, 1.53);
+  }
+
+  .theme .theme-menu-lcl__menu-icon-enter .theme-scroll-enter__mask {
+    display: block;
+    overflow: hidden;
+    width: var(--menu-lcl-icon-w);
+    height: var(--menu-lcl-icon-h);
+    perspective: 1000px;
+  }
+
+  .theme .theme-menu-lcl__menu-icon-enter .theme-scroll-enter__line,
+  .theme .theme-menu-lcl__menu-icon-enter .theme-scroll-enter__word {
+    display: block;
+    width: var(--menu-lcl-icon-w);
+    height: var(--menu-lcl-icon-h);
+  }
+
+  .theme .theme-menu-lcl__menu-icon-enter .theme-scroll-enter__char {
+    position: relative;
+    display: block;
+    width: var(--menu-lcl-icon-w);
+    height: var(--menu-lcl-icon-h);
+    line-height: 0;
+    overflow: hidden;
+    transform-origin: 50% 100%;
+  }
+
+  .theme .theme-menu-lcl__menu-icon.theme-stroke-menu-icon {
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+    width: var(--menu-lcl-icon-w);
+    height: var(--menu-lcl-icon-h);
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .theme .theme-menu-lcl__menu-icon .theme-stroke-menu-icon__svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .theme .theme-menu-lcl__menu-icon.theme-stroke-menu-icon path {
+    stroke-width: 2.15;
+  }
+
+  .theme .theme-menu-lcl__menu-btn {
+    /* No bottom pad — eirene wipe sits under the letters, not a padded gap. */
+    padding: 0 0.05rem 0 0;
+    line-height: 1;
+  }
+
+  .theme .theme-menu-lcl__menu-btn .type-display {
+    text-transform: none;
+    font-size: 1em;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  /* Natural letter metrics — never force a tall enter box on the label. */
+  .theme .theme-menu-lcl__menu-btn .theme-scroll-enter__mask {
+    height: auto;
+  }
+
+  .theme .theme-menu-lcl__menu-btn .theme-scroll-enter__char {
+    transform-origin: 50% 100%;
+  }
+
+  /* Closed must not stick in the expanded eirene pill from focus-within after click. */
+  .theme .theme-menu-lcl:not(.is-open) .theme-menu-lcl__menu-btn.theme-hairline-fx--eirene:focus-within:not(:hover) .theme-hairline-fx__pill {
+    transform: scale3d(1, 0.14, 1);
+    transition-duration: 0.4s;
+    transition-timing-function: cubic-bezier(0.8, 0, 0.1, 1);
+  }
+
+  .theme .theme-menu-lcl.is-open .theme-menu-lcl__menu-btn.theme-hairline-fx--eirene .theme-hairline-fx__pill {
+    transform: scale3d(1, 1, 1);
+    transition-duration: 0.2s;
+    transition-timing-function: cubic-bezier(0.2, 0.57, 0.67, 1.53);
+  }
+
+  /* Thin rest line hard under the glyphs — tall wipe was the “detached underline” gap. */
+  .theme .theme-menu-lcl__menu-btn .theme-hairline-fx__wipe {
+    height: 3px;
+    bottom: -1px;
+  }
+
+  .theme .theme-menu-lcl__panel {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .theme .theme-menu-lcl__quick {
+    position: absolute;
+    left: clamp(1.25rem, 4vw, 2.75rem);
+    bottom: clamp(1.25rem, 5vh, 3rem);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.55rem;
+    max-width: min(32rem, 78vw);
+    pointer-events: auto;
+    z-index: 1;
+  }
+
+  .theme .theme-menu-lcl.is-open .theme-menu-lcl__quick {
+    pointer-events: none;
+  }
+
+  .theme .theme-menu-lcl__quick-head {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: max-content;
+    max-width: 100%;
+  }
+
+  .theme .theme-menu-lcl__quick-title {
+    margin: 0;
+    opacity: 0.72;
+  }
+
+  .theme .theme-menu-lcl__quick-head .theme-hairline-fx__wipe {
+    margin-top: 0.35rem;
+  }
+
+  .theme .theme-menu-lcl__quick-head .theme-hairline-fx__rule {
+    background: currentColor;
+    opacity: 0.55;
+  }
+
+  .theme .theme-menu-lcl__quick-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .theme .theme-menu-lcl__quick-item {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .theme .theme-menu-lcl__quick-item .theme-gras-underline-btn {
+    padding: 0 0.2rem 0.25rem;
+    overflow: visible;
+    color: var(--theme-text-muted);
+    transition: color 0.22s var(--theme-fluid-ease-out, ease);
+  }
+
+  .theme .theme-menu-lcl__quick-item .theme-gras-underline-btn:is(:hover, :focus-visible) {
+    color: var(--theme-text);
+  }
+
+  .theme .theme-menu-lcl__quick-item .type-h3 {
+    line-height: 1.15;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme .theme-menu-lcl__menu-icon-enter {
+    transition: none !important;
+  }
+}

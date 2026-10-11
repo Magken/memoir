@@ -1,0 +1,122 @@
+/**
+ * Scale-cover modal — page stage scales down; cover rises to fill viewport.
+ * Companion to SceneMenuShell peel; used for Verify full-screen dialogs.
+ */
+
+@layer components {
+  .theme .theme-scale-cover-modal {
+    --scale-cover-modal-z: 140;
+    --scale-cover-modal-chrome: clamp(1rem, 3vw, 1.75rem);
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+    isolation: isolate;
+    background: color-mix(
+      in srgb,
+      var(--theme-complement) 12%,
+      var(--theme-page-bg)
+    );
+  }
+
+  .theme .theme-scale-cover-modal__stage {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    overflow: auto;
+    background: var(--theme-page-bg);
+    color: var(--theme-text);
+    transform-origin: 50% 50%;
+    will-change: transform;
+  }
+
+  .theme .theme-scale-cover-modal[data-open='true'] .theme-scale-cover-modal__stage {
+    pointer-events: none;
+    box-shadow:
+      0 1.5rem 3rem color-mix(in srgb, var(--theme-text) 18%, transparent),
+      0 0 0 1px color-mix(in srgb, var(--theme-border) 55%, transparent);
+  }
+
+  .theme .theme-scale-cover-modal__cover {
+    position: absolute;
+    inset: 0;
+    z-index: var(--scale-cover-modal-z);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: var(--scale-cover-modal-chrome);
+    overflow: hidden;
+    background: var(--theme-surface);
+    color: var(--theme-text);
+    border-radius: var(--theme-radius-surface, 0) var(--theme-radius-surface, 0) 0 0;
+    box-shadow: 0 -0.5rem 2.5rem color-mix(in srgb, var(--theme-text) 22%, transparent);
+    will-change: transform;
+    pointer-events: none;
+  }
+
+  .theme .theme-scale-cover-modal[data-open='true'] .theme-scale-cover-modal__cover {
+    pointer-events: auto;
+  }
+
+  .theme .theme-scale-cover-modal__header {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--theme-border);
+  }
+
+  .theme .theme-scale-cover-modal__header:has(> .sr-only:only-child) {
+    display: contents;
+    padding: 0;
+    border: 0;
+  }
+
+  .theme .theme-scale-cover-modal__header:has(> .sr-only:only-child) + .theme-scale-cover-modal__body {
+    padding-top: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Sign up owns edge chrome (menu close-reserve / login Back) — no cover inset. */
+  .theme .theme-scale-cover-modal:has(.theme-vurify-sign-up) .theme-scale-cover-modal__cover {
+    padding: 0;
+  }
+
+  .theme
+    .theme-scale-cover-modal__header:has(> .sr-only:only-child)
+    + .theme-scale-cover-modal__body
+    > .theme-vurify-sign-up {
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 100%;
+    max-width: none;
+  }
+
+  .theme .theme-scale-cover-modal__title {
+    margin: 0;
+    min-width: 0;
+  }
+
+  .theme .theme-scale-cover-modal__body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
+    padding-top: 1.25rem;
+  }
+
+  /* Theme / lab embed — fills a framed host instead of the full viewport */
+  .theme .theme-scale-cover-modal--host {
+    height: min(32rem, 70svh);
+    max-height: 70svh;
+  }
+
+  /* App host (Home): stage holds SceneMenuShell — no nested scroll on the stage. */
+  .theme .theme-scale-cover-modal:has(.theme-scene-menu-shell) .theme-scale-cover-modal__stage {
+    overflow: hidden;
+  }
+}

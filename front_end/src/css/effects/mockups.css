@@ -1,0 +1,516 @@
+/**
+ * Signature mockup blocks — titles, gleam, folds, window chrome, pills, steps, hubs.
+ */
+
+@layer components {
+  .theme .theme-mockup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-width: 0;
+    padding: 1rem;
+  }
+
+  .theme .theme-mockup--compact {
+    gap: 0.5rem;
+    padding: 0.75rem;
+  }
+
+  .theme .theme-mockup--embedded {
+    gap: 0.5rem;
+    padding: 0.25rem 0.125rem 0;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+  }
+
+  .theme .theme-mockup__copy,
+  .theme .theme-mockup__stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-width: 0;
+  }
+
+  .theme .theme-mockup__kicker {
+    letter-spacing: 0.08em;
+    color: var(--theme-text-muted);
+  }
+
+  .theme .theme-mockup__title {
+    overflow-wrap: anywhere;
+  }
+
+  .theme .theme-mockup__body {
+    overflow-wrap: anywhere;
+  }
+
+  .theme .theme-mockup--gleam {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .theme .theme-mockup--gleam::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      105deg,
+      transparent 28%,
+      color-mix(in srgb, var(--theme-accent) 22%, transparent) 48%,
+      color-mix(in srgb, var(--theme-text) 10%, transparent) 54%,
+      transparent 72%
+    );
+    transform: translateX(-120%);
+    animation: theme-mockup-gleam 3.8s ease-in-out infinite;
+  }
+
+  @keyframes theme-mockup-gleam {
+    0%,
+    32% {
+      transform: translateX(-120%);
+    }
+    62%,
+    100% {
+      transform: translateX(120%);
+    }
+  }
+
+  .theme .theme-mockup__expand {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-width: 0;
+  }
+
+  .theme .theme-mockup__fold-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    width: 100%;
+    margin: 0;
+    padding: 0.25rem 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    text-align: start;
+    cursor: pointer;
+  }
+
+  .theme .theme-mockup__chevron {
+    flex-shrink: 0;
+    opacity: 0.65;
+    transition:
+      rotate 0.22s cubic-bezier(0.33, 1, 0.48, 1),
+      opacity 0.22s ease;
+  }
+
+  .theme .theme-mockup__fold-trigger:hover .theme-mockup__chevron,
+  .theme .theme-mockup__fold-trigger:focus-visible .theme-mockup__chevron {
+    opacity: 1;
+  }
+
+  .theme .theme-mockup__chevron--open {
+    rotate: 180deg;
+    opacity: 1;
+  }
+
+  .theme .theme-mockup__fold {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.22s cubic-bezier(0.33, 1, 0.48, 1);
+  }
+
+  .theme .theme-mockup__fold--open {
+    grid-template-rows: 1fr;
+  }
+
+  .theme .theme-mockup__fold-inner {
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  .theme .theme-mockup__pills {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+  }
+
+  .theme .theme-mockup__pill-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    min-width: 0;
+  }
+
+  .theme .theme-mockup__callout,
+  .theme .theme-mockup__step {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    min-width: 0;
+  }
+
+  .theme .theme-mockup__step-index {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.75rem;
+    height: 1.75rem;
+    padding: 0 0.35rem;
+    border: 1px solid color-mix(in srgb, var(--theme-accent) 40%, var(--theme-border));
+    border-radius: 999px;
+    color: var(--theme-accent);
+    background: color-mix(in srgb, var(--theme-accent) 10%, var(--theme-surface-raised));
+  }
+
+  .theme .theme-mockup--hub {
+    background: color-mix(in srgb, var(--theme-accent) 10%, var(--theme-surface-raised));
+    border-color: color-mix(in srgb, var(--theme-accent) 38%, var(--theme-border));
+  }
+
+  .theme .theme-mockup__metric {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-width: 0;
+  }
+
+  .theme .theme-mockup__metric-value {
+    color: var(--theme-accent);
+  }
+
+  .theme .theme-mockup__window-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    margin: -1rem -1rem 0;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--theme-border);
+    background: color-mix(in srgb, var(--theme-page-bg) 55%, var(--theme-surface-raised));
+  }
+
+  .theme .theme-mockup--compact .theme-mockup__window-bar,
+  .theme .theme-mockup--embedded .theme-mockup__window-bar {
+    margin: -0.75rem -0.75rem 0;
+  }
+
+  .theme .theme-mockup--embedded .theme-mockup__window-bar {
+    margin: -0.25rem -0.125rem 0;
+  }
+
+  .theme .theme-mockup__window-dot {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 999px;
+    background: var(--theme-border-strong);
+  }
+
+  .theme .theme-mockup__window-url {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .theme .theme-mockup__window-body {
+    padding-top: 0.25rem;
+  }
+
+  .theme .theme-mockup__node-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    min-width: 0;
+  }
+
+  .theme .theme-mockup-flow-editor.theme-flow-editor--showcase {
+    max-width: none;
+    height: min(68vh, 48rem);
+  }
+
+  .theme .theme-mockup-scene {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-width: 0;
+  }
+
+  .theme .theme-mockup-scene__masthead {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+  }
+
+  .theme .theme-mockup-scene__masthead--center {
+    align-items: center;
+    text-align: center;
+  }
+
+  .theme .theme-mockup-scene__title {
+    overflow-wrap: anywhere;
+  }
+
+  .theme .theme-mockup-scene .theme-wireframe__block {
+    align-items: stretch;
+    justify-content: flex-start;
+    text-align: start;
+  }
+
+  .theme .theme-mockup-scene__box {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .theme .theme-mockup-scene__heading {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+  }
+
+  .theme .theme-mockup-scene__copy {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-break: normal;
+    white-space: normal;
+    line-height: 1.45;
+  }
+
+  .theme .theme-mockup-scene__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem 0.5rem;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .theme .theme-mockup-scene__row-copy {
+    flex: 1 1 auto;
+    min-width: min-content;
+    overflow-wrap: normal;
+    word-break: normal;
+    white-space: nowrap;
+  }
+
+  .theme .theme-mockup-scene__heading .type-label,
+  .theme .theme-mockup-scene__heading .type-anim,
+  .theme .theme-mockup-scene__row .type-anim {
+    overflow-wrap: normal;
+    word-break: normal;
+    white-space: nowrap;
+  }
+
+  .theme .theme-mockup-scene__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .theme .theme-mockup-scene__divider {
+    display: block;
+    width: 100%;
+    height: 1px;
+    background-color: color-mix(in srgb, var(--theme-border-strong) 65%, transparent);
+  }
+
+  .theme .theme-mockup-scene .theme-wireframe__skeleton {
+    margin-inline: 0;
+    max-width: none;
+  }
+
+  .theme .theme-mockup-scene__grid--stack {
+    max-width: 28rem;
+    margin-inline: auto;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .theme .theme-mockup-scene__grid--split {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    min-height: 11rem;
+  }
+
+  .theme .theme-mockup-scene__grid--trio {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .theme .theme-mockup-scene__grid--beats,
+  .theme .theme-mockup-scene__grid--band {
+    grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+  }
+
+  .theme .theme-mockup-scene__slot-fold {
+    display: grid;
+    grid-template-rows: 1fr;
+    min-height: 0;
+    transition: grid-template-rows 0.55s ease;
+  }
+
+  .theme .theme-mockup-scene__slot-inner {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .theme .theme-mockup-scene--motion-focus .theme-wireframe,
+  .theme .theme-mockup-scene--motion-swap .theme-wireframe {
+    display: flex;
+    align-items: stretch;
+  }
+
+  .theme .theme-mockup-scene--motion-focus .theme-mockup-scene__grid--stack,
+  .theme .theme-mockup-scene--motion-swap .theme-mockup-scene__grid--stack {
+    flex-direction: column;
+  }
+
+  .theme .theme-mockup-scene--motion-focus .theme-mockup-scene__grid--split,
+  .theme .theme-mockup-scene--motion-focus .theme-mockup-scene__grid--trio,
+  .theme .theme-mockup-scene--motion-focus .theme-mockup-scene__grid--beats,
+  .theme .theme-mockup-scene--motion-focus .theme-mockup-scene__grid--band,
+  .theme .theme-mockup-scene--motion-swap .theme-mockup-scene__grid--split,
+  .theme .theme-mockup-scene--motion-swap .theme-mockup-scene__grid--trio,
+  .theme .theme-mockup-scene--motion-swap .theme-mockup-scene__grid--beats,
+  .theme .theme-mockup-scene--motion-swap .theme-mockup-scene__grid--band {
+    flex-direction: row;
+  }
+
+  .theme .theme-mockup-scene--motion-focus .theme-mockup-scene__slot,
+  .theme .theme-mockup-scene--motion-swap .theme-mockup-scene__slot {
+    overflow: hidden;
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .theme .theme-mockup-scene--motion-focus .theme-mockup-scene__slot .theme-mockup-scene__slot-inner,
+  .theme .theme-mockup-scene--motion-swap .theme-mockup-scene__slot .theme-mockup-scene__slot-inner {
+    transition:
+      opacity 0.2s ease,
+      visibility 0.2s ease;
+  }
+
+  .theme .theme-mockup-scene--motion-focus .theme-mockup-scene__slot[data-state='on'],
+  .theme .theme-mockup-scene--motion-swap .theme-mockup-scene__slot[data-state='on'] {
+    flex: 1 1 auto;
+  }
+
+  .theme .theme-mockup-scene--motion-focus .theme-mockup-scene__slot[data-state='on'] .theme-mockup-scene__slot-inner,
+  .theme .theme-mockup-scene--motion-swap .theme-mockup-scene__slot[data-state='on'] .theme-mockup-scene__slot-inner {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0.22s;
+  }
+
+  .theme .theme-mockup-scene--motion-focus .theme-mockup-scene__slot[data-state='off'] .theme-mockup-scene__slot-inner,
+  .theme .theme-mockup-scene--motion-swap .theme-mockup-scene__slot[data-state='off'] .theme-mockup-scene__slot-inner {
+    opacity: 0;
+    visibility: hidden;
+    transition-delay: 0s;
+  }
+
+  .theme .theme-mockup-scene--motion-focus .theme-mockup-scene__slot[data-state='off'],
+  .theme .theme-mockup-scene--motion-swap .theme-mockup-scene__slot[data-state='off'] {
+    flex: 0 0 0;
+    width: 0;
+    max-height: 0;
+    min-height: 0;
+    min-width: 0;
+    padding: 0;
+    border-width: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      flex 0.45s ease 0.2s,
+      width 0.45s ease 0.2s,
+      max-height 0.45s ease 0.2s,
+      padding 0.45s ease 0.2s,
+      border-width 0.45s ease 0.2s,
+      opacity 0.2s ease;
+  }
+
+  .theme .theme-mockup-scene--motion-focus .theme-mockup-scene__slot[data-state='off'] .theme-mockup-scene__slot-fold,
+  .theme .theme-mockup-scene--motion-swap .theme-mockup-scene__slot[data-state='off'] .theme-mockup-scene__slot-fold {
+    grid-template-rows: 0fr;
+  }
+
+  .theme .theme-mockup-scene--motion-walk .theme-mockup-scene__slot {
+    transition:
+      opacity 0.4s ease,
+      background-color 0.4s ease;
+  }
+
+  .theme .theme-mockup-scene--motion-walk .theme-mockup-scene__slot[data-state='off'] {
+    opacity: 0.4;
+  }
+
+  .theme .theme-mockup-scene--motion-walk .theme-mockup-scene__slot[data-state='on'] {
+    background-color: color-mix(in srgb, var(--theme-accent) 18%, var(--theme-surface));
+  }
+
+  @keyframes theme-mockup-scene-stagger {
+    from {
+      opacity: 0;
+      transform: translateY(0.6rem);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .theme .theme-mockup-scene--motion-stagger .theme-mockup-scene__slot {
+    animation: theme-mockup-scene-stagger 0.5s ease both;
+  }
+
+  .theme .theme-mockup-scene--motion-stagger .theme-mockup-scene__slot:nth-child(1) {
+    animation-delay: 0ms;
+  }
+
+  .theme .theme-mockup-scene--motion-stagger .theme-mockup-scene__slot:nth-child(2) {
+    animation-delay: 0.18s;
+  }
+
+  .theme .theme-mockup-scene--motion-stagger .theme-mockup-scene__slot:nth-child(3) {
+    animation-delay: 0.36s;
+  }
+
+  .theme .theme-mockup-scene--motion-stagger .theme-mockup-scene__slot:nth-child(4) {
+    animation-delay: 0.54s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-mockup--gleam::after {
+      animation: none;
+      display: none;
+    }
+
+    .theme .theme-mockup__fold {
+      transition: none;
+    }
+
+    .theme .theme-mockup__chevron {
+      transition: none;
+    }
+
+    .theme .theme-mockup-scene__slot-fold,
+    .theme .theme-mockup-scene--motion-focus .theme-mockup-scene__slot,
+    .theme .theme-mockup-scene--motion-swap .theme-mockup-scene__slot,
+    .theme .theme-mockup-scene--motion-walk .theme-mockup-scene__slot {
+      transition: none;
+    }
+
+    .theme .theme-mockup-scene--motion-stagger .theme-mockup-scene__slot {
+      animation: none;
+    }
+  }
+}

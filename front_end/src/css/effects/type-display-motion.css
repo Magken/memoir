@@ -1,0 +1,99 @@
+/**
+ * Motion text display — ticker, rotate, counter, announcement (composites + typography).
+ */
+
+@layer components {
+  .theme .theme-type-ticker,
+  .theme .theme-type-rotate {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .theme .theme-type-ticker__line,
+  .theme .theme-type-rotate__line {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .theme .theme-type-rotate {
+    min-height: 1.15em;
+  }
+
+  .theme .theme-type-ticker__static,
+  .theme .theme-type-rotate__static {
+    display: none;
+  }
+
+  .theme .theme-type-counter {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.05em;
+  }
+
+  .theme .theme-type-counter__suffix {
+    font-size: 0.72em;
+    opacity: 0.75;
+  }
+
+  .theme .theme-type-announcement {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.65rem 1.25rem;
+    padding: 0.65rem 1rem;
+    width: 100%;
+  }
+
+  .theme .theme-type-announcement__label {
+    margin: 0;
+    flex-shrink: 0;
+  }
+
+  .theme .theme-type-announcement__body {
+    flex: 1 1 12rem;
+    min-width: 0;
+  }
+
+  .theme .theme-type-announcement__link {
+    flex-shrink: 0;
+    margin-left: auto;
+  }
+
+  .theme .theme-type-marquee--vertical .theme-type-marquee__track {
+    flex-direction: column;
+  }
+
+  .theme .theme-type-marquee--vertical .theme-type-marquee__list {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .theme .theme-type-marquee--vertical .theme-type-marquee__viewport {
+    max-height: clamp(8rem, 28vh, 12rem);
+    padding-inline: clamp(1rem, 2.5vw, 1.75rem);
+  }
+
+  .theme .theme-type-marquee--vertical.theme-type-marquee--fade .theme-type-marquee__viewport {
+    -webkit-mask-image: linear-gradient(
+      180deg,
+      transparent 0,
+      #000 var(--type-marquee-fade-size),
+      #000 calc(100% - var(--type-marquee-fade-size)),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      180deg,
+      transparent 0,
+      #000 var(--type-marquee-fade-size),
+      #000 calc(100% - var(--type-marquee-fade-size)),
+      transparent 100%
+    );
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-type-ticker__static,
+    .theme .theme-type-rotate__static {
+      display: block;
+    }
+  }
+}

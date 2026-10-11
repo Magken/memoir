@@ -1,0 +1,430 @@
+{
+  "schema": "vurify/interview-bot-output",
+  "schemaVersion": 1,
+  "id": "out.sample.1",
+  "candidate": {
+    "displayName": "Amara Okonkwo",
+    "photoUrl": "https://i.pravatar.cc/128?u=amara.okonkwo"
+  },
+  "summary": "This interview has six stages, with Eligibility as a pass or fail screen before Opening and Conflict.",
+  "sittingRead": [
+    {
+      "sectionId": "ph.eligible",
+      "intro": "Eligibility is a pass or fail screen that checks whether they may continue into the rest of the interview.",
+      "strengths": ["They cleared the work-authorization screen, so later stages were allowed to run."],
+      "weaknesses": [],
+      "scoreWhy": "This chip is a pass on the eligibility screen, and it does not change the overall score.",
+      "body": "### Form gate\n\nThey cleared the work-authorization screen, so later stages were allowed to run.",
+      "tags": [{ "signal": "good", "label": "14 / 16", "hint": "Items" }]
+    },
+    {
+      "sectionId": "ph.warmup",
+      "intro": "Opening is a conversation, and the marker expects a concrete, owned account of a real incident rather than a slogan.",
+      "strengths": ["They stayed concrete and on-clock from the first ask, so the marker can treat this as a usable start."],
+      "weaknesses": [],
+      "scoreWhy": "Delivery sits at 88% on the overall score, and that is the share this stage contributes.",
+      "body": "### How they speak\n\nThey stayed concrete and on-clock from the first ask, so the marker can treat this as a usable start.",
+      "tags": [{ "signal": "good", "label": "88%", "hint": "Delivery" }]
+    },
+    {
+      "sectionId": "ph.conflict",
+      "intro": "Conflict is a conversation, and the marker expects a concrete, owned account of a real incident rather than a slogan.",
+      "strengths": ["They named the incidents as hers, so ownership sits on one thread rather than isolated good turns."],
+      "weaknesses": [],
+      "scoreWhy": "Content sits at 80% on the overall score, and that is the share this stage contributes.",
+      "body": "### What they said\n\nThey named the incidents as hers, so ownership sits on one thread rather than isolated good turns.",
+      "tags": [{ "signal": "good", "label": "80%", "hint": "Content" }]
+    },
+    {
+      "sectionId": "ph.code",
+      "intro": "Coding is a coding stage that expects working solutions against the hidden and visible suite.",
+      "strengths": ["They finished both drills inside the window, so the suite can be treated as evidence rather than a scramble."],
+      "weaknesses": ["Method trails the suite, so the approach notes are the drag on this stage."],
+      "scoreWhy": "Tests sit at 90% on the overall score, while method trails at 75%, so the suite is stronger than the approach notes.",
+      "body": "### Tests\n\nThey finished both drills inside the window, so the suite can be treated as evidence rather than a scramble.",
+      "tags": [
+        { "signal": "good", "label": "20 min", "hint": "Time" },
+        { "signal": "good", "label": "90%", "hint": "Tests" },
+        { "signal": "watch", "label": "75%", "hint": "Method" }
+      ]
+    },
+    {
+      "sectionId": "ph.essay",
+      "intro": "Written design note is a written note, and the marker expects usable product judgment rather than a blank outline.",
+      "strengths": ["The writing shows usable product judgment, so a reviewer can read a real recommendation."],
+      "weaknesses": ["Writing is not the reason this interview holds, so it stays a secondary share of the overall score."],
+      "scoreWhy": "Writing sits at 70% on the overall score, and that is the share this stage contributes.",
+      "body": "### Essay\n\nThe writing shows usable product judgment, so a reviewer can read a real recommendation.",
+      "tags": [{ "signal": "watch", "label": "70%", "hint": "Essay" }]
+    },
+    {
+      "sectionId": "ph.close",
+      "intro": "Closing is a conversation, and the marker expects a concrete, owned account of a real incident rather than a slogan.",
+      "strengths": ["They held through the last minutes, so the interview did not taper into an incomplete close."],
+      "weaknesses": ["Writing and method still trail tests, so residual caution sits on those shares rather than on an unfinished interview."],
+      "scoreWhy": "This stage reads 6 / 6 on the overall score, and that chip is what the overall-score ring uses.",
+      "body": "### Stage summary\n\nThey held through the last minutes, so the interview did not taper into an incomplete close.",
+      "tags": [
+        { "signal": "good", "label": "6 / 6", "hint": "Turns" },
+        { "signal": "good", "label": "41 / 45 min", "hint": "Time" }
+      ]
+    }
+  ],
+  "decisionPackage": {
+    "overall": 0.82,
+    "formGate": {
+      "passed": true,
+      "gradedScore": 14,
+      "gradedMax": 16
+    },
+    "byWeight": {
+      "codingTests": {
+        "label": "Coding tests",
+        "unit": 0.9,
+        "weight": 0.25,
+        "included": true,
+        "parts": [
+          {
+            "id": "ph.8xz0sd",
+            "label": "Fibonacci coding challenge",
+            "kind": "coding",
+            "unit": 0.92
+          },
+          {
+            "id": "ph.bd0xml",
+            "label": "Two-sum coding drill",
+            "kind": "coding",
+            "unit": 0.88
+          }
+        ]
+      },
+      "codingMethod": {
+        "label": "Coding approach",
+        "unit": 0.75,
+        "weight": 0.1,
+        "included": true,
+        "parts": [
+          {
+            "id": "ph.8xz0sd",
+            "label": "Fibonacci coding challenge",
+            "kind": "coding",
+            "unit": 0.78
+          },
+          {
+            "id": "ph.bd0xml",
+            "label": "Two-sum coding drill",
+            "kind": "coding",
+            "unit": 0.72
+          }
+        ]
+      },
+      "essay": {
+        "label": "Written essay",
+        "unit": 0.7,
+        "weight": 0.15,
+        "included": true,
+        "parts": [
+          {
+            "id": "ph.6pltkr",
+            "label": "Ship-or-wait product memo",
+            "kind": "doc",
+            "unit": 0.7
+          }
+        ]
+      },
+      "interviewDelivery": {
+        "label": "Interview delivery",
+        "unit": 0.85,
+        "weight": 0.2,
+        "included": true,
+        "parts": [
+          {
+            "id": "ph.0qloid",
+            "label": "Opening talk",
+            "kind": "talk",
+            "unit": 0.88
+          },
+          {
+            "id": "ph.k5wuze",
+            "label": "Ownership and incident impact",
+            "kind": "talk",
+            "unit": 0.84
+          },
+          {
+            "id": "ph.6mvyht",
+            "label": "Closing questions",
+            "kind": "talk",
+            "unit": 0.83
+          }
+        ]
+      },
+      "interviewContent": {
+        "label": "Interview content / ownership",
+        "unit": 0.8,
+        "weight": 0.3,
+        "included": true,
+        "parts": [
+          {
+            "id": "ph.0qloid",
+            "label": "Opening talk",
+            "kind": "talk",
+            "unit": 0.82
+          },
+          {
+            "id": "ph.k5wuze",
+            "label": "Ownership and incident impact",
+            "kind": "talk",
+            "unit": 0.78
+          }
+        ]
+      }
+    }
+  },
+  "meta": {
+    "sectionsCompleted": 6,
+    "sectionsTotal": 6,
+    "skipped": 0,
+    "gate": "pass",
+    "durationMinutes": 41,
+    "limitMinutes": 45,
+    "securityUnit": 0.86,
+    "securitySummary": "Cursor and focus stayed on the live editors and Conversation compose for 82% of visible time. Cadence is a 1.2s median tick gap with 4% paste share, not a words-per-minute claim. Network stayed online with 0 reconnects. The browser cannot prove a VPN.\n\nDictation is not observed: there is no speech input path. Paste bursts are 1 action on the coding recording. Session recordings are 3 / 3 editor recordings (Eligibility, Coding, written design note). Conversation does not keep an editor recording.",
+    "securityChecks": [
+      {
+        "id": "cursor",
+        "check": "Cursor location",
+        "reading": "82%",
+        "unit": 0.82,
+        "note": "Pointer and focus stayed on the live editor or Talk compose 82% of visible time.",
+        "signal": "good"
+      },
+      {
+        "id": "typing",
+        "check": "Typing cadence",
+        "reading": "1.2s median gap",
+        "unit": 0.88,
+        "note": "Cadence uses tick density and paste share (4% paste), not words per minute.",
+        "signal": "good"
+      },
+      {
+        "id": "dictation",
+        "check": "Dictation",
+        "reading": "not observed",
+        "note": "No speech input path exists. Dictation is not observed, not proof of typing.",
+        "signal": "watch"
+      },
+      {
+        "id": "vpn",
+        "check": "Network",
+        "reading": "0 reconnects",
+        "unit": 1,
+        "note": "The browser only reports online or offline. The reconnect count is 0. This cannot prove a VPN.",
+        "signal": "good"
+      },
+      {
+        "id": "paste",
+        "check": "Paste bursts",
+        "reading": "1 paste",
+        "unit": 0.9,
+        "note": "One paste action on the coding tape, plus 0 Copilot apply.",
+        "signal": "good"
+      },
+      {
+        "id": "recordings",
+        "check": "Session recordings",
+        "reading": "3 / 3",
+        "note": "Every form, coding, and writing stage has an editor recording. Conversation does not.",
+        "signal": "good"
+      }
+    ],
+    "securityCaptures": [
+      {
+        "sectionId": "ph.eligible",
+        "capture": "Form tape",
+        "note": "Form answers and timing for Eligibility."
+      },
+      {
+        "sectionId": "ph.code",
+        "capture": "Editor tape",
+        "note": "Keystrokes, cursor, and Run history for Coding."
+      },
+      {
+        "sectionId": "ph.essay",
+        "capture": "Writing tape",
+        "note": "Keystrokes and revisions for the written design note."
+      }
+    ],
+    "clarityUnit": 0.84,
+    "claritySummary": "The attempt reads as a coherent work session. Stages follow the order they were given, the notes and tool marks are usable, and idle on the coding recording is named as idle rather than work. Clarity here is how the session ran from Conversation, Assist, editor history, and task marks - not how they speak, and not a diagnosis.\n\nA reviewer can move through Overview without reconstructing a broken session. Follow-through held on the stages they opened. Assist asks stayed pointed at the brief.",
+    "clarityChecks": [
+      {
+        "id": "stages",
+        "check": "Stage order",
+        "reading": "6 / 6",
+        "note": "They finished the stages in the order they were given.",
+        "signal": "good"
+      },
+      {
+        "id": "answers",
+        "check": "Answer usability",
+        "reading": "84%",
+        "unit": 0.84,
+        "note": "The notes and tool marks are usable as evidence, not a dump of how they speak.",
+        "signal": "good"
+      },
+      {
+        "id": "record",
+        "check": "Record",
+        "reading": "84%",
+        "unit": 0.84,
+        "note": "The record is readable as a coherent work session. Idle clocks stay idle.",
+        "signal": "good"
+      },
+      {
+        "id": "typical",
+        "check": "Work-state",
+        "reading": "84%",
+        "unit": 0.84,
+        "note": "This reading combines focus, pace, follow-through, assist judgment, artifact usability, and continuity.",
+        "signal": "good"
+      },
+      {
+        "id": "task_split",
+        "check": "Task mix",
+        "reading": "Coding 62%",
+        "note": "On-stage time concentrated on Coding. Opening and Writing were thinner. Read the notes on the thinner stages before calling it neglect. This clock does not change the overall score.",
+        "signal": "watch"
+      },
+      {
+        "id": "cadence_spread",
+        "check": "Keystroke rhythm",
+        "reading": "stop-start typing",
+        "note": "Keystroke gaps stretched on Coding. A long pause next to a short typical gap is stop-start typing: searching, correcting, or thinking, not a typing-speed score.",
+        "signal": "watch"
+      },
+      {
+        "id": "file_hops",
+        "check": "Files touched",
+        "reading": "5 files",
+        "note": "Five files were touched on Coding. Hopping can be exploring or searching. Read what shipped in the last snapshots, not the hop count as scatter.",
+        "signal": "watch"
+      }
+    ],
+    "clarityPoints": [
+      "Stages follow each other in the order they were given.",
+      "Answers are usable as evidence.",
+      "Nothing in the record looks scrambled or worth an anomaly look."
+    ],
+    "clarityFindings": [
+      {
+        "sectionId": "ph.warmup",
+        "body": "Opening stayed on the clock with notes a marker can read. Pace held from the first ask.\n\nA marker can treat this as a coherent Conversation stretch, not a dump of how they speak.",
+        "tags": [{ "signal": "good", "label": "even replies", "hint": "How even the Conversation replies were on Opening" }],
+        "evidenceRefs": [
+          { "kind": "message", "ref": "msg.warmup.1", "quote": "I owned the outage" },
+          { "kind": "case", "ref": "ph.warmup" }
+        ]
+      },
+      {
+        "sectionId": "ph.code",
+        "body": "The coding recording shows a stall then a run after paste. Idle stays idle.\n\nAssist asked to rename the helper; they applied then edited.",
+        "tags": [
+          { "signal": "watch", "label": "1.2s between keys", "hint": "Typical pause between keystrokes on the coding recording" },
+          { "signal": "watch", "label": "idle stretch", "hint": "A stretch with no typing on the coding recording" }
+        ],
+        "evidenceRefs": [
+          { "kind": "tape_action", "ref": "paste", "t": 20000, "quote": "paste" },
+          { "kind": "case", "ref": "ph.code" }
+        ]
+      }
+    ],
+    "clarityDiagrams": {
+      "cadence": "Each bar is the typical pause between keystrokes on Opening and Coding. A taller bar means they waited longer between keys. It is not a typing-speed score.",
+      "pace": "This chart is idle versus typing along Coding. Idle is a pause with no keys, not coded work. Pick another section from the list above the chart."
+    },
+    "securityDiagrams": {
+      "location": "This street map shows the city on the address we saw (Lagos). Drag the map to look around. The browser cannot prove a home address.",
+      "pointer": "This drawing is not a street map. It is the path of the pointer on the live interview page. The top of the box is the top of the page. It is not a camera.",
+      "incidents": "This is the clock for Coding. Color along the line is typing versus idle. The list under the chart names the paste at 0:20."
+    },
+    "securityIncidents": [
+      {
+        "id": "paste:ph.code:20000",
+        "kind": "paste",
+        "sectionId": "ph.code",
+        "t": 20000,
+        "preMs": 30000,
+        "postMs": 30000,
+        "pre": { "body": "Before: idle stall, no run, spacing open." },
+        "post": { "body": "After: one run, median gap held, no second paste." },
+        "tags": [{ "signal": "watch", "label": "paste then run", "hint": "Paste" }],
+        "evidenceRefs": [{ "kind": "tape_action", "ref": "paste", "t": 20000, "quote": "paste" }]
+      }
+    ],
+    "sessionSeries": {
+      "schema": "vurify/session-series.v1",
+      "byPhase": [
+        {
+          "phaseId": "ph.talk",
+          "title": "Opening",
+          "kind": "talk",
+          "durationMs": 18000,
+          "cadence": {
+            "tickCount": 4,
+            "medianGapMs": 4000,
+            "p95GapMs": 6000,
+            "buckets": [
+              { "t0": 0, "t1": 10000, "tickCount": 2, "medianGapMs": 4500, "idleMs": 3000 },
+              { "t0": 10000, "t1": 18000, "tickCount": 2, "medianGapMs": 3500, "idleMs": 2000 }
+            ]
+          },
+          "talk": { "sendCount": 2, "gapsMs": [4000], "medianGapMs": 4000, "sendsAt": [4000, 8000] },
+          "dwell": { "inEditorMs": 0, "inTalkMs": 16000, "visibleMs": 18000, "leaves": [] },
+          "dictation": { "sessions": [], "totalMs": 0 },
+          "events": []
+        },
+        {
+          "phaseId": "ph.code",
+          "title": "Coding",
+          "kind": "coding",
+          "durationMs": 32000,
+          "cadence": {
+            "tickCount": 20,
+            "medianGapMs": 1200,
+            "p95GapMs": 4000,
+            "buckets": [
+              { "t0": 0, "t1": 10000, "tickCount": 8, "medianGapMs": 1100, "idleMs": 2000 },
+              { "t0": 10000, "t1": 20000, "tickCount": 2, "medianGapMs": 4000, "idleMs": 8000 },
+              { "t0": 20000, "t1": 32000, "tickCount": 10, "medianGapMs": 900, "idleMs": 1000 }
+            ]
+          },
+          "talk": { "sendCount": 0, "gapsMs": [], "medianGapMs": 0, "sendsAt": [] },
+          "dwell": { "inEditorMs": 28000, "inTalkMs": 0, "visibleMs": 32000, "leaves": [] },
+          "dictation": { "sessions": [], "totalMs": 0 },
+          "events": [{ "t": 20000, "kind": "paste", "quote": "paste" }]
+        }
+      ],
+      "incidents": [
+        { "id": "paste:ph.code:20000", "kind": "paste", "sectionId": "ph.code", "t": 20000, "preMs": 30000, "postMs": 30000 }
+      ],
+      "network": {
+        "sampleCount": 2,
+        "reconnectCount": 0,
+        "medianRttMs": 38,
+        "vpnLikely": false,
+        "reasons": [],
+        "lastPlace": "Lagos",
+        "pins": [
+          { "lat": 6.5244, "lon": 3.3792, "kind": "ip", "label": "Network address" }
+        ]
+      },
+      "pointerTrail": [
+        { "t": 2000, "x": 0.22, "y": 0.3 },
+        { "t": 8000, "x": 0.48, "y": 0.42 },
+        { "t": 16000, "x": 0.61, "y": 0.55 },
+        { "t": 24000, "x": 0.7, "y": 0.4 }
+      ]
+    },
+    "anomalyUnit": 0.88
+  }
+}

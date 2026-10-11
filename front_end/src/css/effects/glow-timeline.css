@@ -1,0 +1,207 @@
+/**
+ * Glow timeline — vertical rail with scrub glow + traveling marker.
+ */
+
+@layer components {
+  .theme .theme-glow-timeline {
+    min-width: 0;
+  }
+
+  .theme .theme-glow-timeline__shell {
+    position: relative;
+  }
+
+  .theme .theme-glow-timeline__axis,
+  .theme .theme-glow-timeline__axis-glow,
+  .theme .theme-glow-timeline__marker {
+    position: absolute;
+    top: 0;
+    width: 2px;
+    pointer-events: none;
+  }
+
+  .theme .theme-glow-timeline__axis {
+    background-color: color-mix(in srgb, var(--theme-border) 82%, transparent);
+  }
+
+  .theme .theme-glow-timeline__axis-glow {
+    background-image: linear-gradient(
+      180deg,
+      var(--theme-glow-ink-from) 0%,
+      var(--theme-glow-ink-mid) 100%
+    );
+    box-shadow: 0 0 10px color-mix(in srgb, var(--theme-glow-ink-mid) 55%, transparent);
+    transform-origin: top center;
+  }
+
+  .theme .theme-glow-timeline__marker {
+    width: 3px;
+    height: 0.5rem;
+    background-image: linear-gradient(
+      180deg,
+      var(--theme-glow-ink-from) 0%,
+      var(--theme-glow-ink-mid) 100%
+    );
+    box-shadow: 0 0 10px color-mix(in srgb, var(--theme-glow-ink-mid) 55%, transparent);
+  }
+
+  .theme .theme-glow-timeline__list {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1rem, 2svh, 1.35rem);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .theme .theme-glow-timeline__item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1rem minmax(0, 1fr);
+    gap: 0.65rem 0.85rem;
+    align-items: start;
+  }
+
+  .theme .theme-glow-timeline__item:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    top: 1.125rem;
+    left: 0.4375rem;
+    bottom: -0.35rem;
+    width: 1px;
+    background: color-mix(in srgb, var(--theme-border) 82%, transparent);
+    pointer-events: none;
+  }
+
+  .theme .theme-glow-timeline__list--glow .theme-glow-timeline__item:not(:last-child)::before {
+    display: none;
+  }
+
+  .theme .theme-glow-timeline__dot {
+    position: relative;
+    z-index: 1;
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-top: 0.45rem;
+    margin-inline: auto;
+    border-radius: 999px;
+    background: var(--theme-accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--theme-accent) 22%, var(--theme-surface-raised));
+    transition:
+      box-shadow 0.28s ease,
+      background-color 0.28s ease;
+  }
+
+  .theme .theme-glow-timeline__dot.is-glow-active {
+    background: var(--theme-glow-ink-mid);
+    box-shadow:
+      0 0 0 3px color-mix(in srgb, var(--theme-glow-ink-mid) 28%, transparent),
+      0 0 12px var(--theme-glow-ink-shadow),
+      0 0 4px var(--theme-glow-ink-from);
+  }
+
+  .theme .theme-glow-timeline__copy {
+    min-width: 0;
+    padding-left: 0.15rem;
+  }
+
+  .theme .theme-glow-timeline__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.35rem 0.75rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .theme .theme-glow-timeline__rule {
+    margin-top: clamp(0.85rem, 1.5svh, 1.1rem);
+  }
+
+  .theme .theme-glow-timeline__coursework {
+    margin-top: 0.35rem;
+  }
+
+  .theme .theme-glow-timeline--carded .theme-glow-timeline__card {
+    display: flex;
+    flex-direction: column;
+    padding-inline: 1.25rem;
+    padding-block: 1.5rem;
+    text-align: left;
+  }
+
+  .theme .theme-glow-timeline__card-head {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .theme .theme-glow-timeline--cardless {
+    max-width: min(36rem, 100%);
+  }
+
+  .theme .theme-glow-timeline--horizontal.theme-glow-timeline--cardless {
+    max-width: none;
+  }
+
+  .theme .theme-glow-timeline--horizontal .theme-glow-timeline__list {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: clamp(1rem, 3vw, 1.75rem);
+  }
+
+  .theme .theme-glow-timeline--horizontal .theme-glow-timeline__item {
+    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr);
+    flex: 1 1 0;
+    min-width: min(100%, 10.5rem);
+    justify-items: center;
+    text-align: center;
+  }
+
+  .theme .theme-glow-timeline--horizontal .theme-glow-timeline__item:not(:last-child)::before {
+    display: none;
+  }
+
+  .theme .theme-glow-timeline--horizontal .theme-glow-timeline__dot {
+    margin-top: 0;
+    margin-bottom: 0.35rem;
+    margin-inline: auto;
+  }
+
+  .theme .theme-glow-timeline--horizontal .theme-glow-timeline__copy {
+    padding-left: 0;
+  }
+
+  .theme .theme-glow-timeline--horizontal .theme-glow-timeline__head {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .theme .theme-glow-timeline--horizontal .theme-glow-timeline__axis,
+  .theme .theme-glow-timeline--horizontal .theme-glow-timeline__axis-glow,
+  .theme .theme-glow-timeline--horizontal .theme-glow-timeline__marker {
+    height: 2px;
+    width: auto;
+  }
+
+  .theme .theme-glow-timeline--horizontal .theme-glow-timeline__axis-glow {
+    background-image: linear-gradient(
+      90deg,
+      var(--theme-glow-ink-from) 0%,
+      var(--theme-glow-ink-mid) 100%
+    );
+    transform-origin: left center;
+  }
+
+  .theme .theme-glow-timeline--horizontal .theme-glow-timeline__marker {
+    width: 0.5rem;
+    height: 3px;
+    background-image: linear-gradient(
+      90deg,
+      var(--theme-glow-ink-from) 0%,
+      var(--theme-glow-ink-mid) 100%
+    );
+  }
+}

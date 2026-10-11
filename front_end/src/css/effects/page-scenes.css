@@ -1,0 +1,2981 @@
+@layer components {
+  .theme .page-scene {
+    min-height: 100svh;
+    background-color: var(--theme-page-bg);
+    color: var(--theme-text);
+  }
+
+  /* After a deferred Home scene mounts, this wrapper is not a box — the child section is. */
+  .theme .page-scene-defer-slot--ready {
+    display: contents;
+  }
+
+  /*
+   * Hug-content scenes override `.page-scene { min-height: 100svh }`.
+   * Empty stubs must still reserve a viewport so scroll position does not collapse.
+   */
+  .theme .page-scene--home-what-we-offer[data-deferred='slot'],
+  .theme .page-scene--home-pricing[data-deferred='slot'],
+  .theme .page-scene--home-try-vurify[data-deferred='slot'],
+  .theme .page-scene--home-try-interview[data-deferred='slot'] {
+    min-height: 100svh;
+  }
+
+  .theme .page-scene--home {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    height: 100vh;
+    min-height: 100svh;
+    height: 100svh;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .theme .page-scene--dashboard {
+    /* Fixed menu column + squishable page (no translate peel). Left edge curves only. */
+    --dash-radius: clamp(1rem, 2.4vw, 1.75rem);
+    /* Compact expanded column — leaves chrome for the page-stack lips (home deck parity). */
+    --dash-menu-expanded: clamp(12.75rem, 18vw, 14.5rem);
+    /* Rail = icon column + stable start pad (pad-end stays 0 — flush to page). */
+    --dash-menu-rail: clamp(3.5rem, 4.75vw, 4rem);
+    --dash-menu-open: var(--dash-menu-expanded);
+    /* Right chat peel (Interview Creator builder) — no stack lips; flush to page. */
+    /* Board peel — a bit wider for speech bubbles + spike/shadow room. */
+    --dash-chat-expanded: clamp(22.5rem, 30vw, 28rem);
+    /* Extra peel width from the left-edge grow handle (0 … this cap). */
+    --dash-chat-grow: 0px;
+    --dash-chat-grow-max: 6.5rem;
+    --dash-chat-open: 0rem;
+    --dash-chat-pad-start: 0;
+    --dash-chat-pad-end: 0;
+    --dash-chrome-top: 1.25rem;
+    --dash-pad-start: clamp(0.65rem, 1.5vw, 0.9rem);
+    /* Flush to the page card — no gap between menu column and page left edge. */
+    --dash-pad-end: 0;
+    /* Cascade stack: depth 1 = dust on page edge; 2–3 extend further left. */
+    --dash-deck-gap: 0.42rem;
+    --dash-deck-dust: 0.38rem;
+    /* Tucked under the page so the lip radius reads as a longer continuing curve. */
+    --dash-deck-underlap: 1.35rem;
+    /* Same wheel ease as home SceneMenuShell peel (easeCarouselWheel). */
+    --dash-peel-ease: cubic-bezier(0.87, 0, 0.13, 1);
+    --dash-peel-duration: 0.56s;
+    /* Menu column + vurify-inset “window” cards share this chrome fill. */
+    --dash-chrome-bg: color-mix(
+      in srgb,
+      var(--theme-complement) 16%,
+      var(--theme-page-bg)
+    );
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    width: 100%;
+    min-height: 100vh;
+    height: 100vh;
+    min-height: 100svh;
+    height: 100svh;
+    padding: 0;
+    overflow: hidden;
+    isolation: isolate;
+    background: color-mix(
+      in srgb,
+      var(--theme-complement) 14%,
+      var(--theme-page-bg)
+    );
+  }
+
+  /*
+   * Fully expanded — chrome strip between menu content and page for stack lips.
+   * Rail / closed keep pad-end 0 so the page reclaims width.
+   */
+  .theme
+    .page-scene--dashboard[data-menu-stack='true']:not([data-menu-closed='true']) {
+    /* Room for deepest lip (gap×2 + dust + longer underlap) beside the page card. */
+    --dash-pad-end: clamp(1.85rem, 2.8vw, 2.45rem);
+  }
+
+  /* Partial collapse — shrink column only; keep pad-end 0 so the page
+   * reclaims the freed width (no extra gap / growing gutters). */
+  .theme .page-scene--dashboard[data-menu-collapsed='true']:not([data-menu-closed='true']) {
+    --dash-menu-open: var(--dash-menu-rail);
+  }
+
+  /* Fully closed — column width 0; page takes the full stage. */
+  .theme .page-scene--dashboard[data-menu-closed='true'] {
+    --dash-menu-open: 0rem;
+    --dash-pad-start: 0;
+    --dash-pad-end: 0;
+  }
+
+  /* Right chat peel open — column grows from the right; page squishes. */
+  .theme .page-scene--dashboard[data-chat-closed='false'] {
+    --dash-chat-open: calc(var(--dash-chat-expanded) + var(--dash-chat-grow, 0px));
+    /* Slim outer chrome — content uses the widened peel. */
+    --dash-chat-pad-end: clamp(0.35rem, 0.8vw, 0.5rem);
+  }
+
+  /* Fully closed chat — zero width + pads so the page reclaims the strip (same as menu). */
+  .theme .page-scene--dashboard[data-chat-closed='true'] {
+    --dash-chat-open: 0rem;
+    --dash-chat-pad-start: 0;
+    --dash-chat-pad-end: 0;
+  }
+
+  /* Fixed menu column — does not scroll with the page. */
+  .theme .page-scene--dashboard__menu {
+    position: relative;
+    z-index: 0;
+    box-sizing: border-box;
+    flex: 0 0 var(--dash-menu-open);
+    width: var(--dash-menu-open);
+    max-width: var(--dash-menu-open);
+    min-width: 0;
+    height: 100%;
+    display: flex;
+    align-items: stretch;
+    padding: var(--dash-chrome-top) var(--dash-pad-end) var(--dash-chrome-top)
+      var(--dash-pad-start);
+    overflow: hidden;
+    background: var(--dash-chrome-bg);
+    color: var(--theme-text);
+    transition:
+      flex-basis var(--dash-peel-duration) var(--dash-peel-ease),
+      width var(--dash-peel-duration) var(--dash-peel-ease),
+      max-width var(--dash-peel-duration) var(--dash-peel-ease),
+      padding var(--dash-peel-duration) var(--dash-peel-ease);
+  }
+
+  .theme .page-scene--dashboard[data-menu-closed='true'] .page-scene--dashboard__menu {
+    pointer-events: none;
+    /* Keep block padding — zeroing it yanks items up mid width-collapse.
+     * Inline pads already go to 0 via --dash-pad-* on [data-menu-closed]. */
+  }
+
+  /* Fixed chat column — right peel; mirrors __menu geometry. */
+  .theme .page-scene--dashboard__chat {
+    position: relative;
+    z-index: 0;
+    box-sizing: border-box;
+    flex: 0 0 var(--dash-chat-open);
+    width: var(--dash-chat-open);
+    max-width: var(--dash-chat-open);
+    min-width: 0;
+    height: 100%;
+    display: flex;
+    align-items: stretch;
+    padding: var(--dash-chrome-top) var(--dash-chat-pad-end) var(--dash-chrome-top)
+      var(--dash-chat-pad-start);
+    overflow: hidden;
+    background: var(--dash-chrome-bg);
+    color: var(--theme-text);
+    transition:
+      flex-basis var(--dash-peel-duration) var(--dash-peel-ease),
+      width var(--dash-peel-duration) var(--dash-peel-ease),
+      max-width var(--dash-peel-duration) var(--dash-peel-ease),
+      padding var(--dash-peel-duration) var(--dash-peel-ease);
+  }
+
+  .theme .page-scene--dashboard[data-chat-closed='true'] .page-scene--dashboard__chat {
+    pointer-events: none;
+  }
+
+  .theme .page-scene--dashboard[data-chat-resizing='true'] .page-scene--dashboard__chat,
+  .theme .page-scene--dashboard[data-chat-resizing='true'] .page-scene--dashboard__menu {
+    transition: none;
+  }
+
+  .theme .page-scene--dashboard[data-chat-resizing='true'] {
+    cursor: col-resize;
+    user-select: none;
+  }
+
+  .theme .page-scene--dashboard__chat-resize {
+    position: absolute;
+    z-index: 4;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 0.7rem;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: col-resize;
+    touch-action: none;
+  }
+
+  .theme .page-scene--dashboard__chat-resize::before {
+    content: '';
+    position: absolute;
+    top: 14%;
+    bottom: 14%;
+    left: 0;
+    width: 2px;
+    border-radius: 1px;
+    background: color-mix(in srgb, var(--theme-accent) 52%, var(--theme-border));
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+
+  .theme .page-scene--dashboard__chat-resize:hover::before,
+  .theme .page-scene--dashboard__chat-resize:focus-visible::before,
+  .theme .page-scene--dashboard[data-chat-resizing='true'] .page-scene--dashboard__chat-resize::before {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .page-scene--dashboard__chat-resize::before {
+      transition: none;
+    }
+  }
+
+  .theme .page-scene--dashboard[data-chat-closed='true'] .page-scene--dashboard__chat-resize {
+    pointer-events: none;
+  }
+
+  .theme .page-scene--dashboard__chat-space {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+    min-height: 0;
+    padding-inline: 0;
+    background: transparent;
+  }
+
+  .theme .page-scene--dashboard__chat-space-head {
+    display: none;
+  }
+
+  .theme .page-scene--dashboard__chat-space-icon {
+    color: var(--theme-text-muted);
+  }
+
+  .theme .page-scene--dashboard__chat-space-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+    background: transparent;
+  }
+
+  /*
+   * Closed→open prep: snap label/housing layout while width is still 0 (clipped).
+   * Kill wipe transitions so expanding the column does not reflow mid-flight.
+   */
+  .theme .page-scene--dashboard[data-menu-reveal='prep'] .theme-vurify-menu-button__text-rail,
+  .theme
+    .page-scene--dashboard[data-menu-reveal='prep']
+    .theme-vurify-menu-button--housing
+    .theme-vurify-menu-button__text-rail,
+  .theme
+    .page-scene--dashboard[data-menu-reveal='prep']
+    .theme-vurify-menu-button--label-collapsed
+    .theme-vurify-menu-button__text-rail,
+  .theme .page-scene--dashboard[data-menu-reveal='prep'] .theme-vurify-menu-button__icon,
+  .theme .page-scene--dashboard[data-menu-reveal='prep'] .theme-dash__title-btn,
+  .theme .page-scene--dashboard[data-menu-reveal='prep'] .theme-dash__link-btn {
+    transition: none !important;
+  }
+
+  /* Page column — squishes when the menu widens; left radius follows scroll edge.
+   * overflow visible so left stack lips can sit in the chrome strip; scroller clips. */
+  .theme .page-scene--dashboard__peel {
+    position: relative;
+    z-index: 1;
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+    background: transparent;
+    color: var(--theme-text);
+  }
+
+  /* Short page-stack lips — home SceneMenuShell deck, left edge, tight inset. */
+  .theme .page-scene--dashboard__deck {
+    position: absolute;
+    inset: 0 auto 0 0;
+    z-index: 0;
+    width: 0;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(0.55rem);
+    transition:
+      opacity var(--dash-peel-duration) var(--dash-peel-ease),
+      transform var(--dash-peel-duration) var(--dash-peel-ease),
+      visibility 0s linear var(--dash-peel-duration);
+  }
+
+  .theme
+    .page-scene--dashboard[data-menu-stack='true']
+    .page-scene--dashboard__deck {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition-delay: 0s;
+  }
+
+  /*
+   * Left page stack — lips tuck under the page card so the join isn’t a straight
+   * clipped edge; deeper cards are wider and peek further left. Depth 1 = dust on top.
+   */
+  .theme .page-scene--dashboard__deck-card {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    box-sizing: border-box;
+    background: var(--theme-page-bg);
+    border: 1px solid var(--theme-border-strong);
+    border-radius: var(--dash-radius);
+    box-shadow: -0.35rem 0 0.9rem color-mix(in srgb, var(--theme-text) 10%, transparent);
+    /* Right edge tucked under the page — underlap from `--dash-deck-underlap`. */
+    transform: translateX(calc(-100% + var(--dash-deck-underlap)));
+    transform-origin: 100% 50%;
+  }
+
+  .theme .page-scene--dashboard__deck-card[data-depth='1'] {
+    z-index: 3;
+    top: 1.75%;
+    bottom: 1.75%;
+    width: calc(var(--dash-deck-dust) + var(--dash-deck-underlap));
+  }
+
+  .theme .page-scene--dashboard__deck-card[data-depth='2'] {
+    z-index: 2;
+    top: 3.75%;
+    bottom: 3.75%;
+    width: calc(var(--dash-deck-gap) + var(--dash-deck-dust) + var(--dash-deck-underlap));
+  }
+
+  .theme .page-scene--dashboard__deck-card[data-depth='3'] {
+    z-index: 1;
+    top: 5.75%;
+    bottom: 5.75%;
+    width: calc(var(--dash-deck-gap) * 2 + var(--dash-deck-dust) + var(--dash-deck-underlap));
+  }
+
+  /* Page surface card — border / radius / shadow live here (was on __peel). */
+  .theme .page-scene--dashboard__scroller {
+    position: relative;
+    z-index: 1;
+    flex: 1 1 auto;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+    background: var(--theme-page-bg);
+    border-left: 1px solid var(--theme-border-strong);
+    border-right: 1px solid transparent;
+    box-shadow:
+      -1px 0 0 color-mix(in srgb, var(--theme-text) 10%, transparent),
+      -1.5rem 0 4rem color-mix(in srgb, var(--theme-text) 18%, transparent);
+    /* Default = at top: curve TL, square BL. */
+    border-radius: var(--dash-radius) 0 0 0;
+    transition:
+      border-radius 0.32s var(--dash-peel-ease),
+      border-left-color 0.32s var(--dash-peel-ease),
+      border-right-color 0.32s var(--dash-peel-ease),
+      box-shadow 0.32s var(--dash-peel-ease);
+  }
+
+  .theme .page-scene--dashboard__peel[data-scroll-edge='top'] .page-scene--dashboard__scroller {
+    border-radius: var(--dash-radius) 0 0 0;
+  }
+
+  .theme .page-scene--dashboard__peel[data-scroll-edge='mid'] .page-scene--dashboard__scroller {
+    border-radius: 0;
+  }
+
+  .theme .page-scene--dashboard__peel[data-scroll-edge='bottom'] .page-scene--dashboard__scroller {
+    border-radius: 0 0 0 var(--dash-radius);
+  }
+
+  .theme .page-scene--dashboard__peel[data-scroll-edge='both'] .page-scene--dashboard__scroller {
+    border-radius: var(--dash-radius) 0 0 var(--dash-radius);
+  }
+
+  /* Chat open — curve the page into the right peel join (mirrors left). */
+  .theme
+    .page-scene--dashboard[data-chat-closed='false']
+    .page-scene--dashboard__peel[data-scroll-edge='top']
+    .page-scene--dashboard__scroller {
+    border-radius: var(--dash-radius) var(--dash-radius) 0 0;
+  }
+
+  .theme
+    .page-scene--dashboard[data-chat-closed='false']
+    .page-scene--dashboard__peel[data-scroll-edge='mid']
+    .page-scene--dashboard__scroller {
+    border-radius: 0;
+  }
+
+  .theme
+    .page-scene--dashboard[data-chat-closed='false']
+    .page-scene--dashboard__peel[data-scroll-edge='bottom']
+    .page-scene--dashboard__scroller {
+    border-radius: 0 0 var(--dash-radius) var(--dash-radius);
+  }
+
+  .theme
+    .page-scene--dashboard[data-chat-closed='false']
+    .page-scene--dashboard__peel[data-scroll-edge='both']
+    .page-scene--dashboard__scroller {
+    border-radius: var(--dash-radius);
+  }
+
+  /*
+   * Fully closed menu — page flush to the left edge (square TL/BL); clip TR/BR only
+   * so the stage tint shows on the outer right corners (when chat is also closed).
+   */
+  .theme .page-scene--dashboard[data-menu-closed='true'] .page-scene--dashboard__scroller {
+    border-left-color: transparent;
+    box-shadow: none;
+  }
+
+  .theme
+    .page-scene--dashboard[data-menu-closed='true'][data-chat-closed='true']
+    .page-scene--dashboard__peel[data-scroll-edge='top']
+    .page-scene--dashboard__scroller {
+    border-radius: 0 var(--dash-radius) 0 0;
+  }
+
+  .theme
+    .page-scene--dashboard[data-menu-closed='true'][data-chat-closed='true']
+    .page-scene--dashboard__peel[data-scroll-edge='mid']
+    .page-scene--dashboard__scroller {
+    border-radius: 0;
+  }
+
+  .theme
+    .page-scene--dashboard[data-menu-closed='true'][data-chat-closed='true']
+    .page-scene--dashboard__peel[data-scroll-edge='bottom']
+    .page-scene--dashboard__scroller {
+    border-radius: 0 0 var(--dash-radius) 0;
+  }
+
+  .theme
+    .page-scene--dashboard[data-menu-closed='true'][data-chat-closed='true']
+    .page-scene--dashboard__peel[data-scroll-edge='both']
+    .page-scene--dashboard__scroller {
+    border-radius: 0 var(--dash-radius) var(--dash-radius) 0;
+  }
+
+  /* Menu closed + chat open — square left (stage), curve right into chat. */
+  .theme
+    .page-scene--dashboard[data-menu-closed='true'][data-chat-closed='false']
+    .page-scene--dashboard__peel[data-scroll-edge='top']
+    .page-scene--dashboard__scroller {
+    border-radius: 0 var(--dash-radius) 0 0;
+  }
+
+  .theme
+    .page-scene--dashboard[data-menu-closed='true'][data-chat-closed='false']
+    .page-scene--dashboard__peel[data-scroll-edge='mid']
+    .page-scene--dashboard__scroller {
+    border-radius: 0;
+  }
+
+  .theme
+    .page-scene--dashboard[data-menu-closed='true'][data-chat-closed='false']
+    .page-scene--dashboard__peel[data-scroll-edge='bottom']
+    .page-scene--dashboard__scroller {
+    border-radius: 0 0 var(--dash-radius) 0;
+  }
+
+  .theme
+    .page-scene--dashboard[data-menu-closed='true'][data-chat-closed='false']
+    .page-scene--dashboard__peel[data-scroll-edge='both']
+    .page-scene--dashboard__scroller {
+    border-radius: 0 var(--dash-radius) var(--dash-radius) 0;
+  }
+
+  /* Chat open — right join border + shadow (page squishes into the peel). */
+  .theme .page-scene--dashboard[data-chat-closed='false'] .page-scene--dashboard__scroller {
+    border-right-color: var(--theme-border-strong);
+    box-shadow:
+      -1px 0 0 color-mix(in srgb, var(--theme-text) 10%, transparent),
+      -1.5rem 0 4rem color-mix(in srgb, var(--theme-text) 18%, transparent),
+      1px 0 0 color-mix(in srgb, var(--theme-text) 10%, transparent),
+      1.5rem 0 4rem color-mix(in srgb, var(--theme-text) 18%, transparent);
+  }
+
+  .theme
+    .page-scene--dashboard[data-menu-closed='true'][data-chat-closed='false']
+    .page-scene--dashboard__scroller {
+    border-left-color: transparent;
+    box-shadow:
+      1px 0 0 color-mix(in srgb, var(--theme-text) 10%, transparent),
+      1.5rem 0 4rem color-mix(in srgb, var(--theme-text) 18%, transparent);
+  }
+
+  /* Drag strip removed — menu toggles via Menu ←/→ only. */
+
+  .theme
+    .page-scene--dashboard__scroller[data-scroll-rail='mini']
+    .theme-scroll__viewport {
+    box-sizing: border-box;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    overscroll-behavior: contain;
+    /* One-edge gutter while menu is open — both-edges would inflate left beside the join. */
+    scrollbar-gutter: stable;
+  }
+
+  /*
+   * Fully closed — equal gutters so content isn't shifted left (same fix as
+   * SceneMenuShell home scroll). Drop the menu-join-biased main start pad.
+   */
+  .theme
+    .page-scene--dashboard[data-menu-closed='true']
+    .page-scene--dashboard__scroller[data-scroll-rail='mini']
+    .theme-scroll__viewport {
+    scrollbar-gutter: stable both-edges;
+  }
+
+  /* Page surface — content inside the mini scroller (chrome lives on __peel). */
+  .theme .page-scene--dashboard__main {
+    position: relative;
+    z-index: 1;
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    padding-block: clamp(0.85rem, 1.8vw, 1.25rem) clamp(1.5rem, 3.5vw, 2.25rem);
+    padding-inline-end: clamp(0.9rem, 2vw, 1.35rem);
+    /* Slightly roomier start so copy clears the menu/page join. */
+    padding-inline-start: clamp(1.2rem, 2.75vw, 1.85rem);
+    background: transparent;
+    color: inherit;
+    transition: padding-inline var(--dash-peel-duration) var(--dash-peel-ease);
+  }
+
+  .theme
+    .page-scene--dashboard[data-menu-closed='true']
+    .page-scene--dashboard__main {
+    padding-inline-start: clamp(0.9rem, 2vw, 1.35rem);
+    padding-inline-end: clamp(0.9rem, 2vw, 1.35rem);
+  }
+
+  .theme .page-scene--dashboard__section-stage {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .theme .page-scene--dashboard__section {
+    width: 100%;
+    max-width: 56rem;
+    margin-inline: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding-block: clamp(0.85rem, 1.8vw, 1.35rem);
+    min-width: 0;
+  }
+
+  /*
+   * Interviews workbench — no max-width. A 72rem cap + margin-inline:0 left the
+   * creator stuck left when the menu is fully closed (page full-bleed); rail/open
+   * hide it because the column is narrower. Fill __main like the half-closed peel.
+   * Zero block-end pad so sticky compose/builder footers aren’t followed by a
+   * dead band (main keeps a short end pad via :has below).
+   */
+  .theme .page-scene--dashboard__section--interviews {
+    max-width: none;
+    padding-block-end: 0;
+  }
+
+  .theme
+    .page-scene--dashboard__main:has(.page-scene--dashboard__section--interviews) {
+    padding-block-end: 0.5rem;
+  }
+
+  .theme .page-scene--dashboard__panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  .theme .page-scene--dashboard__meta {
+    display: grid;
+    gap: 1rem;
+    margin: 0;
+  }
+
+  .theme .page-scene--dashboard__meta dt {
+    margin: 0;
+  }
+
+  .theme .page-scene--dashboard__meta dd {
+    margin: 0.2rem 0 0;
+  }
+
+  .theme .page-scene--dashboard__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .theme .page-scene--dashboard__cv {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .theme .page-scene--dashboard__viewer {
+    width: 100%;
+  }
+
+  .theme .page-scene--dashboard__viewer .theme-vurify-viewer__stage {
+    max-height: var(--vv-stage-max-h, min(60vh, 36rem));
+  }
+
+  .theme .page-scene--dashboard__placeholder {
+    min-height: 8rem;
+    padding: 1rem 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .page-scene--dashboard__menu,
+    .theme .page-scene--dashboard__deck,
+    .theme .page-scene--dashboard__scroller {
+      transition: none;
+    }
+  }
+
+  /*
+   * Double-class beats `.theme-isometric-word-cloud` 16:9 (imported later).
+   * Landing owns a full-stage / half-stage box — not a width-driven strip.
+   */
+  .theme .page-scene--home__word-cloud.theme-isometric-word-cloud {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    aspect-ratio: auto;
+    overflow: hidden;
+    background: var(--theme-page-bg);
+  }
+
+  .theme .page-scene--home__word-cloud canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  .theme .page-scene--home__word-cloud.theme-isometric-word-cloud > div {
+    width: 100% !important;
+    height: 100% !important;
+    overflow: hidden !important;
+  }
+
+  /*
+   * Cover the last WebGL frame while Home is parked / incoming / waiting for
+   * the fog park. Do not use visibility:hidden on the canvas host — that
+   * pauses the R3F loop before the park can paint.
+   */
+  .theme .page-scene--home__word-cloud-veil {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: var(--theme-page-bg);
+    opacity: 0;
+  }
+
+  .theme .page-scene--home__word-cloud-veil[data-hidden='true'] {
+    opacity: 1;
+  }
+
+  /* Absolute overlay — must sit above the WebGL canvas compositing layer. */
+  .theme .page-scene--home__content {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    /*
+     * Wide VP: grow left inset so “Talent made visible” sits inward toward the
+     * cloud (not glued to the stage edge). Right/top/bottom padding unchanged.
+     * ≤40rem mobile block still overrides padding entirely.
+     */
+    padding: clamp(8vh, 12svh, 16vh) clamp(1.25rem, 5vw, 3.5rem)
+      clamp(1.25rem, 4vh, 2.5rem) clamp(1.25rem, 7.5vw, 11rem);
+    pointer-events: none;
+  }
+
+  .theme .page-scene--home__copy {
+    width: min(36vw, 26rem);
+    max-width: 100%;
+    container-type: inline-size;
+    container-name: home-copy;
+  }
+
+  .theme .page-scene--home__lower {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  /* Landing exception: motto size tracks left-rail `cqi` (container), not viewport vw. */
+  .theme .page-scene--home__title.type-display-xl {
+    width: 100%;
+    text-align: center;
+    font-size: clamp(3.75rem, 40cqi, 7.8rem);
+    line-height: 0.92;
+  }
+
+  /* Each line is an overflow mask; the inner slides on transform (GPU-composited). */
+  .theme .page-scene--home__line {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .theme .page-scene--home__line-inner {
+    display: inline-block;
+    transform: translateX(-105%);
+    animation: page-scene-home-slide-in 0.72s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  /* GSAP Effect 6 owns entrance — do not also slide from -105%. */
+  .theme .page-scene--home__line-inner--scroll-type {
+    transform: none;
+    animation: none;
+  }
+
+  .theme .page-scene--home__line--2 {
+    font-size: 0.42em;
+  }
+
+  .theme .page-scene--home__subtext {
+    margin: 0.85rem auto 0;
+    max-width: 22rem;
+    text-align: center;
+    text-wrap: balance;
+    pointer-events: none;
+  }
+
+  .theme .page-scene--home__cta-row {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    margin-top: 1.25rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid color-mix(in srgb, var(--theme-text) 18%, transparent);
+  }
+
+  .theme .page-scene--home__cta-reveal {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: 0.15rem;
+    transform: translateX(-105%);
+    animation: page-scene-home-slide-in 0.72s cubic-bezier(0.22, 1, 0.36, 1) 0.72s
+      both;
+  }
+
+  /* Landing CTAs — hug label width so the pair sits hand-in-hand (not full-rail blocks). */
+  .theme .page-scene--home__cta.theme-btn-fx--marquee-menu {
+    display: inline-flex;
+    justify-content: center;
+    width: auto;
+    max-width: 100%;
+    cursor: pointer;
+    pointer-events: auto;
+  }
+
+  .theme .page-scene--home__cta.theme-btn-fx--marquee-menu .theme-btn-fx__menu-label {
+    width: auto;
+    justify-content: center;
+    margin-inline: auto;
+  }
+
+  .theme
+    .page-scene--home__cta.theme-btn-fx--marquee-menu
+    .theme-btn-fx__menu-marquee-unit {
+    font-size: 1em;
+  }
+
+  /* Scroll cue — label + thin track with traveling thumb (desktop + mobile). */
+  .theme .page-scene--home__scroll-cue {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    margin-top: 1.35rem;
+    padding: 0.45rem 0.65rem;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    pointer-events: auto;
+    color: color-mix(in srgb, var(--theme-text) 55%, transparent);
+  }
+
+  .theme .page-scene--home__scroll-cue-label {
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-size: 0.68rem;
+    line-height: 1;
+    user-select: none;
+  }
+
+  .theme .page-scene--home__scroll-cue:focus-visible {
+    outline: 2px solid var(--theme-accent);
+    outline-offset: 3px;
+    border-radius: 0.35rem;
+  }
+
+  .theme .page-scene--home__scroll-cue-track {
+    position: relative;
+    display: block;
+    width: 1px;
+    height: 2.35rem;
+    overflow: hidden;
+  }
+
+  .theme .page-scene--home__scroll-cue-line {
+    position: absolute;
+    inset: 0;
+    width: 1px;
+    background: color-mix(in srgb, var(--theme-text) 28%, transparent);
+  }
+
+  .theme .page-scene--home__scroll-cue-thumb {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 3px;
+    height: 0.55rem;
+    margin-left: -1.5px;
+    border-radius: 999px;
+    background: var(--theme-text);
+    opacity: 0.75;
+    animation: page-scene-home-scroll-cue 1.65s cubic-bezier(0.45, 0.05, 0.55, 0.95)
+      infinite;
+  }
+
+  @keyframes page-scene-home-slide-in {
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes page-scene-home-scroll-cue {
+    0% {
+      transform: translateY(-110%);
+      opacity: 0;
+    }
+    18% {
+      opacity: 0.85;
+    }
+    72% {
+      opacity: 0.85;
+    }
+    100% {
+      transform: translateY(320%);
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .page-scene--home__line-inner,
+    .theme .page-scene--home__cta-reveal {
+      transform: none;
+      animation: none;
+    }
+
+    .theme .page-scene--home__scroll-cue-thumb {
+      top: 55%;
+      transform: translateY(-50%);
+      opacity: 0.7;
+      animation: none;
+    }
+  }
+
+  /*
+   * Mobile landing (≤40rem):
+   * Loading — top 3/4 word cloud (`%`→V); same host box (no resize teleport).
+   * Settled — hide cloud (component stays mounted), full-stage motto + subtext + CTAs.
+   */
+  @media (max-width: 40rem) {
+    .theme .page-scene--home__word-cloud.theme-isometric-word-cloud {
+      inset: 0 0 auto 0;
+      bottom: auto;
+      height: 75%;
+      min-height: 75%;
+      max-height: 75%;
+    }
+
+    .theme .page-scene--home--settled .page-scene--home__word-cloud.theme-isometric-word-cloud {
+      visibility: hidden;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .theme .page-scene--home__content {
+      inset: auto 0 0 0;
+      top: 62%;
+      height: 38%;
+      max-height: 38%;
+      align-items: center;
+      justify-content: flex-start;
+      padding: clamp(0.15rem, 0.75svh, 0.4rem) clamp(1rem, 5vw, 1.5rem)
+        clamp(0.65rem, 2svh, 1rem);
+    }
+
+    .theme .page-scene--home--settled .page-scene--home__content {
+      inset: 0;
+      top: 0;
+      height: 100%;
+      max-height: 100%;
+      align-items: stretch;
+      justify-content: flex-start;
+      padding: clamp(3.25rem, 7.5svh, 4.75rem) clamp(0.85rem, 4vw, 1.35rem)
+        clamp(0.85rem, 2.5svh, 1.35rem);
+    }
+
+    .theme .page-scene--home__copy {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: min(88vw, 22rem);
+    }
+
+    .theme .page-scene--home--settled .page-scene--home__copy {
+      width: min(96vw, 100%);
+      height: 100%;
+      max-width: none;
+      justify-content: flex-start;
+      gap: 0;
+    }
+
+    .theme .page-scene--home__title {
+      display: none;
+    }
+
+    .theme .page-scene--home--settled .page-scene--home__title {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 46svh;
+      margin-bottom: 0;
+      text-align: center;
+    }
+
+    /* Motto owns ~first half of the viewport — nearly full-bleed type. */
+    .theme .page-scene--home--settled .page-scene--home__title.type-display-xl {
+      font-size: clamp(4.75rem, 22vw, 8.25rem);
+      line-height: 0.88;
+      letter-spacing: -0.03em;
+    }
+
+    .theme .page-scene--home--settled .page-scene--home__line--2 {
+      font-size: 0.38em;
+      margin-block: 0.08em;
+    }
+
+    .theme .page-scene--home--settled .page-scene--home__lower {
+      flex: 1 1 auto;
+      justify-content: flex-start;
+      padding-top: clamp(0.35rem, 1.5svh, 0.75rem);
+      min-height: 0;
+    }
+
+    .theme .page-scene--home__subtext.type-body-lg {
+      margin: 0;
+      max-width: 22rem;
+      font-size: clamp(1.05rem, 4.2vw, 1.35rem);
+      line-height: 1.4;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+    }
+
+    .theme .page-scene--home--settled .page-scene--home__subtext.type-body-lg {
+      margin: 0 auto;
+      max-width: 22rem;
+    }
+
+    .theme .page-scene--home__cta-row {
+      margin-top: 0.65rem;
+      padding-top: 0.55rem;
+    }
+
+    .theme .page-scene--home--settled .page-scene--home__cta-row {
+      margin-top: 0.95rem;
+      padding-top: 0.85rem;
+    }
+
+    .theme .page-scene--home__cta-reveal {
+      gap: 0.25rem;
+    }
+
+    .theme .page-scene--home--settled .page-scene--home__scroll-cue {
+      margin-top: auto;
+      padding-bottom: 0.15rem;
+    }
+  }
+
+  .theme .page-scene--home-test-empty {
+    width: 100%;
+    min-height: 100vh;
+    height: 100vh;
+    min-height: 100svh;
+    height: 100svh;
+  }
+
+  .theme .page-scene--home-what-we-offer {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    border-top: 1px solid var(--theme-border);
+    background: transparent;
+  }
+
+  .theme .page-scene--home-what-we-offer__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.75rem;
+    width: 100%;
+    min-height: 0;
+    padding: 1.5rem clamp(1.25rem, 4vw, 3rem) 2.25rem;
+    text-align: center;
+  }
+
+  .theme .page-scene--home-what-we-offer__body {
+    width: 100%;
+    max-width: 64rem;
+    text-align: left;
+    padding-block-start: clamp(0.75rem, 2vw, 1.25rem);
+    border-block-start: 1px solid var(--theme-border);
+  }
+
+  .theme .page-scene--home-what-we-offer__title-block {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  /* Section title — no underline; slightly larger than display-md. */
+  .theme .page-scene--home-what-we-offer__title {
+    position: relative;
+    display: inline-block;
+    margin: 0;
+  }
+
+  .theme .page-scene--home-what-we-offer__word--accent {
+    color: var(--theme-accent);
+  }
+
+  /* Scene 04 — page-scrolled timeline; sticky For + marquees until section ends. */
+  .theme .page-scene--home-how-it-works {
+    width: 100%;
+    height: auto;
+    min-height: 100vh;
+    min-height: 100svh;
+    max-height: none;
+    overflow: visible;
+    border-top: 1px solid var(--theme-border);
+    background: var(--theme-page-bg);
+  }
+
+  .theme .page-scene--home-how-it-works__layout {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1.15fr);
+    grid-template-rows: auto;
+    align-items: start;
+    column-gap: 0.85rem;
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    /* Lean left after smaller “For” — less start pad, keep end breathing room. */
+    padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1.25rem, 4vw, 3rem)
+      clamp(2rem, 4vw, 3rem) clamp(0.55rem, 1.6vw, 1.1rem);
+    box-sizing: border-box;
+  }
+
+  /* Sticky until the timeline (section) ends — one combo column (lead + For + CTAs). */
+  .theme .page-scene--home-how-it-works__sticky-rail {
+    grid-column: 1;
+    grid-row: 1;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    display: block;
+    box-sizing: border-box;
+    height: 100svh;
+    max-height: 100svh;
+    padding-block: clamp(0.5rem, 2vh, 1.25rem);
+  }
+
+  .theme .page-scene--home-how-it-works__combo {
+    position: relative;
+    display: grid;
+    grid-template-columns: max-content max-content;
+    align-items: stretch;
+    column-gap: 0.85rem;
+    box-sizing: border-box;
+    height: 100%;
+    min-height: 0;
+    --how-it-works-combo-width: max-content;
+  }
+
+  /* Invisible width reserve so marquees sit beside For. */
+  .theme .page-scene--home-how-it-works__for-gutter {
+    grid-column: 1;
+    grid-row: 1;
+    visibility: hidden;
+    pointer-events: none;
+    user-select: none;
+    margin: 0;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    font-size: clamp(2.75rem, 5.5vw, 4.25rem);
+  }
+
+  .theme .page-scene--home-how-it-works__combo-mover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 0.35rem;
+    width: max-content;
+    max-width: 100%;
+    pointer-events: none;
+    will-change: transform;
+  }
+
+  .theme .page-scene--home-how-it-works__lead-wrap {
+    width: var(--how-it-works-combo-width);
+    max-width: var(--how-it-works-combo-width);
+    will-change: opacity;
+  }
+
+  .theme .page-scene--home-how-it-works__lead {
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+    text-align: left;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3.15rem);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    color: var(--theme-text);
+  }
+
+  .theme .page-scene--home-how-it-works__lead .theme-scroll-type__line {
+    justify-content: flex-start;
+  }
+
+  .theme .page-scene--home-how-it-works__for-block {
+    width: max-content;
+  }
+
+  .theme .page-scene--home-how-it-works__title {
+    margin: 0;
+    text-align: left;
+    font-size: clamp(2.75rem, 5.5vw, 4.25rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+
+  .theme .page-scene--home-how-it-works__title .theme-scroll-type__line {
+    justify-content: flex-start;
+  }
+
+  .theme .page-scene--home-how-it-works__line {
+    display: block;
+  }
+
+  .theme .page-scene--home-how-it-works__word--accent {
+    color: var(--theme-accent);
+  }
+
+  /* Audience — two equal rows; divider is the row split. */
+  .theme .page-scene--home-how-it-works__audience-col {
+    grid-column: 2;
+    grid-row: 1;
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+  }
+
+  .theme .page-scene--home-how-it-works__audience-row--employers {
+    border-block-end: 1px solid var(--theme-border);
+  }
+
+  .theme .page-scene--home-how-it-works__audience-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 0;
+    width: 100%;
+  }
+
+  /* Desktop keeps marquees; mobile uses RadioGroup (menu auth toggle dialect). */
+  .theme .page-scene--home-how-it-works__audience-toggle {
+    display: none;
+  }
+
+  .theme .page-scene--home-how-it-works__panel {
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    padding-inline-start: clamp(1rem, 2vw, 1.5rem);
+    border-inline-start: 1px solid var(--theme-border);
+    /* Idle: don’t clip Get Started housing; hide only during panel swap. */
+    overflow: visible;
+  }
+
+  .theme
+    .page-scene--home-how-it-works__panel[data-preview-phase='out'],
+  .theme
+    .page-scene--home-how-it-works__panel[data-preview-phase='in'] {
+    overflow: hidden;
+  }
+
+  .theme .page-scene--home-how-it-works__panel-swap {
+    min-width: 0;
+    padding-block: 0.25rem clamp(1.5rem, 3.5vh, 2.5rem);
+    padding-inline-end: 0.75rem;
+    overflow: visible;
+  }
+
+  /* Vertical slide — matches page scroll (horizontal felt diagonal with scroll-up). */
+  .theme
+    .page-scene--home-how-it-works__panel:not([data-preview-phase='out']):not(
+      [data-preview-phase='in']
+    )
+    .page-scene--home-how-it-works__panel-swap {
+    animation: none;
+  }
+
+  .theme
+    .page-scene--home-how-it-works__panel[data-preview-phase='out']
+    .page-scene--home-how-it-works__panel-swap {
+    animation: home-how-it-works-panel-out-down 0.52s both cubic-bezier(0.7, 0, 0.3, 1);
+  }
+
+  .theme
+    .page-scene--home-how-it-works__panel[data-preview-phase='in']
+    .page-scene--home-how-it-works__panel-swap {
+    animation: home-how-it-works-panel-in-from-bottom 0.52s both cubic-bezier(0.7, 0, 0.3, 1);
+  }
+
+  .theme .page-scene--home-how-it-works__panel-swap--instant {
+    animation: none !important;
+  }
+
+  @media (max-width: 52rem) {
+    .theme .page-scene--home-how-it-works {
+      height: auto;
+      max-height: none;
+      overflow: visible;
+    }
+
+    .theme .page-scene--home-how-it-works__layout {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: auto;
+      height: auto;
+      row-gap: 1.25rem;
+      max-width: none;
+    }
+
+    .theme .page-scene--home-how-it-works__sticky-rail {
+      grid-column: 1;
+      grid-row: auto;
+      position: relative;
+      top: auto;
+      height: auto;
+      max-height: none;
+      padding-block: 0;
+    }
+
+    .theme .page-scene--home-how-it-works__combo {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      height: auto;
+      row-gap: 0.85rem;
+    }
+
+    .theme .page-scene--home-how-it-works__for-gutter,
+    .theme .page-scene--home-how-it-works__for-block,
+    .theme .page-scene--home-how-it-works__audience-col {
+      display: none;
+    }
+
+    .theme .page-scene--home-how-it-works__combo-mover {
+      position: relative;
+      transform: none !important;
+      pointer-events: auto;
+      width: 100%;
+      order: -1;
+    }
+
+    .theme .page-scene--home-how-it-works__lead-wrap,
+    .theme .page-scene--home-how-it-works__lead {
+      width: 100%;
+      max-width: none;
+    }
+
+    .theme .page-scene--home-how-it-works__audience-toggle {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      width: 100%;
+      min-width: 0;
+      justify-content: flex-start;
+      column-gap: 0.75rem;
+      row-gap: 0.55rem;
+    }
+
+    .theme .page-scene--home-how-it-works__audience-toggle-for {
+      margin: 0;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      flex: none;
+    }
+
+    .theme .page-scene--home-how-it-works__audience-toggle .theme-radio-group--vurify {
+      flex: 1 1 auto;
+      width: auto;
+      min-width: 0;
+      max-width: 20rem;
+    }
+
+    .theme .page-scene--home-how-it-works__panel {
+      grid-column: 1;
+      grid-row: auto;
+      padding-inline-start: 0;
+      padding-block-start: 0.75rem;
+      border-inline-start: 0;
+      border-block-start: 1px solid var(--theme-border);
+      overflow: visible;
+    }
+  }
+
+  /* Scene 05 — Pricing (hug the statement + table; do not fill leftover viewport). */
+  .theme .page-scene--home-pricing {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    box-sizing: border-box;
+    overflow: visible;
+    border-top: 1px solid var(--theme-border);
+    background: var(--theme-page-bg);
+  }
+
+  .theme .page-scene--home-pricing__layout {
+    display: grid;
+    grid-template-rows: auto auto;
+    align-content: start;
+    box-sizing: border-box;
+    width: 100%;
+    height: auto;
+    max-width: 80rem;
+    margin-inline: auto;
+    /* Modest top pad — Institutions cap uses the control’s own margin-top. */
+    padding: 1rem clamp(1.25rem, 4vw, 3rem) 1.5rem;
+    gap: 0.85rem;
+    overflow: visible;
+  }
+
+  .theme .page-scene--home-pricing__header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    overflow: visible;
+    padding-block: 0;
+  }
+
+  /*
+   * Sentence row: for · toggle · Vurify [is? | Costs?]
+   * Cap room is padding on the whole row (not the tier alone) so align-items:center
+   * lines “for” / housing / “Vurify is?” on one midline. EMPLOYERS pops into that pad.
+   */
+  .theme .page-scene--home-pricing__statement {
+    --pricing-cap-pop: 3.75rem;
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    column-gap: clamp(1.15rem, 2.6vw, 1.85rem);
+    row-gap: 0.85rem;
+    margin: 0;
+    padding-top: var(--pricing-cap-pop);
+    text-align: center;
+    line-height: 1.1;
+    max-width: 100%;
+  }
+
+  .theme .page-scene--home-pricing__lead,
+  .theme .page-scene--home-pricing__lead.theme-page-scroll-type,
+  .theme .page-scene--home-pricing__title {
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+    color: var(--theme-text);
+  }
+
+  .theme .page-scene--home-pricing__title-main {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    column-gap: 0.38em;
+    min-width: 0;
+    overflow: visible;
+  }
+
+  .theme .page-scene--home-pricing__lead .theme-scroll-type__line,
+  .theme .page-scene--home-pricing__title .theme-scroll-type__line {
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: nowrap;
+    width: max-content;
+    max-width: 100%;
+  }
+
+  .theme .page-scene--home-pricing__lead .theme-page-scroll-type__text,
+  .theme .page-scene--home-pricing__word .theme-page-scroll-type__text {
+    width: max-content;
+    max-width: 100%;
+  }
+
+  .theme .page-scene--home-pricing__lead .theme-scroll-type__word,
+  .theme .page-scene--home-pricing__title .theme-scroll-type__word {
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .theme .page-scene--home-pricing .theme-vurify-tiered__label {
+    white-space: nowrap;
+  }
+
+  .theme .page-scene--home-pricing__word {
+    display: inline-flex;
+    align-items: center;
+    overflow: visible;
+    transition: color 0.36s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .theme .page-scene--home-pricing__word.theme-page-scroll-type,
+  .theme .page-scene--home-pricing__word .theme-page-scroll-type__text {
+    display: inline-flex;
+    align-items: center;
+    overflow: visible;
+  }
+
+  .theme .page-scene--home-pricing[data-tier='free'] .page-scene--home-pricing__word,
+  .theme
+    .page-scene--home-pricing[data-tier='free']
+    .page-scene--home-pricing__word
+    .theme-scroll-type__word {
+    color: var(--theme-accent);
+  }
+
+  .theme .page-scene--home-pricing[data-tier='solo'] .page-scene--home-pricing__word,
+  .theme .page-scene--home-pricing[data-tier='team'] .page-scene--home-pricing__word,
+  .theme
+    .page-scene--home-pricing[data-tier='solo']
+    .page-scene--home-pricing__word
+    .theme-scroll-type__word,
+  .theme
+    .page-scene--home-pricing[data-tier='team']
+    .page-scene--home-pricing__word
+    .theme-scroll-type__word {
+    color: var(--theme-complement);
+  }
+
+  .theme .page-scene--home-pricing__word--accent {
+    color: var(--theme-accent);
+  }
+
+  .theme .page-scene--home-pricing__word--complement {
+    color: var(--theme-complement);
+  }
+
+  .theme .page-scene--home-pricing__costs {
+    display: inline-flex;
+    align-items: center;
+    color: var(--theme-text);
+  }
+
+  /*
+   * Predicate — width reserved for both “is?” + “Costs?”.
+   * Idle: overflow visible so “?” / descenders never clip. Flip phases mask only
+   * while animating.
+   */
+  .theme .page-scene--home-pricing__predicate {
+    --type-anim-duration: 0.36s;
+    --type-anim-stagger: 40ms;
+    --type-anim-unit-height: 1.28em;
+    position: relative;
+    display: inline-grid;
+    align-items: center;
+    justify-items: start;
+    overflow: visible;
+    color: var(--theme-text);
+    white-space: nowrap;
+    font: inherit;
+    letter-spacing: inherit;
+    line-height: inherit;
+    vertical-align: middle;
+  }
+
+  .theme .page-scene--home-pricing__predicate-sizer {
+    grid-area: 1 / 1;
+    display: inline-grid;
+    justify-items: start;
+    align-items: center;
+    visibility: hidden;
+    pointer-events: none;
+    user-select: none;
+    font: inherit;
+    letter-spacing: inherit;
+    line-height: inherit;
+  }
+
+  .theme .page-scene--home-pricing__predicate-sizer > span {
+    grid-area: 1 / 1;
+    white-space: nowrap;
+  }
+
+  .theme .page-scene--home-pricing__predicate-label {
+    grid-area: 1 / 1;
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
+    overflow: visible;
+    font: inherit;
+    letter-spacing: inherit;
+    line-height: inherit;
+    color: inherit;
+  }
+
+  .theme .page-scene--home-pricing__predicate .type-anim__track {
+    align-items: center;
+    overflow: visible;
+  }
+
+  .theme .page-scene--home-pricing__predicate .type-anim--flip .type-anim__unit {
+    height: var(--type-anim-unit-height);
+    padding-block: 0.1em 0.16em;
+    box-sizing: content-box;
+    overflow: visible;
+  }
+
+  .theme
+    .page-scene--home-pricing__predicate:is([data-flip-phase='out'], [data-flip-phase='in'])
+    .type-anim--flip
+    .type-anim__unit {
+    overflow: hidden;
+  }
+
+  .theme
+    .page-scene--home-pricing__predicate
+    .page-scene--home-pricing__predicate-label
+    .type-anim__unit-inner {
+    transition: none;
+  }
+
+  .theme
+    .page-scene--home-pricing__predicate[data-flip-phase='out']
+    .page-scene--home-pricing__predicate-label--out.type-anim--enter.type-anim--flip:not(
+      .type-anim--line
+    )
+    .type-anim__unit-inner {
+    transform: rotateX(0deg);
+    opacity: 1;
+    animation-name: vurify-menu-type-flip-out;
+    animation-duration: var(--type-anim-duration);
+    animation-timing-function: var(--type-anim-ease, cubic-bezier(0.22, 1, 0.36, 1));
+    animation-fill-mode: forwards;
+  }
+
+  .theme .page-scene--home-pricing__tier {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    align-self: center;
+    padding: 0;
+    overflow: visible;
+    position: relative;
+    z-index: 1;
+  }
+
+  .theme
+    .page-scene--home-pricing
+    .page-scene--home-pricing__tier-control
+    .theme-vurify-tiered {
+    margin-top: 0;
+  }
+
+  .theme .page-scene--home-pricing__body {
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow: visible;
+  }
+
+  /*
+   * Mobile pricing statement — stack rows so “for” / tier / “Vurify is?” never
+   * char-wrap into a vertical ladder. Type is static (no per-char split) ≤52rem.
+   */
+  @media (max-width: 52rem) {
+    .theme .page-scene--home-pricing {
+      height: auto;
+      min-height: 0;
+      max-height: none;
+      overflow: visible;
+    }
+
+    .theme .page-scene--home-pricing__layout {
+      height: auto;
+      min-height: 0;
+      padding: 1rem clamp(1rem, 4vw, 1.5rem) 1.35rem;
+      gap: 0.85rem;
+    }
+
+    .theme .page-scene--home-pricing__statement {
+      --pricing-cap-pop: 2.75rem;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      align-items: center;
+      justify-content: center;
+      row-gap: 0.55rem;
+      column-gap: 0;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .theme .page-scene--home-pricing__lead,
+    .theme .page-scene--home-pricing__lead.theme-page-scroll-type,
+    .theme .page-scene--home-pricing__title {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: center;
+      white-space: nowrap;
+      width: max-content;
+      max-width: 100%;
+    }
+
+    .theme .page-scene--home-pricing__lead .theme-scroll-type__line,
+    .theme .page-scene--home-pricing__title .theme-scroll-type__line {
+      flex-wrap: nowrap;
+      white-space: nowrap;
+    }
+
+    .theme .page-scene--home-pricing__title-main {
+      display: flex;
+      flex-wrap: nowrap;
+      white-space: nowrap;
+      justify-content: center;
+      width: max-content;
+      max-width: 100%;
+      min-width: 0;
+    }
+
+    .theme .page-scene--home-pricing__word,
+    .theme .page-scene--home-pricing__costs,
+    .theme .page-scene--home-pricing__predicate {
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+
+    .theme .page-scene--home-pricing__tier {
+      width: 100%;
+      max-width: 100%;
+      display: flex;
+      justify-content: center;
+      overflow-x: auto;
+      overflow-y: visible;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .theme .page-scene--home-pricing__tier::-webkit-scrollbar {
+      display: none;
+    }
+
+    .theme
+      .page-scene--home-pricing
+      .page-scene--home-pricing__tier-control.theme-radio-group--vurify-tiered,
+    .theme
+      .page-scene--home-pricing
+      .page-scene--home-pricing__tier-control
+      .theme-vurify-tiered {
+      --vurify-tiered-track-w: min(17.5rem, 92vw);
+      --vurify-tiered-track-h: 3.15rem;
+      --vurify-tiered-type: clamp(0.95rem, 3.8vw, 1.15rem);
+      --vurify-tiered-plan-type: clamp(0.85rem, 3.3vw, 0.98rem);
+      --vurify-tiered-cap-pop: 2.45rem;
+      flex-shrink: 0;
+      margin-inline: auto;
+    }
+
+    .theme .page-scene--home-pricing__body {
+      overflow: visible;
+    }
+  }
+
+  /* Scene 04b — More Vurify features on the bent card, full viewport. */
+  .theme .page-scene--home-more-features {
+    width: 100%;
+    height: 100vh;
+    height: 100svh;
+    min-height: 100vh;
+    min-height: 100svh;
+    max-height: 100svh;
+    box-sizing: border-box;
+    overflow: visible;
+    border-top: 1px solid var(--theme-border);
+    background: var(--theme-page-bg);
+  }
+
+  /*
+   * Header over the extras stage. The bent card + tag table share one screen
+   * grid (still | gutter | tags). Stage is a size container so the bowl fits.
+   */
+  .theme .page-scene--home-more-features__layout {
+    --curved-monitor-home-scale: 0.94;
+    --curved-monitor-tag-col: 17rem;
+    --curved-monitor-tag-gap: 1rem;
+    --curved-monitor-gutter: 1px;
+    --curved-monitor-bowl-inset: 0.4rem;
+    --curved-monitor-tag-span: calc(
+      var(--curved-monitor-tag-gap) * 2 + var(--curved-monitor-gutter) + var(--curved-monitor-tag-col) -
+        var(--curved-monitor-bowl-inset)
+    );
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    margin-inline: auto;
+    padding: clamp(1rem, 2.4vh, 1.65rem) clamp(1.25rem, 4vw, 3rem)
+      clamp(1.15rem, 3vh, 1.85rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: clamp(0.65rem, 1.6vh, 1.1rem);
+    min-height: 0;
+  }
+
+  .theme .page-scene--home-more-features__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    flex: none;
+    text-align: center;
+  }
+
+  .theme .page-scene--home-more-features__title {
+    margin: 0;
+    text-align: center;
+  }
+
+  .theme .page-scene--home-more-features__title .theme-scroll-type__line {
+    justify-content: center;
+  }
+
+  .theme .page-scene--home-more-features__word--accent {
+    color: var(--theme-accent);
+  }
+
+  .theme .page-scene--home-more-features__title .theme-scroll-type__word {
+    white-space: nowrap;
+  }
+
+  .theme .page-scene--home-more-features__stage {
+    flex: 1 1 auto;
+    min-height: 0;
+    min-width: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    container-type: size;
+  }
+
+  .theme .page-scene--home-more-features__stage .theme-curved-monitor-card {
+    flex: none;
+    /*
+     * Size from the extras stage (cqh / cqw), not 100% of a max-content
+     * screen — that percentage is indefinite and collapsed the bowl.
+     * Subtract the tag span so tags stay on the right edge.
+     */
+    width: min(
+      calc((100cqw - var(--curved-monitor-tag-span)) * var(--curved-monitor-home-scale)),
+      calc((100cqh - 4.25rem) * 16 / 9 * var(--curved-monitor-home-scale))
+    );
+    max-width: none;
+    max-height: calc((100cqh - 4.25rem) * var(--curved-monitor-home-scale));
+    height: auto;
+    aspect-ratio: 16 / 9;
+    align-self: center;
+  }
+
+  @media (max-width: 52rem) {
+    .theme .page-scene--home-more-features__layout {
+      align-items: stretch;
+    }
+
+    .theme .page-scene--home-more-features__header {
+      align-items: center;
+      text-align: center;
+      max-width: none;
+      width: 100%;
+    }
+
+    .theme .page-scene--home-more-features__stage .theme-curved-monitor-card {
+      width: min(
+        calc(100cqw * var(--curved-monitor-home-scale)),
+        calc((100cqh - 3.25rem) * 4 / 3 * var(--curved-monitor-home-scale))
+      );
+      max-height: calc((100cqh - 3.25rem) * var(--curved-monitor-home-scale));
+      aspect-ratio: 4 / 3;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .page-scene--home-more-features__stage {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* Scene 06 — testimonials (auto L/R). Hug content, no VPH fill. */
+  .theme .page-scene--home-try-vurify {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    box-sizing: border-box;
+    overflow: visible;
+    border-top: 1px solid var(--theme-border);
+    background: var(--theme-page-bg);
+  }
+
+  .theme .page-scene--home-try-vurify__layout {
+    display: grid;
+    grid-template-rows: auto;
+    align-content: start;
+    box-sizing: border-box;
+    width: 100%;
+    height: auto;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding: 2.75rem clamp(1.25rem, 4vw, 3rem) 2.5rem;
+  }
+
+  .theme .page-scene--home-try-vurify__testimonials {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 0;
+    min-width: 0;
+    width: 100%;
+    max-width: 48rem;
+    margin-inline: auto;
+    overflow: visible;
+  }
+
+  /* Scene 07 — Take a test interview kit chooser. Hug content, no VPH fill. */
+  .theme .page-scene--home-try-interview {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    box-sizing: border-box;
+    overflow: visible;
+    border-top: 1px solid var(--theme-border);
+    background: var(--theme-page-bg);
+  }
+
+  .theme .page-scene--home-try-interview__layout {
+    display: grid;
+    grid-template-rows: auto;
+    align-content: start;
+    box-sizing: border-box;
+    width: 100%;
+    height: auto;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding: 2.75rem clamp(1.25rem, 4vw, 3rem) 2.5rem;
+  }
+
+  .theme .page-scene--home-try-vurify__title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: var(--theme-text);
+    text-align: right;
+    max-width: 12ch;
+    text-wrap: balance;
+  }
+
+  .theme .page-scene--home-try-vurify__title .theme-scroll-type__line {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    row-gap: 0.02em;
+  }
+
+  .theme .page-scene--home-try-vurify__word--accent {
+    color: var(--theme-accent);
+  }
+
+  .theme .page-scene--home-try-vurify__shift {
+    width: 100%;
+    min-width: 0;
+  }
+
+  @media (max-width: 40rem) {
+    .theme .page-scene--home-try-vurify__title {
+      text-align: center;
+      max-width: 100%;
+    }
+
+    .theme .page-scene--home-try-vurify__title .theme-scroll-type__line {
+      justify-content: center;
+    }
+  }
+
+  .theme .page-loading-scene {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .theme .page-loading-scene__panel,
+  .theme .page-loading-scene__underlay {
+    position: absolute;
+    inset: 0;
+    clip-path: inset(0);
+    will-change: clip-path;
+  }
+
+  .theme .page-loading-scene__panel {
+    z-index: 1;
+    background-color: var(--theme-accent);
+  }
+
+  .theme .page-loading-scene__underlay {
+    background-color: var(--theme-complement);
+  }
+
+  .theme .page-loading-scene__content {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    min-height: 100svh;
+    place-items: center;
+    color: var(--theme-accent-text);
+    pointer-events: none;
+  }
+
+  .theme .page-loading-scene__loader {
+    color: var(--theme-accent-text);
+  }
+
+  .theme .page-loading-scene__loader .theme-loader {
+    --loader-ring-strong: var(--theme-accent-text);
+    --loader-ring-mid: color-mix(in srgb, var(--theme-accent-text) 68%, transparent);
+    --loader-ring-soft: color-mix(in srgb, var(--theme-accent-text) 38%, transparent);
+  }
+
+  .theme .page-loading-scene__loader .theme-loader-page__label {
+    color: var(--theme-accent-text);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .page-loading-scene__panel,
+    .theme .page-loading-scene__underlay {
+      will-change: auto;
+    }
+  }
+}
+
+@keyframes home-how-it-works-panel-out-down {
+  to {
+    opacity: 0;
+    transform: translate3d(0, 28%, 0);
+  }
+}
+
+@keyframes home-how-it-works-panel-in-from-bottom {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 28%, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/*
+ * Unlayered — Scene 03 section title (beats type-display-lg clamp).
+ */
+.theme .page-scene--home-what-we-offer__title.type-display-lg,
+.theme .page-scene--home-what-we-offer__title.theme-page-scroll-type.type-display-lg,
+.theme .theme-home-try-kit__section-title.type-display-lg,
+.theme .theme-home-try-kit__section-title.theme-page-scroll-type.type-display-lg,
+.theme .page-scene--home-more-features__title.type-display-lg,
+.theme .page-scene--home-more-features__title.theme-page-scroll-type.type-display-lg,
+.theme .page-scene--home-try-vurify__title.type-display-lg,
+.theme .page-scene--home-try-vurify__title.theme-page-scroll-type.type-display-lg {
+  font-size: clamp(2.15rem, 5.2vw, 3.5rem);
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+
+/*
+ * Unlayered — Scene 04 “For” matches Scene 05 statement size.
+ */
+.theme .page-scene--home-how-it-works__title.type-display-lg,
+.theme .page-scene--home-how-it-works__title.theme-page-scroll-type.type-display-lg {
+  font-size: clamp(2.75rem, 5.5vw, 4.25rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+/* Unlayered — Scene 04 lead sits under For but above body/title chrome. */
+.theme .page-scene--home-how-it-works__lead,
+.theme .page-scene--home-how-it-works__lead.theme-page-scroll-type {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.15rem);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+}
+
+/*
+ * Unlayered — Scene 05 statement sizes (beats type-display-lg clamp).
+ * Lead + title share one display size so Effect 2 scaleY reads the same.
+ */
+.theme .page-scene--home-pricing__lead.type-display-lg,
+.theme .page-scene--home-pricing__lead.theme-page-scroll-type.type-display-lg,
+.theme .page-scene--home-pricing__title.type-display-lg {
+  font-size: clamp(2.75rem, 5.5vw, 4.25rem);
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+}
+
+@media (max-width: 52rem) {
+  .theme .page-scene--home-pricing__lead.type-display-lg,
+  .theme .page-scene--home-pricing__lead.theme-page-scroll-type.type-display-lg,
+  .theme .page-scene--home-pricing__title.type-display-lg {
+    font-size: clamp(1.85rem, 8.5vw, 2.55rem);
+  }
+}
+
+/*
+ * Unlayered — mobile landing CTAs (beat unlayered size-md; desktop stays md).
+ */
+@media (max-width: 40rem) {
+  .theme
+    .page-scene--home__cta.theme-btn-fx--marquee-menu.theme-btn-fx--size-md {
+    font-size: clamp(1.8rem, 7.2vw, 2.55rem);
+    letter-spacing: -0.022em;
+  }
+
+  .theme
+    .page-scene--home__cta.theme-btn-fx--marquee-menu.theme-btn-fx--size-md
+    .theme-btn-fx__menu-flag {
+    width: 2.45rem;
+    height: 2.45rem;
+  }
+
+  .theme
+    .page-scene--home__cta.theme-btn-fx--marquee-menu.theme-btn-fx--size-md
+    .theme-btn-fx__menu-label {
+    gap: 0.65rem;
+  }
+}
+
+/*
+ * Unlayered — Scene 04 marquees match Landing Hire/Apply packing:
+ * label hugs the text (not space-between across a full column).
+ */
+.theme
+  .page-scene--home-how-it-works
+  .page-scene--home-how-it-works__cta.theme-btn-fx--marquee-menu {
+  display: inline-flex;
+  justify-content: center;
+  width: auto;
+  max-width: 100%;
+  box-sizing: border-box;
+  font-size: clamp(2rem, 4.2vw, 3.15rem);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.theme
+  .page-scene--home-how-it-works
+  .page-scene--home-how-it-works__cta
+  .theme-btn-fx__menu-label {
+  width: auto;
+  justify-content: center;
+  gap: 0.65rem;
+  margin-inline: 0;
+}
+
+.theme
+  .page-scene--home-how-it-works
+  .page-scene--home-how-it-works__cta
+  .theme-btn-fx__menu-marquee-unit {
+  font-size: 1em;
+}
+
+.theme
+  .page-scene--home-how-it-works
+  .page-scene--home-how-it-works__cta
+  .theme-btn-fx__menu-flag {
+  width: 2.2rem;
+  height: 2.2rem;
+}
+
+@media (max-width: 52rem) {
+  .theme
+    .page-scene--home-how-it-works
+    .page-scene--home-how-it-works__cta.theme-btn-fx--marquee-menu {
+    font-size: clamp(1.75rem, 7vw, 2.45rem);
+  }
+}
+
+/* Candidate interview — ThemeProvider root must fill the absolute App Stage layer
+ * so the dashboard flex row (page + chat peel) has a real height box. */
+.app-stage__layer[data-app-stage-root='interview'] > .theme.theme-root,
+.app-stage__layer[data-app-stage-root='interview'] .theme.theme-root {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  overflow: hidden;
+}
+
+/* Candidate interview shell — no left menu; right chat peel opens for Talk.
+ * Unlayered so open/closed beat the @layer dashboard defaults (same as home marquees). */
+.theme .page-scene--interview-root {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.theme .page-scene--interview-root > .page-scene--interview.page-scene--dashboard {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+}
+
+.theme .page-scene--interview.page-scene--dashboard {
+  --dash-menu-open: 0rem;
+  --dash-pad-start: 0;
+  --dash-pad-end: 0;
+  /* Landing cover sticky `top` clears the manage-header baseline. */
+  --interview-chrome-h: 3.75rem;
+}
+
+.theme .page-scene--interview.page-scene--dashboard[data-chat-closed='true'] {
+  --dash-chat-open: 0rem;
+  --dash-chat-pad-start: 0;
+  --dash-chat-pad-end: 0;
+}
+
+.theme .page-scene--interview.page-scene--dashboard[data-chat-closed='false'] {
+  /* Declare expanded on the host so open does not depend on @layer inheritance. */
+  --dash-chat-expanded: clamp(22.5rem, 30vw, 28rem);
+  --dash-chat-open: calc(var(--dash-chat-expanded) + var(--dash-chat-grow, 0px));
+  --dash-chat-pad-start: 0;
+  --dash-chat-pad-end: clamp(0.35rem, 0.8vw, 0.5rem);
+}
+
+/* Hard-open the chat column (Dashboard builder parity) — host sets --dash-chat-open. */
+.theme
+  .page-scene--interview.page-scene--dashboard[data-chat-closed='false']
+  > .page-scene--dashboard__chat {
+  flex: 0 0 var(--dash-chat-open);
+  width: var(--dash-chat-open);
+  max-width: var(--dash-chat-open);
+  padding: var(--dash-chrome-top) clamp(0.35rem, 0.8vw, 0.5rem) var(--dash-chrome-top) 0;
+  pointer-events: auto;
+}
+
+.theme .page-scene--dashboard__section.page-scene--interview__workspace {
+  /* Same as __section--interviews — fill the peel when menu/chat are closed. */
+  width: 100%;
+  max-width: none;
+}
+
+.theme .page-scene--interview__chrome.theme-interview-creator__manage-header {
+  /* Same title | divider | action row as Interview manager — sticks while stage scrolls.
+   * Block pad lives on manage-header so housing / titles stay on the midline. */
+  position: sticky;
+  top: 0;
+  z-index: 6;
+  margin-bottom: 1rem;
+  background: var(--theme-page-bg);
+}
+
+/*
+ * Gate chrome = same full-width manage-header as landing/manager.
+ * Back flush start · stage count (smaller than md buttons) · Next flush end.
+ */
+.theme .page-scene--interview__chrome--landing.theme-interview-creator__manage-header {
+  position: sticky;
+  top: 0;
+  justify-content: flex-end;
+}
+
+.theme .page-scene--interview__chrome-steps {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  max-width: calc(100% - 9rem);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.theme .page-scene--interview__chrome-steps .theme-step-loader {
+  pointer-events: auto;
+}
+
+.theme .page-scene--interview__chrome-back-hold {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.theme .page-scene--interview__chrome--gate.theme-interview-creator__manage-header {
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+}
+
+.theme .page-scene--interview__chrome--gate .page-scene--interview__chrome-count {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Hard timer — own manage-header slot between Back and stage title. */
+.theme .page-scene--interview__chrome--gate .page-scene--interview__chrome-timer {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  padding-inline: 0.15rem;
+}
+
+/* Single-line sticky title morph — Stage N ↔ section title (ellipsis). */
+.theme .page-scene--interview__chrome-title-slot {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+  max-width: min(32rem, 100%);
+  height: 2.65rem;
+  overflow: hidden;
+  text-align: center;
+}
+
+.theme .page-scene--interview__chrome-title-block {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.theme .page-scene--interview__chrome-title-block.is-exit,
+.theme .page-scene--interview__chrome-title-block.is-enter {
+  will-change: transform, opacity;
+}
+
+.theme .page-scene--interview__chrome-title-block.is-exit {
+  animation: page-scene-interview-chrome-title-exit 0.42s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.theme .page-scene--interview__chrome-title-block.is-enter {
+  animation: page-scene-interview-chrome-title-enter 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.theme .page-scene--interview__chrome-title-stage {
+  flex: none;
+  white-space: nowrap;
+  font-size: 0.78rem;
+  font-weight: 560;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  color: color-mix(in srgb, var(--theme-text) 52%, var(--theme-page-bg));
+}
+
+.theme .page-scene--interview__chrome-title-line {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.8vw, 1.85rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--theme-text);
+}
+
+/* When stage prefix is present, title may shrink; stage stays fixed. */
+.theme
+  .page-scene--interview__chrome-title-block:has(.page-scene--interview__chrome-title-stage)
+  .page-scene--interview__chrome-title-line {
+  flex: 1 1 auto;
+}
+
+@keyframes page-scene-interview-chrome-title-exit {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-110%);
+    opacity: 0;
+  }
+}
+
+@keyframes page-scene-interview-chrome-title-enter {
+  from {
+    transform: translateY(110%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme .page-scene--interview__chrome-title-block.is-exit,
+  .theme .page-scene--interview__chrome-title-block.is-enter {
+    animation: none;
+  }
+}
+
+.theme .page-scene--interview__chrome-end-slot {
+  display: inline-block;
+  width: 5.5rem;
+  height: 1px;
+}
+
+/* Leave confirm — viewport portal root is `.theme.page-scene--interview__leave-dialog`
+ * (not a descendant of page `.theme`), so match both forms. */
+.theme.page-scene--interview__leave-dialog.theme-modal,
+.theme .page-scene--interview__leave-dialog.theme-modal {
+  /* Above app-stage (140) so backdrop covers form + assist peel. */
+  z-index: 200;
+}
+
+.theme.page-scene--interview__leave-dialog .theme-modal__title,
+.theme .page-scene--interview__leave-dialog .theme-modal__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.2vw, 1.55rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.theme.page-scene--interview__leave-dialog .theme-modal__header,
+.theme .page-scene--interview__leave-dialog .theme-modal__header {
+  padding: 0.65rem 0.75rem;
+}
+
+.theme.page-scene--interview__leave-dialog .theme-modal__card,
+.theme .page-scene--interview__leave-dialog .theme-modal__card {
+  height: auto;
+}
+
+/*
+ * Vurify shell defaults to height/min-height 100% — fine when the modal card has a
+ * definite height. Leave confirm uses height:auto; keep inner content-sized.
+ * Do NOT use min-height:0 here — that collapses the surface in a flex card while
+ * copy still paints (floating text, no panel).
+ */
+.theme.page-scene--interview__leave-dialog .theme-modal__card .theme-card__inner,
+.theme .page-scene--interview__leave-dialog .theme-modal__card .theme-card__inner {
+  height: auto;
+  min-height: min-content;
+  background-color: var(--theme-surface);
+  color: var(--theme-text);
+}
+
+.theme.page-scene--interview__leave-dialog .theme-modal__body,
+.theme.page-scene--interview__leave-dialog .theme-modal__scroll,
+.theme .page-scene--interview__leave-dialog .theme-modal__body,
+.theme .page-scene--interview__leave-dialog .theme-modal__scroll {
+  flex: 0 0 auto;
+}
+
+/* Short confirm copy — no scrollport (kills empty OS scrollbar arrows). */
+.theme.page-scene--interview__leave-dialog .theme-scroll__viewport,
+.theme .page-scene--interview__leave-dialog .theme-scroll__viewport {
+  overflow: hidden !important;
+  flex: 0 0 auto;
+  min-height: 0;
+}
+
+.theme.page-scene--interview__leave-dialog .page-scene--interview__leave-body,
+.theme .page-scene--interview__leave-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+/* Referenced-section viewer — Verify chrome, large sheet, header Close, not a leave. */
+.theme.page-scene--interview__reference-dialog.theme-modal,
+.theme .page-scene--interview__reference-dialog.theme-modal {
+  z-index: 200;
+}
+
+.theme.page-scene--interview__reference-dialog .theme-modal__title,
+.theme .page-scene--interview__reference-dialog .theme-modal__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.2vw, 1.55rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.theme.page-scene--interview__reference-dialog .theme-modal__header,
+.theme .page-scene--interview__reference-dialog .theme-modal__header {
+  padding: 0.65rem 0.85rem;
+  gap: 0.75rem;
+}
+
+.theme.page-scene--interview__reference-dialog .theme-modal__card,
+.theme .page-scene--interview__reference-dialog .theme-modal__card {
+  --theme-modal-width: min(80rem, 98vw);
+  --theme-modal-max-height: 96dvh;
+  width: min(100%, var(--theme-modal-width));
+  height: min(96dvh, 72rem);
+  max-height: 96dvh;
+}
+
+.theme.page-scene--interview__reference-dialog .theme-modal__card .theme-card__inner,
+.theme .page-scene--interview__reference-dialog .theme-modal__card .theme-card__inner {
+  min-height: 0;
+  height: 100%;
+  background-color: var(--theme-surface);
+  color: var(--theme-text);
+}
+
+.theme.page-scene--interview__reference-dialog .theme-modal__body,
+.theme.page-scene--interview__reference-dialog .theme-modal__scroll,
+.theme .page-scene--interview__reference-dialog .theme-modal__body,
+.theme .page-scene--interview__reference-dialog .theme-modal__scroll {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.theme.page-scene--interview__reference-dialog .theme-modal__scroll .theme-scroll__viewport,
+.theme .page-scene--interview__reference-dialog .theme-modal__scroll .theme-scroll__viewport,
+.theme.page-scene--interview__reference-dialog .theme-modal__scroll .theme-scroll__content,
+.theme .page-scene--interview__reference-dialog .theme-modal__scroll .theme-scroll__content {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+}
+
+.theme.page-scene--interview__reference-dialog .theme-modal__scroll-inner,
+.theme .page-scene--interview__reference-dialog .theme-modal__scroll-inner {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+  padding: 0.65rem 0.85rem 0.85rem;
+}
+
+.theme
+  .page-scene--interview__reference-dialog:has([data-reference-kind='form'])
+  .theme-modal__scroll-inner,
+.theme
+  .page-scene--interview__reference-dialog:has([data-reference-kind='form'])
+  .theme-modal__scroll
+  .theme-scroll__content {
+  height: auto;
+  min-height: 100%;
+}
+
+.theme .page-scene--interview__reference-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  gap: 0.65rem;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+}
+
+.theme .page-scene--interview__reference-chips {
+  flex: 0 0 auto;
+}
+
+.theme .page-scene--interview__reference-coding .theme-interview-landing__tape-player,
+.theme .page-scene--interview__reference-coding .theme-interview-landing__verify-tool-divider {
+  flex: 0 0 auto;
+}
+
+.theme .page-scene--interview__reference-talk {
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+  max-height: none;
+}
+
+.theme .page-scene--interview__reference-talk-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 0.15rem 0.1rem 0.5rem;
+}
+
+.theme .page-scene--interview__reference-turn {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.theme .page-scene--interview__reference-body .theme-interview-landing__verify-tool-body.theme-interview-gate-live__editor--coding,
+.theme .page-scene--interview__reference-body .theme-interview-landing__verify-tool-body.theme-interview-gate-live__editor--doc {
+  --interview-gate-editor-h: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: auto;
+  max-height: none;
+}
+
+.theme .page-scene--interview__reference-body .theme-interview-landing__verify-tool-body > .theme-code-editor,
+.theme .page-scene--interview__reference-body .theme-interview-landing__verify-tool-body > .theme-doc-editor {
+  min-height: 0;
+  height: 100%;
+}
+
+.theme .page-scene--interview__chrome-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.theme .page-scene--interview__stage {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.5rem;
+  min-width: 0;
+  min-height: 0;
+  width: 100%;
+  max-width: 44rem;
+  margin-inline: auto;
+}
+
+/* Finished Results band is wider than the usual 44rem intro column */
+.theme .page-scene--interview__stage:has(.theme-interview-landing__output-preview) {
+  max-width: none;
+}
+
+/* Form gate live — page scrolls (embed Take has no inner rail; questions grow the column).
+ * Writing / Coding keep page-scroll briefs plus a locked workbench pane. */
+.theme .page-scene--interview.page-scene--dashboard[data-form-live='true'] .page-scene--dashboard__main {
+  padding-block: 0.35rem 0.75rem;
+  padding-inline: clamp(0.55rem, 1.2vw, 0.85rem);
+}
+
+.theme
+  .page-scene--interview.page-scene--dashboard[data-form-live='true']
+  .page-scene--interview__chrome.theme-interview-creator__manage-header {
+  margin-bottom: 0.35rem;
+  z-index: 120;
+}
+
+.theme .page-scene--interview.page-scene--dashboard[data-form-live='true'] .page-scene--interview__workspace {
+  max-width: none;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  gap: 0;
+  padding-block: 0;
+}
+
+.theme .page-scene--interview.page-scene--dashboard[data-form-live='true'] .page-scene--interview__stage,
+.theme .page-scene--interview.page-scene--dashboard[data-form-live='true'] .page-scene--interview__stage-host,
+.theme .page-scene--interview.page-scene--dashboard[data-form-live='true'] .page-scene--interview__stage-inner {
+  max-width: none;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  margin-inline: 0;
+}
+
+.theme .page-scene--interview.page-scene--dashboard[data-form-live='true'] .theme-interview-gate-shell {
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.theme .page-scene--interview.page-scene--dashboard[data-form-live='true'] .theme-interview-gate-live--form {
+  width: 100%;
+}
+
+.theme
+  .page-scene--interview.page-scene--dashboard[data-form-live='true']
+  .theme-interview-gate-live__editor
+  > .theme-test-form {
+  flex: none;
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+  height: auto;
+  min-height: 0;
+  max-height: none;
+}
+
+/* Writing live — page scrolls (prep-style brief → editor under sticky gate chrome). */
+.theme .page-scene--interview.page-scene--dashboard[data-writing-live='true'] {
+  /* Manage-header row (Back · timer · stage · Next) — keep Doc sticky ribbon below it. */
+  --interview-writing-chrome-h: 3.75rem;
+}
+
+.theme .page-scene--interview.page-scene--dashboard[data-writing-live='true'] .page-scene--dashboard__main {
+  padding-block: 0.35rem 0.75rem;
+  padding-inline: clamp(0.55rem, 1.2vw, 0.85rem);
+}
+
+.theme
+  .page-scene--interview.page-scene--dashboard[data-writing-live='true']
+  .page-scene--interview__chrome.theme-interview-creator__manage-header {
+  margin-bottom: 0.35rem;
+  /* Above DocEditor sticky ribbon (z-index 110) so Next / Back stay usable. */
+  z-index: 120;
+}
+
+.theme .page-scene--interview.page-scene--dashboard[data-writing-live='true'] .page-scene--interview__workspace {
+  max-width: none;
+  width: 100%;
+  gap: 0;
+  padding-block: 0;
+}
+
+.theme .page-scene--interview.page-scene--dashboard[data-writing-live='true'] .page-scene--interview__stage,
+.theme .page-scene--interview.page-scene--dashboard[data-writing-live='true'] .page-scene--interview__stage-host,
+.theme .page-scene--interview.page-scene--dashboard[data-writing-live='true'] .page-scene--interview__stage-inner {
+  max-width: none;
+  width: 100%;
+  margin-inline: 0;
+}
+
+.theme .page-scene--interview.page-scene--dashboard[data-writing-live='true'] .theme-interview-gate-shell {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.theme .page-scene--interview.page-scene--dashboard[data-writing-live='true'] .theme-interview-gate-live--writing {
+  width: 100%;
+}
+
+.theme
+  .page-scene--interview.page-scene--dashboard[data-writing-live='true']
+  .theme-interview-gate-live__editor--doc {
+  min-height: var(--interview-gate-editor-h, calc(100dvh - var(--interview-writing-chrome-h) - 1.5rem));
+  height: var(--interview-gate-editor-h, calc(100dvh - var(--interview-writing-chrome-h) - 1.5rem));
+  max-height: var(--interview-gate-editor-h, calc(100dvh - var(--interview-writing-chrome-h) - 1.5rem));
+}
+
+.theme
+  .page-scene--interview.page-scene--dashboard[data-writing-live='true']
+  .theme-doc-editor--section.theme-doc-editor--embed {
+  height: 100%;
+  min-height: 0;
+  max-width: none;
+  width: 100%;
+}
+
+/* Doc ribbon sticks under the gate header — never over Next / Back. */
+.theme
+  .page-scene--interview.page-scene--dashboard[data-writing-live='true']
+  .theme-doc-editor__chrome {
+  top: var(--interview-writing-chrome-h);
+  z-index: 100;
+}
+
+.theme
+  .page-scene--interview.page-scene--dashboard[data-writing-live='true']
+  .theme-doc-editor--section
+  .theme-doc-editor__content,
+.theme
+  .page-scene--interview.page-scene--dashboard[data-writing-live='true']
+  .theme-doc-editor--section
+  .theme-doc-editor__content--paged,
+.theme
+  .page-scene--interview.page-scene--dashboard[data-writing-live='true']
+  .theme-doc-editor--section
+  .theme-doc-editor__content--pageless {
+  flex: 1 1 auto;
+  min-height: 14rem;
+  max-height: none;
+  height: 100%;
+  overflow: hidden;
+}
+
+.theme
+  .page-scene--interview.page-scene--dashboard[data-writing-live='true']
+  .theme-doc-editor--section
+  .theme-doc-editor__page-scroll,
+.theme
+  .page-scene--interview.page-scene--dashboard[data-writing-live='true']
+  .theme-doc-editor--section
+  .theme-doc-editor__page-scroll
+  .theme-scroll__viewport {
+  height: 100%;
+  max-height: none;
+  min-height: 12rem;
+}
+
+.theme
+  .page-scene--interview.page-scene--dashboard[data-writing-live='true']
+  .theme-doc-editor--section
+  .theme-doc-editor__content--pageless
+  .theme-doc-editor__page-surface,
+.theme
+  .page-scene--interview.page-scene--dashboard[data-writing-live='true']
+  .theme-doc-editor--section
+  .theme-doc-editor__content--pageless
+  .theme-doc-editor__input {
+  min-height: min(100%, 20rem);
+}
+
+/* Coding live — page scrolls (prep-style brief → editor under sticky gate chrome). */
+.theme .page-scene--interview.page-scene--dashboard[data-coding-live='true'] {
+  --interview-coding-chrome-h: 3.75rem;
+}
+
+.theme .page-scene--interview.page-scene--dashboard[data-coding-live='true'] .page-scene--dashboard__main {
+  padding-block: 0.35rem 0.75rem;
+  padding-inline: clamp(0.55rem, 1.2vw, 0.85rem);
+}
+
+.theme
+  .page-scene--interview.page-scene--dashboard[data-coding-live='true']
+  .page-scene--interview__chrome.theme-interview-creator__manage-header {
+  margin-bottom: 0.35rem;
+  z-index: 120;
+}
+
+.theme .page-scene--interview.page-scene--dashboard[data-coding-live='true'] .page-scene--interview__workspace {
+  max-width: none;
+  width: 100%;
+  gap: 0;
+  padding-block: 0;
+}
+
+.theme .page-scene--interview.page-scene--dashboard[data-coding-live='true'] .page-scene--interview__stage,
+.theme .page-scene--interview.page-scene--dashboard[data-coding-live='true'] .page-scene--interview__stage-host,
+.theme .page-scene--interview.page-scene--dashboard[data-coding-live='true'] .page-scene--interview__stage-inner {
+  max-width: none;
+  width: 100%;
+  margin-inline: 0;
+}
+
+.theme .page-scene--interview.page-scene--dashboard[data-coding-live='true'] .theme-interview-gate-shell {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.theme .page-scene--interview.page-scene--dashboard[data-coding-live='true'] .theme-interview-gate-live--coding {
+  width: 100%;
+}
+
+.theme
+  .page-scene--interview.page-scene--dashboard[data-coding-live='true']
+  .theme-interview-gate-live__editor--coding {
+  min-height: var(--interview-gate-editor-h, calc(100dvh - var(--interview-coding-chrome-h) - 1.5rem));
+  height: var(--interview-gate-editor-h, calc(100dvh - var(--interview-coding-chrome-h) - 1.5rem));
+  max-height: var(--interview-gate-editor-h, calc(100dvh - var(--interview-coding-chrome-h) - 1.5rem));
+}
+
+.theme
+  .page-scene--interview.page-scene--dashboard[data-coding-live='true']
+  .theme-code-editor--section.theme-code-editor--embed {
+  height: 100%;
+  min-height: 0;
+  max-width: none;
+  width: 100%;
+}
+
+.theme .page-scene--interview__stage-host {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  width: 100%;
+}
+
+.theme .page-scene--interview__stage-inner {
+  min-width: 0;
+  width: 100%;
+}
+
+/* Home menu dialect — one layer out, then one layer in (not child stagger). */
+.theme .page-scene--interview__workspace[data-swap-phase='out'] .page-scene--interview__swap-layer {
+  animation: page-scene-interview-swap-out 0.52s both cubic-bezier(0.7, 0, 0.3, 1);
+  pointer-events: none;
+}
+
+.theme .page-scene--interview__workspace[data-swap-phase='in'] .page-scene--interview__swap-layer {
+  animation: page-scene-interview-swap-in 0.52s both cubic-bezier(0.7, 0, 0.3, 1);
+}
+
+.theme .page-scene--interview__workspace[data-swap-phase='out'] .page-scene--interview__swap-chrome {
+  animation: page-scene-interview-swap-chrome-out 0.52s both cubic-bezier(0.7, 0, 0.3, 1);
+  pointer-events: none;
+}
+
+.theme .page-scene--interview__workspace[data-swap-phase='in'] .page-scene--interview__swap-chrome {
+  animation: page-scene-interview-swap-chrome-in 0.52s both cubic-bezier(0.7, 0, 0.3, 1);
+}
+
+@keyframes page-scene-interview-swap-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(0.65rem);
+  }
+}
+
+@keyframes page-scene-interview-swap-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.65rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes page-scene-interview-swap-chrome-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes page-scene-interview-swap-chrome-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme .page-scene--interview__workspace[data-swap-phase] .page-scene--interview__swap-layer,
+  .theme .page-scene--interview__workspace[data-swap-phase] .page-scene--interview__swap-chrome {
+    animation: none;
+  }
+}
+

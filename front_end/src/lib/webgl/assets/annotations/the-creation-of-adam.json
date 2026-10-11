@@ -1,0 +1,56 @@
+{
+  "assetId": "the-creation-of-adam",
+  "units": "m",
+  "upAxis": "y",
+  "notes": "Michelangelo, The Creation of Adam (Sistine Chapel). glTF Binary (.glb) with embedded 2k textures. Normalize to metres, Y-up, sit on ground y=0. Home is the closer hands framing. Viewpoint `back of scene` is the captured opposite-side orbit (azimuth ~1.42 vs Home ~-1.76), not a same-heading zoom and not a synthesized 180° of Home. Copy session records live orbit (azimuth/polar/radius), camera up/quaternion, and model orientation without overwriting stored viewpoints. Prime more marks in the model viewer, then paste this JSON and sync the memoir.",
+  "annotations": [
+    {
+      "id": "viewpoint-home",
+      "kind": "viewpoint",
+      "label": "Home",
+      "position": [0, 0.5, 0],
+      "camera": [-0.5054449693328621, 0.20935624209362158, -0.10912691270966193],
+      "target": [0.07211756881207634, 0.3130456736689876, -0.00020925034262128808],
+      "orbit": {
+        "azimuth": -1.7571889295087268,
+        "polar": 1.745419226128741,
+        "radius": 0.5968191022951148
+      },
+      "up": [0, 1, 0]
+    },
+    {
+      "id": "viewpoint-back-of-scene",
+      "kind": "viewpoint",
+      "label": "back of scene",
+      "position": [0.05028552835531321, 0.27856532646983845, 0.0024437998666976247],
+      "camera": [0.46060052924629785, 0.006298760296870376, 0.06340836206686079],
+      "target": [0.05028552835531321, 0.27856532646983845, 0.0024437998666976247],
+      "orbit": {
+        "azimuth": 1.4232955175918045,
+        "polar": 2.151622402796464,
+        "radius": 0.49618964202817206
+      },
+      "up": [0, 1, 0],
+      "quaternion": [0.21684754930704003, 0.6257351011599522, -0.18700885751288246, 0.7255759165983954]
+    },
+    {
+      "id": "point-main-hand-web",
+      "kind": "point",
+      "label": "main_hand_web",
+      "position": [-0.0037369150938380696, 0.4176076139321119, -0.3769208863913113],
+      "normal": [-0.4407211872768942, -0.3448001287500449, 0.8287808554130563],
+      "faceIndex": 4790,
+      "objectName": "Object_4"
+    },
+    {
+      "id": "point-finger-tip",
+      "kind": "point",
+      "label": "finger tip",
+      "position": [0.023671742398913356, 0.37372406410018266, -0.059935212423620654],
+      "normal": [-0.23079076245688362, 0.5633400850307101, 0.7933369854999593],
+      "faceIndex": 3934,
+      "objectName": "Object_4",
+      "impulse": true
+    }
+  ]
+}

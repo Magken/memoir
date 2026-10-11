@@ -1,0 +1,1734 @@
+/* TestForm workbench — section flow + hairlines (no question cards)
+ * Shell matches other editors: fixed height budget → chrome outside → one ThemeScroll. */
+
+.theme-test-form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 56rem;
+  height: 40rem;
+  min-width: 0;
+  min-height: 28rem;
+  gap: 0;
+  margin-inline: auto;
+}
+
+/* Titlebar leftover (if remounted) stays outside the scroll budget. */
+.theme-test-form > .theme-editor-titlebar {
+  flex-shrink: 0;
+}
+
+.theme-test-form--showcase {
+  max-width: none;
+  height: min(52rem, calc(100dvh - 8rem));
+  min-height: 36rem;
+}
+
+/* Nested Creator-2 / panel embeds — no workbench chrome, tight padding. */
+.theme-test-form--embed {
+  height: auto;
+  min-height: 0;
+  max-width: none;
+  margin: 0;
+}
+
+.theme-test-form--embed .theme-test-form__shell {
+  padding: 0.55rem 1rem 0.65rem;
+  overflow: visible;
+}
+
+.theme-test-form--embed .theme-test-form__article--take {
+  display: block;
+}
+
+/* Take/mini embed only — grow with content (no internal rail). Author embed keeps a
+ * real scrollport. ThemeScroll `ownScroll={false}` so page Lenis can wheel through. */
+.theme-test-form--embed:not(.theme-test-form--author) .theme-test-form__scroll {
+  flex: none;
+  height: auto;
+  min-height: 0;
+}
+
+.theme-test-form--embed:not(.theme-test-form--author) .theme-test-form__scroll .theme-scroll__viewport {
+  height: auto !important;
+  max-height: none;
+  overflow: visible !important;
+  padding: 0;
+}
+
+.theme-test-form--embed .theme-test-form__list {
+  padding: 0.35rem 0.35rem 0.45rem;
+  max-width: none;
+}
+
+.theme-test-form--embed .theme-test-form__section-head {
+  padding: 0.2rem 0 0.1rem;
+}
+
+.theme-test-form--embed .theme-test-form__section-heading {
+  margin: 0;
+  padding-top: 0;
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.theme-test-form--embed .theme-test-form__section-desc {
+  margin: 0.15rem 0 0;
+}
+
+.theme-test-form--embed .theme-test-form__question {
+  padding: 0.45rem 0 0.4rem;
+}
+
+.theme-test-form--embed .theme-test-form__question-meta {
+  display: none;
+}
+
+.theme-test-form--embed .theme-test-form__question-head {
+  gap: 0.25rem;
+}
+
+.theme-test-form--author.theme-test-form--embed {
+  height: min(76vh, 52rem);
+  min-height: 26rem;
+}
+
+.theme-test-form--author.theme-test-form--embed .theme-test-form__shell {
+  padding: 0.55rem 1.15rem 0.65rem;
+  min-height: 0;
+  flex: 1 1 auto;
+  height: 100%;
+  overflow: hidden;
+}
+
+.theme-test-form--author.theme-test-form--embed .theme-test-form__toolbar--author {
+  padding-inline: 0.15rem;
+  margin-block-end: 0.25rem;
+  grid-template-columns: minmax(0, 1fr) auto;
+  justify-content: stretch;
+}
+
+.theme-test-form--author.theme-test-form--embed .theme-test-form__article {
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+}
+
+/* Always show Contents rail in nested author edit (ignore page <64rem TOC hide).
+ * Fill the form column — do not inherit page-level sticky TOC (that fought height:100%
+ * and felt intermittent while the outer Theme page scrolled). */
+.theme-test-form--author.theme-test-form--embed .theme-test-form__article.theme-doc-article-shell--sticky-toc {
+  display: grid;
+  grid-template-columns: minmax(8.5rem, 11.5rem) minmax(0, 1fr);
+  gap: 0.85rem;
+  align-items: stretch;
+  min-height: 0;
+  height: 100%;
+}
+
+.theme-test-form--author.theme-test-form--embed .theme-doc-article-shell__main {
+  min-height: 0;
+  max-height: 100%;
+  overflow: hidden;
+}
+
+.theme-test-form--author.theme-test-form--embed .theme-doc-article-shell__toc {
+  display: flex !important;
+  flex-direction: column;
+  position: relative;
+  top: auto;
+  align-self: stretch;
+  min-height: 0;
+  max-height: none;
+  height: 100%;
+  overflow: hidden;
+  border-inline-end: 1px solid color-mix(in srgb, var(--theme-border) 82%, transparent);
+  padding-inline-end: 0.55rem;
+}
+
+.theme-test-form--author.theme-test-form--embed .theme-doc-article-shell__toc-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+  --theme-scroll-fade: color-mix(in srgb, var(--theme-surface) 94%, transparent);
+}
+
+.theme-test-form--author.theme-test-form--embed .theme-test-form__scroll {
+  flex: 1 1 0;
+  min-height: 0;
+  height: 100%;
+  max-height: 100%;
+  --theme-scroll-fade: color-mix(in srgb, var(--theme-surface) 94%, transparent);
+}
+
+/* Keep a real scrollport; mini rail tokens come from scroll-rail.css. */
+.theme
+  .theme-test-form--author.theme-test-form--embed
+  .theme-test-form__scroll[data-scroll-rail='mini']
+  .theme-scroll__viewport {
+  height: 100% !important;
+  max-height: 100% !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding: 0 0.55rem 0.45rem;
+}
+
+.theme-test-form--author.theme-test-form--embed .theme-test-form__list {
+  padding: 0.45rem 0.45rem 0.65rem;
+}
+
+.theme-test-form--author.theme-test-form--embed .theme-test-form__question-meta {
+  display: flex;
+}
+
+.theme-test-form--author {
+  max-width: min(72rem, 100%);
+}
+
+/* Take / Review: match Author outer width; content uses full shell (no TOC rail). */
+.theme-test-form--take {
+  max-width: min(72rem, 100%);
+}
+
+.theme-test-form__shell--author {
+  min-height: 0;
+}
+
+.theme-test-form__article {
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+  width: 100%;
+  align-self: stretch;
+}
+
+.theme-test-form__article--take {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.theme-test-form__article--take .theme-test-form__scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  max-width: none;
+}
+
+.theme-test-form__article.theme-doc-article-shell {
+  height: 100%;
+  align-items: stretch;
+}
+
+.theme-test-form__article .theme-doc-article-shell__main {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+  height: 100%;
+}
+
+.theme-test-form__article .theme-test-form__scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+@media (min-width: 64rem) {
+  .theme-test-form__article.theme-doc-article-shell--sticky-toc {
+    display: grid;
+    grid-template-columns: minmax(9rem, 12rem) minmax(0, 1fr);
+    gap: 1.25rem;
+  }
+
+  .theme-test-form__article.theme-doc-article-shell--sticky-toc .theme-doc-article-shell__toc {
+    max-height: 100%;
+    height: 100%;
+  }
+}
+
+.theme-test-form__shell {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  padding: 0.85rem 0 0.75rem;
+  background: transparent;
+  overflow: hidden;
+}
+
+.theme-test-form__scroll {
+  flex: 1 1 auto;
+  align-self: stretch;
+  min-width: 0;
+  min-height: 0;
+  max-width: 100%;
+}
+
+.theme-test-form__scroll .theme-scroll__viewport {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+.theme-test-form__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.45rem 1rem;
+  flex-shrink: 0;
+  padding: 0.15rem 0.15rem 0.55rem;
+  border-bottom: 1px solid var(--theme-border);
+  min-height: 0;
+  max-width: 100%;
+  overflow: visible;
+}
+
+.theme-test-form__toolbar--take {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) auto;
+  align-items: center;
+  justify-content: stretch;
+  gap: 0.85rem 1.25rem;
+}
+
+/* Author: lives in DocArticleShell main — title aligns with questions, not TOC. */
+.theme-test-form__toolbar--author {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  justify-content: stretch;
+  gap: 0.85rem 1.25rem;
+  width: 100%;
+}
+
+@media (max-width: 40rem) {
+  .theme-test-form__toolbar--take {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .theme-test-form__toolbar-center {
+    grid-column: 1 / -1;
+    order: 3;
+  }
+}
+
+.theme-test-form__toolbar-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  text-align: center;
+}
+
+.theme .theme-test-form__form-error {
+  margin: 0;
+  max-width: 100%;
+  /* Same token as Field / login·sign-up form errors (beats `.type-caption` muted). */
+  color: var(--theme-error, var(--theme-danger, #c0392b));
+  white-space: pre-line;
+}
+
+.theme .theme-test-form__field-error {
+  margin: 0.35rem 0 0;
+  color: var(--theme-error, var(--theme-danger, #c0392b));
+}
+
+.theme .theme-test-form__question--invalid .theme-test-form__prompt-text {
+  color: var(--theme-error, var(--theme-danger, #c0392b));
+}
+
+.theme-test-form__author-required {
+  display: flex;
+  align-items: flex-end;
+  min-height: 2.75rem;
+}
+
+.theme-test-form__blank-key {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.theme-test-form__toolbar-slot {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 1.5rem;
+}
+
+.theme-test-form__sticky-title {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  /* Title-only slot — expand only when a subtitle is present */
+  height: 2.35rem;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.theme-test-form__sticky-title:has(.theme-test-form__sticky-subtitle),
+.theme-test-form__sticky-title:has(.theme-test-form__sticky-subtitle-edit) {
+  height: 3.5rem;
+}
+
+.theme-test-form__sticky-title--editable {
+  pointer-events: auto;
+}
+
+.theme-test-form__sticky-title-block {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.15rem;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+.theme-test-form__sticky-title-block.is-exit,
+.theme-test-form__sticky-title-block.is-enter {
+  will-change: transform, opacity;
+}
+
+.theme-test-form__sticky-title-block.is-exit {
+  animation: theme-test-form-title-exit 0.42s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.theme-test-form__sticky-title-block.is-enter {
+  animation: theme-test-form-title-enter 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.theme-test-form__sticky-title-line,
+.theme-test-form__sticky-title-edit .theme-test-form__editable-display,
+.theme-test-form__sticky-title-edit .theme-test-form__editable-input {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.6vw, 1.85rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--theme-text);
+  transition: color 180ms ease;
+}
+
+.theme-test-form__sticky-title-edit .theme-test-form__editable-display {
+  min-height: 1.2em;
+}
+
+/* Same accent as in-flow section heading when a question in a section is focused. */
+.theme-test-form--take:has(.theme-test-form__section:focus-within)
+  .theme-test-form__sticky-title-line,
+.theme-test-form--author:has(.theme-test-form__section:focus-within)
+  .theme-test-form__sticky-title-line,
+.theme-test-form--author:has(.theme-test-form__section:focus-within)
+  .theme-test-form__sticky-title-edit
+  .theme-test-form__editable-display,
+.theme-test-form--author:has(.theme-test-form__section:focus-within)
+  .theme-test-form__sticky-title-edit
+  .theme-test-form__editable-input {
+  color: var(--theme-accent);
+}
+
+.theme-test-form__sticky-subtitle,
+.theme-test-form__sticky-subtitle-edit .theme-test-form__editable-display,
+.theme-test-form__sticky-subtitle-edit .theme-test-form__editable-input {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.875rem;
+  line-height: 1.35;
+  color: var(--theme-text-muted);
+}
+
+.theme-test-form__sticky-subtitle-edit .theme-test-form__editable-display {
+  min-height: 1.35em;
+}
+
+@keyframes theme-test-form-title-exit {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-110%);
+    opacity: 0;
+  }
+}
+
+@keyframes theme-test-form-title-enter {
+  from {
+    transform: translateY(110%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-test-form__sticky-title-block.is-exit,
+  .theme-test-form__sticky-title-block.is-enter {
+    animation: none;
+  }
+}
+
+.theme-test-form__toolbar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.45rem 0.65rem;
+  flex-shrink: 0;
+}
+
+.theme-test-form__help {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  max-width: 18rem;
+  text-align: start;
+}
+
+.theme-test-form__help-list {
+  margin: 0;
+  padding-inline-start: 1.15rem;
+  list-style-type: disc;
+  list-style-position: outside;
+  font-size: 0.8rem;
+  line-height: 1.35;
+  color: var(--theme-text);
+}
+
+.theme-test-form__help-list > li {
+  display: list-item;
+  margin-block: 0.3rem;
+  padding-inline-start: 0.15rem;
+}
+
+.theme-test-form__help-list > li::marker {
+  color: color-mix(in srgb, var(--theme-ink) 45%, transparent);
+}
+
+.theme-test-form__mode-dock {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  padding: 0.55rem 0.15rem 0.1rem;
+  border-top: 1px solid var(--theme-border);
+  margin-top: 0.15rem;
+}
+
+.theme-test-form__score {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.75rem;
+  flex-shrink: 0;
+  padding: 0.35rem 0.15rem;
+}
+
+.theme-test-form__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-width: 0;
+  max-width: 100%;
+  /* Room so the first section heading starts below the viewport top → assessment title shows at rest */
+  padding: 1.25rem 0.15rem 0.5rem;
+  overflow-x: hidden;
+}
+
+.theme-test-form__section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 0;
+  padding: 1.1rem 0 0.35rem;
+}
+
+.theme-test-form__section + .theme-test-form__section {
+  margin-top: 0.35rem;
+  border-top: 1px solid color-mix(in srgb, var(--theme-border-strong) 42%, transparent);
+  padding-top: 1.25rem;
+}
+
+.theme-test-form__section-heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--theme-text);
+  transition: color 180ms ease;
+}
+
+.theme-test-form__section:focus-within .theme-test-form__section-heading {
+  color: var(--theme-accent);
+}
+
+.theme-test-form__section-desc {
+  margin: 0;
+  color: var(--theme-text-muted);
+}
+
+.theme-test-form__section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.45rem 0.75rem;
+}
+
+.theme-test-form__section-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  min-width: 0;
+  max-width: 36rem;
+  flex: 1 1 16rem;
+}
+
+.theme-test-form__section-head--author .theme-test-form__section-fields {
+  max-width: 42rem;
+  gap: 0.35rem;
+}
+
+.theme-test-form__section-head--author {
+  padding-bottom: 0.55rem;
+  margin-bottom: 0.15rem;
+  border-bottom: 1px solid color-mix(in oklab, var(--theme-accent) 28%, transparent);
+}
+
+/* Zero-size scroll-spy marker — mirrors take h3 trigger without tall author chrome. */
+.theme-test-form__section-spy {
+  display: block;
+  width: 100%;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.theme-test-form__section-title-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.theme-test-form__section-title-edit {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.theme-test-form__section-title-edit .theme-test-form__editable-display,
+.theme-test-form__section-title-edit .theme-test-form__editable-input {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--theme-text);
+}
+
+.theme-test-form__section--active .theme-test-form__section-title-edit .theme-test-form__editable-display,
+.theme-test-form__section--active .theme-test-form__section-title-edit .theme-test-form__editable-input {
+  color: var(--theme-accent);
+}
+
+.theme-test-form__section-desc-edit .theme-test-form__editable-display,
+.theme-test-form__section-desc-edit .theme-test-form__editable-input {
+  color: var(--theme-text-muted);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.theme-test-form__section--active .theme-test-form__section-heading {
+  color: var(--theme-accent);
+}
+
+.theme-test-form__section-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0 0.15rem;
+}
+
+.theme-test-form__section-add {
+  padding-top: 0.2rem;
+}
+
+.theme-test-form__doc-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 1rem 0 0.5rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid color-mix(in srgb, var(--theme-border-strong) 42%, transparent);
+}
+
+.theme-test-form__footer-tools {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.22rem;
+}
+
+.theme-test-form__band-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.theme-test-form__band-row .theme-test-form__editable {
+  flex: 1 1 auto;
+}
+
+.theme-test-form__band-row:hover .theme-test-form__remove-btn,
+.theme-test-form__band-row:focus-within .theme-test-form__remove-btn,
+.theme-test-form__key-head:hover .theme-test-form__remove-btn,
+.theme-test-form__key-head:focus-within .theme-test-form__remove-btn,
+.theme-test-form__key-wrap:hover .theme-test-form__key-head .theme-test-form__remove-btn,
+.theme-test-form__key-wrap:focus-within .theme-test-form__key-head .theme-test-form__remove-btn {
+  opacity: 1;
+}
+
+.theme-test-form__key-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  max-width: 40rem;
+}
+
+.theme-test-form__key-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.45rem;
+}
+
+.theme-test-form__key-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.theme-test-form__key-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  min-width: 0;
+}
+
+.theme-test-form__grid-key-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.theme-test-form__question {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  min-width: 0;
+  padding: 0.95rem 0 1rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.theme-test-form__question-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.45rem 0.75rem;
+}
+
+.theme-test-form__question-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 0.35rem 0.55rem;
+  flex: 0 0 auto;
+  margin-inline-start: auto;
+}
+
+.theme-test-form__prompt {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: var(--theme-text);
+}
+
+.theme-test-form__qnum {
+  display: inline-block;
+  margin-inline-end: 0.35rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--theme-text-muted);
+  font-weight: 600;
+}
+
+.theme-test-form__required {
+  margin-left: 0.2rem;
+  color: var(--theme-accent);
+  font-weight: 700;
+}
+
+.theme-test-form__description {
+  margin: 0;
+  max-width: 40rem;
+  color: var(--theme-text-muted);
+  line-height: 1.45;
+}
+
+.theme-test-form__hint {
+  margin: 0;
+  color: var(--theme-text-muted);
+}
+
+.theme-test-form__question-head--author {
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.theme-test-form__qnum--author {
+  margin-inline-end: auto;
+  font-size: 1rem;
+}
+
+.theme-test-form__question--author {
+  --tf-edge-w: 1.75rem;
+  --tf-faint: color-mix(in srgb, var(--theme-text) 38%, transparent);
+  --tf-measure: 36rem;
+  gap: 0.45rem;
+  padding: 0.85rem 0 1rem;
+  border: 0;
+  box-shadow: none;
+}
+
+/*
+ * Question separators (author + take) — adjacent-sibling top rule.
+ * Beats base `__question { border: 0 }`; uses `--theme-text` (not undefined `--theme-fg`).
+ */
+.theme .theme-test-form__question + .theme-test-form__question {
+  margin-top: 0.35rem;
+  padding-top: 1.05rem;
+  border-top: 1px solid color-mix(in srgb, var(--theme-text) 28%, transparent);
+}
+
+.theme .theme-test-form__key-dialog .theme-modal__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.2vw, 1.55rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.theme .theme-test-form__key-dialog .theme-modal__header {
+  padding: 0.65rem 0.75rem;
+}
+
+.theme-test-form__block {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--tf-edge-w);
+  column-gap: 0.35rem;
+  align-items: start;
+  width: 100%;
+}
+
+.theme-test-form__block-body {
+  min-width: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.theme-test-form__edge {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 0.15rem;
+  opacity: 0.42;
+  transition: opacity 140ms ease;
+}
+
+.theme-test-form__block.is-editable:hover .theme-test-form__edge,
+.theme-test-form__block.is-editable:focus-within .theme-test-form__edge,
+.theme-test-form__block.is-editable:has(.theme-menu--open) .theme-test-form__edge {
+  opacity: 1;
+}
+
+.theme-test-form__edge-tools {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.22rem;
+}
+
+.theme-test-form__edge-btn.theme-btn--tray:disabled {
+  opacity: 0.38;
+}
+
+.theme-test-form__prompt--author {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: baseline;
+  gap: 0.2rem 0.35rem;
+  min-width: 0;
+}
+
+.theme-test-form__prompt-edit {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.theme-test-form__prompt-edit .theme-test-form__editable-display,
+.theme-test-form__prompt-edit .theme-test-form__editable-input {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.5vw, 1.12rem);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  color: var(--theme-text);
+}
+
+.theme-test-form__description-edit .theme-test-form__editable-display,
+.theme-test-form__description-edit .theme-test-form__editable-input {
+  max-width: var(--tf-measure, 36rem);
+  color: var(--theme-text-muted);
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  line-height: 1.45;
+  font-weight: 400;
+}
+
+.theme-test-form__tip-edit {
+  max-width: 40rem;
+  padding: 0.35rem 0.55rem;
+  border-radius: 0.35rem;
+  background: color-mix(in oklab, var(--theme-accent) 6%, transparent);
+}
+
+.theme-test-form__tip-edit .theme-test-form__editable-display,
+.theme-test-form__tip-edit .theme-test-form__editable-input {
+  color: var(--theme-text-muted);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.theme-test-form__editable {
+  min-width: 0;
+  width: 100%;
+  cursor: text;
+}
+
+.theme-test-form__editable-display {
+  min-height: 1.25em;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.theme-test-form__editable-display.is-placeholder {
+  color: color-mix(in oklab, var(--theme-fg) 42%, transparent);
+  font-weight: 400;
+}
+
+.theme-test-form__editable-input {
+  appearance: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+  resize: none;
+  outline: none;
+}
+
+.theme-test-form__editable-input.is-multiline {
+  min-height: 2.5em;
+}
+
+.theme-test-form__editable-input:focus-visible {
+  outline: none;
+  box-shadow: 0 1px 0 0 color-mix(in oklab, var(--theme-accent) 55%, transparent);
+}
+
+.theme-test-form__remove-btn {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--tf-faint, color-mix(in oklab, var(--theme-fg) 38%, transparent));
+  padding: 0.1rem;
+  margin: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+  flex: none;
+  opacity: 0;
+  transition: opacity 140ms ease, color 140ms ease;
+}
+
+.theme-test-form__prompt--author:hover .theme-test-form__remove-btn,
+.theme-test-form__prompt--author:focus-within .theme-test-form__remove-btn,
+.theme-test-form__section-title-row:hover .theme-test-form__remove-btn,
+.theme-test-form__section-title-row:focus-within .theme-test-form__remove-btn,
+.theme-test-form__list-row:hover .theme-test-form__remove-btn,
+.theme-test-form__list-row:focus-within .theme-test-form__remove-btn,
+.theme-test-form__band-row:hover .theme-test-form__remove-btn,
+.theme-test-form__band-row:focus-within .theme-test-form__remove-btn,
+.theme-test-form__key-head:hover .theme-test-form__remove-btn,
+.theme-test-form__key-head:focus-within .theme-test-form__remove-btn,
+.theme-test-form__block:hover .theme-test-form__prompt--author .theme-test-form__remove-btn,
+.theme-test-form__block:focus-within .theme-test-form__prompt--author .theme-test-form__remove-btn {
+  opacity: 1;
+}
+
+.theme-test-form__remove-btn:hover {
+  color: var(--theme-accent);
+}
+
+.theme-test-form__points-edit {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.28rem;
+  min-width: 0;
+}
+
+.theme-test-form__points-value {
+  width: 2.25rem;
+  flex: none;
+}
+
+.theme-test-form__points-value .theme-test-form__editable-display,
+.theme-test-form__points-value .theme-test-form__editable-input {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 500;
+  line-height: 1.2;
+  text-align: end;
+  color: var(--theme-text-muted);
+}
+
+.theme-test-form__options-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  max-width: var(--tf-measure, 36rem);
+}
+
+.theme-test-form__doc-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.22rem;
+  max-width: var(--tf-measure, 36rem);
+}
+
+.theme-test-form__list-row {
+  display: grid;
+  /* Tight mark column — option text lines up with “Add option” / helper copy */
+  grid-template-columns: 1.05rem minmax(0, 1fr) auto;
+  align-items: baseline;
+  column-gap: 0.45rem;
+  min-width: 0;
+}
+
+.theme-test-form__list-row--segment {
+  grid-template-columns: 3.25rem minmax(0, 1fr) auto;
+}
+
+.theme-test-form__list-edit .theme-test-form__editable-display,
+.theme-test-form__list-edit .theme-test-form__editable-input {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.55;
+  color: color-mix(in oklab, var(--theme-fg) 84%, transparent);
+}
+
+.theme-test-form__list-bullet {
+  color: var(--tf-faint, color-mix(in oklab, var(--theme-fg) 38%, transparent));
+  line-height: 1.55;
+  font-size: 0.75rem;
+  text-align: start;
+  padding-top: 0.15rem;
+  justify-self: start;
+}
+
+.theme-test-form__list-seg-kind {
+  line-height: 1.55;
+  padding-top: 0.1rem;
+}
+
+.theme-test-form__list-mark {
+  width: 0.95rem;
+  height: 0.95rem;
+  margin: 0.28rem 0 0;
+  justify-self: start;
+  flex: none;
+  box-sizing: border-box;
+  border: 1.5px solid color-mix(in oklab, var(--theme-fg) 30%, transparent);
+  background: transparent;
+}
+
+.theme-test-form__list-mark--radio {
+  border-radius: 999px;
+}
+
+.theme-test-form__list-mark--check {
+  border-radius: 0.2rem;
+}
+
+.theme-test-form__list-mark--drop {
+  position: relative;
+  width: 0.95rem;
+  height: 0.95rem;
+  margin: 0.28rem 0 0;
+  justify-self: start;
+  border: 0;
+  background: transparent;
+}
+
+.theme-test-form__list-mark--drop::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  width: 0;
+  height: 0;
+  border-left: 0.28rem solid transparent;
+  border-right: 0.28rem solid transparent;
+  border-top: 0.34rem solid color-mix(in oklab, var(--theme-fg) 35%, transparent);
+  transform: translate(-50%, -50%);
+}
+
+.theme-test-form__list-remove-spacer {
+  width: 1rem;
+  height: 1rem;
+}
+
+.theme-test-form__quiet-btn {
+  appearance: none;
+  align-self: flex-start;
+  margin: 0.1rem 0 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  font-size: 0.8rem;
+  color: var(--theme-text-muted);
+}
+
+.theme-test-form__quiet-btn:hover {
+  color: var(--theme-accent);
+}
+
+.theme-test-form__quiet-btn:focus-visible {
+  outline: 2px solid var(--theme-focus);
+  outline-offset: 2px;
+}
+
+.theme-test-form__fill-add-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.85rem;
+}
+
+.theme-test-form__preview-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-width: var(--tf-measure, 36rem);
+  margin-top: 0.35rem;
+  min-width: 0;
+}
+
+.theme-test-form__preview-block--wide {
+  max-width: none;
+  grid-column: 1 / -1;
+}
+
+.theme-test-form__preview-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem 0.75rem;
+}
+
+.theme .theme-test-form__preview-tools-rule {
+  display: inline-block;
+  flex: 0 0 auto;
+  align-self: center;
+  width: 1px;
+  height: 1.05rem;
+  margin: 0 0.15rem;
+  background: color-mix(in srgb, var(--theme-text) 32%, transparent);
+  pointer-events: none;
+}
+
+.theme-test-form__preview-fold {
+  display: grid;
+  grid-template-rows: 0fr;
+  width: 100%;
+  transition: grid-template-rows 240ms ease;
+}
+
+.theme-test-form__preview-block:not(.theme-test-form__preview-block--open)
+  .theme-test-form__preview-fold {
+  pointer-events: none;
+}
+
+.theme-test-form__preview-block--open .theme-test-form__preview-fold {
+  grid-template-rows: 1fr;
+}
+
+.theme-test-form__preview-fold-inner {
+  overflow: hidden;
+  min-height: 0;
+  padding-top: 0;
+  opacity: 0;
+  transform: translateY(-0.35rem);
+  transition:
+    opacity 200ms ease,
+    transform 240ms ease,
+    padding-top 240ms ease;
+}
+
+.theme-test-form__preview-block--open .theme-test-form__preview-fold-inner {
+  padding-top: 0.45rem;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.theme-test-form__answer-preview.theme-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  max-width: 100%;
+  margin: 0;
+}
+
+.theme-test-form__answer-preview .theme-card__content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.theme-test-form__options--doc {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  max-width: 36rem;
+}
+
+.theme-test-form__option-row--doc {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.theme-test-form__option-mark {
+  width: 0.85rem;
+  height: 0.85rem;
+  flex: none;
+  border-radius: 999px;
+  border: 1.5px solid color-mix(in oklab, var(--theme-fg) 28%, transparent);
+}
+
+.theme-test-form__scale-author,
+.theme-test-form__grid-author,
+.theme-test-form__fill-author {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  max-width: 44rem;
+}
+
+.theme-test-form__scale-labels {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.45rem 1rem;
+}
+
+.theme-test-form__scale-labels .theme-test-form__editable {
+  flex: 1 1 8rem;
+  max-width: 14rem;
+}
+
+.theme-test-form__scale-range {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 0.85rem;
+  max-width: 18rem;
+}
+
+.theme-test-form__grid-author {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem 1.1rem;
+  max-width: min(52rem, 100%);
+  min-width: 0;
+}
+
+.theme-test-form__grid-author-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.theme-test-form__fill-blank-wrap {
+  display: inline-flex;
+  min-width: 4.5rem;
+  max-width: 10rem;
+  margin: 0 0.15rem;
+  border-bottom: 1.5px solid color-mix(in oklab, var(--theme-fg) 35%, transparent);
+  vertical-align: baseline;
+}
+
+.theme-test-form__fill-blank-edit .theme-test-form__editable-display,
+.theme-test-form__fill-blank-edit .theme-test-form__editable-input {
+  text-align: center;
+  font-size: 0.92rem;
+}
+
+/* Expand tip — left-aligned under the question head */
+.theme-test-form__tip {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  max-width: 40rem;
+}
+
+.theme-test-form__tip-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  margin: 0;
+  padding: 0.12rem 0.2rem;
+  border: 0;
+  border-radius: 0.25rem;
+  background: transparent;
+  color: var(--theme-text-muted);
+  cursor: pointer;
+  font: inherit;
+  line-height: 1.2;
+}
+
+.theme-test-form__tip-toggle:hover {
+  color: var(--theme-accent);
+}
+
+.theme-test-form__tip-toggle:focus-visible {
+  outline: 2px solid var(--theme-focus);
+  outline-offset: 2px;
+}
+
+.theme-test-form__tip-icon {
+  width: 0.85rem;
+  height: 0.85rem;
+  flex: 0 0 auto;
+}
+
+.theme-test-form__tip-toggle-label {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.theme-test-form__tip--open .theme-test-form__tip-toggle {
+  color: var(--theme-accent);
+}
+
+.theme-test-form__tip-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  width: 100%;
+  transition: grid-template-rows 220ms ease;
+}
+
+.theme-test-form__tip--open .theme-test-form__tip-panel {
+  grid-template-rows: 1fr;
+}
+
+.theme-test-form__tip-panel-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.theme-test-form__tip-body {
+  margin: 0.4rem 0 0;
+  padding: 0.55rem 0.75rem;
+  border-left: 2px solid var(--theme-accent);
+  background: color-mix(in srgb, var(--theme-accent) 8%, transparent);
+  color: var(--theme-text);
+  line-height: 1.45;
+  text-align: start;
+  opacity: 0;
+  transform: translateY(-0.2rem);
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.theme-test-form__tip--open .theme-test-form__tip-body {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.theme-test-form__tip-label {
+  display: block;
+  margin-bottom: 0.2rem;
+  color: var(--theme-accent);
+}
+
+.theme-test-form__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  min-width: 0;
+  max-width: 40rem;
+}
+
+.theme-test-form__body--wide {
+  max-width: min(52rem, 100%);
+}
+
+.theme-test-form__options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.theme-test-form__option-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.55rem;
+  min-width: 0;
+}
+
+.theme-test-form__option-row .theme-vurify-input,
+.theme-test-form__option-row .theme-field {
+  flex: 1 1 12rem;
+  min-width: 0;
+}
+
+.theme-test-form__fill {
+  display: block;
+  margin: 0;
+  max-width: 42rem;
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--theme-text);
+}
+
+.theme-test-form__fill-text {
+  color: inherit;
+}
+
+/*
+ * Fill blank = regular Vurify line input — only change: center the floating label
+ * (regular uses left edge / transform-origin 0).
+ */
+.theme .theme-test-form__fill .theme-vurify-input.theme-test-form__fill-vurify {
+  display: inline-block;
+  width: auto;
+  min-width: 6.5rem;
+  max-width: 12rem;
+  margin: 0 0.15em;
+  vertical-align: baseline;
+}
+
+.theme .theme-test-form__fill-vurify .theme-vurify-input__field {
+  text-align: center;
+}
+
+.theme .theme-test-form__fill-vurify .theme-vurify-input__label {
+  text-align: center;
+  transform-origin: 50% 50%;
+}
+
+.theme-test-form__scale {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  min-width: 0;
+  max-width: 36rem;
+}
+
+.theme-test-form__matrix-wrap {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: visible;
+  min-width: 0;
+  padding-bottom: 0.35rem;
+  -webkit-overflow-scrolling: touch;
+  isolation: isolate;
+}
+
+.theme-test-form__matrix {
+  --tf-matrix-label-w: 11.5rem;
+  --tf-matrix-col-w: 5.5rem;
+  width: max-content;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+}
+
+.theme-test-form__matrix-colgroup-label {
+  width: var(--tf-matrix-label-w);
+}
+
+.theme-test-form__matrix-colgroup-choice {
+  width: var(--tf-matrix-col-w);
+}
+
+.theme-test-form__matrix-corner,
+.theme-test-form__matrix-col,
+.theme-test-form__matrix-row,
+.theme-test-form__matrix-cell {
+  box-sizing: border-box;
+  padding: 0.55rem 0.45rem;
+  vertical-align: middle;
+  border-bottom: 1px solid color-mix(in srgb, var(--theme-border) 65%, transparent);
+}
+
+.theme-test-form__matrix thead .theme-test-form__matrix-col {
+  border-bottom: 1px solid color-mix(in srgb, var(--theme-border-strong) 45%, transparent);
+}
+
+.theme-test-form__matrix-col {
+  width: var(--tf-matrix-col-w);
+  min-width: var(--tf-matrix-col-w);
+  max-width: var(--tf-matrix-col-w);
+  text-align: center;
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--theme-text-muted);
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: auto;
+}
+
+.theme-test-form__matrix-row,
+.theme-test-form__matrix-corner {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  width: var(--tf-matrix-label-w);
+  min-width: var(--tf-matrix-label-w);
+  max-width: var(--tf-matrix-label-w);
+  text-align: left;
+  font-weight: 500;
+  color: var(--theme-text);
+  background: var(--theme-page-bg);
+  background-clip: padding-box;
+  overflow: hidden;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: normal;
+  box-shadow:
+    1px 0 0 color-mix(in srgb, var(--theme-border) 55%, transparent),
+    6px 0 10px -6px color-mix(in srgb, var(--theme-fg) 18%, transparent);
+}
+
+.theme-test-form__matrix thead .theme-test-form__matrix-corner {
+  z-index: 3;
+}
+
+.theme-test-form__matrix-cell {
+  width: var(--tf-matrix-col-w);
+  min-width: var(--tf-matrix-col-w);
+  max-width: var(--tf-matrix-col-w);
+  text-align: center;
+  background: var(--theme-page-bg);
+}
+
+.theme-test-form__matrix-choice {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  cursor: pointer;
+}
+
+.theme-test-form__matrix-input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+.theme-test-form__matrix-radio {
+  display: block;
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 999px;
+  border: 2px solid color-mix(in srgb, var(--theme-border-strong) 65%, var(--theme-accent));
+  background: var(--theme-surface);
+  transition:
+    background 140ms ease,
+    border-color 140ms ease,
+    box-shadow 140ms ease;
+}
+
+.theme-test-form__matrix-choice:is(:hover, :focus-within) .theme-test-form__matrix-radio {
+  border-color: var(--theme-accent);
+}
+
+.theme-test-form__matrix-input:checked + .theme-test-form__matrix-radio {
+  border-color: var(--theme-accent);
+  background: var(--theme-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--theme-accent) 20%, transparent);
+}
+
+.theme-test-form__matrix-input:focus-visible + .theme-test-form__matrix-radio {
+  outline: 2px solid var(--theme-focus);
+  outline-offset: 2px;
+}
+
+.theme-test-form__matrix-input:disabled + .theme-test-form__matrix-radio {
+  opacity: 0.5;
+}
+
+.theme-test-form__author-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem 0.85rem;
+  max-width: 40rem;
+}
+
+.theme-test-form__author-grid--full {
+  grid-column: 1 / -1;
+}
+
+.theme-test-form__key {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  max-width: 40rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid color-mix(in srgb, var(--theme-border) 70%, transparent);
+}
+
+.theme-test-form__key--panel {
+  padding: 0.75rem 0.85rem;
+  border: 1px solid color-mix(in srgb, var(--theme-border) 70%, transparent);
+  border-radius: 0.4rem;
+  background: color-mix(in oklab, var(--theme-fg) 2.5%, transparent);
+}
+
+.theme-test-form__review-flag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.1rem 0;
+  border: 0;
+  border-radius: 0;
+  font-size: 0.75rem;
+  line-height: 1.2;
+}
+
+.theme-test-form__review-flag--ok {
+  color: var(--theme-accent);
+}
+
+.theme-test-form__review-flag--bad {
+  color: var(--theme-danger, #b42318);
+}
+
+.theme-test-form__review-flag--manual {
+  color: var(--theme-text-muted);
+}
+
+.theme-test-form__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.45rem;
+  padding: 1.25rem 0.15rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-test-form__section-heading {
+    transition: none;
+  }
+
+  .theme-test-form__matrix-radio {
+    transition: none;
+  }
+
+  .theme-test-form__tip-panel,
+  .theme-test-form__tip-body {
+    transition: none;
+  }
+
+  .theme-test-form__preview-fold,
+  .theme-test-form__preview-fold-inner {
+    transition: none;
+  }
+
+  .theme-test-form__edge,
+  .theme-test-form__remove-btn {
+    transition: none;
+  }
+}
+
+@media (max-width: 40rem) {
+  .theme-test-form__author-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .theme-test-form__grid-author {
+    grid-template-columns: 1fr;
+  }
+}

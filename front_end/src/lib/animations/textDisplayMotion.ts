@@ -1,0 +1,1 @@
+export const TYPE_MESSAGE_CYCLE_DEFAULT_MS = 3200

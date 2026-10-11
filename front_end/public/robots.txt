@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard
+Disallow: /interview
+Disallow: /theme
+Disallow: /landing-2
+Disallow: /scale-cover-modal
+
+Sitemap: https://vurify.org/sitemap.xml

@@ -1,0 +1,412 @@
+/**
+ * Image drag carousel — horizontal pointer-drag strip with parallax object-position.
+ * Ported from ref.image-carousel-1; theme tokens for surface, border, radius.
+ */
+
+@layer components {
+  .theme .theme-img-drag-carousel {
+    position: relative;
+    width: 100%;
+    height: min(72vh, 36rem);
+    overflow: hidden;
+    border-radius: 0.125rem;
+    border: 2px solid var(--theme-border-strong);
+    background-color: var(--theme-surface-inset);
+    box-shadow: var(--theme-shadow-brutal);
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+  }
+
+  .theme .theme-img-drag-carousel.is-dragging {
+    cursor: grabbing;
+  }
+
+  .theme .theme-img-drag-carousel__track {
+    display: flex;
+    gap: 4vmin;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(0%, -50%);
+    will-change: transform;
+    z-index: 1;
+  }
+
+  .theme .theme-img-drag-carousel__gl-host {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    border-radius: inherit;
+  }
+
+  .theme .theme-img-drag-carousel__gl-host canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .theme .theme-img-drag-carousel--gl .theme-img-drag-carousel__image {
+    visibility: hidden;
+  }
+
+  .theme .theme-img-drag-carousel__image {
+    width: 45vmin;
+    height: 65vmin;
+    max-height: calc(min(72vh, 36rem) - 2rem);
+    flex-shrink: 0;
+    object-fit: cover;
+    object-position: 100% center;
+    border-radius: 0.125rem;
+    border: 2px solid var(--theme-border);
+    opacity: 0.88;
+    box-shadow: 2px 2px 0 color-mix(in srgb, var(--theme-shadow-brutal) 70%, transparent);
+  }
+
+  .theme .theme-img-drag-carousel__image:focus-visible {
+    outline: 2px solid var(--theme-focus);
+    outline-offset: 2px;
+  }
+
+  /* Vanishing gallery — transparent chrome, lateral fade, N visible slides */
+  .theme .theme-img-drag-carousel--vanishing {
+    --theme-img-drag-visible-count: 1;
+    --theme-img-drag-gap: 1.25rem;
+    --theme-img-drag-slide-max: min(18rem, 92cqw);
+    --theme-img-drag-slide-w: calc(
+      (
+          100cqw - (var(--theme-img-drag-visible-count) - 1) * var(--theme-img-drag-gap)
+        ) / var(--theme-img-drag-visible-count)
+    );
+    container-type: inline-size;
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      #000 8%,
+      #000 92%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+  }
+
+  .theme .theme-img-drag-carousel--vanishing .theme-img-drag-carousel__track {
+    gap: var(--theme-img-drag-gap);
+  }
+
+  .theme .theme-img-drag-carousel--vanishing:not(.theme-img-drag-carousel--project-card)
+    .theme-img-drag-carousel__image {
+    width: min(var(--theme-img-drag-slide-max), var(--theme-img-drag-slide-w));
+    max-width: none;
+    height: auto;
+    max-height: min(58vh, 32rem);
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+  }
+
+  .theme
+    .theme-img-drag-carousel--vanishing:not(.theme-img-drag-carousel--project-card)[data-visible-count='1']
+    .theme-img-drag-carousel__image {
+    width: min(100cqw, 22rem);
+  }
+
+  .theme .theme-img-drag-gallery--vanishing.theme-dotnav-gallery--horizontal .theme-dotnav-gallery__stage {
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+  }
+
+  .theme .theme-img-drag-gallery__controls {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding-top: 0.25rem;
+  }
+
+  .theme .theme-img-drag-gallery__controls .theme-dotnav {
+    flex: 0 1 auto;
+    min-width: 0;
+  }
+
+  .theme .theme-img-drag-carousel__slide {
+    flex-shrink: 0;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 0.125rem;
+  }
+
+  .theme .theme-img-drag-carousel__slide:focus-visible {
+    outline: 2px solid var(--theme-focus);
+    outline-offset: 2px;
+  }
+
+  .theme .theme-img-drag-carousel.is-dragging .theme-img-drag-carousel__slide {
+    cursor: grabbing;
+  }
+
+  /* Center focus thin — ref.image-carousel-2 desaturate / fade / Z recess off-center */
+  @property --theme-img-drag-focus {
+    syntax: '<number>';
+    inherits: false;
+    initial-value: 0;
+  }
+
+  .theme .theme-img-drag-carousel__slide-frame {
+    display: contents;
+  }
+
+  .theme .theme-img-drag-carousel--focus-thin {
+    perspective: 600px;
+    transform-style: preserve-3d;
+  }
+
+  .theme .theme-img-drag-carousel--focus-thin .theme-img-drag-carousel__track,
+  .theme .theme-img-drag-carousel--focus-thin .theme-img-drag-carousel__slide {
+    transform-style: preserve-3d;
+  }
+
+  .theme .theme-img-drag-carousel--focus-thin .theme-img-drag-carousel__slide-frame {
+    display: block;
+    width: 100%;
+    height: 100%;
+    transform-origin: center center;
+    opacity: calc(0.5 + 0.5 * var(--theme-img-drag-focus, 0));
+    filter: saturate(calc(var(--theme-img-drag-focus, 0)));
+    transform: translate3d(0, 0, calc((1 - var(--theme-img-drag-focus, 0)) * -3.75rem))
+      scale3d(
+        calc(0.94 + 0.06 * var(--theme-img-drag-focus, 0)),
+        calc(0.88 + 0.12 * var(--theme-img-drag-focus, 0)),
+        1
+      );
+    transition:
+      opacity 0.2s ease-out,
+      filter 0.2s ease-out,
+      transform 0.2s ease-out;
+    will-change: opacity, filter, transform;
+  }
+
+  .theme .theme-img-drag-carousel--focus-thin .theme-img-drag-carousel__slide:focus-visible
+    .theme-img-drag-carousel__slide-frame {
+    outline: inherit;
+  }
+
+  .theme .theme-img-drag-carousel--focus-thin.is-dragging .theme-img-drag-carousel__slide-frame {
+    transition: none;
+  }
+
+  .theme .theme-img-drag-carousel--focus-thin .theme-img-drag-carousel__image {
+    opacity: 1;
+    pointer-events: none;
+  }
+
+  .theme .theme-dotnav-gallery__stage
+    .theme-img-drag-carousel--focus-thin
+    .theme-img-drag-carousel__image {
+    pointer-events: none;
+  }
+
+  .theme .theme-img-drag-carousel--expanded-open .theme-img-drag-carousel__track {
+    pointer-events: none;
+  }
+
+  /* Inside dotted-nav gallery stage — explicit height (avoid % collapse with absolute track) */
+  .theme
+    .theme-img-drag-gallery.theme-dotnav-gallery--horizontal:not(.theme-img-drag-gallery--project-card)
+    .theme-dotnav-gallery__stage {
+    aspect-ratio: auto;
+    height: min(72vh, 36rem);
+    min-height: min(72vh, 36rem);
+  }
+
+  .theme .theme-dotnav-gallery__stage .theme-img-drag-carousel {
+    height: 100%;
+    min-height: 100%;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    background-color: transparent;
+  }
+
+  .theme .theme-dotnav-gallery__stage .theme-img-drag-carousel__image {
+    width: min(42vw, 14rem);
+    height: auto;
+    max-height: min(58vh, 32rem);
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    pointer-events: none;
+  }
+
+  .theme .theme-dotnav-gallery__stage
+    .theme-img-drag-carousel--vanishing
+    .theme-img-drag-carousel__image {
+    width: min(var(--theme-img-drag-slide-max), var(--theme-img-drag-slide-w));
+    max-width: none;
+  }
+
+  @media (max-width: 30rem) {
+    .theme .theme-img-drag-carousel--vanishing {
+      --theme-img-drag-gap: 0.875rem;
+      --theme-img-drag-slide-max: min(16rem, 94cqw);
+    }
+
+    .theme .theme-dotnav-gallery__stage
+      .theme-img-drag-carousel:not(.theme-img-drag-carousel--vanishing)
+      .theme-img-drag-carousel__image {
+      width: min(46vw, 13rem);
+    }
+  }
+
+  /* Project-card slides — image + mini copy + horizontal tech row */
+  .theme .theme-img-drag-carousel__project-card {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    overflow: hidden;
+    border: 2px solid var(--theme-border);
+    border-radius: var(--theme-radius-surface);
+    background-color: var(--theme-surface);
+    box-shadow: 2px 2px 0 color-mix(in srgb, var(--theme-shadow-brutal) 70%, transparent);
+    text-align: left;
+  }
+
+  @supports (corner-shape: squircle) {
+    .theme .theme-img-drag-carousel__project-card {
+      corner-shape: squircle;
+    }
+  }
+
+  .theme .theme-img-drag-carousel--project-card .theme-img-drag-carousel__project-card__media-frame {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    aspect-ratio: var(--theme-img-drag-project-media-aspect, 3 / 4);
+    flex-shrink: 0;
+    background-color: var(--theme-surface-inset);
+  }
+
+  .theme .theme-img-drag-carousel--project-card .theme-img-drag-carousel__project-card__media {
+    display: block;
+    width: 100%;
+    height: var(--theme-img-drag-project-media-height, 120%);
+    min-height: 100%;
+    max-height: none;
+    aspect-ratio: unset;
+    object-fit: cover;
+    object-position: 50% center;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    opacity: 1;
+    pointer-events: none;
+  }
+
+  .theme .theme-img-drag-carousel__project-card__body {
+    padding: 0.875rem 1rem 1rem;
+  }
+
+  .theme .theme-img-drag-carousel__project-card__title,
+  .theme .theme-img-drag-carousel__project-card__desc {
+    margin: 0;
+  }
+
+  .theme .theme-img-drag-carousel__project-card__tech {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.35rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding-bottom: 0.125rem;
+  }
+
+  .theme .theme-img-drag-carousel__project-card__tech::-webkit-scrollbar {
+    display: none;
+  }
+
+  .theme .theme-img-drag-carousel__project-card__tag {
+    flex-shrink: 0;
+    padding: 0.15rem 0.45rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--theme-border) 85%, transparent);
+    background-color: var(--theme-surface-inset);
+    white-space: nowrap;
+  }
+
+  .theme .theme-img-drag-carousel--project-card.theme-img-drag-carousel--vanishing
+    .theme-img-drag-carousel__project-card {
+    width: min(var(--theme-img-drag-slide-max, 100cqw), var(--theme-img-drag-slide-w, 100cqw));
+    max-width: var(--theme-img-drag-project-card-max-width, min(20rem, 100cqw));
+  }
+
+  .theme
+    .theme-img-drag-carousel--project-card.theme-img-drag-carousel--vanishing[data-visible-count='1']
+    .theme-img-drag-carousel__project-card {
+    width: min(var(--theme-img-drag-slide-max, 100cqw), var(--theme-img-drag-slide-w, 100cqw));
+    max-width: var(--theme-img-drag-project-card-max-width, min(20rem, 100cqw));
+  }
+
+  .theme
+    .theme-dotnav-gallery__stage
+    .theme-img-drag-carousel--project-card.theme-img-drag-carousel--vanishing
+    .theme-img-drag-carousel__project-card {
+    width: min(var(--theme-img-drag-slide-max), var(--theme-img-drag-slide-w));
+    max-width: var(--theme-img-drag-project-card-max-width, min(20rem, 100cqw));
+  }
+
+  .theme .theme-img-drag-gallery--project-card {
+    container-type: inline-size;
+  }
+
+  .theme .theme-img-drag-carousel--project-card .theme-img-drag-carousel__track {
+    position: relative;
+    left: 50%;
+    top: auto;
+  }
+
+  .theme
+    .theme-img-drag-carousel--project-card.theme-img-drag-carousel--focus-thin
+    .theme-img-drag-carousel__slide-frame {
+    height: auto;
+  }
+
+  .theme .theme-img-drag-carousel--project-card {
+    aspect-ratio: auto;
+    height: auto;
+    min-height: var(--theme-img-drag-project-stage-height, 0);
+    overflow: visible;
+  }
+
+  .theme
+    .theme-img-drag-gallery--project-card.theme-dotnav-gallery--horizontal
+    .theme-dotnav-gallery__stage {
+    aspect-ratio: auto;
+    height: auto;
+    min-height: var(--theme-img-drag-project-stage-height, 0);
+    max-height: none;
+    overflow: visible;
+    padding-block: 1.5rem;
+  }
+
+  .theme
+    .theme-img-drag-gallery--project-card
+    .theme-dotnav-gallery__stage
+    .theme-img-drag-carousel {
+    aspect-ratio: auto;
+    height: auto;
+    min-height: var(--theme-img-drag-project-stage-height, 0);
+    overflow: visible;
+  }
+
+  .theme .theme-img-drag-gallery--project-card .theme-gallery__stage-wrap {
+    overflow: visible;
+  }
+}

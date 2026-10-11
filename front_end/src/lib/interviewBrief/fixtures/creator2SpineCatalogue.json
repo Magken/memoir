@@ -1,0 +1,29 @@
+{
+  "version": "creator2-spine-v1",
+  "source": "Keep aligned with InterviewCreator2CatalogTable.tsx / InterviewCreator2Sections.md / Edge capabilityCatalogue.ts",
+  "spineKinds": ["Templates", "Form", "Conversation", "Coding", "Writing", "Decision"],
+  "capabilities": [
+    { "id": "chrome", "label": "Edit / Preview chrome", "cells": { "Templates": "yes", "Form": "yes", "Conversation": "yes", "Coding": "yes", "Writing": "yes", "Decision": "yes" } },
+    { "id": "hard_timer", "label": "Hard timer + limit minutes", "cells": { "Templates": "no", "Form": "yes", "Conversation": "no", "Coding": "yes", "Writing": "yes", "Decision": "no" } },
+    { "id": "assist", "label": "Candidate assist (named bundles)", "cells": { "Templates": "no", "Form": "yes", "Conversation": "no", "Coding": "yes", "Writing": "yes", "Decision": "no" } },
+    { "id": "discussion_depth", "label": "Discussion depth", "cells": { "Templates": "no", "Form": "no", "Conversation": "yes", "Coding": "no", "Writing": "no", "Decision": "no" } },
+    { "id": "probes_targets", "label": "Probes + targets", "cells": { "Templates": "no", "Form": "no", "Conversation": "yes", "Coding": "no", "Writing": "no", "Decision": "no" } },
+    { "id": "opening_closing", "label": "Opening / closing flags", "cells": { "Templates": "no", "Form": "no", "Conversation": "yes", "Coding": "no", "Writing": "no", "Decision": "no" } },
+    { "id": "analysis_attach", "label": "Attach analysis templates", "cells": { "Templates": "note", "Form": "note", "Conversation": "yes", "Coding": "note", "Writing": "note", "Decision": "note" } },
+    { "id": "template_library", "label": "Template library CRUD", "cells": { "Templates": "yes", "Form": "no", "Conversation": "no", "Coding": "no", "Writing": "no", "Decision": "no" } },
+    { "id": "form_gate", "label": "Live form + gate", "cells": { "Templates": "no", "Form": "yes", "Conversation": "no", "Coding": "no", "Writing": "no", "Decision": "no" } },
+    { "id": "coding_workspace", "label": "Code workspace + tests", "cells": { "Templates": "no", "Form": "no", "Conversation": "no", "Coding": "yes", "Writing": "no", "Decision": "no" } },
+    { "id": "writing_prompt", "label": "Writing prompt + rubric", "cells": { "Templates": "no", "Form": "no", "Conversation": "no", "Coding": "no", "Writing": "yes", "Decision": "no" } },
+    { "id": "soft_weights", "label": "Soft weight blend", "cells": { "Templates": "no", "Form": "no", "Conversation": "no", "Coding": "no", "Writing": "no", "Decision": "yes" } },
+    { "id": "when", "label": "When", "cells": { "Templates": "no", "Form": "yes", "Conversation": "yes", "Coding": "yes", "Writing": "yes", "Decision": "no" } },
+    { "id": "on_fail", "label": "On fail", "cells": { "Templates": "no", "Form": "yes", "Conversation": "yes", "Coding": "yes", "Writing": "yes", "Decision": "no" } },
+    { "id": "references", "label": "Section history reference", "cells": { "Templates": "no", "Form": "yes", "Conversation": "yes", "Coding": "yes", "Writing": "yes", "Decision": "no" } },
+    { "id": "spine_ops", "label": "Spine add/remove/move/duplicate", "cells": { "Templates": "no", "Form": "yes", "Conversation": "yes", "Coding": "yes", "Writing": "yes", "Decision": "no" } }
+  ],
+  "limitations": [
+    "Decision package: no When / On fail; soft weights only.",
+    "Templates shelf: discussion analysis cards only.",
+    "Conversation uses depth budgets, not a hard wall-clock timer.",
+    "interview title = definition.meta.title; interviewer name = definition.persona.name."
+  ]
+}

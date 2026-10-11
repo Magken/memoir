@@ -1,0 +1,53 @@
+/* Page-scene scroll type — compact host (no 72svh Codrops stage). */
+
+.theme .theme-page-scroll-type {
+  display: block;
+}
+
+.theme .theme-page-scroll-type__text {
+  display: block;
+  width: 100%;
+  margin: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+  color: inherit;
+  text-align: inherit;
+}
+
+.theme .theme-page-scroll-type__text.theme-scroll-type__title {
+  /* Override Codrops showcase display size — inherit page type roles. */
+  font-size: inherit;
+  line-height: inherit;
+  gap: 0;
+  text-align: inherit;
+}
+
+.theme .theme-page-scroll-type .theme-scroll-type__line {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: inherit;
+  min-width: 0;
+}
+
+.theme .theme-page-scroll-type--block .theme-scroll-type__line {
+  display: flex;
+}
+
+.theme .theme-page-scroll-type--center .theme-scroll-type__line {
+  justify-content: center;
+}
+
+/*
+ * Hide chars before GSAP binds (first paint + scroller wait). Inline opacity from
+ * the tween overrides this once the rise runs; without it, a frame of text flashes.
+ */
+.theme .theme-page-scroll-type .theme-scroll-type__char {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme .theme-page-scroll-type .theme-scroll-type__char {
+    opacity: 1;
+  }
+}

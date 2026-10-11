@@ -1,0 +1,807 @@
+/**
+ * Isometric spread — theme typography + inner-card scroll host.
+ * Coords: ISOMETRIC_SPACE.frame — XY screen (z=0), −Z toward viewer.
+ */
+
+@layer components {
+  .theme .theme-isometric-scene {
+    /* Sync with ISOMETRIC_SPACE in isometricSpace.ts */
+    --iso-view-w: 1280;
+    --iso-view-h: 720;
+    --iso-pivot-x: 640;
+    --iso-pivot-y: 500;
+    --iso-seam-x: 640;
+    --iso-type-size: 150;
+    --iso-spread-x: 200;
+    --iso-label-enter-x: 700;
+    --iso-label-rest-x: 575;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: var(--theme-page-bg);
+  }
+
+  .theme .theme-isometric-stage {
+    width: 100%;
+    max-width: calc(var(--iso-view-w) * 1px);
+    margin-inline: auto;
+  }
+
+  .theme .theme-isometric-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: var(--iso-view-w) / var(--iso-view-h);
+  }
+
+  .theme .theme-isometric-type {
+    font-size: calc(var(--iso-type-size) * 1px);
+  }
+
+  .theme .theme-isometric-type.type-display {
+    font-family: var(--font-display);
+    font-weight: 300;
+    letter-spacing: -0.022em;
+  }
+
+  .theme .theme-isometric-type.type-display-lg {
+    font-family: var(--font-display);
+    font-weight: 300;
+    letter-spacing: -0.025em;
+  }
+
+  .theme .theme-isometric-type.type-display-sm {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.018em;
+  }
+
+  .theme .theme-isometric-half--left {
+    fill: var(--theme-text);
+  }
+
+  .theme .theme-isometric-half--right {
+    fill: color-mix(in srgb, var(--theme-text) 42%, var(--theme-border-strong));
+  }
+
+  .theme .theme-isometric-scene--seam-x {
+    --iso-type-size: var(--iso-type-size-seam-x, 112);
+    --iso-seam-y: 360;
+    --iso-label-enter-y: 420;
+    --iso-label-rest-y: 295;
+  }
+
+  .theme .theme-isometric-scene--seam-x .theme-isometric-type text {
+    text-anchor: start;
+  }
+
+  .theme .theme-isometric-half--top {
+    fill: var(--theme-text);
+  }
+
+  .theme .theme-isometric-half--bottom {
+    fill: color-mix(in srgb, var(--theme-text) 42%, var(--theme-border-strong));
+  }
+
+  .theme .theme-isometric-scene--seam-x[data-isometric-mouse='true'] {
+    cursor: ns-resize;
+  }
+
+  /* Card outline on each spread half — matches theme-card--outline */
+  .theme .theme-isometric-plane-card {
+    fill: color-mix(in srgb, var(--theme-surface-raised) 90%, transparent);
+    stroke: var(--theme-border-strong);
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .theme .theme-isometric-plane-card--right,
+  .theme .theme-isometric-plane-card--bottom {
+    fill: color-mix(in srgb, var(--theme-surface) 82%, transparent);
+    stroke: var(--theme-border);
+  }
+
+  /* Per-line label slot — ref isometric2 clip row / ISOMETRIC_SPACE.type.lineStep */
+  .theme .theme-isometric-line-slot {
+    fill: none;
+    stroke: color-mix(in srgb, var(--theme-border-strong) 55%, transparent);
+    stroke-width: 1;
+    stroke-dasharray: 6 4;
+    vector-effect: non-scaling-stroke;
+    pointer-events: none;
+  }
+
+  .theme .theme-isometric-scene[data-isometric-mouse='true'] {
+    cursor: crosshair;
+  }
+
+  /* Coordinate landmark cards — SVG overlay + HTML grid (typography demo) */
+  .theme .theme-isometric-coord-overlay {
+    pointer-events: none;
+  }
+
+  .theme .theme-isometric-coord-overlay__viewbox {
+    fill: none;
+    stroke: color-mix(in srgb, var(--theme-border-strong) 70%, transparent);
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .theme .theme-isometric-coord-overlay__seam {
+    stroke: #e879f9;
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .theme .theme-isometric-coord-overlay__baseline {
+    stroke: #fbbf24;
+    stroke-width: 1;
+    stroke-dasharray: 8 6;
+    opacity: 0.55;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .theme .theme-isometric-coord-overlay__dot {
+    fill: #f472b6;
+    stroke: rgb(15 23 42 / 0.85);
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .theme .theme-isometric-coord-card__bg {
+    fill: rgb(15 23 42 / 0.9);
+    stroke: rgb(244 114 182 / 0.55);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .theme .theme-isometric-coord-card__title {
+    fill: #f9a8d4;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .theme .theme-isometric-coord-card__line {
+    fill: #fce7f3;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 9px;
+  }
+
+  .theme .theme-isometric-coord-card-grid {
+    display: grid;
+    gap: 0.55rem;
+    grid-template-columns: repeat(auto-fill, minmax(10.5rem, 1fr));
+    border-top: 1px solid var(--theme-border);
+  }
+
+  .theme .theme-isometric-coord-card-grid__item {
+    padding: 0.45rem 0.55rem;
+    border-radius: calc(var(--theme-radius-md, 0.5rem) - 2px);
+    border: 1px solid color-mix(in srgb, var(--theme-border) 85%, transparent);
+    background: color-mix(in srgb, var(--theme-page-bg) 92%, var(--theme-border) 8%);
+  }
+
+  .theme .theme-isometric-coord-card-grid__name {
+    margin: 0 0 0.25rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #f472b6;
+    text-transform: lowercase;
+  }
+
+  .theme .theme-isometric-coord-card-grid__row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    margin: 0;
+    font-size: 0.68rem;
+    color: var(--theme-text-muted);
+  }
+
+  .theme .theme-isometric-coord-card-grid__row span {
+    min-width: 2.4rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .theme .theme-isometric-coord-card-grid__row code {
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.95em;
+    color: var(--theme-text);
+  }
+
+  /* Inner-card scroll scrub */
+  .theme .theme-isometric-scroll-card__scroll {
+    height: min(28rem, 72vh);
+  }
+
+  .theme .theme-isometric-scroll-card__scroll .theme-scroll__viewport {
+    overscroll-behavior: contain;
+  }
+
+  .theme .theme-isometric-scroll-card__track {
+    position: relative;
+  }
+
+  .theme .theme-isometric-scroll-card__pin {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: var(--theme-page-bg);
+  }
+
+  .theme .theme-isometric-scroll-card .theme-isometric-scene {
+    min-height: clamp(11rem, 34vw, 16rem);
+  }
+
+  .theme .theme-isometric-scroll-card__tail {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 1rem;
+    min-height: 75vh;
+    padding: 1.25rem 1.5rem 2.5rem;
+    border-top: 1px solid var(--theme-border);
+  }
+
+  /* WebGL coordinate debug — ISOMETRIC_SPACE */
+  .theme .theme-isometric-space-viewer {
+    display: grid;
+    gap: 0.85rem;
+    padding: 1rem 1.25rem 1.25rem;
+    border: 1px solid var(--theme-border);
+    border-radius: var(--theme-radius-md, 0.5rem);
+    background: color-mix(in srgb, var(--theme-page-bg) 88%, var(--theme-border) 12%);
+  }
+
+  .theme .theme-isometric-space-viewer__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1.25rem;
+  }
+
+  .theme .theme-isometric-space-viewer__controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.65rem 1rem;
+  }
+
+  .theme .theme-isometric-space-viewer__scrub {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--theme-text-muted);
+  }
+
+  .theme .theme-isometric-space-viewer__scrub input[type='range'] {
+    width: min(12rem, 42vw);
+  }
+
+  .theme .theme-isometric-space-viewer__canvas {
+    position: relative;
+    width: 100%;
+    height: min(26rem, 56vw);
+    min-height: 16rem;
+    border-radius: calc(var(--theme-radius-md, 0.5rem) - 2px);
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--theme-border) 80%, transparent);
+  }
+
+  .theme .theme-isometric-space-viewer__canvas canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  .theme .theme-isometric-space-viewer__axis-tag {
+    display: inline-block;
+    padding: 0.12rem 0.38rem;
+    border-radius: 0.25rem;
+    background: rgb(15 23 42 / 0.82);
+    border: 1px solid rgb(148 163 184 / 0.35);
+    color: #e2e8f0;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.68rem;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  .theme .theme-isometric-space-viewer__axis-tag--pivot {
+    color: #fde047;
+    border-color: rgb(250 204 21 / 0.45);
+  }
+
+  .theme .theme-isometric-space-viewer__hud {
+    position: absolute;
+    top: 0.65rem;
+    left: 0.65rem;
+    z-index: 2;
+    display: grid;
+    gap: 0.2rem;
+    min-width: 11rem;
+    padding: 0.45rem 0.55rem;
+    border-radius: 0.35rem;
+    border: 1px solid rgb(148 163 184 / 0.35);
+    background: rgb(15 23 42 / 0.88);
+    color: #e2e8f0;
+    pointer-events: none;
+  }
+
+  .theme .theme-isometric-space-viewer__hud-label {
+    display: inline-block;
+    min-width: 2.75rem;
+    margin-right: 0.35rem;
+    color: #94a3b8;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.62rem;
+    letter-spacing: 0.04em;
+  }
+
+  .theme .theme-isometric-space-viewer__hud code {
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.78rem;
+  }
+
+  .theme .theme-isometric-space-viewer__point-readout {
+    display: grid;
+    gap: 0.1rem;
+    padding: 0.28rem 0.42rem;
+    border-radius: 0.3rem;
+    border: 1px solid rgb(244 114 182 / 0.45);
+    background: rgb(15 23 42 / 0.92);
+    color: #fce7f3;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.62rem;
+    line-height: 1.25;
+    white-space: nowrap;
+  }
+
+  .theme .theme-isometric-space-viewer__point-readout strong {
+    color: #f9a8d4;
+    font-size: 0.64rem;
+    text-transform: lowercase;
+  }
+
+  .theme .theme-isometric-space-viewer__point-readout--compact {
+    border-color: rgb(52 211 153 / 0.5);
+    color: #d1fae5;
+  }
+
+  .theme .theme-isometric-space-viewer__point-readout--compact strong {
+    color: #6ee7b7;
+  }
+
+  .theme .theme-isometric-space-viewer__coords {
+    display: grid;
+    gap: 0.35rem 1.25rem;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    margin: 0;
+  }
+
+  .theme .theme-isometric-space-viewer__coords dt {
+    font-weight: 600;
+    color: var(--theme-text-muted);
+  }
+
+  .theme .theme-isometric-space-viewer__coords dd {
+    margin: 0;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.92em;
+  }
+
+  /* ─── CSS div planes (registry: isometricPlanes.ts) ─── */
+
+  .theme .theme-isometric-plane-stage {
+    --iso-plane-stage-h: 12.5rem;
+    --iso-plane-perspective: 1200px;
+    display: grid;
+    place-items: center;
+    min-height: var(--iso-plane-stage-h);
+    padding: 1.5rem 1.25rem;
+    perspective: var(--iso-plane-perspective);
+    perspective-origin: 50% 38%;
+    transform-style: preserve-3d;
+  }
+
+  .theme .theme-isometric-plane-stage--wall {
+    --iso-plane-perspective: 720px;
+    perspective-origin: 50% 50%;
+  }
+
+  .theme .theme-isometric-plane-stage--spread-skew {
+    --iso-plane-perspective: 640px;
+  }
+
+  .theme .theme-isometric-plane {
+    --iso-plane-rotate-x: 0deg;
+    --iso-plane-rotate-y: 0deg;
+    --iso-plane-rotate-z: 0deg;
+    --iso-plane-skew-x: 0deg;
+    --iso-plane-skew-y: 0deg;
+    --iso-plane-scale-x: 1;
+    --iso-plane-scale-y: 1;
+    transform-style: preserve-3d;
+    transform-origin: center center;
+    backface-visibility: hidden;
+    transform:
+      rotateX(var(--iso-plane-rotate-x))
+      rotateY(var(--iso-plane-rotate-y))
+      rotateZ(var(--iso-plane-rotate-z))
+      skewX(var(--iso-plane-skew-x))
+      skewY(var(--iso-plane-skew-y))
+      scaleX(var(--iso-plane-scale-x))
+      scaleY(var(--iso-plane-scale-y));
+  }
+
+  .theme .theme-isometric-plane[data-iso-anchor='left'] {
+    transform-origin: 0% 50%;
+  }
+
+  .theme .theme-isometric-plane[data-iso-anchor='right'] {
+    transform-origin: 100% 50%;
+  }
+
+  .theme .theme-isometric-plane[data-iso-anchor='top'] {
+    transform-origin: 50% 0%;
+  }
+
+  .theme .theme-isometric-plane-stage:has(.theme-isometric-plane-hit) {
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+    padding: 0;
+  }
+
+  .theme .theme-isometric-plane-hit {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    min-height: var(--iso-plane-stage-h);
+    padding: 1.5rem 1.25rem;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+  .theme .theme-isometric-plane-hit .theme-isometric-plane {
+    pointer-events: none;
+  }
+
+  .theme .theme-isometric-plane[data-iso-anchor='bottom'] {
+    transform-origin: 50% 100%;
+  }
+
+  .theme .theme-isometric-plane[data-iso-animate='true'] {
+    will-change: transform;
+  }
+
+  .theme .theme-isometric-plane__surface {
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+  }
+
+  .theme .theme-isometric-plane-showcase-group {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .theme .theme-isometric-plane-showcase-group__head {
+    display: grid;
+    gap: 0.15rem;
+  }
+
+  .theme .theme-isometric-plane-demo {
+    display: grid;
+    gap: 0;
+    overflow: hidden;
+  }
+
+  .theme .theme-isometric-plane-demo__meta {
+    display: grid;
+    gap: 0.2rem;
+    padding: 0.75rem 1rem 1rem;
+    border-top: 1px solid var(--theme-border);
+  }
+
+  .theme .theme-isometric-plane-demo__id {
+    margin: 0;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.72rem;
+    color: var(--theme-text);
+  }
+
+  .theme .theme-isometric-plane-demo__transform {
+    margin: 0;
+    font-size: 0.68rem;
+    color: var(--theme-text-muted);
+  }
+
+  /* ─── CSS isometric words (ref.isometric2 — James Bosworth) ─── */
+  /*
+   * Ref at 68px: left 29px · clip 50px · inner line 45px → em ratios
+   */
+
+  .theme .theme-isometric-css-words-scene {
+    --iso-words-row-count: 1;
+    --iso-words-row-pitch: 0.58;
+    --iso-words-left-span: 0em;
+    --iso-words-scene-pad: 2.75rem;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: var(--theme-page-bg);
+    min-height: max(
+      clamp(11rem, 34vw, 16rem),
+      calc(
+        var(--iso-words-row-count) * var(--iso-words-clip-height, 0.735em) *
+          var(--iso-words-row-pitch) + var(--iso-words-scene-pad)
+      )
+    );
+    display: grid;
+    place-items: center;
+    padding-block: clamp(1.25rem, 3vw, 2rem);
+    padding-inline-start: clamp(2rem, 5vw, 3.5rem);
+    padding-inline-end: max(
+      clamp(1rem, 2.5vw, 1.75rem),
+      calc(var(--iso-words-left-span) + 0.75em)
+    );
+  }
+
+  .theme .theme-isometric-css-words-scene[data-isometric-mouse='true'] {
+    cursor: crosshair;
+  }
+
+  .theme .theme-isometric-css-words-scene--borders .theme-isometric-css-words__line {
+    border: 2px solid var(--theme-border-strong);
+  }
+
+  .theme .theme-isometric-css-words-scene--borders
+    .theme-isometric-css-words__line:nth-child(even) {
+    border-color: var(--theme-border);
+  }
+
+  .theme .theme-isometric-css-words-scene--vertical {
+    --iso-words-row-pitch: 1.05;
+    cursor: default;
+    padding-inline: clamp(1rem, 2.5vw, 1.75rem);
+  }
+
+  .theme .theme-isometric-css-words-scene--vertical[data-isometric-mouse='true'] {
+    cursor: ns-resize;
+  }
+
+  .theme .theme-isometric-css-words {
+    --iso-words-left-step: 0.426em;
+    --iso-words-clip-height: 0.735em;
+    --iso-words-line-height: 0.662em;
+    --iso-words-slot-ch: 8;
+    --iso-words-row-count: 1;
+    position: relative;
+    width: max-content;
+    min-width: calc(var(--iso-words-slot-ch) * 1ch + 0.35em);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: var(--theme-text);
+    transform: translate3d(0, 0, 0);
+    -webkit-font-smoothing: antialiased;
+    font-kerning: normal;
+  }
+
+  .theme .theme-isometric-css-words--vertical {
+    --iso-words-left-step: 0;
+    --iso-words-clip-height: 1.05em;
+    --iso-words-line-height: 0.95em;
+  }
+
+  .theme .theme-isometric-css-words--vertical .theme-isometric-css-words__line {
+    left: 0;
+    transform: none;
+  }
+
+  .theme .theme-isometric-css-words--vertical .theme-isometric-css-words__line:nth-child(odd),
+  .theme .theme-isometric-css-words--vertical .theme-isometric-css-words__line:nth-child(even) {
+    transform: none;
+  }
+
+  .theme .theme-isometric-css-words__line {
+    height: var(--iso-words-clip-height);
+    overflow: hidden;
+    position: relative;
+    left: calc(var(--iso-words-left-step) * var(--iso-words-line-index, 1));
+    transform-origin: 0% 50%;
+  }
+
+  .theme .theme-isometric-css-words__line:nth-child(odd) {
+    transform: skew(60deg, -30deg) scaleY(0.66667);
+  }
+
+  .theme .theme-isometric-css-words__line:nth-child(even) {
+    transform: skew(0deg, -30deg) scaleY(1.33333);
+  }
+
+  .theme .theme-isometric-css-words__line p {
+    display: block;
+    height: var(--iso-words-clip-height);
+    line-height: var(--iso-words-line-height);
+    min-width: calc(var(--iso-words-slot-ch) * 1ch);
+    margin: 0;
+    padding: 0 0.15em;
+    transition: transform 0.4s ease-in-out;
+    transform: translate3d(0, 0, 0);
+    white-space: nowrap;
+  }
+
+  .theme
+    .theme-isometric-css-words-scene:not(.theme-isometric-css-words-scene--scrub):hover
+    .theme-isometric-css-words__line
+    p {
+    transform: translate3d(0, calc(-1 * var(--iso-words-clip-height)), 0);
+  }
+
+  .theme .theme-isometric-css-words-scene--scrub .theme-isometric-css-words__line p {
+    transition: none;
+    will-change: transform;
+  }
+
+  .theme .theme-isometric-css-words__static {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-isometric-css-words {
+      display: none;
+    }
+
+    .theme .theme-isometric-css-words__static {
+      display: grid;
+      place-items: center;
+      min-height: clamp(11rem, 34vw, 16rem);
+      padding: 1.25rem;
+      text-align: center;
+    }
+  }
+
+  /* GSAP slice columns — ref isometric3 */
+  .theme .theme-isometric-slice-text {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: clamp(14rem, 40vw, 20rem);
+    padding: clamp(2rem, 6vw, 4rem);
+    overflow: hidden;
+    background: var(--theme-page-bg);
+    touch-action: none;
+    user-select: none;
+    cursor: crosshair;
+  }
+
+  .theme .theme-isometric-slice-text__wrapper {
+    position: relative;
+    transform-origin: center center;
+    will-change: transform;
+  }
+
+  .theme .theme-isometric-slice-text__wrapper--ref {
+    transform: rotate(-50deg) skewY(22deg) scaleX(0.75);
+  }
+
+  .theme .theme-isometric-slice-text--ref-layout .theme-isometric-slice-text__src {
+    /* Ghost extrusion — sits under slice layer, not a second line of type */
+    color: color-mix(in srgb, var(--theme-text) 18%, transparent);
+  }
+
+  .theme .theme-isometric-slice-text--ref-layout .theme-isometric-slice-text__top {
+    color: var(--theme-text);
+  }
+
+  /* Sizing block — src sets width; top anchors below (ref DOM order). */
+  .theme .theme-isometric-slice-text__inner {
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+  }
+
+  .theme .theme-isometric-slice-text__src {
+    position: relative;
+    display: block;
+    white-space: nowrap;
+    color: color-mix(in srgb, var(--theme-text) 20%, transparent);
+    will-change: transform, filter, opacity;
+  }
+
+  /* Zero-height anchor below src — slices use y: -height to overlay source (ref). */
+  .theme .theme-isometric-slice-text__top {
+    position: relative;
+    height: 0;
+    overflow: visible;
+    pointer-events: none;
+    color: var(--theme-text);
+    will-change: transform;
+  }
+
+  .theme .theme-isometric-slice-text__slice {
+    font: inherit;
+    letter-spacing: inherit;
+    line-height: inherit;
+    white-space: nowrap;
+  }
+
+  .theme .theme-isometric-slice-text__wrapper.type-display {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(2rem, 6vw, 3.75rem);
+    letter-spacing: -0.022em;
+    line-height: 1.05;
+  }
+
+  .theme .theme-isometric-slice-text--static {
+    display: grid;
+    place-items: center;
+    min-height: clamp(12rem, 36vw, 18rem);
+    padding: 1.5rem;
+    text-align: center;
+    background: var(--theme-page-bg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-isometric-slice-text--scrub .theme-isometric-slice-text__top {
+      display: none;
+    }
+
+    .theme .theme-isometric-slice-text--scrub .theme-isometric-slice-text__src {
+      color: var(--theme-text);
+      filter: none;
+      opacity: 1;
+      transform: none;
+    }
+
+    .theme .theme-isometric-slice-text--scrub {
+      cursor: default;
+    }
+  }
+
+  /* Word cloud — ref isometric4 Three.js canvas host */
+  .theme .theme-isometric-word-cloud {
+    position: relative;
+    /* Width-driven 16:9 only — no min/max-height (those break aspect vs window ref).
+       Camera.aspect + pointer NDC both read this box (R3F `size` / `pointer`). */
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    height: auto;
+    overflow: visible;
+    background: var(--theme-page-bg);
+    cursor: crosshair;
+    /* Vertical page scroll OK; pinch/ctrl+wheel zoom blocked in IsometricWordCloud. */
+    touch-action: pan-y;
+    /*
+     * Explicit auto — SceneMenuShell scroll-lock / menu-surface sets pointer-events:none
+     * on the viewport (inherited). Without this, hover never hits the canvas and
+     * elementFromPoint skips the cloud during unlock re-sync.
+     */
+    pointer-events: auto;
+  }
+
+  /* Loading owns the scene — block pointer so hover/wave cannot interrupt. */
+  .theme .theme-isometric-word-cloud[data-loading='true'] {
+    cursor: default;
+    pointer-events: none;
+  }
+
+  .theme .theme-isometric-word-cloud canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  /* R3F inserts a sizing wrapper; keep it unclipped for background/canvas bleed. */
+  .theme .theme-isometric-word-cloud > div {
+    overflow: visible !important;
+  }
+}

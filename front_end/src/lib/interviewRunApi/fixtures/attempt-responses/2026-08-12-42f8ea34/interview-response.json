@@ -1,0 +1,2916 @@
+{
+  "schemaVersion": 1,
+  "briefId": "42f8ea34-9144-4b77-b3fd-35d58d02c6ce",
+  "attemptId": "local:42f8ea34-9144-4b77-b3fd-35d58d02c6ce:2026-08-12T15:12:47.175Z",
+  "startedAt": "2026-08-12T15:12:47.175Z",
+  "updatedAt": "2026-08-12T15:28:15.927Z",
+  "phasePointer": "ph.9e6lmn",
+  "completedPhaseIds": [
+    "ph.pffnkj",
+    "ph.4dn0qs",
+    "ph.9f2477",
+    "ph.468sxj",
+    "ph.4hy2nm",
+    "ph.9e6lmn"
+  ],
+  "skippedPhaseIds": [],
+  "messages": [
+    {
+      "id": "msg_u3xiq7br_msq8an7o",
+      "phaseId": "ph.pffnkj",
+      "topicId": "topic.8htxhn",
+      "role": "assistant",
+      "text": "Hi Jordan, I'm Alex, your interviewer for today. Thanks for joining. I'll ask about situations you've lived through. I'm not fishing for a scripted answer, and I may interrupt to dig deeper. Is Jordan the right name to use?",
+      "at": "2026-08-12T15:12:49.668Z",
+      "probeId": "probe.owned_service",
+      "kind": "opener",
+      "compose": {
+        "situation": "open",
+        "missingGaps": [],
+        "sampleIdsUsed": [],
+        "model": "authored_probe"
+      }
+    },
+    {
+      "id": "msg_clf0bpt3_msq8au80",
+      "phaseId": "ph.pffnkj",
+      "topicId": "topic.8htxhn",
+      "role": "candidate",
+      "text": "yes whatsup",
+      "at": "2026-08-12T15:12:58.752Z",
+      "probeId": "probe.owned_service",
+      "kind": "answer"
+    },
+    {
+      "id": "msg_xvbbve3j_msq8aycp",
+      "phaseId": "ph.pffnkj",
+      "topicId": "topic.8htxhn",
+      "role": "assistant",
+      "text": "Thanks, Jordan. Let's get into it. Tell me about a recent API or backend service you personally owned-what was it, and what made it interesting for you?",
+      "at": "2026-08-12T15:13:04.105Z",
+      "probeId": "probe.owned_service",
+      "kind": "opener",
+      "compose": {
+        "situation": "open",
+        "missingGaps": [],
+        "sampleIdsUsed": [
+          "open.cv.name-pref",
+          "open.1",
+          "open.section.ownership"
+        ],
+        "model": "gpt-4.1",
+        "memoryPlan": {
+          "needs": [
+            "candidate_cv"
+          ],
+          "sampleIdsUsed": [],
+          "model": "",
+          "skipped": false
+        }
+      }
+    },
+    {
+      "id": "msg_tt46hf6o_msq8b8vm",
+      "phaseId": "ph.pffnkj",
+      "topicId": "topic.8htxhn",
+      "role": "candidate",
+      "text": "what do you mean by oned",
+      "at": "2026-08-12T15:13:17.746Z",
+      "probeId": "probe.owned_service",
+      "kind": "answer"
+    },
+    {
+      "id": "msg_ofl1zzgu_msq8bfse",
+      "phaseId": "ph.pffnkj",
+      "topicId": "topic.8htxhn",
+      "role": "assistant",
+      "text": "Sure, happy to clarify. When I say you \"owned\" a service, I mean you were the main person responsible for it-the one making decisions and driving things forward.\n\n### Example\n> when you built or ran an API or backend system, and you called the shots on what shipped or how it worked\n\nCan you pick one real API or backend service where you made key decisions, and walk me through what you did and what changed because of you?",
+      "at": "2026-08-12T15:13:26.702Z",
+      "probeId": "probe.owned_service",
+      "kind": "clarify",
+      "compose": {
+        "situation": "clarify",
+        "missingGaps": [
+          "personal decision",
+          "concrete outcome or metric"
+        ],
+        "sampleIdsUsed": [
+          "clarify.5",
+          "clarify.26",
+          "clarify.cv.no-invent",
+          "notes.preferred_name",
+          "recall.earlier_section",
+          "recall.synth",
+          "talk.deepen_local",
+          "talk.callback"
+        ],
+        "model": "gpt-4.1",
+        "memoryPlan": {
+          "needs": [],
+          "sampleIdsUsed": [
+            "notes.preferred_name",
+            "recall.earlier_section",
+            "recall.synth",
+            "talk.deepen_local",
+            "talk.callback"
+          ],
+          "model": "gpt-4.1-mini",
+          "skipped": false
+        }
+      }
+    },
+    {
+      "id": "msg_vanyhwwr_msq8cxy6",
+      "phaseId": "ph.pffnkj",
+      "topicId": "topic.8htxhn",
+      "role": "candidate",
+      "text": "yeah A project I worked on called vurify implementing my first rag system made me appreciate api work and got me hooked",
+      "at": "2026-08-12T15:14:36.894Z",
+      "probeId": "probe.owned_service",
+      "kind": "answer"
+    },
+    {
+      "id": "msg_4h7vfxze_msq8d58q",
+      "phaseId": "ph.pffnkj",
+      "topicId": "topic.8htxhn",
+      "role": "assistant",
+      "text": "You mentioned working on \"vurify\" and building your first RAG system. What was one specific decision you made yourself on that project, and what changed as a result of your call?",
+      "at": "2026-08-12T15:14:46.346Z",
+      "probeId": "probe.owned_service",
+      "kind": "follow_up",
+      "compose": {
+        "situation": "deepen",
+        "missingGaps": [
+          "personal decision",
+          "concrete outcome or metric"
+        ],
+        "sampleIdsUsed": [
+          "deepen.thread.checkout",
+          "deepen.thread.fog",
+          "deepen.thread.priority",
+          "notes.preferred_name",
+          "recall.earlier_section",
+          "recall.synth",
+          "talk.deepen_local",
+          "talk.callback"
+        ],
+        "model": "gpt-4.1",
+        "memoryPlan": {
+          "needs": [],
+          "sampleIdsUsed": [
+            "notes.preferred_name",
+            "recall.earlier_section",
+            "recall.synth",
+            "talk.deepen_local",
+            "talk.callback"
+          ],
+          "model": "gpt-4.1-mini",
+          "skipped": false
+        }
+      }
+    },
+    {
+      "id": "msg_cx0tjw40_msq8ev5k",
+      "phaseId": "ph.pffnkj",
+      "topicId": "topic.8htxhn",
+      "role": "candidate",
+      "text": "the nature of the api, using RPC functions instead of standard CRUD made the app more secure but the trade off was more implementation time as I had to use more sereverside functions and ai calls",
+      "at": "2026-08-12T15:16:06.584Z",
+      "probeId": "probe.owned_service",
+      "kind": "answer"
+    },
+    {
+      "id": "msg_a9htcns9_msq8f1ey",
+      "phaseId": "ph.pffnkj",
+      "topicId": "topic.8htxhn",
+      "role": "assistant",
+      "text": "Choosing RPC functions over standard CRUD for \"vurify\" is a real tradeoff. How did you handle reliability or scaling challenges after making that call-what steps did you take to keep things stable as you grew. How did you approach reliability or scaling challenges in that project?",
+      "at": "2026-08-12T15:16:14.698Z",
+      "probeId": "probe.reliability_scale",
+      "kind": "next_probe",
+      "compose": {
+        "situation": "move_probe",
+        "missingGaps": [
+          "personal decision",
+          "concrete outcome or metric"
+        ],
+        "sampleIdsUsed": [
+          "move.6",
+          "move.1",
+          "move.2",
+          "notes.preferred_name",
+          "recall.earlier_section",
+          "recall.synth",
+          "talk.deepen_local",
+          "talk.callback"
+        ],
+        "model": "gpt-4.1",
+        "memoryPlan": {
+          "needs": [],
+          "sampleIdsUsed": [
+            "notes.preferred_name",
+            "recall.earlier_section",
+            "recall.synth",
+            "talk.deepen_local",
+            "talk.callback"
+          ],
+          "model": "gpt-4.1-mini",
+          "skipped": false
+        }
+      }
+    },
+    {
+      "id": "msg_yst4fo5o_msq8glku",
+      "phaseId": "ph.pffnkj",
+      "topicId": "topic.8htxhn",
+      "role": "candidate",
+      "text": "tring to bundle and limit similar api,s helped alot e.g have general api bundles for retrieval and so on that can be applied to multiple tables, same idea with front end functions",
+      "at": "2026-08-12T15:17:27.486Z",
+      "probeId": "probe.reliability_scale",
+      "kind": "answer"
+    },
+    {
+      "id": "msg_pwysm7k9_msq8grcw",
+      "phaseId": "ph.pffnkj",
+      "topicId": "topic.8htxhn",
+      "role": "assistant",
+      "text": "Bundling and limiting similar APIs sounds like a smart move for \"vurify\". What I'm still missing is a step that you personally decided or drove-can you walk me through one concrete decision you made yourself to boost reliability or scale in that setup?",
+      "at": "2026-08-12T15:17:34.976Z",
+      "probeId": "probe.reliability_scale",
+      "kind": "follow_up",
+      "compose": {
+        "situation": "deepen",
+        "missingGaps": [
+          "personal decision"
+        ],
+        "sampleIdsUsed": [
+          "deepen.thread.priority",
+          "deepen.thread.checkout",
+          "deepen.thread.fog",
+          "notes.preferred_name",
+          "recall.earlier_section",
+          "recall.synth",
+          "talk.deepen_local",
+          "talk.callback"
+        ],
+        "model": "gpt-4.1",
+        "memoryPlan": {
+          "needs": [],
+          "sampleIdsUsed": [
+            "notes.preferred_name",
+            "recall.earlier_section",
+            "recall.synth",
+            "talk.deepen_local",
+            "talk.callback"
+          ],
+          "model": "gpt-4.1-mini",
+          "skipped": false
+        }
+      }
+    },
+    {
+      "id": "msg_99hn4zcs_msq8hzy6",
+      "phaseId": "ph.pffnkj",
+      "topicId": "topic.8htxhn",
+      "role": "candidate",
+      "text": "hmmmm using an ai bot like cursor coding agent to keep trck of commits and for debugging helped me and  the team a great deal",
+      "at": "2026-08-12T15:18:32.766Z",
+      "probeId": "probe.reliability_scale",
+      "kind": "answer"
+    },
+    {
+      "id": "msg_snrdrh4p_msq8i6fk",
+      "phaseId": "ph.pffnkj",
+      "topicId": "topic.8htxhn",
+      "role": "assistant",
+      "text": "You mentioned bringing in an AI bot like a coding agent to help with commits and debugging on \"vurify\". We are nearly out of time on this topic. What was the single decision you made about using that tool that really made a difference for reliability or scale?",
+      "at": "2026-08-12T15:18:41.168Z",
+      "probeId": "probe.reliability_scale",
+      "kind": "soft_time",
+      "compose": {
+        "situation": "soft_time",
+        "missingGaps": [
+          "personal decision"
+        ],
+        "sampleIdsUsed": [
+          "soft.1",
+          "soft.2",
+          "soft.3",
+          "notes.preferred_name",
+          "recall.earlier_section",
+          "recall.synth",
+          "talk.deepen_local",
+          "talk.callback"
+        ],
+        "model": "gpt-4.1",
+        "memoryPlan": {
+          "needs": [],
+          "sampleIdsUsed": [
+            "notes.preferred_name",
+            "recall.earlier_section",
+            "recall.synth",
+            "talk.deepen_local",
+            "talk.callback"
+          ],
+          "model": "gpt-4.1-mini",
+          "skipped": false
+        }
+      }
+    },
+    {
+      "id": "msg_p4maz0qj_msq8imz0",
+      "phaseId": "ph.pffnkj",
+      "topicId": "topic.8htxhn",
+      "role": "candidate",
+      "text": "for example?",
+      "at": "2026-08-12T15:19:02.604Z",
+      "probeId": "probe.reliability_scale",
+      "kind": "answer"
+    },
+    {
+      "id": "msg_ja7imk74_msq8ist0",
+      "phaseId": "ph.pffnkj",
+      "topicId": "topic.8htxhn",
+      "role": "assistant",
+      "text": "Sure, here's what I mean.\n\n### Example\n> when you made a call like setting up automated tests, choosing a specific tool, or putting limits on API calls - and you could see things ran smoother or handled more load as a result\n\nWhat was one decision you made yourself with that coding agent or AI bot that clearly improved reliability or scale for \"vurify\" - and how did you know it worked?",
+      "at": "2026-08-12T15:19:10.164Z",
+      "probeId": "probe.reliability_scale",
+      "kind": "clarify",
+      "compose": {
+        "situation": "clarify",
+        "missingGaps": [
+          "personal decision",
+          "concrete outcome or metric"
+        ],
+        "sampleIdsUsed": [
+          "clarify.5",
+          "clarify.20",
+          "clarify.26",
+          "notes.preferred_name",
+          "recall.earlier_section",
+          "recall.synth",
+          "talk.deepen_local",
+          "talk.callback"
+        ],
+        "model": "gpt-4.1",
+        "memoryPlan": {
+          "needs": [],
+          "sampleIdsUsed": [
+            "notes.preferred_name",
+            "recall.earlier_section",
+            "recall.synth",
+            "talk.deepen_local",
+            "talk.callback"
+          ],
+          "model": "gpt-4.1-mini",
+          "skipped": false
+        }
+      }
+    },
+    {
+      "id": "msg_fz8cffi1_msq8jbmt",
+      "phaseId": "ph.pffnkj",
+      "topicId": "topic.8htxhn",
+      "role": "candidate",
+      "text": "I set up atomated check for git commits",
+      "at": "2026-08-12T15:19:34.565Z",
+      "probeId": "probe.reliability_scale",
+      "kind": "answer"
+    },
+    {
+      "id": "msg_00r80jvp_msq8jhi5",
+      "phaseId": "ph.pffnkj",
+      "topicId": "topic.8htxhn",
+      "role": "assistant",
+      "text": "Setting up automated checks for git commits is a concrete move on \"vurify\" and helps me see your approach to reliability. Thanks for walking through that. **Use Next** when you are ready to continue.",
+      "at": "2026-08-12T15:19:42.173Z",
+      "probeId": "probe.reliability_scale",
+      "kind": "close",
+      "compose": {
+        "situation": "close",
+        "missingGaps": [
+          "personal decision"
+        ],
+        "sampleIdsUsed": [
+          "close.1",
+          "close.2",
+          "close.3",
+          "notes.preferred_name",
+          "recall.earlier_section",
+          "recall.synth",
+          "talk.deepen_local",
+          "talk.callback"
+        ],
+        "model": "gpt-4.1",
+        "memoryPlan": {
+          "needs": [],
+          "sampleIdsUsed": [
+            "notes.preferred_name",
+            "recall.earlier_section",
+            "recall.synth",
+            "talk.deepen_local",
+            "talk.callback"
+          ],
+          "model": "gpt-4.1-mini",
+          "skipped": false
+        }
+      }
+    },
+    {
+      "id": "msg_w263oq33_msq8lxin",
+      "phaseId": "ph.9f2477",
+      "topicId": "topic.stjc0v",
+      "role": "assistant",
+      "text": "Let's talk about deep API and reliability ownership.\n\nWalk me through a specific time when an API or service you owned regressed or failed in production. What happened, and how did you respond?",
+      "at": "2026-08-12T15:21:36.239Z",
+      "probeId": "probe.regression",
+      "kind": "opener",
+      "compose": {
+        "situation": "open",
+        "missingGaps": [],
+        "sampleIdsUsed": [
+          "open.section.ownership",
+          "open.section.incident",
+          "open.section.platform"
+        ],
+        "model": "gpt-4.1"
+      }
+    },
+    {
+      "id": "msg_hk1jaliz_msq8me5a",
+      "phaseId": "ph.9f2477",
+      "topicId": "topic.stjc0v",
+      "role": "candidate",
+      "text": "My api never fail not even once",
+      "at": "2026-08-12T15:21:57.790Z",
+      "probeId": "probe.regression",
+      "kind": "answer"
+    },
+    {
+      "id": "msg_r1u1dk82_msq8mrdj",
+      "phaseId": "ph.9f2477",
+      "topicId": "topic.stjc0v",
+      "role": "assistant",
+      "text": "That is a bold claim! But for this stretch, I need a real example - even something small, like a bug or a brief outage, where an API or service you worked on did not behave as expected in production.\n\nWhat is one situation where your API had an issue, and what did you personally do to resolve it?",
+      "at": "2026-08-12T15:22:14.935Z",
+      "probeId": "probe.regression",
+      "kind": "clarify",
+      "compose": {
+        "situation": "clarify",
+        "missingGaps": [
+          "personal decision",
+          "concrete outcome or metric"
+        ],
+        "sampleIdsUsed": [
+          "clarify.5",
+          "clarify.26",
+          "clarify.cv.no-invent",
+          "notes.preferred_name",
+          "recall.earlier_section",
+          "recall.synth",
+          "talk.deepen_local",
+          "talk.callback"
+        ],
+        "model": "gpt-4.1",
+        "memoryPlan": {
+          "needs": [],
+          "sampleIdsUsed": [
+            "notes.preferred_name",
+            "recall.earlier_section",
+            "recall.synth",
+            "talk.deepen_local",
+            "talk.callback"
+          ],
+          "model": "gpt-4.1-mini",
+          "skipped": false
+        }
+      }
+    },
+    {
+      "id": "msg_9fol0efi_msq8n2jg",
+      "phaseId": "ph.9f2477",
+      "topicId": "topic.stjc0v",
+      "role": "candidate",
+      "text": "never have been and hopefully never will be",
+      "at": "2026-08-12T15:22:29.404Z",
+      "probeId": "probe.regression",
+      "kind": "answer"
+    },
+    {
+      "id": "msg_jlmm4ki7_msq8n9j0",
+      "phaseId": "ph.9f2477",
+      "topicId": "topic.stjc0v",
+      "role": "assistant",
+      "text": "Never have been and hopefully never will be is still pretty broad.\n\nWhat changed because of your actions?",
+      "at": "2026-08-12T15:22:38.460Z",
+      "probeId": "probe.regression",
+      "kind": "follow_up",
+      "compose": {
+        "situation": "deepen",
+        "missingGaps": [
+          "personal decision",
+          "concrete outcome or metric"
+        ],
+        "sampleIdsUsed": [
+          "deepen.thread.fog",
+          "deepen.thread.priority",
+          "deepen.thread.checkout",
+          "notes.preferred_name",
+          "recall.earlier_section",
+          "recall.synth",
+          "talk.deepen_local",
+          "talk.callback"
+        ],
+        "model": "gpt-4.1",
+        "memoryPlan": {
+          "needs": [],
+          "sampleIdsUsed": [
+            "notes.preferred_name",
+            "recall.earlier_section",
+            "recall.synth",
+            "talk.deepen_local",
+            "talk.callback"
+          ],
+          "model": "gpt-4.1-mini",
+          "skipped": false
+        }
+      }
+    },
+    {
+      "id": "msg_ou5zzd0f_msq8nm2x",
+      "phaseId": "ph.9f2477",
+      "topicId": "topic.stjc0v",
+      "role": "candidate",
+      "text": "what actions they never failed",
+      "at": "2026-08-12T15:22:54.729Z",
+      "probeId": "probe.regression",
+      "kind": "answer"
+    },
+    {
+      "id": "msg_31k6p408_msq8nu3u",
+      "phaseId": "ph.9f2477",
+      "topicId": "topic.stjc0v",
+      "role": "assistant",
+      "text": "You've said your APIs have never failed, but for this topic I need to hear about a real reliability challenge you've had to weigh - even a minor bug or performance dip counts. What reliability tradeoffs did you face during or after that kind of incident, and how did you decide what to prioritize?",
+      "at": "2026-08-12T15:23:05.130Z",
+      "probeId": "probe.reliability_tradeoff",
+      "kind": "next_probe",
+      "compose": {
+        "situation": "move_probe",
+        "missingGaps": [
+          "personal decision",
+          "concrete outcome or metric"
+        ],
+        "sampleIdsUsed": [
+          "move.2",
+          "move.3",
+          "move.6",
+          "notes.preferred_name",
+          "recall.earlier_section",
+          "recall.synth",
+          "talk.deepen_local",
+          "talk.callback"
+        ],
+        "model": "gpt-4.1",
+        "memoryPlan": {
+          "needs": [],
+          "sampleIdsUsed": [
+            "notes.preferred_name",
+            "recall.earlier_section",
+            "recall.synth",
+            "talk.deepen_local",
+            "talk.callback"
+          ],
+          "model": "gpt-4.1-mini",
+          "skipped": false
+        }
+      }
+    },
+    {
+      "id": "msg_tb2f7io8_msq8olil",
+      "phaseId": "ph.9f2477",
+      "topicId": "topic.stjc0v",
+      "role": "candidate",
+      "text": "I dont fail though you are pushing me to say something untrue I dont like that",
+      "at": "2026-08-12T15:23:40.653Z",
+      "probeId": "probe.reliability_tradeoff",
+      "kind": "answer"
+    },
+    {
+      "id": "msg_ft6oyypt_msq8os92",
+      "phaseId": "ph.9f2477",
+      "topicId": "topic.stjc0v",
+      "role": "assistant",
+      "text": "I hear that you feel strongly about your APIs never failing, and I respect that pride in your work. For this topic, though, I do need you to name a real moment when you faced a reliability decision - even if it was just a minor bug, a slow response, or a customer complaint. What is the closest example you can share where you personally made a call about reliability or had to choose what to fix or improve?",
+      "at": "2026-08-12T15:23:49.382Z",
+      "probeId": "probe.reliability_tradeoff",
+      "kind": "follow_up",
+      "compose": {
+        "situation": "deepen",
+        "missingGaps": [
+          "personal decision"
+        ],
+        "sampleIdsUsed": [
+          "deepen.thread.priority",
+          "deepen.thread.fog",
+          "deepen.thread.checkout",
+          "notes.preferred_name",
+          "recall.earlier_section",
+          "recall.synth",
+          "talk.deepen_local",
+          "talk.callback"
+        ],
+        "model": "gpt-4.1",
+        "memoryPlan": {
+          "needs": [],
+          "sampleIdsUsed": [
+            "notes.preferred_name",
+            "recall.earlier_section",
+            "recall.synth",
+            "talk.deepen_local",
+            "talk.callback"
+          ],
+          "model": "gpt-4.1-mini",
+          "skipped": false
+        }
+      }
+    },
+    {
+      "id": "msg_xpmj2sie_msq8ph13",
+      "phaseId": "ph.9f2477",
+      "topicId": "topic.stjc0v",
+      "role": "candidate",
+      "text": "I had a customer call me to tell me my api never fail, I was like I know",
+      "at": "2026-08-12T15:24:21.495Z",
+      "probeId": "probe.reliability_tradeoff",
+      "kind": "answer"
+    },
+    {
+      "id": "msg_kn060our_msq8pq55",
+      "phaseId": "ph.9f2477",
+      "topicId": "topic.stjc0v",
+      "role": "assistant",
+      "text": "You mentioned a customer called to say your API never fails, and you told them you knew. I still need you to walk me through a time when you personally made a decision about reliability - even something small, like choosing to address a bug or deciding not to fix an issue. What is the closest real example you can give where you made a call?",
+      "at": "2026-08-12T15:24:33.305Z",
+      "probeId": "probe.reliability_tradeoff",
+      "kind": "follow_up",
+      "compose": {
+        "situation": "deepen",
+        "missingGaps": [
+          "personal decision"
+        ],
+        "sampleIdsUsed": [
+          "deepen.thread.priority",
+          "deepen.thread.fog",
+          "deepen.thread.checkout",
+          "notes.preferred_name",
+          "recall.earlier_section",
+          "recall.synth",
+          "talk.deepen_local",
+          "talk.callback"
+        ],
+        "model": "gpt-4.1",
+        "memoryPlan": {
+          "needs": [],
+          "sampleIdsUsed": [
+            "notes.preferred_name",
+            "recall.earlier_section",
+            "recall.synth",
+            "talk.deepen_local",
+            "talk.callback"
+          ],
+          "model": "gpt-4.1-mini",
+          "skipped": false
+        }
+      }
+    },
+    {
+      "id": "msg_jqskcrmf_msq8q7d1",
+      "phaseId": "ph.9f2477",
+      "topicId": "topic.stjc0v",
+      "role": "candidate",
+      "text": "I tried to adress the bugs but there were none",
+      "at": "2026-08-12T15:24:55.621Z",
+      "probeId": "probe.reliability_tradeoff",
+      "kind": "answer"
+    },
+    {
+      "id": "msg_8nadfvup_msq8qh3u",
+      "phaseId": "ph.9f2477",
+      "topicId": "topic.stjc0v",
+      "role": "assistant",
+      "text": "You tried to address bugs but found there were none, so nothing changed. Let's take this forward. What changes did you make to prevent similar issues in the future, and how did you measure if those changes actually worked?",
+      "at": "2026-08-12T15:25:08.250Z",
+      "probeId": "probe.long_term",
+      "kind": "next_probe",
+      "compose": {
+        "situation": "move_probe",
+        "missingGaps": [
+          "personal decision"
+        ],
+        "sampleIdsUsed": [
+          "move.1",
+          "move.2",
+          "move.3",
+          "notes.preferred_name",
+          "recall.earlier_section",
+          "recall.synth",
+          "talk.deepen_local",
+          "talk.callback"
+        ],
+        "model": "gpt-4.1",
+        "memoryPlan": {
+          "needs": [],
+          "sampleIdsUsed": [
+            "notes.preferred_name",
+            "recall.earlier_section",
+            "recall.synth",
+            "talk.deepen_local",
+            "talk.callback"
+          ],
+          "model": "gpt-4.1-mini",
+          "skipped": false
+        }
+      }
+    },
+    {
+      "id": "msg_y6igfpz9_msq8qyoe",
+      "phaseId": "ph.9f2477",
+      "topicId": "topic.stjc0v",
+      "role": "candidate",
+      "text": "nothing to chang ethe original was perfecto",
+      "at": "2026-08-12T15:25:31.022Z",
+      "probeId": "probe.long_term",
+      "kind": "answer"
+    },
+    {
+      "id": "msg_t16heoz7_msq8r62u",
+      "phaseId": "ph.9f2477",
+      "topicId": "topic.stjc0v",
+      "role": "assistant",
+      "text": "You said nothing needed to change because the original was perfect. I still need you to walk me through a real decision you made about reliability - even something minor, like choosing whether to fix a bug, update a dependency, or respond to a user report. What is one actual call you made about your API's reliability?",
+      "at": "2026-08-12T15:25:40.614Z",
+      "probeId": "probe.long_term",
+      "kind": "follow_up",
+      "compose": {
+        "situation": "probe_gap",
+        "missingGaps": [
+          "personal decision"
+        ],
+        "sampleIdsUsed": [
+          "gap.thread.thin",
+          "gap.thread.freeze",
+          "gap.elite.1",
+          "notes.preferred_name",
+          "recall.earlier_section",
+          "recall.synth",
+          "talk.deepen_local",
+          "talk.callback"
+        ],
+        "model": "gpt-4.1",
+        "memoryPlan": {
+          "needs": [],
+          "sampleIdsUsed": [
+            "notes.preferred_name",
+            "recall.earlier_section",
+            "recall.synth",
+            "talk.deepen_local",
+            "talk.callback"
+          ],
+          "model": "gpt-4.1-mini",
+          "skipped": false
+        }
+      }
+    },
+    {
+      "id": "msg_fzg1tz9r_msq8raca",
+      "phaseId": "ph.9f2477",
+      "topicId": "topic.stjc0v",
+      "role": "candidate",
+      "text": "no",
+      "at": "2026-08-12T15:25:46.138Z",
+      "probeId": "probe.long_term",
+      "kind": "answer"
+    },
+    {
+      "id": "msg_g9qorxb0_msq8rhs3",
+      "phaseId": "ph.9f2477",
+      "topicId": "topic.stjc0v",
+      "role": "assistant",
+      "text": "You said \"no\" to making changes because the original was perfect. I still need a real example of a **personal decision** you made about reliability-maybe you chose to update a library, ignore a low-severity alert, or roll back a release. What is one actual call you made that affected how reliable your API was?",
+      "at": "2026-08-12T15:25:55.779Z",
+      "probeId": "probe.long_term",
+      "kind": "follow_up",
+      "compose": {
+        "situation": "probe_gap",
+        "missingGaps": [
+          "personal decision"
+        ],
+        "sampleIdsUsed": [
+          "gap.thread.thin",
+          "gap.thread.freeze",
+          "gap.elite.1",
+          "notes.preferred_name",
+          "recall.earlier_section",
+          "recall.synth",
+          "talk.deepen_local",
+          "talk.callback"
+        ],
+        "model": "gpt-4.1",
+        "memoryPlan": {
+          "needs": [],
+          "sampleIdsUsed": [
+            "notes.preferred_name",
+            "recall.earlier_section",
+            "recall.synth",
+            "talk.deepen_local",
+            "talk.callback"
+          ],
+          "model": "gpt-4.1-mini",
+          "skipped": false
+        }
+      }
+    },
+    {
+      "id": "msg_dfcgoqfj_msq8rjmf",
+      "phaseId": "ph.9f2477",
+      "topicId": "topic.stjc0v",
+      "role": "candidate",
+      "text": "no",
+      "at": "2026-08-12T15:25:58.167Z",
+      "probeId": "probe.long_term",
+      "kind": "answer"
+    },
+    {
+      "id": "msg_b2qbfcjz_msq8rwb9",
+      "phaseId": "ph.9f2477",
+      "topicId": "topic.stjc0v",
+      "role": "assistant",
+      "text": "You confirmed again there were no changes and no reliability decisions you needed to make, so I do not have an example to dig into for this topic. Thanks for your responses. **Use Next** whenever you are ready to continue.",
+      "at": "2026-08-12T15:26:14.613Z",
+      "probeId": "probe.long_term",
+      "kind": "close",
+      "compose": {
+        "situation": "close",
+        "missingGaps": [
+          "personal decision"
+        ],
+        "sampleIdsUsed": [
+          "close.1",
+          "close.2",
+          "close.3",
+          "notes.preferred_name",
+          "recall.earlier_section",
+          "recall.synth",
+          "talk.deepen_local",
+          "talk.callback"
+        ],
+        "model": "gpt-4.1",
+        "memoryPlan": {
+          "needs": [],
+          "sampleIdsUsed": [
+            "notes.preferred_name",
+            "recall.earlier_section",
+            "recall.synth",
+            "talk.deepen_local",
+            "talk.callback"
+          ],
+          "model": "gpt-4.1-mini",
+          "skipped": false
+        }
+      }
+    },
+    {
+      "id": "msg_5dmymjcb_msq8tgc5",
+      "phaseId": "ph.9e6lmn",
+      "topicId": "topic.2i4r1d",
+      "role": "assistant",
+      "text": "This last stretch is the closing discussion. Before we wrap up, do you have any questions about the role, the team, or the process that I can help answer?",
+      "at": "2026-08-12T15:27:27.221Z",
+      "probeId": "probe.closing.1",
+      "kind": "opener",
+      "compose": {
+        "situation": "open",
+        "missingGaps": [],
+        "sampleIdsUsed": [
+          "open.section.ownership",
+          "open.section.incident",
+          "open.section.platform"
+        ],
+        "model": "gpt-4.1"
+      }
+    },
+    {
+      "id": "msg_ptqggpfv_msq8tmk5",
+      "phaseId": "ph.9e6lmn",
+      "topicId": "topic.2i4r1d",
+      "role": "candidate",
+      "text": "Is there a woman in the team?",
+      "at": "2026-08-12T15:27:35.285Z",
+      "probeId": "probe.closing.1",
+      "kind": "answer"
+    },
+    {
+      "id": "msg_igtqw3z0_msq8ts9q",
+      "phaseId": "ph.9e6lmn",
+      "topicId": "topic.2i4r1d",
+      "role": "assistant",
+      "text": "You asked if there is a woman in the team. I can share general details, but I want to be clear on what you need - are you asking about gender diversity overall, or is there something specific you want to know about the team's composition or culture?",
+      "at": "2026-08-12T15:27:42.686Z",
+      "probeId": "probe.closing.1",
+      "kind": "follow_up",
+      "compose": {
+        "situation": "deepen",
+        "missingGaps": [
+          "personal decision"
+        ],
+        "sampleIdsUsed": [
+          "deepen.thread.priority",
+          "deepen.thread.fog",
+          "deepen.elite.1",
+          "notes.preferred_name",
+          "recall.earlier_section",
+          "recall.synth",
+          "talk.deepen_local",
+          "talk.callback"
+        ],
+        "model": "gpt-4.1",
+        "memoryPlan": {
+          "needs": [],
+          "sampleIdsUsed": [
+            "notes.preferred_name",
+            "recall.earlier_section",
+            "recall.synth",
+            "talk.deepen_local",
+            "talk.callback"
+          ],
+          "model": "gpt-4.1-mini",
+          "skipped": false
+        }
+      }
+    },
+    {
+      "id": "msg_hzovpaly_msq8u1bq",
+      "phaseId": "ph.9e6lmn",
+      "topicId": "topic.2i4r1d",
+      "role": "candidate",
+      "text": "woman",
+      "at": "2026-08-12T15:27:54.422Z",
+      "probeId": "probe.closing.1",
+      "kind": "answer"
+    },
+    {
+      "id": "msg_5x73q6hn_msq8u6w9",
+      "phaseId": "ph.9e6lmn",
+      "topicId": "topic.2i4r1d",
+      "role": "assistant",
+      "text": "No rush.\n\nStill on the same topic - do you have a specific question about women on the team, or is there something about team diversity or culture you want to understand better?",
+      "at": "2026-08-12T15:28:01.641Z",
+      "probeId": "probe.closing.1",
+      "kind": "clarify",
+      "compose": {
+        "situation": "clarify",
+        "missingGaps": [
+          "personal decision"
+        ],
+        "sampleIdsUsed": [
+          "clarify.calm.gibberish.1",
+          "clarify.calm.gibberish.2",
+          "clarify.conv.1",
+          "notes.preferred_name",
+          "recall.earlier_section",
+          "recall.synth",
+          "talk.deepen_local",
+          "talk.callback"
+        ],
+        "model": "gpt-4.1",
+        "memoryPlan": {
+          "needs": [],
+          "sampleIdsUsed": [
+            "notes.preferred_name",
+            "recall.earlier_section",
+            "recall.synth",
+            "talk.deepen_local",
+            "talk.callback"
+          ],
+          "model": "gpt-4.1-mini",
+          "skipped": false
+        }
+      }
+    }
+  ],
+  "messageRange": {
+    "firstId": "msg_u3xiq7br_msq8an7o",
+    "lastId": "msg_5x73q6hn_msq8u6w9"
+  },
+  "talkRuntime": {
+    "phaseId": "ph.9e6lmn",
+    "topicId": "topic.2i4r1d",
+    "status": "ready_to_pass",
+    "activeProbeIndex": 0,
+    "followUpsOnActiveProbe": 1,
+    "probesAsked": 1,
+    "candidateTurns": 2,
+    "startedAt": 1786548447221,
+    "softTimeSent": false,
+    "openBeat": "done"
+  },
+  "botNotes": [],
+  "analysis": {
+    "turns": {
+      "msg_clf0bpt3_msq8au80": {
+        "iv.delivery.v1": {
+          "templateId": "iv.delivery.v1",
+          "hostRef": "topic.8htxhn",
+          "grain": "after_turn",
+          "order": 1,
+          "status": "filled",
+          "result": {
+            "overall": 1,
+            "max": 5
+          },
+          "dimensions": [
+            {
+              "key": "clarity",
+              "label": "Clarity",
+              "score": 1,
+              "max": 5
+            },
+            {
+              "key": "composure",
+              "label": "Composure",
+              "score": 3,
+              "max": 5
+            },
+            {
+              "key": "structure",
+              "label": "Structure",
+              "score": 1,
+              "max": 5
+            }
+          ],
+          "justification": "The answer is brief and informal, with no relevant content or structure related to the prompt. The candidate responds to the greeting only.",
+          "evidence": [
+            "yes whatsup"
+          ],
+          "confidence": "high"
+        }
+      },
+      "msg_tt46hf6o_msq8b8vm": {
+        "iv.delivery.v1": {
+          "templateId": "iv.delivery.v1",
+          "hostRef": "topic.8htxhn",
+          "grain": "after_turn",
+          "order": 2,
+          "status": "filled",
+          "result": {
+            "overall": 1,
+            "max": 5
+          },
+          "dimensions": [
+            {
+              "key": "clarity",
+              "label": "Clarity",
+              "score": 1,
+              "max": 5
+            },
+            {
+              "key": "composure",
+              "label": "Composure",
+              "score": 2,
+              "max": 5
+            },
+            {
+              "key": "structure",
+              "label": "Structure",
+              "score": 1,
+              "max": 5
+            }
+          ],
+          "justification": "The candidate's answer is a clarifying question, not a substantive response. There is no structure or clarity about any project, and the delivery is abrupt but not hostile.",
+          "evidence": [
+            "what do you mean by oned"
+          ],
+          "confidence": "high"
+        }
+      },
+      "msg_vanyhwwr_msq8cxy6": {
+        "iv.delivery.v1": {
+          "templateId": "iv.delivery.v1",
+          "hostRef": "topic.8htxhn",
+          "grain": "after_turn",
+          "order": 3,
+          "status": "filled",
+          "result": {
+            "overall": 2,
+            "max": 5
+          },
+          "dimensions": [
+            {
+              "key": "clarity",
+              "label": "Clarity",
+              "score": 2,
+              "max": 5
+            },
+            {
+              "key": "composure",
+              "label": "Composure",
+              "score": 3,
+              "max": 5
+            },
+            {
+              "key": "structure",
+              "label": "Structure",
+              "score": 2,
+              "max": 5
+            }
+          ],
+          "justification": "The answer named a project (vurify) and briefly mentioned implementing a rag system, but the sentence was unstructured and clarity was low. There was little detail on what made it interesting or the candidate's personal ownership beyond 'got me hooked.'",
+          "evidence": [
+            "A project I worked on called vurify implementing my first rag system made me appreciate api work and got me hooked"
+          ],
+          "confidence": "med"
+        }
+      },
+      "msg_cx0tjw40_msq8ev5k": {
+        "iv.delivery.v1": {
+          "templateId": "iv.delivery.v1",
+          "hostRef": "topic.8htxhn",
+          "grain": "after_turn",
+          "order": 4,
+          "status": "filled",
+          "result": {
+            "overall": 3,
+            "max": 5
+          },
+          "dimensions": [
+            {
+              "key": "clarity",
+              "label": "Clarity",
+              "score": 3,
+              "max": 5
+            },
+            {
+              "key": "composure",
+              "label": "Composure",
+              "score": 4,
+              "max": 5
+            },
+            {
+              "key": "structure",
+              "label": "Structure",
+              "score": 2,
+              "max": 5
+            }
+          ],
+          "justification": "The candidate explains a key design decision with some reasoning and trade-offs, though the delivery is informal and loosely structured. The main point is clear, but details are packed into a single sentence, making it harder to follow step by step.",
+          "evidence": [
+            "the nature of the api, using RPC functions instead of standard CRUD made the app more secure but the trade off was more implementation time as I had to use more sereverside functions and ai calls"
+          ],
+          "confidence": "med"
+        }
+      },
+      "msg_yst4fo5o_msq8glku": {
+        "iv.delivery.v1": {
+          "templateId": "iv.delivery.v1",
+          "hostRef": "topic.8htxhn",
+          "grain": "after_turn",
+          "order": 5,
+          "status": "filled",
+          "result": {
+            "overall": 2,
+            "max": 5
+          },
+          "dimensions": [
+            {
+              "key": "clarity",
+              "label": "Clarity",
+              "score": 2,
+              "max": 5
+            },
+            {
+              "key": "composure",
+              "label": "Composure",
+              "score": 3,
+              "max": 5
+            },
+            {
+              "key": "structure",
+              "label": "Structure",
+              "score": 2,
+              "max": 5
+            }
+          ],
+          "justification": "The answer is conversational and calm but lacks clear structure and is hard to follow. The main idea about bundling APIs comes through, but the explanation is scattered and imprecise, with some grammar issues.",
+          "evidence": [
+            "tring to bundle and limit similar api,s helped alot e.g have general api bundles for retrieval and so on that can be applied to multiple tables, same idea with front end functions"
+          ],
+          "confidence": "med"
+        }
+      },
+      "msg_99hn4zcs_msq8hzy6": {
+        "iv.delivery.v1": {
+          "templateId": "iv.delivery.v1",
+          "hostRef": "topic.8htxhn",
+          "grain": "after_turn",
+          "order": 6,
+          "status": "filled",
+          "result": {
+            "overall": 2,
+            "max": 5
+          },
+          "dimensions": [
+            {
+              "key": "clarity",
+              "label": "Clarity",
+              "score": 2,
+              "max": 5
+            },
+            {
+              "key": "composure",
+              "label": "Composure",
+              "score": 3,
+              "max": 5
+            },
+            {
+              "key": "structure",
+              "label": "Structure",
+              "score": 2,
+              "max": 5
+            }
+          ],
+          "justification": "The answer is loosely framed and lacks detail about the candidate's specific actions. Clarity is limited by vague phrasing ('helped me and the team a great deal') and the structure is weak, with no clear sequence of steps or explanation of how the AI bot was used.",
+          "evidence": [
+            "hmmmm using an ai bot like cursor coding agent to keep trck of commits and for debugging helped me and  the team a great deal"
+          ],
+          "confidence": "med"
+        }
+      },
+      "msg_p4maz0qj_msq8imz0": {
+        "iv.delivery.v1": {
+          "templateId": "iv.delivery.v1",
+          "hostRef": "topic.8htxhn",
+          "grain": "after_turn",
+          "order": 7,
+          "status": "filled",
+          "result": {
+            "overall": 1,
+            "max": 5
+          },
+          "dimensions": [
+            {
+              "key": "clarity",
+              "label": "Clarity",
+              "score": 1,
+              "max": 5
+            },
+            {
+              "key": "composure",
+              "label": "Composure",
+              "score": 3,
+              "max": 5
+            },
+            {
+              "key": "structure",
+              "label": "Structure",
+              "score": 1,
+              "max": 5
+            }
+          ],
+          "justification": "The response is a direct request for an example and does not deliver any relevant content or structure. The candidate remains composed but does not answer the question.",
+          "evidence": [
+            "for example?"
+          ],
+          "confidence": "high"
+        }
+      },
+      "msg_fz8cffi1_msq8jbmt": {
+        "iv.delivery.v1": {
+          "templateId": "iv.delivery.v1",
+          "hostRef": "topic.8htxhn",
+          "grain": "after_turn",
+          "order": 8,
+          "status": "pending",
+          "result": null,
+          "dimensions": [
+            {
+              "key": "clarity",
+              "label": "Clarity",
+              "score": "",
+              "max": 5
+            },
+            {
+              "key": "composure",
+              "label": "Composure",
+              "score": "",
+              "max": 5
+            },
+            {
+              "key": "structure",
+              "label": "Structure",
+              "score": "",
+              "max": 5
+            }
+          ],
+          "justification": ""
+        }
+      },
+      "msg_hk1jaliz_msq8me5a": {
+        "iv.delivery.v1": {
+          "templateId": "iv.delivery.v1",
+          "hostRef": "topic.stjc0v",
+          "grain": "after_turn",
+          "order": 1,
+          "status": "filled",
+          "result": {
+            "overall": 1,
+            "max": 5
+          },
+          "dimensions": [
+            {
+              "key": "clarity",
+              "label": "Clarity",
+              "score": 1,
+              "max": 5
+            },
+            {
+              "key": "composure",
+              "label": "Composure",
+              "score": 2,
+              "max": 5
+            },
+            {
+              "key": "structure",
+              "label": "Structure",
+              "score": 1,
+              "max": 5
+            }
+          ],
+          "justification": "The answer is extremely brief and categorical, without detail, story, or explanation. It does not attempt to clarify, structure, or expand on the situation. The tone is composed but dismissive of the prompt's intent.",
+          "evidence": [
+            "My api never fail not even once"
+          ],
+          "confidence": "high"
+        }
+      },
+      "msg_9fol0efi_msq8n2jg": {
+        "iv.delivery.v1": {
+          "templateId": "iv.delivery.v1",
+          "hostRef": "topic.stjc0v",
+          "grain": "after_turn",
+          "order": 2,
+          "status": "filled",
+          "result": {
+            "overall": 1,
+            "max": 5
+          },
+          "dimensions": [
+            {
+              "key": "clarity",
+              "label": "Clarity",
+              "score": 1,
+              "max": 5
+            },
+            {
+              "key": "composure",
+              "label": "Composure",
+              "score": 2,
+              "max": 5
+            },
+            {
+              "key": "structure",
+              "label": "Structure",
+              "score": 1,
+              "max": 5
+            }
+          ],
+          "justification": "The response is dismissive and lacks clarity or structure. The candidate repeats their claim that their API never failed, does not address the question, and provides no details or example. Delivery is minimal and avoids the intent of the probe.",
+          "evidence": [
+            "never have been and hopefully never will be"
+          ],
+          "confidence": "high"
+        }
+      },
+      "msg_ou5zzd0f_msq8nm2x": {
+        "iv.delivery.v1": {
+          "templateId": "iv.delivery.v1",
+          "hostRef": "topic.stjc0v",
+          "grain": "after_turn",
+          "order": 3,
+          "status": "filled",
+          "result": {
+            "overall": 1,
+            "max": 5
+          },
+          "dimensions": [
+            {
+              "key": "clarity",
+              "label": "Clarity",
+              "score": 1,
+              "max": 5
+            },
+            {
+              "key": "composure",
+              "label": "Composure",
+              "score": 2,
+              "max": 5
+            },
+            {
+              "key": "structure",
+              "label": "Structure",
+              "score": 1,
+              "max": 5
+            }
+          ],
+          "justification": "The answer is vague, deflects the question, and does not provide a concrete example or any structured explanation.",
+          "evidence": [
+            "what actions they never failed"
+          ],
+          "confidence": "high"
+        }
+      },
+      "msg_tb2f7io8_msq8olil": {
+        "iv.delivery.v1": {
+          "templateId": "iv.delivery.v1",
+          "hostRef": "topic.stjc0v",
+          "grain": "after_turn",
+          "order": 4,
+          "status": "filled",
+          "result": {
+            "overall": 1,
+            "max": 5
+          },
+          "dimensions": [
+            {
+              "key": "clarity",
+              "label": "Clarity",
+              "score": 1,
+              "max": 5
+            },
+            {
+              "key": "composure",
+              "label": "Composure",
+              "score": 2,
+              "max": 5
+            },
+            {
+              "key": "structure",
+              "label": "Structure",
+              "score": 1,
+              "max": 5
+            }
+          ],
+          "justification": "The answer does not address the question, lacks structure, and is defensive. The candidate refuses to engage with the scenario, does not provide any concrete information, and responds with pushback.",
+          "evidence": [
+            "I dont fail though you are pushing me to say something untrue I dont like that"
+          ],
+          "confidence": "high"
+        }
+      },
+      "msg_xpmj2sie_msq8ph13": {
+        "iv.delivery.v1": {
+          "templateId": "iv.delivery.v1",
+          "hostRef": "topic.stjc0v",
+          "grain": "after_turn",
+          "order": 5,
+          "status": "filled",
+          "result": {
+            "overall": 1,
+            "max": 5
+          },
+          "dimensions": [
+            {
+              "key": "clarity",
+              "label": "Clarity",
+              "score": 1,
+              "max": 5
+            },
+            {
+              "key": "composure",
+              "label": "Composure",
+              "score": 2,
+              "max": 5
+            },
+            {
+              "key": "structure",
+              "label": "Structure",
+              "score": 1,
+              "max": 5
+            }
+          ],
+          "justification": "The answer is vague and avoids the prompt, offering no concrete incident or actions. It repeats the claim of never having an API failure and gives only a brief anecdote about a customer call, without structure or detail.",
+          "evidence": [
+            "I had a customer call me to tell me my api never fail, I was like I know"
+          ],
+          "confidence": "high"
+        }
+      },
+      "msg_jqskcrmf_msq8q7d1": {
+        "iv.delivery.v1": {
+          "templateId": "iv.delivery.v1",
+          "hostRef": "topic.stjc0v",
+          "grain": "after_turn",
+          "order": 6,
+          "status": "filled",
+          "result": {
+            "overall": 1,
+            "max": 5
+          },
+          "dimensions": [
+            {
+              "key": "clarity",
+              "label": "Clarity",
+              "score": 1,
+              "max": 5
+            },
+            {
+              "key": "composure",
+              "label": "Composure",
+              "score": 2,
+              "max": 5
+            },
+            {
+              "key": "structure",
+              "label": "Structure",
+              "score": 1,
+              "max": 5
+            }
+          ],
+          "justification": "The answer is vague, avoids the concrete scenario requested, and does not provide any detail or structure around actions, decision, or outcome. Tone is neutral and not hostile, but the response does not offer usable specifics.",
+          "evidence": [
+            "I tried to adress the bugs but there were none"
+          ],
+          "confidence": "high"
+        }
+      },
+      "msg_y6igfpz9_msq8qyoe": {
+        "iv.delivery.v1": {
+          "templateId": "iv.delivery.v1",
+          "hostRef": "topic.stjc0v",
+          "grain": "after_turn",
+          "order": 7,
+          "status": "filled",
+          "result": {
+            "overall": 1,
+            "max": 5
+          },
+          "dimensions": [
+            {
+              "key": "clarity",
+              "label": "Clarity",
+              "score": 1,
+              "max": 5
+            },
+            {
+              "key": "composure",
+              "label": "Composure",
+              "score": 2,
+              "max": 5
+            },
+            {
+              "key": "structure",
+              "label": "Structure",
+              "score": 1,
+              "max": 5
+            }
+          ],
+          "justification": "The answer is vague and dismissive, with no structure or concrete details about actions, changes, or reasoning. The candidate simply states 'nothing to chang ethe original was perfecto' without engaging the question or offering any insight.",
+          "evidence": [
+            "nothing to chang ethe original was perfecto"
+          ],
+          "confidence": "high"
+        }
+      },
+      "msg_fzg1tz9r_msq8raca": {
+        "iv.delivery.v1": {
+          "templateId": "iv.delivery.v1",
+          "hostRef": "topic.stjc0v",
+          "grain": "after_turn",
+          "order": 8,
+          "status": "filled",
+          "result": {
+            "overall": 1,
+            "max": 5
+          },
+          "dimensions": [
+            {
+              "key": "clarity",
+              "label": "Clarity",
+              "score": 1,
+              "max": 5
+            },
+            {
+              "key": "composure",
+              "label": "Composure",
+              "score": 2,
+              "max": 5
+            },
+            {
+              "key": "structure",
+              "label": "Structure",
+              "score": 1,
+              "max": 5
+            }
+          ],
+          "justification": "The answer was a one-word refusal with no detail, structure, or effort to clarify. The tone was terse but not overtly hostile.",
+          "evidence": [
+            "no"
+          ],
+          "confidence": "high"
+        }
+      },
+      "msg_dfcgoqfj_msq8rjmf": {
+        "iv.delivery.v1": {
+          "templateId": "iv.delivery.v1",
+          "hostRef": "topic.stjc0v",
+          "grain": "after_turn",
+          "order": 9,
+          "status": "pending",
+          "result": null,
+          "dimensions": [
+            {
+              "key": "clarity",
+              "label": "Clarity",
+              "score": "",
+              "max": 5
+            },
+            {
+              "key": "composure",
+              "label": "Composure",
+              "score": "",
+              "max": 5
+            },
+            {
+              "key": "structure",
+              "label": "Structure",
+              "score": "",
+              "max": 5
+            }
+          ],
+          "justification": ""
+        }
+      },
+      "msg_ptqggpfv_msq8tmk5": {
+        "iv.question.v1": {
+          "templateId": "iv.question.v1",
+          "hostRef": "topic.2i4r1d",
+          "grain": "after_turn",
+          "order": 1,
+          "status": "filled",
+          "result": {
+            "overall": 2,
+            "max": 5
+          },
+          "dimensions": [
+            {
+              "key": "curiosity",
+              "label": "Curiosity",
+              "score": 2,
+              "max": 5
+            },
+            {
+              "key": "relevance",
+              "label": "Relevance",
+              "score": 3,
+              "max": 5
+            },
+            {
+              "key": "specificity",
+              "label": "Specificity",
+              "score": 2,
+              "max": 5
+            }
+          ],
+          "justification": "The candidate asked a direct and very specific question about team gender diversity, showing some curiosity about the team makeup. However, the question is narrow, lacks broader curiosity about the role, process, or team culture, and does not invite deeper discussion.",
+          "evidence": [
+            "Is there a woman in the team?"
+          ],
+          "confidence": "high"
+        }
+      },
+      "msg_hzovpaly_msq8u1bq": {
+        "iv.question.v1": {
+          "templateId": "iv.question.v1",
+          "hostRef": "topic.2i4r1d",
+          "grain": "after_turn",
+          "order": 2,
+          "status": "filled",
+          "result": {
+            "overall": 1,
+            "max": 5
+          },
+          "dimensions": [
+            {
+              "key": "relevance",
+              "label": "Relevance",
+              "score": 1,
+              "max": 5
+            },
+            {
+              "key": "clarity",
+              "label": "Clarity",
+              "score": 1,
+              "max": 5
+            },
+            {
+              "key": "depth",
+              "label": "Depth",
+              "score": 1,
+              "max": 5
+            }
+          ],
+          "justification": "The answer is a single word repeating the prior question's focus, with no added detail, clarity, or followup context. It does not expand on what is being asked about the team or clarify what the candidate wants to know.",
+          "evidence": [
+            "woman"
+          ],
+          "confidence": "high"
+        }
+      }
+    },
+    "tools": {
+      "tool.form.obg2dk": {
+        "mark.form.key.v1": {
+          "templateId": "mark.form.key.v1",
+          "hostRef": "tool.form.obg2dk",
+          "grain": "after_tool",
+          "order": 1,
+          "status": "filled",
+          "source": "assessor_bot",
+          "result": {
+            "passed": false,
+            "score": 4,
+            "max": 16,
+            "byItem": [
+              {
+                "questionId": "q.email",
+                "earned": 1,
+                "max": 1,
+                "auto": true,
+                "correct": true
+              },
+              {
+                "questionId": "q.name",
+                "earned": 1,
+                "max": 1,
+                "auto": true,
+                "correct": true
+              },
+              {
+                "questionId": "q.location",
+                "earned": 0,
+                "max": 1,
+                "auto": true,
+                "correct": false
+              },
+              {
+                "questionId": "q.auth",
+                "earned": 0,
+                "max": 1,
+                "auto": true,
+                "correct": false
+              },
+              {
+                "questionId": "q.sponsorship",
+                "earned": 0,
+                "max": 1,
+                "auto": true,
+                "correct": false
+              },
+              {
+                "questionId": "q.start",
+                "earned": 0,
+                "max": 1,
+                "auto": true,
+                "correct": false
+              },
+              {
+                "questionId": "q.backend_domains",
+                "earned": 0,
+                "max": 1,
+                "auto": true,
+                "correct": false
+              },
+              {
+                "questionId": "q.backend_domains_other",
+                "earned": 0,
+                "max": 1,
+                "auto": true,
+                "correct": false
+              },
+              {
+                "questionId": "q.pref_stack",
+                "earned": 0,
+                "max": 1,
+                "auto": true,
+                "correct": false
+              },
+              {
+                "questionId": "q.rank_env",
+                "earned": 0,
+                "max": 1,
+                "auto": true,
+                "correct": false
+              },
+              {
+                "questionId": "q.grid_stack_env",
+                "earned": 0,
+                "max": 1,
+                "auto": true,
+                "correct": false
+              },
+              {
+                "questionId": "q.fill_blank",
+                "earned": 0,
+                "max": 1,
+                "auto": true,
+                "correct": false,
+                "notes": "0/1 blanks"
+              },
+              {
+                "questionId": "q.essay",
+                "earned": 0,
+                "max": 1,
+                "auto": true,
+                "correct": false,
+                "notes": "0/2 keywords"
+              },
+              {
+                "questionId": "q.ord",
+                "earned": 1,
+                "max": 1,
+                "auto": true,
+                "correct": true
+              },
+              {
+                "questionId": "q.grid",
+                "earned": 1,
+                "max": 1,
+                "auto": true,
+                "correct": true,
+                "notes": "1/1 rows"
+              },
+              {
+                "questionId": "q.blank",
+                "earned": 0,
+                "max": 1,
+                "auto": true,
+                "correct": false,
+                "notes": "0/1 blanks"
+              }
+            ]
+          },
+          "justification": "Form gate failed (4/16).",
+          "evidence": [
+            "q.location",
+            "q.auth",
+            "q.sponsorship",
+            "q.start",
+            "q.backend_domains"
+          ],
+          "confidence": "high",
+          "assessedAt": "2026-08-12T15:21:22.757Z"
+        }
+      },
+      "tool.coding.oh9vol": {
+        "mark.code.tests.v1": {
+          "templateId": "mark.code.tests.v1",
+          "hostRef": "tool.coding.oh9vol",
+          "grain": "after_tool",
+          "order": 1,
+          "status": "filled",
+          "source": "assessor_bot",
+          "result": {
+            "passed": false,
+            "passedCount": 0,
+            "total": 4,
+            "status": "runtime_error",
+            "failing": [
+              {
+                "id": "t1",
+                "message": "runtime error"
+              },
+              {
+                "id": "t2",
+                "message": "runtime error"
+              },
+              {
+                "id": "t3",
+                "message": "runtime error"
+              },
+              {
+                "id": "t4",
+                "message": "runtime error"
+              }
+            ]
+          },
+          "justification": "Code run status runtime_error; 0/4 cases passed.",
+          "evidence": [
+            "t1",
+            "t2",
+            "t3",
+            "t4"
+          ],
+          "confidence": "med",
+          "assessedAt": "2026-08-12T15:26:56.660Z"
+        },
+        "mark.code.method.v1": {
+          "templateId": "mark.code.method.v1",
+          "hostRef": "tool.coding.oh9vol",
+          "grain": "after_tool",
+          "order": 2,
+          "status": "filled",
+          "source": "assessor_bot",
+          "result": {
+            "dimensions": {
+              "approach": "weak",
+              "clarity": "weak",
+              "complexity": "weak"
+            },
+            "runPassed": false
+          },
+          "dimensions": [
+            {
+              "key": "approach",
+              "label": "Approach",
+              "score": "weak"
+            },
+            {
+              "key": "clarity",
+              "label": "Clarity",
+              "score": "weak"
+            },
+            {
+              "key": "complexity",
+              "label": "Complexity",
+              "score": "weak"
+            }
+          ],
+          "justification": "The function is unimplemented and throws an error immediately. There is no approach, clarity, or complexity to assess.",
+          "evidence": [
+            "throw new Error('not implemented')"
+          ],
+          "confidence": "high",
+          "assessedAt": "2026-08-12T15:26:56.661Z"
+        }
+      },
+      "tool.doc.4qhwxm": {
+        "mark.doc.essay.v1": {
+          "templateId": "mark.doc.essay.v1",
+          "hostRef": "tool.doc.4qhwxm",
+          "grain": "after_tool",
+          "order": 1,
+          "status": "filled",
+          "source": "assessor_bot",
+          "result": {
+            "bands": {
+              "clarity": {
+                "id": "limited",
+                "label": "1 - Limited"
+              },
+              "evidence": {
+                "id": "limited",
+                "label": "1 - Limited"
+              },
+              "risk": {
+                "id": "limited",
+                "label": "1 - Limited"
+              }
+            },
+            "weights": {
+              "clarity": 0.35,
+              "evidence": 0.4,
+              "risk": 0.25
+            },
+            "wordCount": 1,
+            "limitsOk": false,
+            "composite": 0
+          },
+          "dimensions": [
+            {
+              "key": "clarity",
+              "label": "Clarity",
+              "score": "1 - Limited",
+              "max": 4,
+              "bandId": "limited"
+            },
+            {
+              "key": "evidence",
+              "label": "Evidence",
+              "score": "1 - Limited",
+              "max": 4,
+              "bandId": "limited"
+            },
+            {
+              "key": "risk",
+              "label": "Risk awareness",
+              "score": "1 - Limited",
+              "max": 4,
+              "bandId": "limited"
+            }
+          ],
+          "justification": "Empty or unusable answer — lowest bands assigned.",
+          "evidence": [
+            "(empty)"
+          ],
+          "confidence": "low",
+          "assessedAt": "2026-08-12T15:27:20.185Z"
+        }
+      }
+    },
+    "toolPackages": {
+      "tool.form.obg2dk": {
+        "schemaVersion": 1,
+        "hostRef": "tool.form.obg2dk",
+        "kind": "form",
+        "assessedAt": "2026-08-12T15:21:22.757Z",
+        "source": "assessor_bot",
+        "summary": "Form gate failed (4/16).",
+        "overall": {
+          "passed": false,
+          "score": 4,
+          "max": 16,
+          "label": "Fail"
+        },
+        "items": [
+          {
+            "id": "q.email",
+            "label": "What is your current work email address?",
+            "score": 1,
+            "max": 1,
+            "notes": "Matched answer key",
+            "flaggedForReview": false
+          },
+          {
+            "id": "q.name",
+            "label": "What is your full legal name?",
+            "score": 1,
+            "max": 1,
+            "notes": "Matched answer key",
+            "flaggedForReview": false
+          },
+          {
+            "id": "q.location",
+            "label": "What is your current city and state of residence?",
+            "score": 0,
+            "max": 1,
+            "notes": "Did not match answer key",
+            "flaggedForReview": false
+          },
+          {
+            "id": "q.auth",
+            "label": "Are you currently authorized to work in the United States for any employer witho",
+            "score": 0,
+            "max": 1,
+            "notes": "Did not match answer key",
+            "flaggedForReview": false
+          },
+          {
+            "id": "q.sponsorship",
+            "label": "If you require sponsorship now or in the future, please describe your situation ",
+            "score": 0,
+            "max": 1,
+            "notes": "Did not match answer key",
+            "flaggedForReview": false
+          },
+          {
+            "id": "q.start",
+            "label": "If offered, how soon could you start this US-remote role?",
+            "score": 0,
+            "max": 1,
+            "notes": "Did not match answer key",
+            "flaggedForReview": false
+          },
+          {
+            "id": "q.backend_domains",
+            "label": "Which backend domains do you have significant experience in? (Select all that ap",
+            "score": 0,
+            "max": 1,
+            "notes": "Did not match answer key",
+            "flaggedForReview": false
+          },
+          {
+            "id": "q.backend_domains_other",
+            "label": "If you selected 'Other' above, please specify.",
+            "score": 0,
+            "max": 1,
+            "notes": "Did not match answer key",
+            "flaggedForReview": false
+          },
+          {
+            "id": "q.pref_stack",
+            "label": "Which backend stack do you prefer to work with?",
+            "score": 0,
+            "max": 1,
+            "notes": "Did not match answer key",
+            "flaggedForReview": false
+          },
+          {
+            "id": "q.rank_env",
+            "label": "Rank these backend environments by your comfort level (1 = most comfortable)",
+            "score": 0,
+            "max": 1,
+            "notes": "Did not match answer key",
+            "flaggedForReview": false
+          },
+          {
+            "id": "q.grid_stack_env",
+            "label": "Rate your experience level (1 = expert, 4 = no experience) for each stack in eac",
+            "score": 0,
+            "max": 1,
+            "notes": "Did not match answer key",
+            "flaggedForReview": false
+          },
+          {
+            "id": "q.fill_blank",
+            "label": "HTTP success status is {{code}}.",
+            "score": 0,
+            "max": 1,
+            "notes": "0/1 blanks",
+            "flaggedForReview": false
+          },
+          {
+            "id": "q.essay",
+            "label": "Describe a recent ownership and delivery trade-off.",
+            "score": 0,
+            "max": 1,
+            "notes": "0/2 keywords",
+            "flaggedForReview": false
+          },
+          {
+            "id": "q.ord",
+            "label": "Confidence (1-5)",
+            "score": 1,
+            "max": 1,
+            "notes": "Matched answer key",
+            "flaggedForReview": false
+          },
+          {
+            "id": "q.grid",
+            "label": "Rate dimensions",
+            "score": 1,
+            "max": 1,
+            "notes": "1/1 rows",
+            "flaggedForReview": false
+          },
+          {
+            "id": "q.blank",
+            "label": "HTTP success status is {{code}}.",
+            "score": 0,
+            "max": 1,
+            "notes": "0/1 blanks",
+            "flaggedForReview": false
+          }
+        ],
+        "assessorNotes": [
+          "12 auto-scored item(s) missed the answer key."
+        ],
+        "gaps": [
+          "q.location: miss",
+          "q.auth: miss",
+          "q.sponsorship: miss",
+          "q.start: miss",
+          "q.backend_domains: miss",
+          "q.backend_domains_other: miss",
+          "q.pref_stack: miss",
+          "q.rank_env: miss",
+          "q.grid_stack_env: miss",
+          "q.fill_blank: miss",
+          "q.essay: miss",
+          "q.blank: miss"
+        ],
+        "metaReview": {
+          "confidence": "high",
+          "thinEvidence": false,
+          "conflicts": [],
+          "authorHintsUsed": []
+        },
+        "visibility": {
+          "candidateSafe": false,
+          "redactions": [
+            "answerKey"
+          ]
+        },
+        "grains": {
+          "mark.form.key.v1": {
+            "templateId": "mark.form.key.v1",
+            "hostRef": "tool.form.obg2dk",
+            "grain": "after_tool",
+            "order": 1,
+            "status": "filled",
+            "source": "assessor_bot",
+            "result": {
+              "passed": false,
+              "score": 4,
+              "max": 16,
+              "byItem": [
+                {
+                  "questionId": "q.email",
+                  "earned": 1,
+                  "max": 1,
+                  "auto": true,
+                  "correct": true
+                },
+                {
+                  "questionId": "q.name",
+                  "earned": 1,
+                  "max": 1,
+                  "auto": true,
+                  "correct": true
+                },
+                {
+                  "questionId": "q.location",
+                  "earned": 0,
+                  "max": 1,
+                  "auto": true,
+                  "correct": false
+                },
+                {
+                  "questionId": "q.auth",
+                  "earned": 0,
+                  "max": 1,
+                  "auto": true,
+                  "correct": false
+                },
+                {
+                  "questionId": "q.sponsorship",
+                  "earned": 0,
+                  "max": 1,
+                  "auto": true,
+                  "correct": false
+                },
+                {
+                  "questionId": "q.start",
+                  "earned": 0,
+                  "max": 1,
+                  "auto": true,
+                  "correct": false
+                },
+                {
+                  "questionId": "q.backend_domains",
+                  "earned": 0,
+                  "max": 1,
+                  "auto": true,
+                  "correct": false
+                },
+                {
+                  "questionId": "q.backend_domains_other",
+                  "earned": 0,
+                  "max": 1,
+                  "auto": true,
+                  "correct": false
+                },
+                {
+                  "questionId": "q.pref_stack",
+                  "earned": 0,
+                  "max": 1,
+                  "auto": true,
+                  "correct": false
+                },
+                {
+                  "questionId": "q.rank_env",
+                  "earned": 0,
+                  "max": 1,
+                  "auto": true,
+                  "correct": false
+                },
+                {
+                  "questionId": "q.grid_stack_env",
+                  "earned": 0,
+                  "max": 1,
+                  "auto": true,
+                  "correct": false
+                },
+                {
+                  "questionId": "q.fill_blank",
+                  "earned": 0,
+                  "max": 1,
+                  "auto": true,
+                  "correct": false,
+                  "notes": "0/1 blanks"
+                },
+                {
+                  "questionId": "q.essay",
+                  "earned": 0,
+                  "max": 1,
+                  "auto": true,
+                  "correct": false,
+                  "notes": "0/2 keywords"
+                },
+                {
+                  "questionId": "q.ord",
+                  "earned": 1,
+                  "max": 1,
+                  "auto": true,
+                  "correct": true
+                },
+                {
+                  "questionId": "q.grid",
+                  "earned": 1,
+                  "max": 1,
+                  "auto": true,
+                  "correct": true,
+                  "notes": "1/1 rows"
+                },
+                {
+                  "questionId": "q.blank",
+                  "earned": 0,
+                  "max": 1,
+                  "auto": true,
+                  "correct": false,
+                  "notes": "0/1 blanks"
+                }
+              ]
+            },
+            "justification": "Form gate failed (4/16).",
+            "evidence": [
+              "q.location",
+              "q.auth",
+              "q.sponsorship",
+              "q.start",
+              "q.backend_domains"
+            ],
+            "confidence": "high",
+            "assessedAt": "2026-08-12T15:21:22.757Z"
+          }
+        }
+      },
+      "tool.coding.oh9vol": {
+        "schemaVersion": 1,
+        "hostRef": "tool.coding.oh9vol",
+        "kind": "coding",
+        "assessedAt": "2026-08-12T15:27:00.299Z",
+        "source": "assessor_bot",
+        "summary": "Code run status runtime_error; 0/4 cases passed. The function is unimplemented and throws an error immediately. There is no approach, clarity, or complexity to assess.",
+        "overall": {
+          "passed": false,
+          "score": 0,
+          "max": 4,
+          "label": "runtime_error"
+        },
+        "items": [
+          {
+            "id": "test:t1",
+            "label": "basic",
+            "score": 0,
+            "max": 1,
+            "notes": "runtime error",
+            "flaggedForReview": true
+          },
+          {
+            "id": "test:t2",
+            "label": "already_unique",
+            "score": 0,
+            "max": 1,
+            "notes": "runtime error",
+            "flaggedForReview": true
+          },
+          {
+            "id": "test:t3",
+            "label": "empty",
+            "score": 0,
+            "max": 1,
+            "notes": "runtime error",
+            "flaggedForReview": true
+          },
+          {
+            "id": "test:t4",
+            "label": "singles",
+            "score": 0,
+            "max": 1,
+            "notes": "runtime error",
+            "flaggedForReview": true
+          },
+          {
+            "id": "method:approach",
+            "label": "Approach",
+            "score": "weak",
+            "notes": "No attempt at solving the problem; the function throws an error and does not process the input.",
+            "evidence": [
+              "throw new Error('not implemented')"
+            ],
+            "flaggedForReview": false
+          },
+          {
+            "id": "method:clarity",
+            "label": "Clarity",
+            "score": "weak",
+            "notes": "No implementation is provided, so there is no code to evaluate for clarity.",
+            "evidence": [
+              "throw new Error('not implemented')"
+            ],
+            "flaggedForReview": false
+          },
+          {
+            "id": "method:complexity",
+            "label": "Complexity",
+            "score": "weak",
+            "notes": "No logic is present; complexity cannot be assessed.",
+            "evidence": [
+              "throw new Error('not implemented')"
+            ],
+            "flaggedForReview": false
+          }
+        ],
+        "assessorNotes": [
+          "Failing cases: t1, t2, t3, t4",
+          "Candidate did not attempt the problem.",
+          "No code to evaluate for correctness or style."
+        ],
+        "gaps": [
+          "t1",
+          "t2",
+          "t3",
+          "t4",
+          "No logic for extracting unique values.",
+          "No sorting or ordering of results.",
+          "No handling of input or output."
+        ],
+        "metaReview": {
+          "confidence": "med",
+          "thinEvidence": false,
+          "conflicts": [],
+          "authorHintsUsed": []
+        },
+        "visibility": {
+          "candidateSafe": true,
+          "redactions": [
+            "hidden_expected"
+          ]
+        },
+        "grains": {
+          "mark.code.tests.v1": {
+            "templateId": "mark.code.tests.v1",
+            "hostRef": "tool.coding.oh9vol",
+            "grain": "after_tool",
+            "order": 1,
+            "status": "filled",
+            "source": "assessor_bot",
+            "result": {
+              "passed": false,
+              "passedCount": 0,
+              "total": 4,
+              "status": "runtime_error",
+              "failing": [
+                {
+                  "id": "t1",
+                  "message": "runtime error"
+                },
+                {
+                  "id": "t2",
+                  "message": "runtime error"
+                },
+                {
+                  "id": "t3",
+                  "message": "runtime error"
+                },
+                {
+                  "id": "t4",
+                  "message": "runtime error"
+                }
+              ]
+            },
+            "justification": "Code run status runtime_error; 0/4 cases passed.",
+            "evidence": [
+              "t1",
+              "t2",
+              "t3",
+              "t4"
+            ],
+            "confidence": "med",
+            "assessedAt": "2026-08-12T15:26:56.660Z"
+          },
+          "mark.code.method.v1": {
+            "templateId": "mark.code.method.v1",
+            "hostRef": "tool.coding.oh9vol",
+            "grain": "after_tool",
+            "order": 2,
+            "status": "filled",
+            "source": "assessor_bot",
+            "result": {
+              "dimensions": {
+                "approach": "weak",
+                "clarity": "weak",
+                "complexity": "weak"
+              },
+              "runPassed": false
+            },
+            "dimensions": [
+              {
+                "key": "approach",
+                "label": "Approach",
+                "score": "weak"
+              },
+              {
+                "key": "clarity",
+                "label": "Clarity",
+                "score": "weak"
+              },
+              {
+                "key": "complexity",
+                "label": "Complexity",
+                "score": "weak"
+              }
+            ],
+            "justification": "The function is unimplemented and throws an error immediately. There is no approach, clarity, or complexity to assess.",
+            "evidence": [
+              "throw new Error('not implemented')"
+            ],
+            "confidence": "high",
+            "assessedAt": "2026-08-12T15:26:56.661Z"
+          }
+        }
+      },
+      "tool.doc.4qhwxm": {
+        "schemaVersion": 1,
+        "hostRef": "tool.doc.4qhwxm",
+        "kind": "writing",
+        "assessedAt": "2026-08-12T15:27:20.185Z",
+        "source": "assessor_bot",
+        "summary": "Empty or unusable answer — lowest bands assigned.",
+        "overall": {
+          "label": "Thin evidence",
+          "score": 0,
+          "max": 1
+        },
+        "items": [
+          {
+            "id": "clarity",
+            "label": "Clarity",
+            "score": "1 - Limited",
+            "max": 4,
+            "notes": "Thin evidence",
+            "flaggedForReview": true
+          },
+          {
+            "id": "evidence",
+            "label": "Evidence",
+            "score": "1 - Limited",
+            "max": 4,
+            "notes": "Thin evidence",
+            "flaggedForReview": true
+          },
+          {
+            "id": "risk",
+            "label": "Risk awareness",
+            "score": "1 - Limited",
+            "max": 4,
+            "notes": "Thin evidence",
+            "flaggedForReview": true
+          }
+        ],
+        "assessorNotes": [
+          "Candidate answer empty or thin under ## Your answer."
+        ],
+        "gaps": [
+          "empty_answer"
+        ],
+        "metaReview": {
+          "confidence": "low",
+          "thinEvidence": true,
+          "conflicts": [],
+          "authorHintsUsed": []
+        },
+        "visibility": {
+          "candidateSafe": true,
+          "redactions": []
+        },
+        "grains": {
+          "mark.doc.essay.v1": {
+            "templateId": "mark.doc.essay.v1",
+            "hostRef": "tool.doc.4qhwxm",
+            "grain": "after_tool",
+            "order": 1,
+            "status": "filled",
+            "source": "assessor_bot",
+            "result": {
+              "bands": {
+                "clarity": {
+                  "id": "limited",
+                  "label": "1 - Limited"
+                },
+                "evidence": {
+                  "id": "limited",
+                  "label": "1 - Limited"
+                },
+                "risk": {
+                  "id": "limited",
+                  "label": "1 - Limited"
+                }
+              },
+              "weights": {
+                "clarity": 0.35,
+                "evidence": 0.4,
+                "risk": 0.25
+              },
+              "wordCount": 1,
+              "limitsOk": false,
+              "composite": 0
+            },
+            "dimensions": [
+              {
+                "key": "clarity",
+                "label": "Clarity",
+                "score": "1 - Limited",
+                "max": 4,
+                "bandId": "limited"
+              },
+              {
+                "key": "evidence",
+                "label": "Evidence",
+                "score": "1 - Limited",
+                "max": 4,
+                "bandId": "limited"
+              },
+              {
+                "key": "risk",
+                "label": "Risk awareness",
+                "score": "1 - Limited",
+                "max": 4,
+                "bandId": "limited"
+              }
+            ],
+            "justification": "Empty or unusable answer — lowest bands assigned.",
+            "evidence": [
+              "(empty)"
+            ],
+            "confidence": "low",
+            "assessedAt": "2026-08-12T15:27:20.185Z"
+          }
+        }
+      }
+    },
+    "topics": {
+      "topic.8htxhn": {
+        "byTemplate": {
+          "iv.content.v1": {
+            "templateId": "iv.content.v1",
+            "hostRef": "topic.8htxhn",
+            "grain": "topic_end",
+            "order": 0,
+            "status": "filled",
+            "result": {
+              "overall": 3,
+              "max": 5
+            },
+            "dimensions": [
+              {
+                "key": "ownership",
+                "label": "Ownership of service",
+                "score": 4,
+                "max": 5
+              },
+              {
+                "key": "technical_depth",
+                "label": "Technical depth",
+                "score": 3,
+                "max": 5
+              },
+              {
+                "key": "outcome_clarity",
+                "label": "Clarity of result/outcome",
+                "score": 2,
+                "max": 5
+              }
+            ],
+            "justification": "Jordan gave a concrete example of owning the backend for 'vurify,' made and explained key technical decisions (using RPC over CRUD, bundling APIs, automated git checks), and described personal ownership. However, no clear or measurable outcome or metric was provided, so the result clarity is limited.",
+            "evidence": [
+              "A project I worked on called vurify implementing my first rag system",
+              "using RPC functions instead of standard CRUD made the app more secure",
+              "I set up atomated check for git commits"
+            ],
+            "confidence": "med"
+          },
+          "synth.topic.v1": {
+            "templateId": "synth.topic.v1",
+            "hostRef": "topic.8htxhn",
+            "grain": "topic_end",
+            "order": 1,
+            "status": "filled",
+            "result": {
+              "overall": 3,
+              "max": 5
+            },
+            "dimensions": [],
+            "justification": "Ownership and technical decision-making were clear for the backend work on 'vurify.' The candidate described steps for reliability and scale but did not tie these to quantitative results or specific outcomes.",
+            "evidence": [
+              "A project I worked on called vurify implementing my first rag system",
+              "using RPC functions instead of standard CRUD made the app more secure",
+              "I set up atomated check for git commits"
+            ],
+            "confidence": "med"
+          }
+        },
+        "synthesisText": "Jordan described owning the backend for a project called \"vurify\" where they implemented their first RAG system. They made the decision to use RPC functions instead of standard CRUD to boost security, which increased implementation time. For reliability and scale, they bundled similar APIs and set up automated checks for git commits, describing this as a step they personally drove. Specific quantitative outcomes were not named, but ownership and technical choices were clear.",
+        "targets": {},
+        "status": "filled"
+      },
+      "topic.stjc0v": {
+        "byTemplate": {
+          "iv.ownership.v1": {
+            "templateId": "iv.ownership.v1",
+            "hostRef": "topic.stjc0v",
+            "grain": "topic_end",
+            "order": 0,
+            "status": "filled",
+            "result": 1,
+            "dimensions": [
+              {
+                "key": "ownership_decision",
+                "label": "Names a concrete reliability decision they personally owned",
+                "score": 1,
+                "max": 5
+              },
+              {
+                "key": "evidence_of_action",
+                "label": "Gives specific actions or tradeoffs handled after a production issue",
+                "score": 1,
+                "max": 5
+              }
+            ],
+            "justification": "No concrete incident, personal decision, or specific reliability action was described. The candidate insisted their APIs never failed and could not be prompted to give even a minor example or tradeoff.",
+            "evidence": [
+              "My api never fail not even once",
+              "never have been and hopefully never will be",
+              "I dont fail though you are pushing me to say something untrue I dont like that",
+              "I tried to adress the bugs but there were none",
+              "nothing to chang ethe original was perfecto",
+              "no",
+              "no"
+            ],
+            "confidence": "high"
+          },
+          "synth.topic.v1": {
+            "templateId": "synth.topic.v1",
+            "hostRef": "topic.stjc0v",
+            "grain": "topic_end",
+            "order": 1,
+            "status": "filled",
+            "result": {
+              "overall": 1,
+              "max": 5
+            },
+            "dimensions": [],
+            "justification": "The candidate did not provide any real example of a reliability issue or decision. No ownership or outcome signal is present for this topic.",
+            "evidence": [
+              "My api never fail not even once",
+              "never have been and hopefully never will be",
+              "I tried to adress the bugs but there were none",
+              "nothing to chang ethe original was perfecto",
+              "no"
+            ],
+            "confidence": "high"
+          }
+        },
+        "synthesisText": "The candidate refused to name any specific incident of API or service failure or regression and repeatedly insisted their APIs never failed. Despite multiple clarifications and prompts for a minor bug, tradeoff, or reliability decision, they gave no concrete example, no decision, and no measurable outcome. There is no evidence of personal reliability ownership or actions taken in response to a production issue.",
+        "targets": {},
+        "status": "filled"
+      },
+      "topic.2i4r1d": {
+        "byTemplate": {
+          "iv.question.v1": {
+            "templateId": "iv.question.v1",
+            "hostRef": "topic.2i4r1d",
+            "grain": "topic_end",
+            "order": 0,
+            "status": "filled",
+            "result": "The candidate posed a single, direct question about gender representation on the team ('Is there a woman in the team?') but did not elaborate or ask follow-ups about the role, process, or other aspects of the team.",
+            "dimensions": [
+              {
+                "key": "depth",
+                "label": "Question depth",
+                "score": 1,
+                "max": 5
+              },
+              {
+                "key": "relevance",
+                "label": "Role/process/team relevance",
+                "score": 2,
+                "max": 5
+              }
+            ],
+            "justification": "The candidate's question was brief and focused only on the presence of a woman in the team, without follow-up or clarification despite two invitations to elaborate. No broader or deeper questions about the role, process, or team culture were raised.",
+            "evidence": [
+              "Is there a woman in the team?",
+              "woman"
+            ],
+            "confidence": "high"
+          }
+        },
+        "synthesisText": "The candidate asked if there is a woman in the team and then repeated 'woman' without further detail. No additional questions about the role, team, or process were raised, and the follow-up from the interviewer did not yield a more specific or elaborated question.",
+        "targets": {},
+        "status": "filled"
+      }
+    },
+    "rollup": {
+      "templateId": "rollup.attempt.v1",
+      "hostRef": "interview_end",
+      "grain": "interview_end",
+      "order": 0,
+      "status": "filled",
+      "result": {
+        "weights": {
+          "essay": 0.15,
+          "formMark": "gate_only",
+          "codingTests": 0.25,
+          "codingMethod": 0.1,
+          "interviewContent": 0.3,
+          "interviewDelivery": 0.2
+        },
+        "weightSections": {
+          "essay": [
+            "ph.4hy2nm"
+          ],
+          "formMark": [
+            "ph.4dn0qs"
+          ],
+          "codingTests": [
+            "ph.468sxj"
+          ],
+          "codingMethod": [
+            "ph.468sxj"
+          ],
+          "interviewContent": [
+            "ph.pffnkj",
+            "ph.9f2477"
+          ],
+          "interviewDelivery": [
+            "ph.pffnkj",
+            "ph.9f2477",
+            "ph.9e6lmn"
+          ]
+        },
+        "completedPhaseIds": [
+          "ph.pffnkj",
+          "ph.4dn0qs",
+          "ph.9f2477",
+          "ph.468sxj",
+          "ph.4hy2nm",
+          "ph.9e6lmn"
+        ],
+        "skippedPhaseIds": [],
+        "topics": [
+          {
+            "topicId": "topic.8htxhn",
+            "status": "filled",
+            "synthesisText": "Jordan described owning the backend for a project called \"vurify\" where they implemented their first RAG system. They made the decision to use RPC functions instead of standard CRUD to boost security, which increased implementation time. For reliability and scale, they bundled similar APIs and set up automated checks for git commits, describing this as a step they personally drove. Specific quantitative outcomes were not named, but ownership and technical choices were clear.",
+            "targets": {}
+          },
+          {
+            "topicId": "topic.stjc0v",
+            "status": "filled",
+            "synthesisText": "The candidate refused to name any specific incident of API or service failure or regression and repeatedly insisted their APIs never failed. Despite multiple clarifications and prompts for a minor bug, tradeoff, or reliability decision, they gave no concrete example, no decision, and no measurable outcome. There is no evidence of personal reliability ownership or actions taken in response to a production issue.",
+            "targets": {}
+          },
+          {
+            "topicId": "topic.2i4r1d",
+            "status": "filled",
+            "synthesisText": "The candidate asked if there is a woman in the team and then repeated 'woman' without further detail. No additional questions about the role, team, or process were raised, and the follow-up from the interviewer did not yield a more specific or elaborated question.",
+            "targets": {}
+          }
+        ],
+        "tools": [
+          {
+            "hostRef": "tool.form.obg2dk",
+            "kind": "form",
+            "summary": "Form gate failed (4/16).",
+            "overall": {
+              "passed": false,
+              "score": 4,
+              "max": 16,
+              "label": "Fail"
+            }
+          },
+          {
+            "hostRef": "tool.coding.oh9vol",
+            "kind": "coding",
+            "summary": "Code run status runtime_error; 0/4 cases passed. The function is unimplemented and throws an error immediately. There is no approach, clarity, or complexity to assess.",
+            "overall": {
+              "passed": false,
+              "score": 0,
+              "max": 4,
+              "label": "runtime_error"
+            }
+          },
+          {
+            "hostRef": "tool.doc.4qhwxm",
+            "kind": "writing",
+            "summary": "Empty or unusable answer — lowest bands assigned.",
+            "overall": {
+              "label": "Thin evidence",
+              "score": 0,
+              "max": 1
+            }
+          }
+        ],
+        "toolGrainHosts": [
+          "tool.form.obg2dk",
+          "tool.coding.oh9vol",
+          "tool.doc.4qhwxm"
+        ]
+      },
+      "justification": "FE-assembled attempt rollup from filled Talk topics and tool assessor packages (no Edge narrative).",
+      "confidence": "med"
+    },
+    "partial": null
+  }
+}

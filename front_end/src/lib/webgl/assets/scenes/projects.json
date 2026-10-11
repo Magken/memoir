@@ -1,0 +1,192 @@
+{
+  "id": "projects",
+  "label": "Projects",
+  "notes": "Projects scene at `/` under About. Places the Statue of an Owl at identity and Projects on the copied Object pose (double the copied 0.2 scale). Opens on the first Path still, holds, then cranes around the wing tip into Home (faster than landing). Text canvas is the copied scene session (`role: copy`); Home ↔ canvas is ViewpointFly. Owl inspect tags stay on the asset. Look matches landing (max Focus, tele 135 mm). ACM peek 0.3 locked around Home.",
+  "objects": [
+    {
+      "id": "owl",
+      "assetId": "statue-of-an-owl",
+      "notes": "Projects sculpture. Identity placement — GltfSubject normalize sits it on y=0.",
+      "position": [0, 0, 0],
+      "rotation": [0, 0, 0],
+      "scale": [1, 1, 1]
+    },
+    {
+      "id": "projects",
+      "assetId": "projects-letters",
+      "notes": "Copied Object gizmo pose (left of P). Scale 0.4. Lamps start dark.",
+      "position": [
+        -0.3822649780837591,
+        0.6675512542074619,
+        0.12646046741447522
+      ],
+      "rotation": [
+        0.1449574479411339,
+        -0.004861937698491539,
+        1.5375035708789702
+      ],
+      "scale": [0.4, 0.4, 0.4],
+      "lightGain": 0
+    }
+  ],
+  "camera": {
+    "homeFromAsset": "statue-of-an-owl",
+    "position": [
+      0.49931829332721644,
+      0.43782871957531,
+      1.4953581871696315
+    ],
+    "target": [
+      0.1361769368019713,
+      0.7439689339856105,
+      -0.08254764360960437
+    ],
+    "orbit": {
+      "azimuth": 0.22620261914845075,
+      "polar": 1.7576646016364943,
+      "radius": 1.6478410986819363
+    },
+    "up": [0, 1, 0],
+    "quaternion": [
+      0.09270215564373084,
+      0.11236805995231465,
+      -0.010529671730389392,
+      0.9892769356731252
+    ],
+    "look": {
+      "focus": 1,
+      "focalLength": 135,
+      "focalDistance": 0,
+      "noise": "off",
+      "grain": 0
+    },
+    "acm": {
+      "intensity": 0.3,
+      "lock": true
+    }
+  },
+  "view": {
+    "lightColor": "#f2c48a",
+    "meshColor": "#000000",
+    "lightGain": 0.05,
+    "scatter": 1.5
+  },
+  "viewpoints": [
+    {
+      "id": "scene-pointer",
+      "label": "Scene pointer",
+      "notes": "Copied Projects pin (left of P). Selecting it looks at that origin from Home.",
+      "position": [
+        -0.3822649780837591,
+        0.6675512542074619,
+        0.12646046741447522
+      ],
+      "camera": [
+        0.49931829332721644,
+        0.43782871957531,
+        1.4953581871696315
+      ],
+      "target": [
+        -0.3822649780837591,
+        0.6675512542074619,
+        0.12646046741447522
+      ],
+      "up": [0, 1, 0]
+    },
+    {
+      "id": "entrance-start",
+      "label": "Entrance start",
+      "notes": "Copied first Path still. The load crane holds here, then around the wing into Home.",
+      "position": [
+        0.1361769368019713,
+        0.7439689339856105,
+        -0.08254764360960437
+      ],
+      "camera": [
+        -0.6290064823287489,
+        1.9877099976307737,
+        -0.8422816535981716
+      ],
+      "target": [
+        0.1361769368019713,
+        0.7439689339856105,
+        -0.08254764360960437
+      ],
+      "orbit": {
+        "azimuth": -2.352620928869524,
+        "polar": 0.7142639647955421,
+        "radius": 1.6460842214914428
+      },
+      "up": [0, 1, 0]
+    },
+    {
+      "id": "text-canvas",
+      "label": "Text canvas",
+      "notes": "Copy-role shot from the copied scene session. Independently triggerable from Home. Pin is the copied look-at.",
+      "role": "copy",
+      "position": [
+        -0.6954732019277611,
+        0.7975827511665435,
+        1.0935596192204107
+      ],
+      "camera": [
+        0.9448127627834094,
+        0.35000190304965967,
+        1.7060992433488098
+      ],
+      "target": [
+        -0.6954732019277611,
+        0.7975827511665435,
+        1.0935596192204107
+      ],
+      "orbit": {
+        "azimuth": 1.2133987191216105,
+        "polar": 1.8210622310457314,
+        "radius": 1.8072275597602105
+      },
+      "up": [0, 1, 0]
+    }
+  ],
+  "transitions": [],
+  "cameraMotions": [
+    {
+      "id": "back-to-front",
+      "label": "Back to front",
+      "notes": "Hold on the first Path still, then one smooth crane around the wing tip into Home. Second still is the linger and cage poke. A little faster than landing so the linger does not drag. End is scene Home — do not add Home as a waypoint.",
+      "kind": "boom-arc",
+      "from": "entrance-start",
+      "to": "home",
+      "duration": 3.2,
+      "hold": 0.4,
+      "slowMoAt": 0.5,
+      "impulseAt": 0.5,
+      "playOnLoad": true,
+      "waypoints": [
+        {
+          "target": [
+            0.1361769368019713,
+            0.7439689339856105,
+            -0.08254764360960437
+          ],
+          "orbit": {
+            "azimuth": -2.352620928869524,
+            "polar": 0.7142639647955421,
+            "radius": 1.6460842214914428
+          }
+        },
+        {
+          "target": [
+            0.09906108702372762,
+            0.8032553998222121,
+            -0.04824863321286199
+          ],
+          "orbit": {
+            "azimuth": 1.6663534567880078,
+            "polar": 0.6327525787349001,
+            "radius": 1.1377897318466366
+          }
+        }
+      ]
+    }
+  ]
+}

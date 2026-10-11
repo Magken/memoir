@@ -1,0 +1,227 @@
+/**
+ * Extruded 3D type — stacked translateZ layers (ref.text-shaped-1).
+ * [ExtrudedType.tsx](../../components/ExtrudedType.tsx)
+ */
+
+@property --extruded-rx {
+  syntax: '<angle>';
+  inherits: true;
+  initial-value: 0deg;
+}
+
+@property --extruded-ry {
+  syntax: '<angle>';
+  inherits: true;
+  initial-value: 0deg;
+}
+
+@property --extruded-rz {
+  syntax: '<angle>';
+  inherits: true;
+  initial-value: 0deg;
+}
+
+@property --extruded-skew-x {
+  syntax: '<angle>';
+  inherits: true;
+  initial-value: 0deg;
+}
+
+@property --extruded-skew-y {
+  syntax: '<angle>';
+  inherits: true;
+  initial-value: 0deg;
+}
+
+@property --extruded-scale-x {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 1;
+}
+
+@property --extruded-scale-y {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 1;
+}
+
+@layer components {
+  .theme .theme-extruded-type {
+    --extruded-depth-step: 1.5;
+    --extruded-rx: 33deg;
+    --extruded-ry: 40deg;
+    --extruded-rz: 0deg;
+    --extruded-skew-x: 0deg;
+    --extruded-skew-y: 0deg;
+    --extruded-scale-x: 1;
+    --extruded-scale-y: 1;
+    position: relative;
+    width: 100%;
+    min-height: 12rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: none;
+  }
+
+  .theme .theme-extruded-type--sm {
+    min-height: 9rem;
+  }
+
+  .theme .theme-extruded-type--lg {
+    min-height: 15rem;
+  }
+
+  .theme .theme-extruded-type__stage {
+    position: relative;
+    width: min(100%, 28rem);
+    height: 11rem;
+    perspective: var(--extruded-perspective, 9999px);
+    perspective-origin: 50% 42%;
+    transform-style: preserve-3d;
+  }
+
+  .theme .theme-extruded-type--wall .theme-extruded-type__stage {
+    perspective-origin: 50% 50%;
+  }
+
+  .theme .theme-extruded-type--spread-skew .theme-extruded-type__stage {
+    perspective-origin: 50% 46%;
+  }
+
+  .theme .theme-extruded-type--sm .theme-extruded-type__stage {
+    height: 8rem;
+  }
+
+  .theme .theme-extruded-type--lg .theme-extruded-type__stage {
+    height: 13rem;
+  }
+
+  .theme .theme-extruded-type__stack {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    transform:
+      rotateX(var(--extruded-rx))
+      rotateY(var(--extruded-ry))
+      rotateZ(var(--extruded-rz))
+      skewX(var(--extruded-skew-x))
+      skewY(var(--extruded-skew-y))
+      scaleX(var(--extruded-scale-x))
+      scaleY(var(--extruded-scale-y));
+  }
+
+  .theme .theme-extruded-type--animate .theme-extruded-type__stack {
+    animation: theme-extruded-type-wobble 5s infinite alternate ease-in-out -7.5s;
+  }
+
+  .theme .theme-extruded-type--pointer .theme-extruded-type__stack {
+    animation: none;
+    transition:
+      transform 0.12s ease-out,
+      --extruded-rx 0.12s ease-out,
+      --extruded-ry 0.12s ease-out,
+      --extruded-rz 0.12s ease-out,
+      --extruded-skew-x 0.12s ease-out,
+      --extruded-skew-y 0.12s ease-out,
+      --extruded-scale-x 0.12s ease-out,
+      --extruded-scale-y 0.12s ease-out;
+  }
+
+  .theme .theme-extruded-type__layer {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 1.25rem;
+    transform-style: preserve-3d;
+    transform: translateZ(calc(var(--layer-index) * var(--extruded-depth-step) * -1px));
+    pointer-events: none;
+  }
+
+  .theme .theme-extruded-type__text {
+    white-space: pre;
+    text-align: center;
+    line-height: 0.9;
+    font-family: var(--font-display), serif;
+    font-weight: 600;
+    color: transparent;
+    -webkit-text-stroke: 0 transparent;
+    text-shadow: 4px 0 10px color-mix(in srgb, var(--theme-shadow) 18%, transparent);
+  }
+
+  .theme .theme-extruded-type--sm .theme-extruded-type__text {
+    font-size: clamp(2.4rem, 8vw, 3.4rem);
+  }
+
+  .theme .theme-extruded-type--md .theme-extruded-type__text {
+    font-size: clamp(3rem, 10vw, 4.6rem);
+  }
+
+  .theme .theme-extruded-type--lg .theme-extruded-type__text {
+    font-size: clamp(3.4rem, 11vw, 5.4rem);
+  }
+
+  .theme .theme-extruded-type__layer:first-child .theme-extruded-type__text {
+    color: var(--theme-fg);
+    -webkit-text-stroke: 0;
+    text-shadow: none;
+  }
+
+  .theme .theme-extruded-type__layer:nth-child(n + 10) .theme-extruded-type__text {
+    -webkit-text-stroke: 2px color-mix(in srgb, var(--theme-shadow) 28%, transparent);
+  }
+
+  .theme .theme-extruded-type__layer:nth-child(n + 11) .theme-extruded-type__text {
+    -webkit-text-stroke: 10px color-mix(in srgb, var(--theme-accent) 55%, var(--theme-surface));
+    text-shadow:
+      5px 0 6px color-mix(in srgb, var(--theme-accent) 35%, transparent),
+      4px 4px 4px color-mix(in srgb, var(--theme-shadow) 40%, transparent);
+  }
+
+  .theme .theme-extruded-type__layer:nth-child(n + 12) .theme-extruded-type__text {
+    -webkit-text-stroke: 10px color-mix(in srgb, var(--theme-accent) 78%, var(--theme-surface));
+  }
+
+  .theme .theme-extruded-type__layer:last-child .theme-extruded-type__text {
+    -webkit-text-stroke: 12px color-mix(in srgb, var(--theme-shadow) 14%, transparent);
+  }
+
+  .theme .theme-extruded-type--reduced .theme-extruded-type__stack {
+    animation: none;
+  }
+
+  .theme .theme-extruded-type--reduced .theme-extruded-type__layer:not(:first-child) {
+    visibility: hidden;
+  }
+
+  .theme .theme-extruded-type-suite__panel {
+    padding: 1rem;
+    border-radius: var(--theme-radius-control);
+    background: linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--theme-accent) 16%, var(--theme-surface)),
+      color-mix(in srgb, var(--theme-surface-raised) 88%, var(--theme-accent) 8%)
+    );
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--theme-border-strong) 28%, transparent);
+  }
+
+  @keyframes theme-extruded-type-wobble {
+    100% {
+      --extruded-rx: var(--extruded-rx-to);
+      --extruded-ry: var(--extruded-ry-to);
+      --extruded-rz: var(--extruded-rz-to);
+      --extruded-skew-x: var(--extruded-skew-x-to);
+      --extruded-skew-y: var(--extruded-skew-y-to);
+      --extruded-scale-x: var(--extruded-scale-x-to);
+      --extruded-scale-y: var(--extruded-scale-y-to);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-extruded-type--animate .theme-extruded-type__stack {
+      animation: none;
+    }
+  }
+}

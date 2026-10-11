@@ -1,0 +1,505 @@
+/**
+ * Straight + mini + nano + hidden scroll rails — curved rail lives in rounded-scroll.css.
+ * Host: .theme-scroll[data-scroll-rail] · viewport: .theme-scroll__viewport
+ */
+
+@layer components {
+  .theme .theme-scroll {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    width: 100%;
+  }
+
+  .theme .theme-scroll--horizontal {
+    flex-direction: row;
+    min-width: 0;
+  }
+
+  .theme .theme-scroll__viewport {
+    flex: 1 1 auto;
+    min-height: 0;
+    min-width: 0;
+    overflow: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .theme .theme-scroll--horizontal .theme-scroll__viewport {
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .theme .theme-scroll--horizontal .theme-scroll__content {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    width: max-content;
+    min-height: 0;
+  }
+
+  /* Page-shell Lenis content — wraps scene surface so element Lenis has a stable child. */
+  .theme .theme-scroll__content--smooth {
+    display: block;
+    width: 100%;
+    min-height: min-content;
+  }
+
+  /* Hidden — scrollable, no visible rail */
+  .theme .theme-scroll[data-scroll-rail='hidden'] .theme-scroll__viewport {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .theme .theme-scroll[data-scroll-rail='hidden'] .theme-scroll__viewport::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+    background: transparent;
+  }
+
+  /* Straight + hidden — slim content inset (not curved SVG track reserve) */
+  .theme .theme-scroll[data-scroll-rail='straight'],
+  .theme .theme-scroll[data-scroll-rail='hidden'] {
+    --theme-straight-scroll-edge: calc(0.22rem * var(--theme-menu-scale, 1));
+  }
+
+  /* Straight — themed native bar (matches scrollbar.css page / nested tokens) */
+  .theme .theme-scroll[data-scroll-rail='straight'] {
+    --theme-straight-scroll-size: 8px;
+    --theme-straight-scroll-track: var(--theme-surface-inset);
+    --theme-straight-scroll-thumb: color-mix(
+      in srgb,
+      var(--theme-accent) 35%,
+      var(--theme-border-strong)
+    );
+  }
+
+  /* Mini — hairline straight bar (no curved mechanics); minimal inset for compact cards */
+  .theme .theme-scroll[data-scroll-rail='mini'] {
+    --theme-straight-scroll-edge: calc(0.06rem * var(--theme-menu-scale, 1));
+    --theme-straight-scroll-size: 2px;
+    --theme-straight-scroll-track: transparent;
+    --theme-straight-scroll-thumb: color-mix(
+      in srgb,
+      var(--theme-accent) 22%,
+      var(--theme-border-strong)
+    );
+  }
+
+  /* Nano — 1px overlay bar: gutter always reserved so hover only reveals the thumb (no layout shift) */
+  .theme .theme-scroll[data-scroll-rail='nano'] {
+    --theme-straight-scroll-edge: 0;
+    --theme-straight-scroll-size: 1px;
+    --theme-straight-scroll-track: transparent;
+    --theme-straight-scroll-thumb: color-mix(
+      in srgb,
+      var(--theme-accent) 14%,
+      var(--theme-border-strong)
+    );
+    --theme-straight-scroll-thumb-active: color-mix(
+      in srgb,
+      var(--theme-accent) 40%,
+      var(--theme-border-strong)
+    );
+  }
+
+  .theme .theme-scroll[data-scroll-rail='straight'] .theme-scroll__viewport {
+    scrollbar-width: thin;
+    scrollbar-color: var(--theme-straight-scroll-thumb) var(--theme-straight-scroll-track);
+  }
+
+  .theme .theme-scroll[data-scroll-rail='mini'] .theme-scroll__viewport {
+    scrollbar-width: thin;
+    scrollbar-color: var(--theme-straight-scroll-thumb) transparent;
+  }
+
+  .theme .theme-scroll[data-scroll-rail='nano'] .theme-scroll__viewport {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+  }
+
+  .theme
+    .theme-scroll[data-scroll-rail='nano']:is(:hover, :focus-within)
+    .theme-scroll__viewport {
+    scrollbar-color: var(--theme-straight-scroll-thumb) transparent;
+  }
+
+  .theme
+    .theme-scroll:is([data-scroll-rail='straight'], [data-scroll-rail='mini'], [data-scroll-rail='hidden']):not(.theme-scroll--horizontal)
+    .theme-scroll__viewport {
+    padding-inline-end: var(--theme-straight-scroll-edge);
+  }
+
+  .theme
+    .theme-scroll--horizontal:is([data-scroll-rail='straight'], [data-scroll-rail='mini'], [data-scroll-rail='hidden'])
+    .theme-scroll__viewport {
+    padding-block-end: var(--theme-straight-scroll-edge);
+  }
+
+  .theme
+    .theme-scroll:is([data-scroll-rail='straight'], [data-scroll-rail='mini'], [data-scroll-rail='hidden'])
+    .theme-scroll__viewport::-webkit-scrollbar {
+    width: var(--theme-straight-scroll-size);
+    height: var(--theme-straight-scroll-size);
+  }
+
+  .theme .theme-scroll[data-scroll-rail='nano'] .theme-scroll__viewport::-webkit-scrollbar {
+    width: var(--theme-straight-scroll-size);
+    height: var(--theme-straight-scroll-size);
+    background: transparent;
+  }
+
+  .theme
+    .theme-scroll:is([data-scroll-rail='straight'], [data-scroll-rail='mini'])
+    .theme-scroll__viewport::-webkit-scrollbar-track {
+    background: var(--theme-straight-scroll-track);
+  }
+
+  .theme .theme-scroll[data-scroll-rail='nano'] .theme-scroll__viewport::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .theme
+    .theme-scroll[data-scroll-rail='straight']:not(.theme-scroll--horizontal)
+    .theme-scroll__viewport::-webkit-scrollbar-track {
+    border-inline-start: 1px solid var(--theme-border);
+  }
+
+  .theme
+    .theme-scroll--horizontal[data-scroll-rail='straight']
+    .theme-scroll__viewport::-webkit-scrollbar-track {
+    border-block-start: 1px solid var(--theme-border);
+  }
+
+  .theme .theme-scroll[data-scroll-rail='straight'] .theme-scroll__viewport::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+      180deg,
+      var(--theme-border-strong) 0%,
+      var(--theme-straight-scroll-thumb) 100%
+    );
+    border: 2px solid var(--theme-straight-scroll-track);
+    border-radius: 2px;
+  }
+
+  .theme
+    .theme-scroll--horizontal[data-scroll-rail='straight']
+    .theme-scroll__viewport::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+      90deg,
+      var(--theme-border-strong) 0%,
+      var(--theme-straight-scroll-thumb) 100%
+    );
+  }
+
+  /* Mini thumb — hairline pill; no border or gradient */
+  .theme .theme-scroll[data-scroll-rail='mini'] .theme-scroll__viewport::-webkit-scrollbar-thumb {
+    background: var(--theme-straight-scroll-thumb);
+    border: 0;
+    border-radius: 999px;
+    min-height: 1.5rem;
+  }
+
+  /* Nano thumb — overlay pill; fades in when the host is hovered or focused */
+  .theme .theme-scroll[data-scroll-rail='nano'] .theme-scroll__viewport::-webkit-scrollbar-thumb {
+    background: transparent;
+    border: 0;
+    border-radius: 999px;
+    min-height: 1.25rem;
+    transition: background 0.18s ease;
+  }
+
+  .theme
+    .theme-scroll[data-scroll-rail='nano']:is(:hover, :focus-within)
+    .theme-scroll__viewport::-webkit-scrollbar-thumb {
+    background: var(--theme-straight-scroll-thumb);
+  }
+
+  .theme
+    .theme-scroll[data-scroll-rail='nano']:is(:hover, :focus-within)
+    .theme-scroll__viewport::-webkit-scrollbar-thumb:hover {
+    background: var(--theme-straight-scroll-thumb-active);
+  }
+
+  .theme
+    .theme-scroll[data-scroll-rail='straight']
+    .theme-scroll__viewport::-webkit-scrollbar-thumb:hover {
+    background: var(--theme-accent);
+    border-color: var(--theme-straight-scroll-track);
+  }
+
+  .theme
+    .theme-scroll[data-scroll-rail='mini']
+    .theme-scroll__viewport::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in srgb, var(--theme-accent) 55%, var(--theme-border-strong));
+    border-color: transparent;
+  }
+
+  .theme .theme-card--scroll .theme-scroll,
+  .theme .theme-card--scroll .theme-rounded-scroll {
+    flex: 1 1 auto;
+    align-self: stretch;
+    min-height: 0;
+    height: 100%;
+  }
+
+  .theme .theme-card--scroll .theme-scroll__viewport {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
+    height: 100%;
+  }
+
+  .theme .theme-card--scroll .theme-rounded-scroll__viewport {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
+    height: 100%;
+  }
+
+  /* Card scroll shell — shared by curved, straight, and hidden */
+  .theme .theme-card--scroll:not(.theme-card--scroll--horizontal) {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+    height: clamp(18.75rem, 50vmin, 26rem);
+    min-height: clamp(16rem, 42vmin, 22rem);
+    max-height: clamp(18.75rem, 50vmin, 26rem);
+  }
+
+  .theme .theme-card--scroll.theme-card--scroll--horizontal {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+    min-height: 0;
+    max-height: none;
+  }
+
+  .theme .theme-card--scroll:focus-within {
+    outline: none;
+  }
+
+  .theme .theme-card--scroll .theme-scroll__viewport:focus-visible,
+  .theme .theme-card--scroll .theme-rounded-scroll__viewport:focus-visible {
+    outline: 2px solid var(--theme-focus);
+    outline-offset: -2px;
+  }
+
+  .theme .theme-card--scroll .theme-card__content {
+    padding: 1.25rem;
+    padding-block-end: 1.25rem;
+    min-height: min-content;
+  }
+
+  .theme .theme-card--scroll .theme-card__body > :not(:last-child) {
+    margin-bottom: 1.25rem;
+  }
+
+  .theme .theme-card--scroll.theme-card--scroll--horizontal {
+    min-height: 0;
+    max-height: none;
+  }
+
+  .theme .theme-card--scroll--horizontal .theme-scroll,
+  .theme .theme-card--scroll--horizontal .theme-rounded-scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .theme .theme-card--scroll--horizontal .theme-card__content {
+    display: contents;
+    padding: 0;
+    min-height: 0;
+  }
+
+  .theme .theme-card--scroll--horizontal .theme-card__body {
+    display: contents;
+  }
+
+  .theme .theme-card--scroll--horizontal .theme-card__body > :not(:last-child) {
+    margin-bottom: 0;
+  }
+
+  .theme .theme-card--scroll--horizontal .theme-scroll__content,
+  .theme .theme-card--scroll--horizontal .theme-rounded-scroll__content {
+    gap: 1rem;
+    padding: 0.625rem 1rem 0;
+  }
+
+  .theme .theme-card--scroll--horizontal .theme-card__scroll-panel {
+    padding-bottom: 0.25rem;
+  }
+
+  /* Scroll edge clouds — `scrollClouds` / `theme-scroll--clouds`
+   * Paint via `--theme-scroll-fade` (host panel fill). Never hardcode white/page-bg. */
+  .theme .theme-card--scroll-clouds {
+    --theme-scroll-cloud-color: var(--theme-scroll-fade);
+    --theme-scroll-cloud-size: 2.75rem;
+    --theme-scroll-cloud-edge-leeway: 0.1;
+    --theme-rounded-scroll-cloud-color: var(--theme-scroll-cloud-color);
+    --theme-rounded-scroll-cloud-size: var(--theme-scroll-cloud-size);
+    --theme-rounded-scroll-cloud-edge-leeway: var(--theme-scroll-cloud-edge-leeway);
+  }
+
+  /* Curved rail hosts — sync rounded-scroll cloud tokens with ThemeScroll clouds */
+  .theme .theme-rounded-scroll.theme-scroll--clouds {
+    --theme-rounded-scroll-cloud-color: var(--theme-scroll-cloud-color, var(--theme-scroll-fade));
+    --theme-rounded-scroll-cloud-size: var(--theme-scroll-cloud-size);
+    --theme-rounded-scroll-cloud-edge-leeway: var(--theme-scroll-cloud-edge-leeway);
+  }
+
+  /* Horizontal menu bar — fade matches `.theme-hmenu__bar` fill */
+  .theme .theme-hmenu__bar-scroll.theme-scroll--clouds {
+    --theme-scroll-cloud-color: var(--theme-scroll-fade);
+  }
+
+  .theme .theme-scroll--clouds {
+    position: relative;
+    overflow: hidden;
+    --theme-scroll-cloud-color: var(--theme-scroll-fade);
+    --theme-scroll-cloud-size: 2.75rem;
+    --theme-scroll-cloud-edge-leeway: 0.1;
+    --theme-scroll-cloud-z: 4;
+  }
+
+  .theme .theme-scroll--clouds .theme-scroll__cloud {
+    position: absolute;
+    z-index: var(--theme-scroll-cloud-z);
+    display: none;
+    pointer-events: none;
+  }
+
+  .theme .theme-scroll--clouds[data-scroll-at-start='true'] .theme-scroll__cloud--start,
+  .theme .theme-scroll--clouds[data-scroll-at-end='true'] .theme-scroll__cloud--end {
+    display: none;
+  }
+
+  .theme
+    .theme-scroll--clouds[data-scroll-overflow='true']:not([data-scroll-at-start='true'])
+    .theme-scroll__cloud--start {
+    display: block;
+  }
+
+  .theme
+    .theme-scroll--clouds[data-scroll-overflow='true']:not([data-scroll-at-end='true'])
+    .theme-scroll__cloud--end {
+    display: block;
+  }
+
+  .theme .theme-scroll--clouds[data-scroll-axis='vertical'] .theme-scroll__cloud--start {
+    top: 0;
+    right: 0;
+    left: 0;
+    height: var(--theme-scroll-cloud-size);
+    background: linear-gradient(
+      to bottom,
+      var(--theme-scroll-cloud-color) 0%,
+      color-mix(in srgb, var(--theme-scroll-cloud-color) 45%, transparent) 52%,
+      transparent 100%
+    );
+  }
+
+  .theme .theme-scroll--clouds[data-scroll-axis='vertical'] .theme-scroll__cloud--end {
+    bottom: 0;
+    right: 0;
+    left: 0;
+    height: var(--theme-scroll-cloud-size);
+    background: linear-gradient(
+      to top,
+      var(--theme-scroll-cloud-color) 0%,
+      color-mix(in srgb, var(--theme-scroll-cloud-color) 45%, transparent) 52%,
+      transparent 100%
+    );
+  }
+
+  .theme .theme-scroll--clouds[data-scroll-axis='horizontal'] .theme-scroll__cloud--start {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: var(--theme-scroll-cloud-size);
+    background: linear-gradient(
+      to right,
+      var(--theme-scroll-cloud-color) 0%,
+      color-mix(in srgb, var(--theme-scroll-cloud-color) 45%, transparent) 52%,
+      transparent 100%
+    );
+  }
+
+  .theme .theme-scroll--clouds[data-scroll-axis='horizontal'] .theme-scroll__cloud--end {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: var(--theme-scroll-cloud-size);
+    background: linear-gradient(
+      to left,
+      var(--theme-scroll-cloud-color) 0%,
+      color-mix(in srgb, var(--theme-scroll-cloud-color) 45%, transparent) 52%,
+      transparent 100%
+    );
+  }
+
+  .theme
+    .theme-scroll[data-scroll-rail='mini']
+    .theme-scroll__viewport::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in srgb, var(--theme-accent) 55%, var(--theme-border-strong));
+    border-color: transparent;
+  }
+
+  /* Menu dropdown — straight/hidden/nano: slim or zero edge inset */
+  .theme .theme-menu__panel .theme-menu__scroll[data-scroll-rail='straight'] .theme-scroll__viewport,
+  .theme .theme-menu__panel .theme-menu__scroll[data-scroll-rail='hidden'] .theme-scroll__viewport,
+  .theme .theme-menu__panel .theme-menu__scroll[data-scroll-rail='nano'] .theme-scroll__viewport {
+    flex: 1 1 auto;
+    min-height: 0;
+    height: auto;
+    max-height: var(--theme-menu-scroll-max-height);
+  }
+
+  .theme
+    .theme-menu__panel
+    .theme-menu__scroll[data-scroll-rail='straight']
+    .theme-scroll__viewport:focus-visible,
+  .theme
+    .theme-menu__panel
+    .theme-menu__scroll[data-scroll-rail='hidden']
+    .theme-scroll__viewport:focus-visible,
+  .theme
+    .theme-menu__panel
+    .theme-menu__scroll[data-scroll-rail='nano']
+    .theme-scroll__viewport:focus-visible {
+    outline: 2px solid var(--theme-focus);
+    outline-offset: -2px;
+  }
+
+  /* Horizontal menu bar — straight / hidden / curved hosts */
+  .theme .theme-hmenu--bar-scroll .theme-hmenu__bar--scroll .theme-hmenu__bar-scroll.theme-scroll {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .theme
+    .theme-hmenu--bar-scroll
+    .theme-hmenu__bar--scroll
+    .theme-hmenu__bar-scroll.theme-scroll--horizontal
+    .theme-scroll__viewport {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-x: auto;
+    /* overflow-y owned by horizontal-menu.css (visible — bar hover-lift must not clip) */
+  }
+
+  /* Row layout + edge spacers: horizontal-menu.css `.theme-hmenu__bar-scroll-content` */
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-scroll__viewport {
+      scroll-behavior: auto;
+    }
+  }
+}

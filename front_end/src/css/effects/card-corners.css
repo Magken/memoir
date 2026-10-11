@@ -1,0 +1,109 @@
+/**
+ * Card corner geometry — CSS Borders 4 `corner-shape` + `border-radius` (rect cards).
+ * Shadows and borders follow the shaped corner natively — no clip-path masks.
+ * @see https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/corner-shape
+ */
+
+@layer components {
+  .theme .theme-card--shape-rect {
+    --theme-card-radius-tl: var(--theme-radius-surface);
+    --theme-card-radius-tr: var(--theme-radius-surface);
+    --theme-card-radius-br: var(--theme-radius-surface);
+    --theme-card-radius-bl: var(--theme-radius-surface);
+    --theme-card-corner-tl: square;
+    --theme-card-corner-tr: square;
+    --theme-card-corner-br: square;
+    --theme-card-corner-bl: square;
+    border-radius: var(--theme-card-radius-tl) var(--theme-card-radius-tr)
+      var(--theme-card-radius-br) var(--theme-card-radius-bl);
+  }
+
+  @supports (corner-shape: round) {
+    .theme .theme-card--shape-rect {
+      corner-shape: var(--theme-card-corner-tl) var(--theme-card-corner-tr)
+        var(--theme-card-corner-br) var(--theme-card-corner-bl);
+    }
+  }
+
+  .theme .theme-card--corner-sharp {
+    --theme-card-radius-tl: 0;
+    --theme-card-radius-tr: 0;
+    --theme-card-radius-br: 0;
+    --theme-card-radius-bl: 0;
+    --theme-card-corner-tl: square;
+    --theme-card-corner-tr: square;
+    --theme-card-corner-br: square;
+    --theme-card-corner-bl: square;
+  }
+
+  .theme .theme-card--corner-round {
+    /* Explicit size — defaults are sharp (`--theme-radius-control: 0`). */
+    --theme-card-radius-tl: 0.5rem;
+    --theme-card-radius-tr: 0.5rem;
+    --theme-card-radius-br: 0.5rem;
+    --theme-card-radius-bl: 0.5rem;
+    --theme-card-corner-tl: round;
+    --theme-card-corner-tr: round;
+    --theme-card-corner-br: round;
+    --theme-card-corner-bl: round;
+  }
+
+  .theme .theme-card--corner-soft {
+    --theme-card-radius-tl: 1rem;
+    --theme-card-radius-tr: 1rem;
+    --theme-card-radius-br: 1rem;
+    --theme-card-radius-bl: 1rem;
+    --theme-card-corner-tl: squircle;
+    --theme-card-corner-tr: squircle;
+    --theme-card-corner-br: squircle;
+    --theme-card-corner-bl: squircle;
+  }
+
+  .theme .theme-card--corner-asymmetric {
+    --theme-card-radius-tl: 0.125rem;
+    --theme-card-radius-tr: 0.75rem;
+    --theme-card-radius-br: 0.125rem;
+    --theme-card-radius-bl: 0.75rem;
+  }
+
+  .theme .theme-card--corner-tab {
+    --theme-card-radius-tl: 0.625rem;
+    --theme-card-radius-tr: 0.625rem;
+    --theme-card-radius-br: 0.125rem;
+    --theme-card-radius-bl: 0.125rem;
+  }
+
+  /* bevel = chamfer diagonal (superellipse(0)) — needs corner-size via border-radius */
+  .theme .theme-card--corner-chamfer {
+    --theme-card-radius-tl: 0.625rem;
+    --theme-card-radius-tr: 0.625rem;
+    --theme-card-radius-br: 0.625rem;
+    --theme-card-radius-bl: 0.625rem;
+    --theme-card-corner-tl: bevel;
+    --theme-card-corner-tr: bevel;
+    --theme-card-corner-br: bevel;
+    --theme-card-corner-bl: bevel;
+  }
+
+  .theme .theme-card--corner-notch {
+    --theme-card-radius-tl: 0.75rem;
+    --theme-card-radius-tr: 0.125rem;
+    --theme-card-radius-br: 0.125rem;
+    --theme-card-radius-bl: 0.125rem;
+    --theme-card-corner-tl: notch;
+  }
+
+  /* Browsers without corner-shape: chamfer/notch fall back to radius-only (no clip mask) */
+  @supports not (corner-shape: bevel) {
+    .theme .theme-card--corner-chamfer {
+      --theme-card-radius-tl: 0.375rem;
+      --theme-card-radius-tr: 0.375rem;
+      --theme-card-radius-br: 0.375rem;
+      --theme-card-radius-bl: 0.375rem;
+    }
+
+    .theme .theme-card--corner-notch {
+      --theme-card-radius-tl: 0.125rem;
+    }
+  }
+}

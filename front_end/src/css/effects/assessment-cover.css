@@ -1,0 +1,23 @@
+/**
+ * Extra-screen sitting cover — full viewport wall, no chrome.
+ */
+
+@layer components {
+  .theme .page-scene--assessment-cover {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100svh;
+    min-height: 100vh;
+    margin: 0;
+    padding: 1.5rem;
+    box-sizing: border-box;
+    background: var(--theme-page-bg);
+  }
+
+  .theme .page-scene--assessment-cover__line {
+    margin: 0;
+    color: var(--theme-text);
+    text-align: center;
+  }
+}

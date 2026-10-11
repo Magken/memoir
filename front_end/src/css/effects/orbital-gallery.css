@@ -1,0 +1,213 @@
+/**
+ * Orbital gallery — 3D CSS sphere photo grid with pan orbit.
+ * Ported from ref.image-carousel-4; theme tokens + bounded stage.
+ */
+
+@layer components {
+  .theme .theme-orbital-gallery {
+    position: relative;
+    width: 100%;
+  }
+
+  .theme .theme-orbital-gallery__root {
+    --orbital-segments-x: 37;
+    --orbital-segments-y: 37;
+    --orbital-stage-h: min(80vh, 40rem);
+    --orbital-tile-inset: 0.625rem;
+    --orbital-radius: max(1300px, 100vw);
+    --circ: calc(var(--orbital-radius) * 3.14);
+    --item-width: calc(var(--circ) / var(--orbital-segments-x));
+    --item-height: calc(var(--circ) / var(--orbital-segments-y));
+    --orbital-gradient-center: color-mix(in srgb, var(--theme-surface) 0%, transparent);
+    --orbital-gradient-edge: color-mix(in srgb, var(--theme-surface) 55%, transparent);
+    --orbital-item-bg: var(--theme-surface-inset);
+
+    position: relative;
+    width: 100%;
+    height: var(--orbital-stage-h);
+    overflow: hidden;
+    touch-action: none;
+    user-select: none;
+    cursor: grab;
+    border-radius: 0.125rem;
+    border: 2px solid var(--theme-border-strong);
+    background-color: var(--theme-surface);
+    box-shadow: var(--theme-shadow-brutal);
+  }
+
+  .theme .theme-orbital-gallery__root--dragging {
+    cursor: grabbing;
+  }
+
+  .theme .theme-orbital-gallery__root * {
+    touch-action: none;
+    transform-style: preserve-3d;
+  }
+
+  .theme .theme-orbital-gallery__stage {
+    position: absolute;
+    inset: 0;
+    perspective: calc(var(--orbital-radius) * 2);
+    perspective-origin: 50% 50%;
+    transform-style: preserve-3d;
+  }
+
+  .theme .theme-orbital-gallery__rig {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    transform-style: preserve-3d;
+  }
+
+  .theme .theme-orbital-gallery__sphere {
+    position: relative;
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+
+  .theme .theme-orbital-gallery__item {
+    width: calc(var(--item-width) * var(--item-size-x, 2));
+    height: calc(var(--item-height) * var(--item-size-y, 2));
+    position: absolute;
+    top: -999px;
+    right: -999px;
+    bottom: -999px;
+    left: -999px;
+    margin: auto;
+    transform-origin: 50% 50%;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    color: transparent;
+    pointer-events: none;
+  }
+
+  .theme .theme-orbital-gallery__tile-btn {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    appearance: none;
+    color: inherit;
+    transform-style: preserve-3d;
+    pointer-events: auto;
+  }
+
+  .theme .theme-orbital-gallery__tile-btn:focus-visible {
+    outline: 2px solid var(--theme-accent);
+    outline-offset: 2px;
+  }
+
+  .theme .theme-orbital-gallery--expanded-open .theme-orbital-gallery__root {
+    pointer-events: none;
+    cursor: default;
+  }
+
+  .theme .theme-orbital-gallery__tile {
+    position: absolute;
+    inset: var(--orbital-tile-inset);
+    pointer-events: none;
+  }
+
+  .theme .theme-orbital-gallery__tile .theme-orbital-gallery__card.theme-card {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 0.75rem;
+    pointer-events: none;
+  }
+
+  .theme .theme-orbital-gallery__tile .theme-card__content {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .theme .theme-orbital-gallery__tile .theme-card__bg {
+    object-fit: cover;
+  }
+
+  .theme .theme-orbital-gallery__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background-image: radial-gradient(
+      var(--orbital-gradient-center) 65%,
+      var(--orbital-gradient-edge) 100%
+    );
+  }
+
+  .theme .theme-orbital-gallery__overlay--blur {
+    mask-image: radial-gradient(var(--orbital-gradient-center) 70%, var(--orbital-gradient-edge) 90%);
+    backdrop-filter: blur(3px);
+  }
+
+  /* Center focus — off-center tiles desaturate / grey / shrink (ImageDragCarousel focusThin parity) */
+  @property --theme-orbital-focus {
+    syntax: '<number>';
+    inherits: false;
+    initial-value: 0;
+  }
+
+  .theme .theme-orbital-gallery__root--focus-thin .theme-orbital-gallery__tile {
+    transform-origin: center center;
+    opacity: calc(0.42 + 0.58 * var(--theme-orbital-focus, 0));
+    filter: saturate(calc(var(--theme-orbital-focus, 0)))
+      grayscale(calc(1 - var(--theme-orbital-focus, 0)));
+    transform: scale(calc(0.78 + 0.22 * var(--theme-orbital-focus, 0)));
+    transition:
+      opacity 0.2s ease-out,
+      filter 0.2s ease-out,
+      transform 0.2s ease-out;
+    will-change: opacity, filter, transform;
+  }
+
+  .theme .theme-orbital-gallery__root--focus-thin.theme-orbital-gallery__root--dragging
+    .theme-orbital-gallery__tile,
+  .theme .theme-orbital-gallery__root--focus-thin.theme-orbital-gallery__root--coasting
+    .theme-orbital-gallery__tile {
+    transition: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-orbital-gallery__root--focus-thin .theme-orbital-gallery__tile {
+      transition: none;
+    }
+  }
+
+  /* Bounded stage — ref `max(1300px, 100vw)` oversizes tiles on narrow viewports */
+  @media (max-width: 80rem) {
+    .theme .theme-orbital-gallery__root {
+      --orbital-radius: max(calc(var(--orbital-stage-h) * 3.25), 100vw);
+    }
+  }
+
+  @media (max-width: 48rem) {
+    .theme .theme-orbital-gallery__root {
+      --orbital-radius: max(calc(var(--orbital-stage-h) * 2.9), 100vw);
+      --orbital-tile-inset: clamp(0.55rem, 3.2vw, 0.85rem);
+    }
+
+    .theme .theme-orbital-gallery__tile .theme-orbital-gallery__card.theme-card {
+      border-radius: 0.625rem;
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .theme .theme-orbital-gallery__root {
+      --orbital-radius: max(calc(var(--orbital-stage-h) * 2.65), 100vw);
+      --orbital-tile-inset: clamp(0.65rem, 4vw, 0.95rem);
+    }
+  }
+}

@@ -1,0 +1,78 @@
+# Dependencies
+node_modules/
+
+# Build
+dist/
+build/
+.next/
+out/
+.turbo/
+
+# Env & secrets
+.env
+.env.*
+!.env.example
+
+# Logs & cache
+*.log
+npm-debug.log*
+.pnpm-debug.log*
+.cache/
+.parcel-cache/
+.eslintcache
+
+# Test & coverage
+coverage/
+front_end/src/lib/interviewRunApi/.sit-last.json
+back_end/tests/interview-brief-edit/.probe-out/
+back_end/tests/interview-brief-edit/probe-coding-timer-langs-*.json
+
+# Scratch probes — ephemeral by contract, never indexed.
+# Promote one that earns its keep to <stem>.unit.mjs: project_indexer/scripts/CONVENTIONS.md
+.probe-*.mjs
+.probe-*.json
+.probe-*.html
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+*.swp
+*.swo
+.cursor/hooks/state/session-flags.json
+.claude/hooks/state/session-flags.json
+
+
+# Misc
+*.tsbuildinfo
+.vercel
+.netlify
+
+# Investor docs — generated PDFs / local venv
+investor_docs/.venv/
+
+# Standalone projects — local envs and research PDFs (cite them; do not publish copies)
+projects/.env
+projects/**/.venv/
+projects/**/research/papers/
+investor_docs/output/**
+!investor_docs/output/.gitkeep
+
+# Item reference — large upstream repo mirrors (local research only)
+item-reference/front-end/excalidraw/
+item-reference/front-end/lexical/
+item-reference/front-end/glide-data-grid/
+item-reference/front-end/xyflow/
+item-reference/front-end/line-hover-styles/
+item-reference/front-end/button-hover-styles/
+item-reference/front-end/on-scroll-typography-animations/
+item-reference/front-end/slideshow-animations/
+item-reference/front-end/webgl-samples/three.js/upstream/
+item-reference/front-end/webgl-samples/_toolkit/extract/
+
+# Hardware vendor SDKs — licensed binaries and models (Sensory TSSV hackathon license forbids redistribution)
+hardware/sdk/voice/sensory-tssv-*/
+
+front_end/public/3d/kps/

@@ -1,0 +1,1797 @@
+/** Creator-2 peel board chat — Vurify thick borders, quieter chrome, wide bubbles. */
+
+.theme .theme-interview-creator-chat {
+  display: flex;
+  flex-direction: column;
+  /* Room between bottom sectioning fade and the composer tab top border. */
+  gap: 0.7rem;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+.theme .theme-interview-creator-chat__bot-thread {
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+  border: 0;
+  background: transparent;
+}
+
+.theme .theme-interview-creator-chat__bot-thread.theme-bot-chat__thread,
+.theme .theme-interview-creator-chat .theme-bot-chat__thread-scroll,
+.theme .theme-interview-creator-chat .theme-bot-chat__thread-inner {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+.theme .theme-interview-creator-chat__history-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 0;
+}
+
+.theme .theme-interview-creator-chat .theme-bot-chat__thread-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  /* Float shadow room — bubbles use the full peel width; leave space above composer tab. */
+  padding: 0.75rem 0.85rem 1.1rem;
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+}
+
+/* Scroll edge masks — soft vertical fog top + bottom (no solid curved plate). */
+.theme .theme-interview-creator-chat .theme-bot-chat__thread-scroll.theme-scroll--clouds {
+  --theme-scroll-fade: var(--dash-chrome-bg, var(--theme-page-bg));
+  --theme-scroll-cloud-color: var(--theme-scroll-fade);
+  --theme-scroll-cloud-size: 2rem;
+}
+
+/* Top: card-style fog veil — vertical fade only. */
+.theme
+  .theme-interview-creator-chat
+  .theme-scroll--clouds[data-scroll-axis='vertical']
+  .theme-scroll__cloud--start {
+  height: 2rem;
+  background: linear-gradient(
+    to bottom,
+    var(--theme-scroll-cloud-color) 0%,
+    color-mix(in srgb, var(--theme-scroll-cloud-color) 72%, transparent) 42%,
+    color-mix(in srgb, var(--theme-scroll-cloud-color) 0%, transparent) 100%
+  );
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+/* Bottom: soft sectioning fade — sits with the thread; gap below keeps it off the tab. */
+.theme
+  .theme-interview-creator-chat
+  .theme-scroll--clouds[data-scroll-axis='vertical']
+  .theme-scroll__cloud--end {
+  height: 2rem;
+  border-radius: 0;
+  background: linear-gradient(
+    to top,
+    var(--theme-scroll-cloud-color) 0%,
+    color-mix(in srgb, var(--theme-scroll-cloud-color) 72%, transparent) 42%,
+    color-mix(in srgb, var(--theme-scroll-cloud-color) 0%, transparent) 100%
+  );
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+.theme
+  .theme-interview-creator-chat
+  .theme-scroll--clouds[data-scroll-axis='vertical']
+  .theme-scroll__cloud--end::before {
+  content: none;
+}
+
+/* —— Full-width board bubbles: inline bot mark + time header, no side avatar —— */
+.theme .theme-interview-creator-chat .theme-chat-bubble--board {
+  --board-bubble-bg: color-mix(in srgb, var(--theme-page-bg) 94%, transparent);
+  --board-bubble-border: var(--theme-border-strong);
+  max-width: 100%;
+  width: 100%;
+  gap: 0;
+  align-items: stretch;
+  display: flex;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-bubble--board.theme-chat-bubble--end {
+  --board-bubble-bg: color-mix(in srgb, var(--theme-accent) 12%, var(--theme-page-bg));
+  --board-bubble-border: color-mix(in srgb, var(--theme-border-strong) 65%, var(--theme-accent));
+  margin-inline-start: 0;
+  flex-direction: row;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-bubble--board .theme-chat-bubble__body {
+  flex: 1 1 auto;
+  gap: 0;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-bubble--board .theme-chat-bubble__content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.65rem 0.85rem 0.75rem;
+  border: 2px solid var(--board-bubble-border);
+  border-radius: 0.75rem;
+  background: var(--board-bubble-bg);
+  filter: none;
+  box-shadow:
+    0 10px 28px var(--theme-shadow-outer),
+    0 2px 6px color-mix(in srgb, var(--theme-shadow-brutal) 35%, transparent);
+}
+
+.theme
+  .theme-interview-creator-chat
+  .theme-chat-bubble--board.theme-chat-bubble--start
+  .theme-chat-bubble__content {
+  border-top-left-radius: 0;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-bubble--board.theme-chat-bubble--error .theme-chat-bubble__content {
+  border-style: dashed;
+  border-color: var(--theme-error-border, var(--theme-error));
+  background: var(--theme-error-bg, color-mix(in srgb, var(--theme-error) 12%, var(--board-bubble-bg)));
+  box-shadow: none;
+  filter: none;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-bubble__board-head {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 1.15rem;
+  padding-bottom: 0.45rem;
+  margin-bottom: 0.2rem;
+  border-bottom: var(--theme-divider-line);
+}
+
+.theme .theme-interview-creator-chat .theme-chat-bubble__board-mark {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 1.05rem;
+  height: 1.05rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--theme-text);
+}
+
+.theme .theme-interview-creator-chat .theme-chat-bubble__board-name {
+  min-width: 0;
+  font-weight: 560;
+  line-height: 1.2;
+  color: var(--theme-text);
+}
+
+.theme .theme-interview-creator-chat .theme-chat-bubble__board-time {
+  margin-inline-start: auto;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-bubble--board .theme-chat-bubble__actions {
+  opacity: 1;
+  margin-top: 0.2rem;
+  padding-top: 0.4rem;
+  border-top: var(--theme-divider-line);
+}
+
+.theme .theme-interview-creator-chat .theme-chat-bubble--board .theme-chat-parts {
+  position: relative;
+  z-index: 1;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-bubble--board .theme-chat-typing {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  width: auto;
+  padding: 0.15rem 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  filter: none;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-bubble--board.theme-interview-creator-chat__typing-row {
+  width: 100%;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-bubble--board.theme-interview-creator-chat__typing-row .theme-chat-bubble__body {
+  width: 100%;
+}
+
+/* Day demarcators — Vurify chip, not a soft pill */
+.theme .theme-interview-creator-chat .theme-chat-day {
+  margin: 0.35rem 0 0.55rem;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-day__label {
+  padding: 0.2rem 0.65rem;
+  border: 2px solid var(--theme-border-strong);
+  border-radius: 0;
+  background: color-mix(in srgb, var(--theme-surface-raised) 88%, var(--theme-page-bg));
+  color: var(--theme-text-muted);
+  box-shadow:
+    0 4px 14px var(--theme-shadow-outer),
+    0 1px 3px color-mix(in srgb, var(--theme-shadow-brutal) 22%, transparent);
+}
+
+/* Recommendation cards → flat rows + Vurify buttons — same vertical rhythm as
+   `.theme-markdown-renderer__preview--chat` (gap 0.32rem · h2 margin-top 0.15rem). */
+.theme .theme-interview-creator-chat .theme-chat-parts {
+  gap: 0.32rem;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part--card-vurify {
+  padding: 0.15rem 0 0.05rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  gap: 0.32rem;
+}
+
+/* Hairline between speech and action cards — after card-vurify border reset.
+   Skipped when an explicit divider part sits between them.
+   Match markdown `theme-divider` / `--theme-divider-line`. */
+.theme .theme-interview-creator-chat .theme-chat-part--markdown + .theme-chat-part--card,
+.theme .theme-interview-creator-chat .theme-chat-part--text + .theme-chat-part--card,
+.theme .theme-interview-creator-chat .theme-chat-part--thinking + .theme-chat-part--card {
+  margin-top: 0.08rem;
+  padding-top: 0.32rem;
+  border-top: var(--theme-divider-line);
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part--divider {
+  margin: 0.08rem 0;
+  padding: 0.08rem 0;
+}
+
+/* Labeled board divider — single Actions footer label (overline + rule) */
+.theme .theme-interview-creator-chat .theme-chat-part--divider-board {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.28rem;
+  margin: 0.2rem 0 0.05rem;
+  padding: 0.05rem 0 0;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__divider-label {
+  margin: 0;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part--divider .theme-md-chat__hr,
+.theme .theme-interview-creator-chat .theme-chat-part--divider.theme-md-chat__hr {
+  margin: 0.05rem 0;
+}
+
+/* Untitled action cards under Actions — one rule from the divider only (not again on the row). */
+.theme
+  .theme-interview-creator-chat
+  .theme-chat-part--divider-board
+  + .theme-chat-part--card-vurify {
+  margin-top: 0.1rem;
+  padding-top: 0.15rem;
+  border-top: 0;
+}
+
+.theme
+  .theme-interview-creator-chat
+  .theme-chat-part--divider-board
+  + .theme-chat-part--card-vurify
+  > .theme-chat-part__card-actions--menu,
+.theme
+  .theme-interview-creator-chat
+  .theme-chat-part--divider-board
+  + .theme-chat-part--card-vurify
+  > .theme-chat-part__card-actions:not(.theme-chat-part__card-actions--links):not(
+    .theme-chat-part__card-actions--menu
+  ) {
+  margin-top: 0;
+  padding-top: 0.15rem;
+  border-top: 0;
+}
+
+.theme
+  .theme-interview-creator-chat
+  .theme-chat-part--card-vurify
+  + .theme-chat-part--card-vurify {
+  margin-top: 0.2rem;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.theme
+  .theme-interview-creator-chat
+  .theme-chat-part--card-menu:not(:has(.theme-chat-part__card-title))
+  .theme-chat-part__card-actions--menu {
+  margin-top: 0.15rem;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__card-actions {
+  gap: 0.32rem;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__card-action-btn {
+  border-radius: 0;
+}
+
+/* Match markdown ## section titles (theme-md-chat__h2) */
+.theme .theme-interview-creator-chat .theme-chat-part__card-title {
+  margin: 0.15rem 0 0;
+}
+
+/*
+ * Board peel: keep ### readable (sentence case). Global chat h3 is a tiny
+ * uppercase overline — fine for short labels in Theme BotChat, but turns
+ * advise dumps like "### Current state — the opening section" into shouty
+ * micro-type. Peel uses ### for Options / Sample copy / Next step.
+ */
+.theme .theme-interview-creator-chat .theme-md-chat__h3 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.008em;
+  text-transform: none;
+  color: var(--theme-text);
+  margin-top: 0.35rem;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__card-body {
+  margin: 0;
+  max-width: 36rem;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__card-actions--menu {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.55rem 0;
+  width: 100%;
+  margin-top: 0.15rem;
+  padding-top: 0.4rem;
+  border-top: 1px solid color-mix(in srgb, var(--theme-border-strong) 55%, var(--theme-border));
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__card-actions--menu > * + * {
+  margin: 0 0 0 0.7rem;
+  padding-left: 0.7rem;
+  border-left: 1px solid color-mix(in srgb, var(--theme-border-strong) 72%, transparent);
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__card-actions--menu .theme-vurify-menu-button {
+  width: auto;
+  max-width: min(100%, 14rem);
+  justify-content: flex-start;
+  min-width: 0;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__card-actions--menu .theme-vurify-menu-button__label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: start;
+}
+
+/* Section opens — titled list under primary CTAs */
+.theme .theme-interview-creator-chat .theme-chat-part--card-links {
+  margin-top: 0.35rem;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part--card-links .theme-chat-part__card-title,
+.theme .theme-interview-creator-chat .theme-chat-part--card-links .theme-md-chat__h2 {
+  margin: 0 0 0.2rem;
+  font-size: 0.68rem;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--theme-fg-muted);
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__card-actions--links {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__card-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.55rem;
+  width: 100%;
+  margin: 0;
+  padding: 0.32rem 0;
+  border: 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--theme-border) 42%, transparent);
+  border-radius: 0;
+  background: transparent;
+  text-align: start;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  color: var(--theme-accent);
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__card-link:hover {
+  color: color-mix(in srgb, var(--theme-accent) 82%, var(--theme-text));
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__card-link:last-child {
+  border-bottom: 0;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__card-link-label {
+  min-width: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__card-link-icon {
+  flex-shrink: 0;
+  color: currentColor;
+  opacity: 0.7;
+  width: 0.8rem;
+  height: 0.8rem;
+}
+
+/* Primary CTA card sits flush under the Actions rule */
+.theme
+  .theme-interview-creator-chat
+  .theme-chat-part--divider-board
+  + .theme-chat-part--card-menu {
+  margin-top: 0;
+}
+
+.theme
+  .theme-interview-creator-chat
+  .theme-chat-part--card-menu
+  + .theme-chat-part--card-links {
+  margin-top: 0.45rem;
+  padding-top: 0.35rem;
+  border-top: 1px solid color-mix(in srgb, var(--theme-border) 50%, transparent);
+}
+
+/* Same foot line for chip/action buttons (not link rows). */
+.theme
+  .theme-interview-creator-chat
+  .theme-chat-part--card-vurify
+  > .theme-chat-part__card-actions:not(.theme-chat-part__card-actions--links):not(
+    .theme-chat-part__card-actions--menu
+  ) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem 1rem;
+  margin-top: 0.15rem;
+  padding-top: 0.45rem;
+  border-top: 1px solid color-mix(in srgb, var(--theme-border-strong) 55%, var(--theme-border));
+}
+
+.theme
+  .theme-interview-creator-chat
+  .theme-chat-part--card-vurify
+  > .theme-chat-part__card-actions:not(.theme-chat-part__card-actions--links):not(
+    .theme-chat-part__card-actions--menu
+  )
+  > * + * {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* Thinking + See more — shared collapse chrome */
+.theme .theme-interview-creator-chat .theme-chat-part--thinking {
+  border: 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--theme-border) 50%, transparent);
+  border-radius: 0;
+  background: transparent;
+  margin-bottom: 0.25rem;
+  padding-bottom: 0.2rem;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part--thinking-stream {
+  border-bottom: 0;
+  padding-bottom: 0;
+  margin-bottom: 0.15rem;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__thinking-portal {
+  width: 100%;
+  max-width: none;
+  max-height: 6.5rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border-radius: 0;
+  border: 1px solid color-mix(in srgb, var(--theme-border) 55%, transparent);
+  background: color-mix(in srgb, var(--theme-surface) 40%, transparent);
+  padding: 0.45rem 0.55rem;
+  scrollbar-width: none;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__thinking-portal::-webkit-scrollbar {
+  display: none;
+}
+
+/* Stream preview is full bubble width; height is capped above (not width). */
+.theme .theme-interview-creator-chat .theme-chat-part--thinking-stream {
+  max-width: none;
+}
+
+.theme
+  .theme-interview-creator-chat
+  .theme-chat-part--thinking[data-open='false']
+  .theme-chat-part__thinking-clip {
+  max-width: none;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__thinking-body--stream {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  color: color-mix(in srgb, var(--theme-text) 58%, var(--theme-page-bg));
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__thinking-caret {
+  display: inline-block;
+  width: 0.45em;
+  height: 1em;
+  margin-inline-start: 0.1em;
+  vertical-align: text-bottom;
+  background: color-mix(in srgb, var(--theme-accent) 70%, transparent);
+  animation: theme-chat-thinking-caret 0.9s steps(1) infinite;
+}
+
+/* Board / Talk reply streaming caret — same accent mix as thinking caret. */
+.theme .theme-interview-creator-chat .theme-chat-bubble__caret {
+  background: color-mix(in srgb, var(--theme-accent) 70%, transparent);
+}
+
+@keyframes theme-chat-thinking-caret {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme .theme-interview-creator-chat .theme-chat-part__thinking-caret {
+    animation: none;
+    opacity: 0.55;
+  }
+}
+
+/* Status loader tags — same dash-march language as list-loading / Verify */
+.theme .theme-interview-creator-chat .theme-chat-part--status {
+  margin: 0.1rem 0 0.35rem;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__status-label {
+  position: relative;
+  display: inline-block;
+  margin: 0;
+  padding-bottom: 0.35rem;
+  font-size: 0.95rem;
+  line-height: 1.2;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__status-label--loading::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 0.22rem;
+  background: repeating-linear-gradient(
+    90deg,
+    currentColor 0 0.42em,
+    transparent 0.42em 0.66em
+  );
+  background-size: 1.08em 100%;
+  transform: translate3d(0, 1px, 0) scale3d(1.02, 1.5, 1);
+  transform-origin: 50% 100%;
+  animation: theme-vurify-menu-dash-march 0.75s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme .theme-interview-creator-chat .theme-chat-part__status-label--loading::after {
+    animation: none;
+  }
+}
+
+/* Planning — answered review card in-thread (letter chips + clear Q hierarchy) */
+.theme .theme-interview-creator-chat .theme-chat-part--planning {
+  border: 1px solid color-mix(in srgb, var(--theme-border) 55%, transparent);
+  border-radius: calc(var(--dash-radius, 1.25rem) * 0.72);
+  background: color-mix(in srgb, var(--theme-surface) 52%, transparent);
+  margin-bottom: 0.45rem;
+  padding: 0.35rem 0.5rem 0.4rem;
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--theme-shadow-outer) 55%, transparent);
+}
+
+/* Pending questionnaire — visible while Questions sheet is open / minimized */
+.theme .theme-interview-creator-chat .theme-chat-part--planning-pending {
+  padding: 0.35rem 0.5rem;
+  border-color: color-mix(in srgb, var(--theme-accent) 42%, var(--theme-border));
+  background: color-mix(in srgb, var(--theme-accent) 8%, var(--theme-surface));
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__planning-pending {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  width: 100%;
+  margin: 0;
+  padding: 0.15rem 0.1rem;
+  border: 0;
+  background: transparent;
+  color: var(--theme-text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__planning-pending:hover {
+  color: var(--theme-accent);
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__planning-pending-icon {
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+  color: color-mix(in srgb, var(--theme-accent) 82%, var(--theme-text));
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__planning-pending-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.12rem;
+  min-width: 0;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__planning-pending-title {
+  display: block;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__planning-pending-meta {
+  display: block;
+  margin: 0;
+  line-height: 1.35;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part--planning-closed,
+.theme .theme-interview-creator-chat .theme-chat-part--planning-pending[data-locked='true'] {
+  border-color: color-mix(in srgb, var(--theme-border) 70%, transparent);
+  background: color-mix(in srgb, var(--theme-surface) 42%, transparent);
+  opacity: 0.78;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part--planning-pending[data-locked='true']
+  .theme-chat-part__planning-pending {
+  cursor: default;
+  pointer-events: none;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__planning-timebar {
+  position: relative;
+  height: 2px;
+  margin: 0.2rem 0.1rem 0.05rem;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--theme-border) 45%, transparent);
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__planning-timebar-fill {
+  position: absolute;
+  inset: 0;
+  transform-origin: left center;
+  background: var(--theme-text-muted);
+  transform: scaleX(0);
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__planning-timebar.is-spent {
+  opacity: 0.45;
+  filter: grayscale(1);
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__planning-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+  width: 100%;
+  margin: 0;
+  padding: 0.2rem 0.15rem 0.25rem;
+  border: 0;
+  background: transparent;
+  color: var(--theme-text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__planning-toggle:hover {
+  color: var(--theme-accent);
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__planning-toggle-lead {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__planning-toggle-icon {
+  margin-top: 0.12rem;
+  color: color-mix(in srgb, var(--theme-accent) 78%, var(--theme-text));
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__planning-toggle-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  min-width: 0;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__planning-toggle-title {
+  margin: 0;
+  line-height: 1.25;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__planning-toggle-meta {
+  margin: 0;
+  line-height: 1.2;
+}
+
+.theme
+  .theme-interview-creator-chat
+  .theme-chat-part--planning[data-open='true']
+  .theme-chat-part__collapse-chevron {
+  transform: rotate(180deg);
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__planning-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 0.15rem 0.1rem 0.1rem;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__planning-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__planning-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--theme-border) 38%, transparent);
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__planning-item:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__planning-item-q {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__planning-qi {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  min-width: 1.15rem;
+  height: 1.15rem;
+  margin-top: 0.05rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--theme-accent) 14%, transparent);
+  color: color-mix(in srgb, var(--theme-accent) 85%, var(--theme-text));
+  font-size: 0.68rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__planning-prompt {
+  margin: 0;
+  color: color-mix(in srgb, var(--theme-text) 72%, var(--theme-page-bg));
+  line-height: 1.35;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__planning-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin: 0;
+  padding: 0 0 0 1.55rem;
+  list-style: none;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__planning-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  max-width: 100%;
+  padding: 0.18rem 0.45rem 0.18rem 0.28rem;
+  border: 1px solid color-mix(in srgb, var(--theme-border) 55%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--theme-page-bg) 55%, var(--theme-surface));
+  color: var(--theme-text);
+  line-height: 1.25;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__planning-chip-letter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 1.05rem;
+  height: 1.05rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--theme-accent) 18%, transparent);
+  color: color-mix(in srgb, var(--theme-accent) 90%, var(--theme-text));
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__planning-chip-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.82rem;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part__planning-empty {
+  margin: 0;
+  padding: 0 0 0 1.55rem;
+}
+
+/* —— Composer stack: Questions sheet rises above the input tab —— */
+
+.theme .theme-interview-creator-chat__composer-stack {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin-inline: 0.55rem;
+}
+
+/* Expand / collapse fold — same 0fr↔1fr language as section editors */
+.theme .theme-interview-creator-chat__plan-fold {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.theme .theme-interview-creator-chat__plan-fold.is-open {
+  grid-template-rows: 1fr;
+}
+
+.theme .theme-interview-creator-chat__plan-fold-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme .theme-interview-creator-chat__plan-fold {
+    transition: none;
+  }
+}
+
+.theme .theme-interview-creator-chat__plan-sheet {
+  --plan-sheet-bg: color-mix(in srgb, var(--theme-page-bg) 96%, transparent);
+  display: flex;
+  flex-direction: column;
+  max-height: min(48vh, 22rem);
+  margin-bottom: -1px;
+  border: 2px solid var(--theme-border-strong);
+  border-bottom: 0;
+  border-radius: var(--dash-radius) var(--dash-radius) 0 0;
+  background: var(--plan-sheet-bg);
+}
+
+.theme .theme-interview-creator-chat__plan-sheet[data-join-top='true'] {
+  border-radius: 0;
+}
+
+.theme .theme-interview-creator-chat__plan-sheet[data-check-suite='true'] {
+  --plan-sheet-bg: color-mix(in srgb, var(--theme-warning) 14%, var(--theme-page-bg));
+  --theme-scroll-fade: var(--plan-sheet-bg);
+  border-color: color-mix(in srgb, var(--theme-warning) 62%, var(--theme-border-strong));
+}
+
+.theme .theme-interview-creator-chat__plan-sheet[data-check-suite='true']
+  .theme-interview-creator-chat__plan-sheet-head {
+  border-bottom-color: color-mix(in srgb, var(--theme-warning) 42%, transparent);
+}
+
+.theme .theme-interview-creator-chat__plan-sheet[data-check-suite='true']
+  .theme-interview-creator-chat__plan-sheet-title-row {
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.theme .theme-interview-creator-chat__check-icon {
+  flex-shrink: 0;
+  color: var(--theme-warning);
+}
+
+.theme .theme-interview-creator-chat__plan-sheet[data-check-suite='true']
+  .theme-interview-creator-chat__plan-sheet-title,
+.theme .theme-interview-creator-chat__plan-sheet[data-check-suite='true']
+  .theme-interview-creator-chat__plan-sheet-count {
+  color: var(--theme-warning);
+}
+
+.theme .theme-interview-creator-chat__plan-sheet[data-check-suite='true']
+  .theme-interview-creator-chat__plan-q-index {
+  color: color-mix(in srgb, var(--theme-warning) 78%, var(--theme-fg-muted));
+}
+
+.theme .theme-interview-creator-chat__plan-sheet[data-check-suite='true']
+  button.theme-interview-creator-chat__plan-q-prompt[data-active='true'] {
+  color: var(--theme-warning);
+}
+
+.theme .theme-interview-creator-chat__plan-sheet[data-check-suite='true']
+  .theme-interview-creator-chat__plan-q + .theme-interview-creator-chat__plan-q {
+  box-shadow: none;
+}
+
+.theme .theme-interview-creator-chat__check-rule {
+  width: 100%;
+  height: 1px;
+  background: color-mix(in srgb, var(--theme-warning) 58%, var(--theme-border));
+}
+
+.theme .theme-interview-creator-chat__plan-sheet[data-check-suite='true']
+  .theme-interview-creator-chat__plan-sheet-peek {
+  color: color-mix(in srgb, var(--theme-warning) 72%, var(--theme-fg-muted));
+}
+
+.theme .theme-interview-creator-chat__plan-sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.45rem 0.7rem 0.35rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--theme-border) 55%, transparent);
+}
+
+.theme .theme-interview-creator-chat__plan-sheet-title-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.theme .theme-interview-creator-chat__plan-sheet-title {
+  margin: 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 1.05rem;
+  font-weight: 650;
+}
+
+.theme .theme-interview-creator-chat__plan-sheet-count {
+  font-variant-numeric: tabular-nums;
+}
+
+.theme .theme-interview-creator-chat__plan-sheet-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 0;
+  border-radius: 0.35rem;
+  background: transparent;
+  color: var(--theme-fg-muted);
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.15s ease;
+}
+
+.theme .theme-interview-creator-chat__plan-sheet-toggle:hover {
+  color: var(--theme-fg);
+}
+
+.theme .theme-interview-creator-chat__plan-sheet[data-minimized='true']
+  .theme-interview-creator-chat__plan-sheet-toggle {
+  transform: rotate(-90deg);
+}
+
+/* Questionnaire deadline — shrinks 100%→0 over `--plan-timeout-ms` (set via ref, not color). */
+.theme .theme-interview-creator-chat__plan-sheet-timebar {
+  position: relative;
+  height: 2px;
+  flex: none;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--theme-border) 45%, transparent);
+}
+
+.theme .theme-interview-creator-chat__plan-sheet-timebar-fill {
+  position: absolute;
+  inset: 0;
+  transform-origin: left center;
+  background: var(--theme-accent);
+  animation-name: theme-interview-creator-chat-timebar-shrink;
+  animation-duration: var(--plan-timeout-ms, 90000ms);
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.theme .theme-interview-creator-chat__plan-sheet-timebar[data-spent='true'] {
+  opacity: 0.45;
+  filter: grayscale(1);
+}
+
+.theme .theme-interview-creator-chat__plan-sheet-timebar[data-spent='true']
+  .theme-interview-creator-chat__plan-sheet-timebar-fill {
+  animation: none;
+  transform: scaleX(0);
+  background: var(--theme-text-muted);
+}
+
+.theme .theme-interview-creator-chat__plan-sheet[data-spent='true']
+  .theme-interview-creator-chat__plan-sheet-body {
+  pointer-events: none;
+  opacity: 0.62;
+}
+
+@keyframes theme-interview-creator-chat-timebar-shrink {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme .theme-interview-creator-chat__plan-sheet-timebar-fill {
+    animation: none;
+    transform: scaleX(0);
+  }
+}
+
+/* Header minimize — body + peek use the same 0fr↔1fr fold dialect */
+.theme .theme-interview-creator-chat__plan-minimize-fold,
+.theme .theme-interview-creator-chat__plan-peek-fold {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.36s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.theme .theme-interview-creator-chat__plan-minimize-fold.is-open,
+.theme .theme-interview-creator-chat__plan-peek-fold.is-open {
+  grid-template-rows: 1fr;
+}
+
+.theme .theme-interview-creator-chat__plan-minimize-fold-inner,
+.theme .theme-interview-creator-chat__plan-peek-fold-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.theme .theme-interview-creator-chat__plan-minimize-fold:not(.is-open) {
+  pointer-events: none;
+}
+
+.theme .theme-interview-creator-chat__plan-peek-fold:not(.is-open) {
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme .theme-interview-creator-chat__plan-minimize-fold,
+  .theme .theme-interview-creator-chat__plan-peek-fold {
+    transition: none;
+  }
+}
+
+.theme .theme-interview-creator-chat__plan-sheet-scroll {
+  min-height: 0;
+  flex: 1 1 auto;
+  max-height: min(36vh, 16rem);
+}
+
+.theme .theme-interview-creator-chat__plan-sheet-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0.1rem 0.7rem 0.2rem;
+}
+
+.theme .theme-interview-creator-chat__plan-q {
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+  padding-block: 0.4rem;
+}
+
+.theme .theme-interview-creator-chat__plan-q + .theme-interview-creator-chat__plan-q {
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--theme-border) 88%, transparent);
+}
+
+.theme .theme-interview-creator-chat__plan-q-head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.22rem;
+}
+
+.theme .theme-interview-creator-chat__plan-q-prompt {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  color: var(--theme-text);
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+button.theme-interview-creator-chat__plan-q-prompt {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: start;
+  cursor: pointer;
+}
+
+button.theme-interview-creator-chat__plan-q-prompt[data-active='true'] {
+  color: var(--theme-accent);
+}
+
+.theme .theme-interview-creator-chat__plan-q-index {
+  font-variant-numeric: tabular-nums;
+}
+
+.theme .theme-interview-creator-chat__plan-q-rule {
+  width: 100%;
+}
+
+.theme .theme-interview-creator-chat__plan-choices {
+  width: 100%;
+  align-items: stretch;
+}
+
+.theme .theme-interview-creator-chat__plan-choices.theme-radio-group--classic {
+  gap: 0.16rem;
+}
+
+.theme .theme-interview-creator-chat__plan-choices--multi {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.16rem;
+}
+
+.theme .theme-interview-creator-chat__plan-choices .theme-radio-option,
+.theme .theme-interview-creator-chat__plan-choices--multi .theme-checkbox {
+  width: 100%;
+  max-width: 100%;
+  padding-block: 0.1rem;
+  min-width: 0;
+  align-items: flex-start;
+}
+
+/* Option labels wrap — a one-line ellipsis hid the planned ask on bite-size sheets. */
+.theme .theme-interview-creator-chat__plan-choices .theme-radio__text,
+.theme .theme-interview-creator-chat__plan-choices .theme-radio__label,
+.theme .theme-interview-creator-chat__plan-choices--multi .theme-checkbox__text {
+  min-width: 0;
+  overflow: visible;
+  text-overflow: unset;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.theme .theme-interview-creator-chat__plan-text-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.4rem;
+  width: 100%;
+  margin-top: 0;
+  padding-block: 0;
+}
+
+.theme .theme-interview-creator-chat__plan-text-row[data-selected='true'] .theme-interview-creator-chat__plan-text-letter {
+  color: var(--theme-accent);
+}
+
+.theme .theme-interview-creator-chat__plan-text-letter {
+  flex: 0 0 auto;
+  min-width: 1.25rem;
+  padding-bottom: 0.45rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 650;
+  color: color-mix(in srgb, var(--theme-text) 70%, transparent);
+}
+
+/* Lettered free-text — layout only; chrome comes from VurifyInput size=sm. */
+.theme .theme-interview-creator-chat__plan-text {
+  flex: 1 1 auto;
+  width: auto;
+  max-width: none;
+  min-width: 0;
+}
+
+.theme .theme-interview-creator-chat__plan-sheet-foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.35rem 0.7rem 0.5rem;
+  border-top: 1px solid color-mix(in srgb, var(--theme-border) 45%, transparent);
+}
+
+.theme .theme-interview-creator-chat__plan-sheet-foot-rule {
+  display: inline-block;
+  width: 1px;
+  height: 0.95rem;
+  flex-shrink: 0;
+  background: color-mix(in srgb, var(--theme-border) 70%, transparent);
+}
+
+.theme .theme-interview-creator-chat__plan-sheet-peek {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0.35rem 0.7rem 0.45rem;
+  border: 0;
+  background: transparent;
+  color: var(--theme-fg-muted);
+  text-align: left;
+  cursor: pointer;
+}
+
+.theme .theme-interview-creator-chat__plan-sheet-peek:hover {
+  color: var(--theme-fg);
+}
+
+/* —— Composer: bottom-flush page tab (bubble raise, dash radius) —— */
+.theme .theme-interview-creator-chat .theme-chat-bubble--board .theme-chat-part--markdown,
+.theme .theme-interview-creator-chat .theme-chat-bubble--board .theme-chat-part--card,
+.theme .theme-interview-creator-chat .theme-chat-bubble--board .theme-chat-part--divider {
+  animation: theme-chat-board-part-enter 0.42s ease both;
+}
+
+@keyframes theme-chat-board-part-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 0.35rem, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme .theme-interview-creator-chat .theme-chat-bubble--board .theme-chat-part--markdown,
+  .theme .theme-interview-creator-chat .theme-chat-bubble--board .theme-chat-part--card,
+  .theme .theme-interview-creator-chat .theme-chat-bubble--board .theme-chat-part--divider {
+    animation: none;
+  }
+}
+
+.theme .theme-interview-creator-chat .theme-chat-part--markdown-fog .theme-chat-part__collapse-toggle,
+.theme .theme-interview-creator-chat .theme-chat-part--text-fog .theme-chat-part__collapse-toggle {
+  margin-top: 0.15rem;
+}
+
+/* —— Composer: bottom-flush page tab (bubble raise, dash radius) —— */
+
+/*
+ * Flush fixture peel — chrome padding was reading as L/R/T/B “edge masks”.
+ * Tab + thread fill the chat column; no inset gutters.
+ */
+.theme
+  .page-scene--dashboard[data-chat-closed='false']:has(.page-scene--dashboard__chat-space) {
+  --dash-chat-pad-start: 0;
+  --dash-chat-pad-end: 0;
+}
+
+.theme
+  .page-scene--dashboard[data-chat-closed='false']:has(.page-scene--dashboard__chat-space)
+  .page-scene--dashboard__chat {
+  padding: 0;
+}
+
+.theme .theme-interview-creator-chat__composer {
+  --composer-tab-bg: color-mix(in srgb, var(--theme-page-bg) 94%, transparent);
+  --composer-tab-border: var(--theme-border-strong);
+  --composer-field-ease: cubic-bezier(0.2, 1, 0.8, 1);
+  --composer-field-duration: 0.28s;
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  box-sizing: border-box;
+  /* Side inset like bubbles; flush to peel bottom — stack owns inset when Questions open. */
+  margin: 0;
+  padding: 0.55rem 0.7rem 0.85rem;
+  border: 2px solid var(--composer-tab-border);
+  border-bottom: 0;
+  border-radius: var(--dash-radius, 1.25rem) var(--dash-radius, 1.25rem) 0 0;
+  background: var(--composer-tab-bg);
+  /* No raise on the tab fixture — shadow lives on the input field. */
+  box-shadow: none;
+  animation: theme-chat-composer-tab-rise 0.56s var(--dash-peel-ease, cubic-bezier(0.87, 0, 0.13, 1))
+    both;
+}
+
+.theme .theme-interview-creator-chat[data-plan-open='true'] .theme-interview-creator-chat__composer {
+  border-top: 0;
+  border-radius: 0;
+  animation: none;
+}
+
+@keyframes theme-chat-composer-tab-rise {
+  from {
+    opacity: 0.65;
+    transform: translate3d(0, 1rem, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme .theme-interview-creator-chat__composer {
+    animation: none;
+  }
+}
+
+/* Inner field — muted/borderless rest so raise shadow can read; focus lifts further. */
+.theme .theme-interview-creator-chat__composer-field {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 0.65rem 0.75rem;
+  border: 2px solid transparent;
+  border-radius: var(--dash-radius, 1.25rem) var(--dash-radius, 1.25rem) 0 0;
+  background: color-mix(in srgb, var(--theme-surface) 55%, transparent);
+  box-shadow:
+    0 8px 22px var(--theme-shadow-outer),
+    0 1px 4px color-mix(in srgb, var(--theme-shadow-brutal) 22%, transparent);
+  transition:
+    border-color var(--composer-field-duration) var(--composer-field-ease),
+    box-shadow var(--composer-field-duration) var(--composer-field-ease),
+    transform var(--composer-field-duration) var(--composer-field-ease),
+    background-color var(--composer-field-duration) var(--composer-field-ease),
+    opacity 0.22s ease;
+}
+
+.theme .theme-interview-creator-chat__composer-leading {
+  flex-shrink: 0;
+  min-width: 0;
+  padding-bottom: 0.25rem;
+}
+
+.theme .theme-interview-creator-chat__composer-attach {
+  margin: 0;
+  gap: 0.28rem;
+}
+
+.theme .theme-interview-creator-chat__composer-attach .theme-chip__surface {
+  padding: 0.06rem 0.4rem;
+  font-size: 0.6875rem;
+  border-width: 1px;
+}
+
+.theme .theme-interview-creator-chat__composer-attach .theme-chip__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  font-size: inherit;
+  letter-spacing: 0.02em;
+  max-width: 7.5rem;
+  overflow: hidden;
+}
+
+.theme .theme-interview-creator-chat__composer-attach .theme-chip__label span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.theme .theme-interview-creator-chat__composer-attach .theme-chip__label svg {
+  width: 0.75rem;
+  height: 0.75rem;
+  flex-shrink: 0;
+}
+
+.theme .theme-interview-creator-chat__composer-input-wrap {
+  position: relative;
+  min-width: 0;
+}
+
+.theme .theme-interview-creator-chat__composer-field[data-locked='true'] {
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.theme .theme-interview-creator-chat__composer[data-locked='true'] .theme-interview-creator-chat__composer-send {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.theme .theme-interview-creator-chat__composer-field:hover {
+  border-color: color-mix(in srgb, var(--theme-border) 22%, transparent);
+  box-shadow:
+    0 12px 28px var(--theme-shadow-outer),
+    0 2px 6px color-mix(in srgb, var(--theme-shadow-brutal) 30%, transparent);
+}
+
+.theme .theme-interview-creator-chat__composer-field[data-focused='true'] {
+  border-color: var(--theme-accent);
+  background: color-mix(in srgb, var(--theme-surface) 78%, transparent);
+  box-shadow:
+    0 14px 32px var(--theme-shadow-outer),
+    0 3px 8px color-mix(in srgb, var(--theme-shadow-brutal) 36%, transparent);
+  transform: translate3d(0, -2px, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme .theme-interview-creator-chat__composer-field[data-focused='true'] {
+    transform: none;
+  }
+}
+
+.theme .theme-interview-creator-chat__composer-hint {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  max-width: calc(100% - 1.5rem);
+  margin: 0;
+  padding: 0;
+  color: color-mix(in srgb, var(--theme-text) 48%, var(--theme-page-bg));
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+  transform: translate3d(-50%, -50%, 0);
+  transform-origin: 50% 50%;
+  transition:
+    transform var(--composer-field-duration) var(--composer-field-ease),
+    opacity var(--composer-field-duration) var(--composer-field-ease),
+    color var(--composer-field-duration) var(--composer-field-ease);
+}
+
+.theme .theme-interview-creator-chat__composer-field[data-active='true'] .theme-interview-creator-chat__composer-hint {
+  color: var(--theme-accent);
+  opacity: 0;
+  transform: translate3d(-50%, calc(-50% - 1.15rem), 0) scale(0.94);
+}
+
+.theme .theme-interview-creator-chat__composer-input {
+  position: relative;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 2.5rem;
+  max-height: 7rem;
+  margin: 0;
+  padding: 0.1rem 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--theme-text);
+  font: inherit;
+  line-height: 1.45;
+  resize: none;
+  outline: none;
+  box-shadow: none;
+  overflow-y: auto;
+  /* Nano rail — thumb vanishes until hover / focus. */
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+.theme
+  .theme-interview-creator-chat__composer-field:is(:hover, [data-focused='true'])
+  .theme-interview-creator-chat__composer-input {
+  scrollbar-color: color-mix(in srgb, var(--theme-accent) 40%, var(--theme-border-strong)) transparent;
+}
+
+.theme .theme-interview-creator-chat__composer-input::-webkit-scrollbar {
+  width: 1px;
+  height: 1px;
+  background: transparent;
+}
+
+.theme .theme-interview-creator-chat__composer-input::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 999px;
+}
+
+.theme
+  .theme-interview-creator-chat__composer-field:is(:hover, [data-focused='true'])
+  .theme-interview-creator-chat__composer-input::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--theme-accent) 40%, var(--theme-border-strong));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme .theme-interview-creator-chat__composer-input {
+    transition: none;
+  }
+}
+
+.theme .theme-interview-creator-chat__composer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.55rem 1rem;
+  min-height: 1.75rem;
+}
+
+.theme .theme-interview-creator-chat__composer-dictation {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-right: auto;
+  min-height: 1.75rem;
+}
+
+.theme .theme-interview-creator-chat__composer-mic {
+  flex-shrink: 0;
+}
+
+.theme .theme-interview-creator-chat__composer-wave {
+  display: inline-flex;
+  align-items: center;
+  width: 0;
+  height: 1.45rem;
+  max-width: 0;
+  margin-inline-start: 0;
+  padding-inline: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translate3d(-0.35rem, 0, 0) scaleX(0.72);
+  transform-origin: left center;
+  pointer-events: none;
+  transition:
+    max-width 0.24s ease,
+    width 0.24s ease,
+    margin-inline-start 0.24s ease,
+    padding-inline 0.24s ease,
+    opacity 0.22s ease,
+    transform 0.24s ease;
+}
+
+.theme .theme-interview-creator-chat__composer-wave[data-shown='true'] {
+  width: 4.85rem;
+  max-width: 4.85rem;
+  margin-inline-start: 0.1rem;
+  padding-inline: 0;
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scaleX(1);
+}
+
+.theme .theme-interview-creator-chat__composer-wave[data-shown='true'][data-connecting='true'] {
+  width: max-content;
+  max-width: none;
+  height: auto;
+  min-height: 1.45rem;
+  overflow: visible;
+}
+
+/**
+ * Connecting — Elara-style dash march (same language as VurifyMenuButton loading /
+ * status tags). Replaces the audio wave so the slot does not look “ready to speak”.
+ */
+.theme .theme-interview-creator-chat__composer-wave-load-host {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  gap: 0.18rem;
+  width: max-content;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.theme .theme-interview-creator-chat__composer-wave-load-label {
+  display: block;
+  font-family: var(--font-display-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--theme-accent);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.theme .theme-interview-creator-chat__composer-wave-load {
+  display: block;
+  width: 100%;
+  height: 3px;
+  margin: 0;
+  border: 0;
+  border-radius: 999px;
+  background-color: transparent;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--theme-accent) 0 0.42em,
+    transparent 0.42em 0.66em
+  );
+  background-size: 1.08em 100%;
+  background-repeat: repeat-x;
+  animation: theme-vurify-menu-dash-march 0.75s linear infinite;
+}
+
+.theme .theme-interview-creator-chat__composer-wave .theme-live-transcribe-wave {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.theme .theme-interview-creator-chat__composer-action-slot {
+  display: inline-flex;
+  align-items: center;
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translate3d(0.45rem, 0, 0);
+  pointer-events: none;
+  transition:
+    max-width 0.24s ease,
+    opacity 0.22s ease,
+    transform 0.24s ease;
+}
+
+.theme .theme-interview-creator-chat__composer-action-slot[data-shown='true'] {
+  max-width: 6.5rem;
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  pointer-events: auto;
+}
+
+.theme .theme-interview-creator-chat__composer-action-slot .theme-interview-creator-chat__composer-send,
+.theme .theme-interview-creator-chat__composer-action-slot .theme-interview-creator-chat__composer-stop {
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme .theme-interview-creator-chat__composer-wave,
+  .theme .theme-interview-creator-chat__composer-action-slot {
+    transition: none;
+  }
+
+  .theme .theme-interview-creator-chat__composer-wave-load {
+    animation: none;
+    background-image: linear-gradient(
+      90deg,
+      transparent,
+      var(--theme-accent) 35%,
+      var(--theme-accent) 65%,
+      transparent
+    );
+    background-size: 100% 100%;
+  }
+}
+
+.theme .theme-interview-creator-chat__composer-dictation-error {
+  width: 100%;
+  margin: 0;
+  color: var(--theme-danger, var(--theme-accent));
+}
+
+.theme .theme-interview-creator-chat__composer-send,
+.theme .theme-interview-creator-chat__composer-stop,
+.theme .theme-interview-creator-chat__composer-loading {
+  flex-shrink: 0;
+}
+
+/* Stop ban icon matches Send chevron weight (label icons stretch to type size). */
+.theme
+  .theme-interview-creator-chat__composer-stop.theme-vurify-menu-button--icon-end
+  .theme-vurify-menu-button__icon {
+  width: 0.95em;
+  height: 0.95em;
+  stroke-width: 2.25;
+}
+
+.theme .theme-interview-creator-chat__composer-stop:hover:not(:disabled),
+.theme .theme-interview-creator-chat__composer-stop:focus-visible:not(:disabled) {
+  color: var(--theme-accent);
+}
+
+/* Scroll-to-latest — floating chip above composer (board peel). */
+.theme .theme-interview-creator-chat .theme-bot-chat__thread {
+  position: relative;
+}
+
+.theme .theme-interview-creator-chat .theme-chat-jump--board {
+  position: absolute;
+  right: 0.85rem;
+  bottom: 0.65rem;
+  z-index: 3;
+  border: 2px solid var(--theme-border-strong);
+  border-radius: 0;
+  background: color-mix(in srgb, var(--theme-surface-raised) 92%, var(--theme-page-bg));
+  box-shadow:
+    0 6px 18px var(--theme-shadow-outer),
+    0 1px 3px color-mix(in srgb, var(--theme-shadow-brutal) 28%, transparent);
+}
+
+.theme .theme-interview-creator-chat .theme-chat-jump--board:hover {
+  border-color: color-mix(in srgb, var(--theme-accent) 55%, var(--theme-border-strong));
+  color: var(--theme-accent);
+}
+
+.theme .page-scene--dashboard__chat-space {
+  gap: 0;
+  padding-inline: 0;
+}
+
+.theme .page-scene--dashboard__chat-space .page-scene--dashboard__chat-space-body {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 0;
+  background: transparent;
+}

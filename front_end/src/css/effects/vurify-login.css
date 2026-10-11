@@ -1,0 +1,81 @@
+/**
+ * Vurify login form — email · password · stay logged in · Google.
+ */
+
+@layer components {
+  .theme .theme-vurify-login {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    color: var(--theme-text);
+  }
+
+  .theme .theme-vurify-login__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.85rem;
+    align-items: start;
+    min-height: 0;
+  }
+
+  .theme .theme-vurify-login__field {
+    min-width: 0;
+  }
+
+  .theme .theme-vurify-login__input.theme-vurify-input {
+    max-width: none;
+  }
+
+  .theme .theme-vurify-login__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.65rem 1rem;
+  }
+
+  .theme .theme-vurify-login__stay {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .theme .theme-vurify-login__submit {
+    flex: none;
+  }
+
+  .theme .theme-vurify-login__oauth {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .theme .theme-vurify-login__form-error {
+    margin: 0;
+    color: var(--theme-danger, var(--theme-accent));
+    white-space: pre-line;
+  }
+
+  .theme .theme-vurify-login__divider {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  .theme .theme-vurify-login__divider-line {
+    flex: 1 1 auto;
+    height: 1px;
+    background-color: var(--theme-border);
+  }
+
+  .theme .theme-vurify-login__divider-label {
+    flex: none;
+  }
+
+  .theme .theme-vurify-login[data-density='compact'] .theme-vurify-login__grid {
+    gap: 0.65rem;
+  }
+}

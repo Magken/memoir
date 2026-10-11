@@ -1,0 +1,58 @@
+{
+  "assetId": "stone-lantern",
+  "units": "m",
+  "upAxis": "y",
+  "notes": "Stone lantern glTF Binary (.glb). Same ceramic SSS host, baked mesh-net cage, and PointLight moat as The Creation of Adam. Normalize to metres, Y-up, sit on ground y=0. Home is the copied closer framing from the model viewer. Marks: Top (inspect, impulse poke on the lantern crane). Prime more marks in the model viewer, then paste JSON here.",
+  "annotations": [
+    {
+      "id": "viewpoint-home",
+      "kind": "viewpoint",
+      "label": "Home",
+      "position": [
+        0.8755412251224172,
+        0.8665476314666367,
+        -0.960723841114815
+      ],
+      "camera": [
+        1.633256967213942,
+        1.0427497008611162,
+        0.6704999748236201
+      ],
+      "target": [
+        0.8755412251224172,
+        0.8665476314666367,
+        -0.960723841114815
+      ],
+      "orbit": {
+        "azimuth": 0.43485267799367755,
+        "polar": 1.4731426410329365,
+        "radius": 1.8072275597602414
+      },
+      "up": [0, 1, 0],
+      "quaternion": [
+        -0.04765831514994698,
+        0.21546018345591922,
+        0.010528608801920962,
+        0.9752921319988725
+      ]
+    },
+    {
+      "id": "point-lantern-top",
+      "kind": "point",
+      "label": "Top",
+      "position": [
+        -0.005590911492065141,
+        1.3988513618834952,
+        0.0023428747137600936
+      ],
+      "normal": [
+        -0.1624861976301013,
+        0.9822412371677234,
+        0.09381038101901094
+      ],
+      "faceIndex": 1081,
+      "objectName": "defaultMaterial",
+      "impulse": true
+    }
+  ]
+}

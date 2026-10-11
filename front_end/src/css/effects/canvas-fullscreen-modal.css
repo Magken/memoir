@@ -1,0 +1,103 @@
+@layer components {
+  /* Root uses `theme theme-canvas-fullscreen-modal` on one node (same as `Modal`). */
+  .theme.theme-canvas-fullscreen-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1300;
+    pointer-events: none;
+  }
+
+  .theme .theme-canvas-fullscreen-modal__backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: color-mix(in srgb, var(--theme-page-bg) 68%, transparent);
+    backdrop-filter: blur(4px);
+    pointer-events: auto;
+    cursor: default;
+  }
+
+  .theme .theme-canvas-fullscreen-modal__shell {
+    position: absolute;
+    inset: 0.625rem;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    border: 1px solid var(--theme-border);
+    border-radius: var(--theme-radius-lg, 0.5rem);
+    background: var(--theme-surface);
+    box-shadow: 0 0.75rem 2rem color-mix(in srgb, var(--theme-shadow, #000) 18%, transparent);
+    pointer-events: auto;
+    overflow: hidden;
+  }
+
+  .theme .theme-canvas-fullscreen-modal__header {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.375rem 0.5rem;
+    border-bottom: 1px solid var(--theme-border);
+    background: color-mix(in srgb, var(--theme-surface-raised) 42%, var(--theme-surface));
+  }
+
+  .theme .theme-canvas-fullscreen-modal__header-end {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 0.375rem;
+    margin-left: auto;
+    min-width: 0;
+  }
+
+  .theme .theme-canvas-fullscreen-modal__title {
+    margin: 0;
+    min-width: 0;
+    flex: 0 1 auto;
+  }
+
+  .theme .theme-canvas-fullscreen-modal__body {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+    min-width: 0;
+    background: var(--theme-surface);
+  }
+
+  .theme .theme-canvas-fullscreen-modal__body > * {
+    flex: 1 1 auto;
+    min-height: 0;
+    min-width: 0;
+    width: 100%;
+    max-width: none;
+    max-height: none;
+  }
+
+  .theme .theme-canvas-fullscreen-modal__body .theme-draw-canvas,
+  .theme .theme-canvas-fullscreen-modal__body .theme-draw-canvas--headless,
+  .theme .theme-canvas-fullscreen-modal__body .theme-mermaid-renderer__canvas-host,
+  .theme .theme-canvas-fullscreen-modal__body .theme-force-graph-renderer__canvas-host,
+  .theme .theme-canvas-fullscreen-modal__body .theme-flow-editor__stage,
+  .theme .theme-canvas-fullscreen-modal__body .theme-flow-editor__stage--fullscreen {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    min-height: 0;
+    border: 0;
+    border-radius: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-canvas-fullscreen-modal__shell {
+      transition: none;
+    }
+  }
+}

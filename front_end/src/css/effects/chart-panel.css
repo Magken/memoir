@@ -1,0 +1,50 @@
+/**
+ * ChartPanel — settings overlay layout (legend row + palette rail).
+ */
+
+@layer components {
+  .theme .theme-chart-panel__settings {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem;
+    border-radius: var(--theme-radius-control);
+    border: 2px solid var(--theme-border);
+    background-color: var(--theme-surface-raised);
+    box-shadow: 0 10px 24px var(--theme-shadow-outer);
+  }
+
+  .theme .theme-chart-panel__settings-body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .theme .theme-chart-panel__settings-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 1rem;
+    min-height: 2.5rem;
+    padding-block: 0.75rem;
+  }
+
+  .theme .theme-chart-panel__settings-row + .theme-chart-panel__settings-row {
+    border-top: 1px solid var(--theme-border);
+  }
+
+  .theme .theme-chart-panel__settings-label {
+    min-width: 0;
+  }
+
+  .theme .theme-chart-panel__settings-control {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-shrink: 0;
+  }
+
+  /* Palette dock sits flush in the control column — no double pad */
+  .theme .theme-chart-panel__settings .theme-nmenu-dock {
+    padding: 0;
+  }
+}

@@ -1,0 +1,713 @@
+/**
+ * 3D shapes — Zdog solids visual system (ref.3d-shapes-1).
+ */
+
+@layer components {
+  .theme .theme-shape3d__canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+    cursor: grab;
+  }
+
+  .theme .theme-shape3d__canvas:active {
+    cursor: grabbing;
+  }
+
+  .theme .theme-shape3d__canvas--sm {
+    min-height: 8rem;
+  }
+
+  .theme .theme-shape3d__canvas--md {
+    min-height: 12rem;
+  }
+
+  .theme .theme-shape3d__canvas--lg {
+    min-height: 18rem;
+  }
+
+  .theme .theme-shape3d__panel {
+    border: 2px solid var(--theme-border-strong);
+    border-radius: 0.125rem;
+    background-color: var(--theme-surface);
+    box-shadow: var(--theme-shadow-brutal);
+  }
+
+  .theme .theme-shape3d__gallery {
+    min-height: 18rem;
+    padding: 0.75rem;
+  }
+
+  .theme .theme-shape3d__host {
+    display: grid;
+    gap: 0.75rem;
+    min-width: 0;
+  }
+
+  .theme .theme-shape3d__host--card {
+    padding: 0.875rem;
+    border: 2px solid var(--theme-border-strong);
+    border-radius: 0.125rem;
+    background-color: var(--theme-surface);
+    box-shadow: var(--theme-shadow-brutal);
+  }
+
+  .theme .theme-shape3d__host--button {
+    padding: 0.625rem;
+    border: 2px solid var(--theme-border-strong);
+    border-radius: 0.125rem;
+    background-color: color-mix(in srgb, var(--theme-accent) 8%, var(--theme-surface));
+    box-shadow: var(--theme-shadow-brutal);
+    transition: transform 120ms ease, box-shadow 120ms ease;
+  }
+
+  .theme .theme-shape3d__host--button:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 3px 3px 0 var(--theme-shadow-brutal);
+  }
+
+  .theme .theme-shape3d__host--display {
+    padding: 0.875rem;
+    border: 2px solid var(--theme-border-strong);
+    border-radius: 0.125rem;
+    background-color: color-mix(in srgb, var(--theme-page-bg) 45%, var(--theme-surface));
+  }
+
+  .theme .theme-shape3d__stage {
+    min-height: 10rem;
+    border: 1.5px dashed var(--theme-border);
+    border-radius: 0.125rem;
+    background-color: color-mix(in srgb, var(--theme-page-bg) 60%, var(--theme-surface));
+    overflow: hidden;
+  }
+
+  .theme .theme-shape3d__body {
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .theme .theme-shape3d__metric {
+    color: var(--theme-accent);
+  }
+
+  .theme .theme-shape3d__controls {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .theme .theme-shape3d__face-btn {
+    padding: 0.25rem 0.5rem;
+    border: 1.5px solid var(--theme-border-strong);
+    border-radius: 999px;
+    background-color: var(--theme-surface);
+    color: var(--theme-text-muted);
+    text-transform: capitalize;
+    transition: background-color 120ms ease, color 120ms ease;
+  }
+
+  .theme .theme-shape3d__face-btn:hover {
+    color: var(--theme-text);
+    background-color: color-mix(in srgb, var(--theme-accent) 10%, var(--theme-surface));
+  }
+
+  .theme .theme-shape3d__face-btn--active {
+    color: var(--theme-accent-text);
+    background-color: var(--theme-accent);
+    border-color: var(--theme-accent);
+  }
+
+  /* —— CSS 3D shapes (custom DOM · preserve-3d) —— */
+
+  .theme .theme-css-shape3d__scene {
+    --css-shape-size: 5rem;
+    --css-shape-half: calc(var(--css-shape-size) / 2);
+    --css-shape-a: color-mix(in srgb, var(--theme-accent) 78%, var(--theme-surface-inset));
+    --css-shape-b: var(--theme-accent);
+    --css-shape-c: color-mix(in srgb, var(--theme-warning) 72%, var(--theme-surface-raised));
+    --css-shape-d: color-mix(in srgb, var(--theme-info) 72%, var(--theme-surface-raised));
+    --css-shape-e: color-mix(in srgb, var(--theme-success) 68%, var(--theme-surface-raised));
+    --css-shape-f: color-mix(in srgb, var(--theme-accent) 38%, var(--theme-text));
+    --rubiks-cubie-size: 1.32rem;
+    --rubiks-cubie-half: calc(var(--rubiks-cubie-size) / 2);
+    --rubiks-step: calc(var(--rubiks-cubie-size) + 0.14rem);
+    --rubiks-sticker-inset: 88%;
+    width: 100%;
+    min-height: 12rem;
+    perspective: 900px;
+    perspective-origin: 50% 44%;
+    touch-action: none;
+    cursor: grab;
+  }
+
+  .theme .theme-css-shape3d__scene:active {
+    cursor: grabbing;
+  }
+
+  .theme .theme-css-shape3d__scene--sm {
+    --css-shape-size: 3.5rem;
+    --rubiks-cubie-size: 1rem;
+    min-height: 8rem;
+  }
+
+  .theme .theme-css-shape3d__scene--md {
+    min-height: 12rem;
+  }
+
+  .theme .theme-css-shape3d__scene--lg {
+    --css-shape-size: 6.5rem;
+    --rubiks-cubie-size: 1.65rem;
+    min-height: 18rem;
+  }
+
+  .theme .theme-css-shape3d__stage {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    min-height: inherit;
+    transform-style: preserve-3d;
+  }
+
+  .theme .theme-css-shape3d__rigid {
+    transform-style: preserve-3d;
+    transform: rotateX(var(--css-shape-rx, -16deg)) rotateY(var(--css-shape-ry, 22deg));
+    will-change: transform;
+  }
+
+  .theme .theme-css-shape3d__host-stage {
+    overflow: visible;
+    border-style: solid;
+  }
+
+  /* Zdog-style anchor tree (mirrors shape3dBuilders.ts) */
+  .theme .theme-css-shape3d__solid-root,
+  .theme .theme-css-shape3d__anchor {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 0;
+    height: 0;
+    transform-style: preserve-3d;
+  }
+
+  .theme .theme-css-shape3d__solid-root {
+    transform: translate3d(0, 0, 0);
+  }
+
+  .theme .theme-css-shape3d__anchor {
+    transform: translate3d(
+        calc(var(--anchor-tx, 0) * var(--css-shape-half)),
+        calc(var(--anchor-ty, 0) * var(--css-shape-half) * -1),
+        calc(var(--anchor-tz, 0) * var(--css-shape-half))
+      )
+      rotateX(var(--anchor-rx, 0deg))
+      rotateY(var(--anchor-ry, 0deg))
+      rotateZ(var(--anchor-rz, 0deg))
+      scale3d(var(--anchor-sx, 1), var(--anchor-sy, 1), var(--anchor-sz, 1));
+  }
+
+  .theme .theme-css-shape3d__face-primitive {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    backface-visibility: hidden;
+    transform: rotateX(var(--anchor-rx, 0deg)) rotateY(var(--anchor-ry, 0deg))
+      rotateZ(var(--anchor-rz, 0deg)) scaleY(var(--anchor-sy, 1))
+      translate3d(
+        calc(var(--anchor-tx, 0) * var(--css-shape-half)),
+        calc(var(--anchor-ty, 0) * var(--css-shape-half) * -1),
+        calc(var(--anchor-tz, 0) * var(--css-shape-half))
+      );
+  }
+
+  .theme .theme-css-shape3d__face-primitive--disc {
+    width: calc(var(--face-r, 1) * var(--css-shape-size));
+    height: calc(var(--face-r, 1) * var(--css-shape-size));
+    margin-left: calc(var(--face-r, 1) * var(--css-shape-size) / -2);
+    margin-top: calc(var(--face-r, 1) * var(--css-shape-size) / -2);
+    border-radius: 50%;
+  }
+
+  .theme .theme-css-shape3d__face-primitive--quad {
+    width: var(--css-shape-size);
+    height: var(--css-shape-size);
+    margin-left: calc(var(--css-shape-size) / -2);
+    margin-top: calc(var(--css-shape-size) / -2);
+  }
+
+  .theme .theme-css-shape3d__face-primitive--tri {
+    width: calc(var(--face-r, 0.5) * var(--css-shape-size));
+    height: calc(var(--face-r, 0.5) * var(--css-shape-size) * 0.866);
+    margin-left: calc(var(--face-r, 0.5) * var(--css-shape-size) / -2);
+    margin-top: calc(var(--face-r, 0.5) * var(--css-shape-size) * -0.577);
+    clip-path: polygon(50% 0, 0 100%, 100% 100%);
+    transform-origin: 50% 66%;
+  }
+
+  .theme .theme-css-shape3d__face-primitive--pent {
+    width: calc(var(--face-r, 1) * var(--css-shape-size));
+    height: calc(var(--face-r, 1) * var(--css-shape-size));
+    margin-left: calc(var(--face-r, 1) * var(--css-shape-size) / -2);
+    margin-top: calc(var(--face-r, 1) * var(--css-shape-size) / -2);
+    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+  }
+
+  .theme .theme-css-shape3d__face-primitive--tone-a {
+    background: var(--css-shape-a);
+  }
+
+  .theme .theme-css-shape3d__face-primitive--tone-b {
+    background: var(--css-shape-b);
+  }
+
+  .theme .theme-css-shape3d__face-primitive--tone-c {
+    background: var(--css-shape-c);
+  }
+
+  .theme .theme-css-shape3d__face-primitive--tone-d {
+    background: var(--css-shape-d);
+  }
+
+  .theme .theme-css-shape3d__face-primitive--tone-e {
+    background: var(--css-shape-e);
+  }
+
+  .theme .theme-css-shape3d__face-primitive--tone-f {
+    background: var(--css-shape-f);
+  }
+
+  /* Zdog Hemisphere — curved dome shell + flat equator (not a faceted sphere) */
+  .theme .theme-css-shape3d__dome {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: var(--css-shape-size);
+    height: calc(var(--css-shape-size) / 2);
+    backface-visibility: hidden;
+  }
+
+  .theme .theme-css-shape3d__dome--pole-pos {
+    margin-left: calc(var(--css-shape-size) / -2);
+    margin-top: calc(var(--css-shape-size) / -2);
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    transform-origin: 50% 100%;
+    transform: rotateX(90deg) translateZ(var(--css-shape-half));
+  }
+
+  .theme .theme-css-shape3d__dome--pole-neg {
+    margin-left: calc(var(--css-shape-size) / -2);
+    margin-top: 0;
+    border-radius: 0 0 50% 50% / 0 0 100% 100%;
+    transform-origin: 50% 0%;
+    transform: rotateX(-90deg) translateZ(var(--css-shape-half));
+  }
+
+  /* Cylinder / cone — high segment count mimics Zdog thick-stroke silhouette */
+  .theme .theme-css-shape3d__cylinder-panel {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: calc(var(--css-shape-size) * sin(180deg / var(--cylinder-segments, 32)) * 1.04);
+    height: var(--css-shape-size);
+    margin-left: calc(var(--css-shape-size) * sin(180deg / var(--cylinder-segments, 32)) * -0.52);
+    margin-top: calc(var(--css-shape-size) / -2);
+    transform: translateZ(var(--css-shape-half));
+    backface-visibility: hidden;
+  }
+
+  .theme .theme-css-shape3d__cylinder-panel--tone-d {
+    background: var(--css-shape-d);
+  }
+
+  .theme .theme-css-shape3d__cone-panel {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: calc(var(--css-shape-size) * sin(180deg / var(--cone-segments, 24)) * 1.06);
+    height: var(--css-shape-size);
+    margin-left: calc(var(--css-shape-size) * sin(180deg / var(--cone-segments, 24)) * -0.53);
+    margin-top: calc(var(--css-shape-size) * -1);
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+    transform-origin: 50% 0%;
+    transform: translateZ(calc(var(--css-shape-half) * 0.42));
+    backface-visibility: hidden;
+  }
+
+  .theme .theme-css-shape3d__cone-panel--tone-b {
+    background: var(--css-shape-b);
+  }
+
+  .theme .theme-css-shape3d__rubiks {
+    position: relative;
+    width: 0;
+    height: 0;
+    transform-style: preserve-3d;
+  }
+
+  .theme .theme-css-shape3d__cubie {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 0;
+    height: 0;
+    transform-style: preserve-3d;
+    transform: translate3d(
+      calc(var(--cubie-x) * var(--rubiks-step)),
+      calc(var(--cubie-y) * var(--rubiks-step) * -1),
+      calc(var(--cubie-z) * var(--rubiks-step))
+    );
+  }
+
+  .theme .theme-css-shape3d__cubie-body {
+    position: absolute;
+    width: var(--rubiks-cubie-size);
+    height: var(--rubiks-cubie-size);
+    margin-left: calc(var(--rubiks-cubie-size) / -2);
+    margin-top: calc(var(--rubiks-cubie-size) / -2);
+    transform-style: preserve-3d;
+    background-color: color-mix(in srgb, var(--theme-text) 88%, black);
+    border-radius: 0.1875rem;
+  }
+
+  .theme .theme-css-shape3d__cubie-face {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: var(--rubiks-sticker-inset);
+    height: var(--rubiks-sticker-inset);
+    margin-left: calc(var(--rubiks-sticker-inset) / -2);
+    margin-top: calc(var(--rubiks-sticker-inset) / -2);
+    box-sizing: border-box;
+    border-radius: 0.125rem;
+    backface-visibility: hidden;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--theme-border-strong) 55%, transparent);
+  }
+
+  .theme .theme-css-shape3d__cubie-face--front {
+    background-color: color-mix(in srgb, var(--theme-accent) 94%, white);
+    transform: rotateY(0deg) translateZ(calc(var(--rubiks-cubie-half) + 0.5px));
+  }
+
+  .theme .theme-css-shape3d__cubie-face--rear {
+    background-color: color-mix(in srgb, var(--theme-text) 62%, var(--theme-surface));
+    transform: rotateY(180deg) translateZ(calc(var(--rubiks-cubie-half) + 0.5px));
+  }
+
+  .theme .theme-css-shape3d__cubie-face--right {
+    background-color: color-mix(in srgb, var(--theme-focus) 92%, white);
+    transform: rotateY(90deg) translateZ(calc(var(--rubiks-cubie-half) + 0.5px));
+  }
+
+  .theme .theme-css-shape3d__cubie-face--left {
+    background-color: color-mix(in srgb, var(--theme-warning) 90%, white);
+    transform: rotateY(-90deg) translateZ(calc(var(--rubiks-cubie-half) + 0.5px));
+  }
+
+  .theme .theme-css-shape3d__cubie-face--top {
+    background-color: color-mix(in srgb, var(--theme-surface-raised) 96%, white);
+    transform: rotateX(90deg) translateZ(calc(var(--rubiks-cubie-half) + 0.5px));
+  }
+
+  .theme .theme-css-shape3d__cubie-face--bottom {
+    background-color: color-mix(in srgb, var(--theme-accent) 48%, var(--theme-text));
+    transform: rotateX(-90deg) translateZ(calc(var(--rubiks-cubie-half) + 0.5px));
+  }
+
+  /* CSS gallery — 3×3 Zdog layout */
+  .theme .theme-css-shape3d__gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+    min-height: 18rem;
+    padding: 0.75rem;
+  }
+
+  .theme .theme-css-shape3d__gallery-cell {
+    display: grid;
+    gap: 0.25rem;
+    align-content: center;
+    justify-items: center;
+    min-height: 9rem;
+  }
+
+  .theme .theme-css-shape3d__gallery-cell .theme-css-shape3d__scene {
+    min-height: 7.5rem;
+  }
+
+  .theme .theme-css-shape3d__gallery-label {
+    text-transform: capitalize;
+  }
+
+  /* CSS menu cube — ref.3d-menu preserve-3d (face panels · DOM content) */
+
+  .theme .theme-css-shape3d__menu-cube-stage {
+    --css-menu-cube-size: 15rem;
+    --css-menu-cube-half: calc(var(--css-menu-cube-size) / 2);
+    --css-menu-cube-transition-duration: 600ms;
+    --css-menu-cube-transition-ease: cubic-bezier(0.11, 0.93, 0.65, 0.92);
+    --css-shape-a: color-mix(in srgb, var(--theme-accent) 78%, var(--theme-surface-inset));
+    --css-shape-b: var(--theme-accent);
+    --css-shape-c: color-mix(in srgb, var(--theme-warning) 72%, var(--theme-surface-raised));
+    --css-shape-d: color-mix(in srgb, var(--theme-info) 72%, var(--theme-surface-raised));
+    --css-shape-e: color-mix(in srgb, var(--theme-success) 68%, var(--theme-surface-raised));
+    --css-shape-f: color-mix(in srgb, var(--theme-accent) 38%, var(--theme-text));
+    position: relative;
+    width: var(--css-menu-cube-size);
+    height: var(--css-menu-cube-size);
+    perspective: 1000px;
+    perspective-origin: 50% 50%;
+    transform-style: preserve-3d;
+    margin-inline: auto;
+    touch-action: none;
+    cursor: grab;
+  }
+
+  .theme .theme-css-shape3d__menu-cube-stage[data-menu-cube-mode='drag'] {
+    cursor: grab;
+    touch-action: none;
+  }
+
+  .theme .theme-css-shape3d__menu-cube-stage[data-menu-cube-mode='drag'][data-menu-cube-motion='drag'] {
+    cursor: grabbing;
+  }
+
+  .theme .theme-css-shape3d__menu-cube-stage[data-menu-cube-mode='menu'] {
+    cursor: default;
+    touch-action: auto;
+  }
+
+  .theme .theme-css-shape3d__menu-cube-stage--sm {
+    --css-menu-cube-size: 10rem;
+  }
+
+  .theme .theme-css-shape3d__menu-cube-stage--md {
+    --css-menu-cube-size: 15rem;
+  }
+
+  .theme .theme-css-shape3d__menu-cube-stage--lg {
+    --css-menu-cube-size: 18rem;
+  }
+
+  /* ref.3d-menu #cube — menu: translateZ(-half) + face class; drag: translateZ + rx/ry */
+  .theme .theme-css-shape3d__menu-cube {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    transform-style: preserve-3d;
+  }
+
+  .theme .theme-css-shape3d__menu-cube-stage[data-menu-cube-mode='menu'] .theme-css-shape3d__menu-cube {
+    transform: translate3d(0, 0, calc(-1 * var(--css-menu-cube-half)));
+    transition: transform var(--css-menu-cube-transition-duration) var(--css-menu-cube-transition-ease);
+  }
+
+  .theme .theme-css-shape3d__menu-cube-stage[data-menu-cube-mode='drag'] .theme-css-shape3d__menu-cube {
+    transform: translate3d(0, 0, calc(-1 * var(--css-menu-cube-half)))
+      rotateX(var(--css-menu-cube-rx, 0deg)) rotateY(var(--css-menu-cube-ry, 0deg));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-css-shape3d__menu-cube-stage[data-menu-cube-mode='menu'] .theme-css-shape3d__menu-cube {
+      transition: none;
+    }
+  }
+
+  .theme .theme-css-shape3d__menu-cube-stage[data-menu-cube-mode='menu'] .theme-css-shape3d__menu-cube--face-home {
+    transform: translate3d(0, 0, calc(-1 * var(--css-menu-cube-half))) rotateY(0deg);
+  }
+
+  .theme .theme-css-shape3d__menu-cube-stage[data-menu-cube-mode='menu'] .theme-css-shape3d__menu-cube--face-about {
+    transform: translate3d(0, 0, calc(-1 * var(--css-menu-cube-half))) rotateY(-90deg);
+  }
+
+  .theme .theme-css-shape3d__menu-cube-stage[data-menu-cube-mode='menu'] .theme-css-shape3d__menu-cube--face-misc {
+    transform: translate3d(0, 0, calc(-1 * var(--css-menu-cube-half))) rotateX(180deg);
+  }
+
+  .theme .theme-css-shape3d__menu-cube-stage[data-menu-cube-mode='menu'] .theme-css-shape3d__menu-cube--face-shop {
+    transform: translate3d(0, 0, calc(-1 * var(--css-menu-cube-half))) rotateY(90deg);
+  }
+
+  .theme .theme-css-shape3d__menu-cube-stage[data-menu-cube-mode='menu'] .theme-css-shape3d__menu-cube--face-social {
+    transform: translate3d(0, 0, calc(-1 * var(--css-menu-cube-half))) rotateX(90deg);
+  }
+
+  .theme .theme-css-shape3d__menu-cube-stage[data-menu-cube-mode='menu'] .theme-css-shape3d__menu-cube--face-dribbble {
+    transform: translate3d(0, 0, calc(-1 * var(--css-menu-cube-half))) rotateX(-90deg);
+  }
+
+  .theme
+    .theme-css-shape3d__menu-cube-stage[data-menu-cube-motion='tween']
+    .theme-css-shape3d__menu-cube,
+  .theme
+    .theme-css-shape3d__menu-cube-stage[data-menu-cube-motion='drag']
+    .theme-css-shape3d__menu-cube {
+    will-change: transform;
+  }
+
+  /* ref.3d-menu — all faces receive hits; browser picks the frontmost in 3D */
+  .theme .theme-css-shape3d__menu-cube-side {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    box-sizing: border-box;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+  }
+
+  .theme .theme-css-shape3d__menu-cube[data-face-border='true'] .theme-css-shape3d__menu-cube-side {
+    border: 2px solid var(--theme-border-strong);
+    border-radius: 0.7rem;
+    box-shadow: 0 0 6px color-mix(in srgb, var(--theme-shadow-brutal) 45%, transparent);
+  }
+
+  .theme .theme-css-shape3d__menu-cube-side > * {
+    display: block;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+  }
+
+  /* ref.3d-menu .side nth-child */
+  .theme .theme-css-shape3d__menu-cube-side[data-cube-face='home'] {
+    transform: rotateY(0deg) translateZ(var(--css-menu-cube-half));
+  }
+
+  .theme .theme-css-shape3d__menu-cube-side[data-cube-face='about'] {
+    transform: rotateY(90deg) translateZ(var(--css-menu-cube-half));
+  }
+
+  .theme .theme-css-shape3d__menu-cube-side[data-cube-face='misc'] {
+    transform: rotateX(180deg) translateZ(var(--css-menu-cube-half));
+  }
+
+  .theme .theme-css-shape3d__menu-cube-side[data-cube-face='shop'] {
+    transform: rotateY(-90deg) translateZ(var(--css-menu-cube-half));
+  }
+
+  .theme .theme-css-shape3d__menu-cube-side[data-cube-face='social'] {
+    transform: rotateX(-90deg) translateZ(var(--css-menu-cube-half));
+  }
+
+  .theme .theme-css-shape3d__menu-cube-side[data-cube-face='dribbble'] {
+    transform: rotateX(90deg) translateZ(var(--css-menu-cube-half));
+  }
+
+  .theme .theme-css-shape3d__menu-cube-tone {
+    width: 100%;
+    height: 100%;
+    border-radius: 0.625rem;
+    box-shadow: 0 0 6px color-mix(in srgb, var(--theme-shadow-brutal) 45%, transparent);
+  }
+
+  .theme .theme-css-shape3d__menu-cube-tone--a {
+    background-color: var(--css-shape-a);
+  }
+
+  .theme .theme-css-shape3d__menu-cube-tone--b {
+    background-color: var(--css-shape-b);
+  }
+
+  .theme .theme-css-shape3d__menu-cube-tone--c {
+    background-color: var(--css-shape-c);
+  }
+
+  .theme .theme-css-shape3d__menu-cube-tone--d {
+    background-color: var(--css-shape-d);
+  }
+
+  .theme .theme-css-shape3d__menu-cube-tone--e {
+    background-color: var(--css-shape-e);
+  }
+
+  .theme .theme-css-shape3d__menu-cube-tone--f {
+    background-color: var(--css-shape-f);
+  }
+
+  .theme .theme-css-shape3d__menu-cube-face-label {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border-radius: 0.625rem;
+    border: 2px solid var(--theme-border-strong);
+    background-color: var(--theme-surface-raised);
+    color: var(--theme-text-muted);
+    box-shadow: var(--theme-shadow-brutal);
+    text-transform: capitalize;
+  }
+
+  /* —— R3F 3D shapes (React Three Fiber) —— */
+
+  .theme .theme-r3f-shape3d__viewport {
+    position: relative;
+    width: 100%;
+    min-height: 12rem;
+    touch-action: none;
+    cursor: grab;
+  }
+
+  .theme .theme-r3f-shape3d__viewport:active {
+    cursor: grabbing;
+  }
+
+  .theme .theme-r3f-shape3d__viewport--sm {
+    min-height: 8rem;
+  }
+
+  .theme .theme-r3f-shape3d__viewport--md {
+    min-height: 12rem;
+  }
+
+  .theme .theme-r3f-shape3d__viewport--lg {
+    min-height: 18rem;
+  }
+
+  .theme .theme-r3f-shape3d__canvas-host,
+  .theme .theme-r3f-shape3d__canvas {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .theme .theme-r3f-shape3d__canvas-host {
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .theme .theme-r3f-shape3d__host-stage {
+    overflow: hidden;
+    border-style: solid;
+  }
+
+  .theme .theme-r3f-shape3d__gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+    min-height: 18rem;
+    padding: 0.75rem;
+  }
+
+  .theme .theme-r3f-shape3d__gallery-cell {
+    display: grid;
+    gap: 0.25rem;
+    align-content: center;
+    justify-items: center;
+    min-height: 9rem;
+  }
+
+  .theme .theme-r3f-shape3d__gallery-cell .theme-r3f-shape3d__viewport {
+    min-height: 7.5rem;
+  }
+
+  .theme .theme-r3f-shape3d__gallery-label {
+    text-transform: capitalize;
+  }
+}

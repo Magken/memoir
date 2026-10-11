@@ -1,0 +1,7 @@
+{
+  "slots": [
+    { "id": "voice", "status": "filled", "package": "sensory-tssv@3.15.11" },
+    { "id": "splat-capture", "status": "empty", "package": null },
+    { "id": "object-gen", "status": "empty", "package": null }
+  ]
+}

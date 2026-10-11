@@ -1,0 +1,22 @@
+{
+  "assetId": "gras-letters",
+  "units": "m",
+  "upAxis": "y",
+  "notes": "Vertical Megrim GRAS. Home matches Creation of Adam so scene placement shares one origin and facing. Ceramic glyphs receive a rest PointLight that walks the letters and a cursor lamp on hover. Typeface JSON at /fonts/megrim.typeface.json.",
+  "annotations": [
+    {
+      "id": "viewpoint-home",
+      "kind": "viewpoint",
+      "label": "Home",
+      "position": [0, 0.5, 0],
+      "camera": [-0.5054449693328621, 0.20935624209362158, -0.10912691270966193],
+      "target": [0.07211756881207634, 0.3130456736689876, -0.00020925034262128808],
+      "orbit": {
+        "azimuth": -1.7571889295087268,
+        "polar": 1.745419226128741,
+        "radius": 0.5968191022951148
+      },
+      "up": [0, 1, 0]
+    }
+  ]
+}

@@ -1,0 +1,221 @@
+/**
+ * ColorSelector — flat Card shell, flex row (picker | swatches), hex footer.
+ */
+
+@layer components {
+  .theme .theme-color-selector-card.theme-card {
+    width: fit-content;
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .theme .theme-color-selector-card .theme-card__content,
+  .theme .theme-color-selector-card .theme-card__body {
+    width: fit-content;
+    max-width: 100%;
+    min-width: 0;
+    padding: 0;
+    margin: 0;
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .theme .theme-color-selector-card.theme-card:hover,
+    .theme .theme-color-selector-card.theme-card:active {
+      transform: none;
+    }
+  }
+
+  .theme .theme-color-selector {
+    --theme-color-selector-picker-width: 10rem;
+    --theme-color-selector-swatch-width: 1.125rem;
+    --theme-color-selector-gap: 0.375rem;
+    --theme-color-selector-pad: 0.375rem;
+    width: calc(
+      var(--theme-color-selector-pad) * 2 + var(--theme-color-selector-picker-width) +
+        var(--theme-color-selector-gap) + var(--theme-color-selector-swatch-width)
+    );
+    max-width: 100%;
+  }
+
+  .theme .theme-color-selector__body {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: var(--theme-color-selector-gap);
+    padding: var(--theme-color-selector-pad);
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .theme .theme-color-selector__picker {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 var(--theme-color-selector-picker-width);
+    width: var(--theme-color-selector-picker-width);
+    max-width: var(--theme-color-selector-picker-width);
+    height: 9rem;
+    min-height: 9rem;
+    align-self: stretch;
+    overflow: hidden;
+  }
+
+  .theme .theme-color-selector__picker .react-colorful__saturation {
+    flex: 1 1 auto;
+    min-height: 0;
+    border-radius: 0.25rem;
+    border: 1px solid var(--theme-border);
+    border-bottom-width: 0;
+  }
+
+  .theme .theme-color-selector__picker .react-colorful__hue {
+    flex: 0 0 0.75rem;
+    height: 0.75rem;
+    border-radius: var(--theme-radius-pill);
+    border: 1px solid var(--theme-border);
+  }
+
+  .theme .theme-color-selector__picker .react-colorful__pointer {
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid #fff;
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--theme-text) 28%, transparent),
+      0 1px 4px color-mix(in srgb, var(--theme-text) 18%, transparent);
+  }
+
+  .theme .theme-color-selector__picker .react-colorful__hue .react-colorful__pointer {
+    width: 0.75rem;
+    height: 1.125rem;
+    border-radius: 0.1875rem;
+  }
+
+  .theme .theme-color-selector__swatches {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    flex: 0 0 auto;
+  }
+
+  .theme .theme-color-selector__swatch {
+    width: 1.125rem;
+    height: 1.125rem;
+    border: 1px solid color-mix(in srgb, var(--theme-border) 60%, transparent);
+    border-radius: 0.1875rem;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .theme .theme-color-selector__swatch--active {
+    outline: 2px solid var(--type-accent);
+    outline-offset: 1px;
+  }
+
+  .theme .theme-color-selector__fields {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.25rem var(--theme-color-selector-pad) 0.5rem;
+    border-top: 1px solid var(--theme-border);
+  }
+
+  .theme .theme-color-selector__hex {
+    margin-bottom: 0.375rem;
+  }
+
+  .theme .theme-color-selector__hex-counter.theme-field {
+    gap: 0;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .theme .theme-color-selector__rgb-field.theme-field {
+    gap: 0;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .theme .theme-color-selector__rgb-field .theme-field__control-shell {
+    min-height: 1.5rem;
+  }
+
+  .theme .theme-color-selector__rgb {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.25rem;
+  }
+
+  .theme .theme-color-selector__preview {
+    display: block;
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 0.125rem;
+    border: 1px solid var(--theme-border);
+  }
+
+  /* Flat fields inside card — no nested brutal shadows */
+  .theme .theme-color-selector .theme-field--flat .theme-field__control-shell {
+    box-shadow: none;
+    transform: none;
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .theme
+      .theme-color-selector
+      .theme-field--flat
+      .theme-field__control-shell:hover:not(:has(:disabled)):not(:has(:read-only)):not(:focus-within) {
+      box-shadow: none;
+      transform: none;
+    }
+  }
+
+  .theme .theme-color-selector .theme-field--flat .theme-field__control-shell:focus-within {
+    box-shadow: none;
+    transform: none;
+    border-color: color-mix(in srgb, var(--theme-accent) 40%, var(--theme-border-strong));
+  }
+}
+
+/* react-colorful injects unlayered 200×200px rules — must override outside @layer */
+.theme .theme-color-selector__picker .react-colorful {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 auto;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0;
+  gap: 0.375rem;
+}
+
+.theme .theme-color-selector__picker .react-colorful__saturation {
+  border-bottom: none !important;
+}
+
+/* Toolbar / ribbon portaled ColorSelector — keep Card housing visible + sized. */
+.theme .theme-color-selector-card.theme-color-selector--popover.theme-card {
+  width: fit-content;
+  max-width: min(100vw - 1.5rem, 22rem);
+  padding: 0;
+  border: 1px solid var(--theme-border);
+  border-radius: 0.375rem;
+  background: var(--theme-surface);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--theme-text) 14%, transparent);
+  overflow: visible;
+}
+
+.theme .theme-color-selector--popover .theme-color-selector {
+  --theme-color-selector-picker-width: 10rem;
+  width: calc(
+    var(--theme-color-selector-pad) * 2 + var(--theme-color-selector-picker-width) +
+      var(--theme-color-selector-gap) + var(--theme-color-selector-swatch-width)
+  );
+  max-width: 100%;
+}
+
+.theme .theme-color-selector--popover .theme-color-selector__swatches {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 0.25rem;
+  align-items: stretch;
+}

@@ -1,0 +1,23 @@
+/**
+ * Lenis layout — keep in sync with lenis/dist/lenis.css (imported in main.tsx).
+ * Do not set overflow:hidden on html; that hides the themed page scrollbar.
+ */
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis [data-lenis-prevent],
+.lenis [data-lenis-prevent-wheel],
+.lenis [data-lenis-prevent-touch] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}

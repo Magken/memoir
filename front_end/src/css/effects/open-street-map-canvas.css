@@ -1,0 +1,54 @@
+@layer components {
+  .theme .theme-osm-canvas {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 18rem;
+    border-radius: var(--theme-radius-control, 0.5rem);
+    background: color-mix(in srgb, var(--theme-page-bg) 88%, var(--theme-border));
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+  }
+
+  .theme .theme-osm-canvas.is-dragging {
+    cursor: grabbing;
+  }
+
+  .theme .theme-osm-canvas__tile {
+    position: absolute;
+    width: 256px;
+    height: 256px;
+    pointer-events: none;
+    image-rendering: auto;
+  }
+
+  .theme .theme-osm-canvas__pin {
+    position: absolute;
+    width: 0.75rem;
+    height: 0.75rem;
+    margin: -0.375rem 0 0 -0.375rem;
+    border-radius: 999px;
+    border: 2px solid var(--theme-page-bg);
+    background: var(--theme-accent);
+    pointer-events: none;
+  }
+
+  .theme .theme-osm-canvas__pin.is-gps {
+    width: 0.9rem;
+    height: 0.9rem;
+    margin: -0.45rem 0 0 -0.45rem;
+    background: var(--theme-success, var(--theme-accent));
+  }
+
+  .theme .theme-osm-canvas__credit {
+    position: absolute;
+    right: 0.4rem;
+    bottom: 0.35rem;
+    margin: 0;
+    padding: 0.1rem 0.35rem;
+    border-radius: 0.2rem;
+    background: color-mix(in srgb, var(--theme-page-bg) 82%, transparent);
+    pointer-events: none;
+  }
+}

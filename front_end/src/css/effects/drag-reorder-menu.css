@@ -1,0 +1,468 @@
+/**
+ * Drag reorder menu — tiered vertical list; draggable grip + row [Button](Button.tsx);
+ * [ThemeScroll](ThemeScroll.tsx) body (curved · straight · hidden rails).
+ */
+
+@layer components {
+  .theme .theme-dreorder {
+    --theme-dreorder-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --theme-dreorder-duration: 0.28s;
+    --theme-dreorder-sub-indent: calc(0.6rem * var(--theme-menu-scale));
+    --theme-dreorder-body-max-height: calc(24rem * var(--theme-menu-scale));
+    --theme-menu-panel-padding-block: calc(0.1rem * var(--theme-menu-scale));
+    --theme-menu-panel-padding-block-end: calc(0.12rem * var(--theme-menu-scale));
+    --theme-menu-panel-padding-inline: calc(0.12rem * var(--theme-menu-scale));
+    --theme-dreorder-row-gutter: calc(
+      0.1rem * var(--theme-menu-scale) + var(--theme-btn-shadow-offset-sm, 4px)
+    );
+    --theme-dreorder-row-gap: calc(
+      0.12rem * var(--theme-menu-scale) + var(--theme-btn-shadow-offset-sm, 4px)
+    );
+    --theme-dreorder-row-height: calc(1.95rem * var(--theme-menu-scale));
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .theme .theme-dreorder--body-max-16 {
+    --theme-dreorder-body-max-height: calc(16rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-dreorder--body-max-20 {
+    --theme-dreorder-body-max-height: calc(20rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-dreorder--body-max-24 {
+    --theme-dreorder-body-max-height: calc(24rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-dreorder--body-max-32 {
+    --theme-dreorder-body-max-height: calc(32rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-dreorder__body {
+    display: grid;
+    grid-template-rows: 1fr;
+    flex: 0 1 auto;
+    min-height: 0;
+    max-height: var(--theme-dreorder-body-max-height);
+    overflow: visible;
+  }
+
+  .theme .theme-dreorder__body-inner {
+    min-height: 0;
+    overflow: visible;
+  }
+
+  /*
+   * Vertical scroll rail — standard reserve (rounded-scroll.css --theme-scroll-rail-track).
+   * Keeps rows close to the rail; rail sits between list and border (dashboard parity).
+   */
+  .theme .theme-dreorder .theme-dreorder__scroll.theme-rounded-scroll:not(.theme-scroll--clouds) {
+    overflow: visible;
+  }
+
+  /* Scroll clouds — fixed-height scrollport + edge fade overlays (not host clip without scroll) */
+  .theme .theme-dreorder--scroll-clouds .theme-dreorder__body,
+  .theme .theme-dreorder--scroll-clouds .theme-dreorder__body-inner {
+    --theme-scroll-fade: var(--theme-surface-raised);
+    background-color: var(--theme-surface-raised);
+  }
+
+  .theme .theme-dreorder--scroll-clouds .theme-dreorder__body-inner {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .theme .theme-dreorder .theme-dreorder__scroll.theme-scroll--clouds {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    height: var(--theme-dreorder-body-max-height);
+    max-height: var(--theme-dreorder-body-max-height);
+    min-height: 0;
+    overflow: hidden;
+    --theme-dreorder-scroll-fade: calc(3.5rem + var(--theme-scroll-list-edge-end, 0.12rem));
+    --theme-scroll-cloud-edge-leeway: 0.08;
+  }
+
+  /* Viewport mask fades (overlay clouds hidden — mask avoids clip line + color mismatch) */
+  .theme .theme-dreorder .theme-dreorder__scroll.theme-scroll--clouds .theme-scroll__cloud {
+    display: none;
+  }
+
+  .theme
+    .theme-dreorder--scroll-clouds
+    .theme-dreorder__scroll.theme-scroll--clouds[data-scroll-overflow='true'][data-scroll-at-start='true']:not(
+      [data-scroll-at-end='true']
+    )
+    :is(.theme-rounded-scroll__viewport, .theme-scroll__viewport) {
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      #000 0,
+      #000 calc(100% - var(--theme-dreorder-scroll-fade)),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      #000 0,
+      #000 calc(100% - var(--theme-dreorder-scroll-fade)),
+      transparent 100%
+    );
+  }
+
+  .theme
+    .theme-dreorder--scroll-clouds
+    .theme-dreorder__scroll.theme-scroll--clouds[data-scroll-overflow='true'][data-scroll-at-start='false'][data-scroll-at-end='true']
+    :is(.theme-rounded-scroll__viewport, .theme-scroll__viewport) {
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      #000 var(--theme-dreorder-scroll-fade),
+      #000 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      #000 var(--theme-dreorder-scroll-fade),
+      #000 100%
+    );
+  }
+
+  .theme
+    .theme-dreorder--scroll-clouds
+    .theme-dreorder__scroll.theme-scroll--clouds[data-scroll-overflow='true'][data-scroll-at-start='false']:not(
+      [data-scroll-at-end='true']
+    )
+    :is(.theme-rounded-scroll__viewport, .theme-scroll__viewport) {
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      #000 var(--theme-dreorder-scroll-fade),
+      #000 calc(100% - var(--theme-dreorder-scroll-fade)),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      #000 var(--theme-dreorder-scroll-fade),
+      #000 calc(100% - var(--theme-dreorder-scroll-fade)),
+      transparent 100%
+    );
+  }
+
+  .theme .theme-dreorder--scroll-clouds .theme-dreorder__tree {
+    padding-block-start: calc(0.1rem * var(--theme-menu-scale));
+    padding-block-end: 0;
+  }
+
+  .theme
+    .theme-dreorder--scroll-clouds
+    .theme-dreorder__scroll.theme-scroll--clouds
+    :is(.theme-rounded-scroll__viewport, .theme-scroll__viewport) {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
+    height: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-block-end: calc(0.1rem * var(--theme-menu-scale));
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+  }
+
+  .theme .theme-dreorder .theme-dreorder__scroll.theme-rounded-scroll {
+    --theme-rounded-scroll-gutter: 0.14rem;
+    --theme-rounded-scroll-stroke-width: 2;
+    --theme-scroll-list-edge-start: calc(0.1rem * var(--theme-menu-scale, 1));
+    --theme-scroll-list-edge-end: calc(0.1rem * var(--theme-menu-scale, 1));
+    --theme-scroll-rail-edge-start: calc(0.1rem * var(--theme-menu-scale, 1));
+    --theme-scroll-rail-edge-end: calc(0.1rem * var(--theme-menu-scale, 1));
+  }
+
+  .theme .theme-dreorder__scroll {
+    height: auto;
+    max-height: var(--theme-dreorder-body-max-height);
+  }
+
+  .theme .theme-dreorder__scroll:not(.theme-scroll--clouds) .theme-rounded-scroll__viewport,
+  .theme .theme-dreorder__scroll:not(.theme-scroll--clouds) .theme-scroll__viewport {
+    max-height: var(--theme-dreorder-body-max-height);
+    overflow-x: hidden;
+  }
+
+  .theme .theme-dreorder__scroll[data-scroll-rail='curved'] .theme-rounded-scroll__viewport {
+    padding-inline-end: var(--theme-scroll-rail-track);
+  }
+
+  .theme .theme-dreorder__scroll[data-scroll-rail='straight'] .theme-scroll__viewport,
+  .theme .theme-dreorder__scroll[data-scroll-rail='hidden'] .theme-scroll__viewport {
+    padding-inline-end: var(--theme-dreorder-row-gutter);
+  }
+
+  .theme
+    .theme-dreorder__scroll[data-rounded-scroll-overflow='false']
+    .theme-rounded-scroll__viewport {
+    padding-inline-end: 0;
+  }
+
+  .theme .theme-dreorder__tree {
+    position: relative;
+    overflow: visible;
+    padding-block-start: var(--theme-scroll-list-pad-block-start);
+    padding-block-end: var(--theme-scroll-list-pad-block-end);
+  }
+
+  .theme .theme-dreorder__list,
+  .theme .theme-dreorder__sublist {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--theme-dreorder-row-gap);
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow: visible;
+  }
+
+  .theme .theme-dreorder__list {
+    padding-inline-start: var(--theme-menu-panel-padding-inline);
+    padding-inline-end: calc(
+      var(--theme-menu-panel-padding-inline) + var(--theme-dreorder-row-gutter)
+    );
+  }
+
+  .theme .theme-dreorder__list-item {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    width: 100%;
+    min-width: 0;
+    list-style: none;
+    overflow: visible;
+  }
+
+  .theme .theme-dreorder__sortable-slot {
+    width: 100%;
+    flex: 0 0 auto;
+    touch-action: none;
+  }
+
+  .theme .theme-dreorder__row.theme-btn {
+    display: flex;
+    align-items: center;
+    gap: calc(0.2rem * var(--theme-menu-scale));
+    width: 100%;
+    min-width: 0;
+    min-height: var(--theme-dreorder-row-height);
+    box-sizing: border-box;
+    overflow: visible;
+    justify-content: flex-start;
+    text-align: left;
+    position: relative;
+    padding-block: calc(0.22rem * var(--theme-menu-scale));
+    padding-inline: calc(0.28rem * var(--theme-menu-scale));
+    transition:
+      opacity 0.2s ease,
+      background-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .theme .theme-dreorder--drag-active {
+    user-select: none;
+  }
+
+  .theme .theme-dreorder__row--dragging {
+    opacity: 0.35;
+  }
+
+  .theme .theme-dreorder__row--overlay {
+    opacity: 0.98;
+    width: 100%;
+    box-shadow: var(--theme-btn-shadow-offset-sm, 4px) var(--theme-btn-shadow-offset-sm, 4px) 0
+      var(--theme-shadow-brutal);
+    cursor: grabbing;
+  }
+
+  .theme.theme-dreorder__overlay-portal {
+    width: 100%;
+    height: 100%;
+  }
+
+  .theme .theme-dreorder__overlay-host {
+    box-sizing: border-box;
+    width: 100%;
+    pointer-events: none;
+  }
+
+  .theme .theme-dreorder--sm {
+    --theme-dreorder-row-height: calc(1.75rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-dreorder--lg {
+    --theme-dreorder-row-height: calc(2.125rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-dreorder__grip {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    opacity: 0.62;
+  }
+
+  .theme .theme-dreorder__row--dragging .theme-dreorder__grip {
+    cursor: grabbing;
+  }
+
+  .theme .theme-dreorder__item-icon.theme-btn__icon {
+    flex: 0 0 auto;
+  }
+
+  .theme .theme-dreorder__main {
+    flex: 1 1 auto;
+    display: inline-flex;
+    align-items: center;
+    gap: calc(0.25rem * var(--theme-menu-scale));
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    line-height: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .theme .theme-dreorder__main:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+  }
+
+  .theme .theme-dreorder__main .theme-btn__label {
+    flex: 1 1 auto;
+    min-width: 0;
+    text-align: left;
+  }
+
+  .theme .theme-dreorder__chevron {
+    flex: 0 0 auto;
+    width: calc(0.9rem * var(--theme-menu-scale));
+    height: calc(0.9rem * var(--theme-menu-scale));
+    opacity: 0.72;
+    transition: transform var(--theme-dreorder-duration) var(--theme-dreorder-ease);
+  }
+
+  .theme .theme-dreorder__row--open .theme-dreorder__chevron {
+    transform: rotate(180deg);
+  }
+
+  .theme .theme-dreorder--flat .theme-dreorder__chevron {
+    display: none;
+  }
+
+  .theme .theme-dreorder__gear.theme-menu {
+    flex: 0 0 auto;
+    align-self: center;
+    margin-inline-end: calc(-1 * var(--theme-btn-shadow-offset-sm, 4px));
+  }
+
+  .theme .theme-dreorder__gear.theme-menu > .theme-btn {
+    min-height: 0;
+    padding: calc(0.08rem * var(--theme-menu-scale));
+    box-shadow: none;
+    transform: none;
+  }
+
+  .theme .theme-dreorder__gear.theme-menu > .theme-btn:is(:hover, :focus-visible):not(:disabled) {
+    box-shadow: none;
+    transform: none;
+  }
+
+  .theme .theme-dreorder__subpanel {
+    display: grid;
+    grid-template-rows: 0fr;
+    min-height: 0;
+    overflow: hidden;
+    transition: grid-template-rows var(--theme-dreorder-duration) var(--theme-dreorder-ease);
+  }
+
+  .theme .theme-dreorder__subpanel--open {
+    grid-template-rows: 1fr;
+    overflow: visible;
+  }
+
+  .theme .theme-dreorder--flat .theme-dreorder__subpanel {
+    grid-template-rows: 1fr;
+    overflow: visible;
+  }
+
+  .theme .theme-dreorder__subpanel-inner {
+    min-height: 0;
+    overflow: hidden;
+    padding-block: 0;
+    padding-inline-end: 0;
+  }
+
+  .theme .theme-dreorder__subpanel--open > .theme-dreorder__subpanel-inner,
+  .theme .theme-dreorder--flat .theme-dreorder__subpanel-inner {
+    padding-block-start: var(--theme-dreorder-row-gap);
+    padding-block-end: calc(0.06rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-dreorder__subpanel-inner[data-depth='0'] {
+    padding-inline-start: var(--theme-dreorder-sub-indent);
+  }
+
+  .theme .theme-dreorder__subpanel-inner[data-depth='1'] {
+    padding-inline-start: calc(var(--theme-dreorder-sub-indent) * 2);
+  }
+
+  .theme .theme-dreorder__subpanel-inner[data-depth='2'] {
+    padding-inline-start: calc(var(--theme-dreorder-sub-indent) * 3);
+  }
+
+  .theme .theme-dreorder__subpanel-inner[data-depth='3'] {
+    padding-inline-start: calc(var(--theme-dreorder-sub-indent) * 4);
+  }
+
+  .theme .theme-dreorder__subpanel-inner[data-depth='4'] {
+    padding-inline-start: calc(var(--theme-dreorder-sub-indent) * 5);
+  }
+
+  .theme .theme-dreorder__subpanel-inner[data-depth='5'] {
+    padding-inline-start: calc(var(--theme-dreorder-sub-indent) * 6);
+  }
+
+  .theme .theme-dreorder__subpanel-inner[data-depth='6'] {
+    padding-inline-start: calc(var(--theme-dreorder-sub-indent) * 7);
+  }
+
+  .theme .theme-dreorder__subpanel--open > .theme-dreorder__subpanel-inner,
+  .theme .theme-dreorder--flat .theme-dreorder__subpanel-inner {
+    overflow: visible;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-dreorder__row,
+    .theme .theme-dreorder__subpanel,
+    .theme .theme-dreorder__chevron {
+      transition-duration: 0.01ms;
+    }
+  }
+}

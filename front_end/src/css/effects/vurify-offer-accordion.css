@@ -1,0 +1,689 @@
+/**
+ * Vurify Home Scene 03 offer accordion — larger rows, centered title/subtitle,
+ * hover expands copy + illustration fan. Scoped under `.theme-vurify-offer-accordion`.
+ *
+ * Row box size is locked (rest === active) so copy expand cannot change ThemeScroll
+ * height and fight scrubbed ScrollTriggers.
+ *
+ * Competing motion kept apart:
+ * - GSAP owns `__visual` x/opacity (scroll enter) — no CSS transform/transition there
+ * - CSS owns deck follow + `--offer-deck-scale` (hover grow) and card fan transforms
+ * - Copy title/body expand on `--active` (hover, else most-visible)
+ * - Illustration fan uses `--active` on one row (hover, else most-visible)
+ * - Offer type sizes live only here (no type-h2 / type-title utilities fighting clamps)
+ */
+
+@property --offer-deck-scale {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 1;
+}
+
+@layer components {
+  .theme .theme-vurify-offer-accordion-host {
+    width: 100%;
+    background: transparent;
+  }
+
+  .theme .theme-vurify-offer-accordion.theme-webgpu-iso-accordion,
+  .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__stack,
+  .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__row,
+  .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__row--active {
+    background-color: transparent;
+  }
+
+  .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__row {
+    transform: none;
+    contain: layout style;
+    width: 100%;
+  }
+
+  /* Full-row hit target — expand from anywhere on the section, not only the title glyphs. */
+  .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__article {
+    overflow: visible;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__copy {
+    pointer-events: auto;
+  }
+
+  .theme .theme-vurify-offer-accordion.theme-webgpu-iso-accordion {
+    --webgpu-iso-accordion-pad-block: 1.25rem;
+    --webgpu-iso-accordion-duration: 0.48s;
+    --vurify-offer-row-height: clamp(13.5rem, 24vh, 16.5rem);
+    --vurify-offer-type-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    max-width: 64rem;
+  }
+
+  /* Fixed row shell — same size at rest and active (no scroll-height thrash). */
+  .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__article,
+  .theme
+    .theme-vurify-offer-accordion
+    .theme-webgpu-iso-accordion__row--active
+    .theme-webgpu-iso-accordion__article {
+    grid-template-columns: minmax(0, 1fr) minmax(14rem, 20rem);
+    column-gap: clamp(0.35rem, 1vw, 0.75rem);
+    align-items: stretch;
+    height: var(--vurify-offer-row-height);
+    min-height: var(--vurify-offer-row-height);
+    max-height: var(--vurify-offer-row-height);
+    overflow: visible;
+    /* Kill base grid-template-columns transition — columns are locked. */
+    transition: none;
+  }
+
+  .theme
+    .theme-vurify-offer-accordion
+    .theme-webgpu-iso-accordion__row[data-layout='copy-right']
+    .theme-webgpu-iso-accordion__article,
+  .theme
+    .theme-vurify-offer-accordion
+    .theme-webgpu-iso-accordion__row--active[data-layout='copy-right']
+    .theme-webgpu-iso-accordion__article {
+    grid-template-columns: minmax(14rem, 20rem) minmax(0, 1fr);
+  }
+
+  /* Rest: title + subtitle centered; pull copy toward the stack. */
+  .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    justify-self: end;
+    max-width: none;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+    gap: 0;
+    transition: justify-content var(--webgpu-iso-accordion-duration)
+      var(--webgpu-iso-accordion-leave-ease);
+  }
+
+  .theme
+    .theme-vurify-offer-accordion
+    .theme-webgpu-iso-accordion__row[data-layout='copy-right']
+    .theme-webgpu-iso-accordion__copy {
+    justify-self: start;
+    text-align: center;
+  }
+
+  .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* Do not grow — keep title + teaser + See more as one centered stack at rest. */
+    flex: 0 0 auto;
+    width: 100%;
+    min-height: 0;
+    transition: flex-grow var(--webgpu-iso-accordion-duration) var(--webgpu-iso-accordion-ease);
+  }
+
+  .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__title,
+  .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__teaser {
+    width: auto;
+    max-width: min(100%, 26rem);
+  }
+
+  /*
+   * Rest: title + teaser fill the copy column (large type).
+   * Active: they shrink so the body can open — row height stays locked.
+   * Only font-size + color transition (letter-spacing/margin snap — less layout thrash).
+   */
+  .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__title {
+    position: relative;
+    display: inline-block;
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.85rem, 4vw, 3rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    color: var(--theme-text);
+    transform-origin: 50% 50%;
+    transition:
+      color 0.4s var(--vurify-offer-type-ease),
+      font-size var(--webgpu-iso-accordion-duration) var(--vurify-offer-type-ease);
+  }
+
+  .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__teaser {
+    margin: 0.55rem 0 0;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.05rem, 2vw, 1.45rem);
+    line-height: 1.25;
+    letter-spacing: 0.01em;
+    max-width: min(100%, 24rem);
+    color: color-mix(in srgb, var(--theme-text) 72%, var(--theme-text-muted));
+    transition:
+      color 0.4s var(--vurify-offer-type-ease),
+      opacity 0.4s var(--vurify-offer-type-ease),
+      font-size var(--webgpu-iso-accordion-duration) var(--vurify-offer-type-ease);
+  }
+
+  .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__teaser em {
+    font-style: normal;
+    font-weight: 700;
+    color: var(--theme-text);
+  }
+
+  .theme
+    .theme-vurify-offer-accordion
+    .theme-webgpu-iso-accordion__row:is(:hover, .theme-webgpu-iso-accordion__row--active)
+    .theme-webgpu-iso-accordion__title {
+    color: var(--theme-accent);
+  }
+
+  .theme
+    .theme-vurify-offer-accordion
+    .theme-webgpu-iso-accordion__row:is(:hover, .theme-webgpu-iso-accordion__row--active)
+    .theme-webgpu-iso-accordion__teaser {
+    color: var(--theme-text);
+    opacity: 1;
+  }
+
+  .theme
+    .theme-vurify-offer-accordion
+    .theme-webgpu-iso-accordion__row:is(:hover, .theme-webgpu-iso-accordion__row--active)
+    .theme-webgpu-iso-accordion__teaser
+    em {
+    color: var(--theme-accent);
+  }
+
+  /* Active: compact chrome at the top — title + teaser shrink hard. */
+  .theme
+    .theme-vurify-offer-accordion
+    .theme-webgpu-iso-accordion__row--active
+    .theme-webgpu-iso-accordion__head {
+    flex: 0 0 auto;
+    justify-content: flex-start;
+  }
+
+  .theme
+    .theme-vurify-offer-accordion
+    .theme-webgpu-iso-accordion__row--active
+    .theme-webgpu-iso-accordion__title {
+    font-size: clamp(1.2rem, 2.1vw, 1.6rem);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  .theme
+    .theme-vurify-offer-accordion
+    .theme-webgpu-iso-accordion__row--active
+    .theme-webgpu-iso-accordion__teaser {
+    font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+    letter-spacing: 0;
+    margin-block-start: 0.3rem;
+    line-height: 1.3;
+  }
+
+  /*
+   * Offer detail: body collapses; See more stays in-flow under the teaser (rest)
+   * and under the body (active) — not pinned to the row bottom.
+   */
+  .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__detail {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 auto;
+    grid-template-rows: none;
+    width: 100%;
+    max-width: 28rem;
+    min-height: 0;
+    margin-inline: auto;
+    margin-block-start: 0.2rem;
+    transition: none;
+  }
+
+  .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__detail-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    min-height: 0;
+    overflow: visible;
+    gap: 0.2rem;
+  }
+
+  .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__body {
+    max-width: none;
+    text-align: center;
+    overflow: hidden;
+    line-height: 1.45;
+    font-family: var(--font-body, inherit);
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: color-mix(in srgb, var(--theme-text) 78%, var(--theme-text-muted));
+    flex: 0 0 auto;
+    max-height: 0;
+    opacity: 0;
+    padding-block-start: 0;
+    margin: 0;
+    transition:
+      opacity calc(var(--webgpu-iso-accordion-duration) * 0.9) var(--webgpu-iso-accordion-leave-ease),
+      max-height var(--webgpu-iso-accordion-duration) var(--webgpu-iso-accordion-leave-ease),
+      padding-block-start var(--webgpu-iso-accordion-duration) var(--webgpu-iso-accordion-leave-ease);
+  }
+
+  .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__action {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 0;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .theme .theme-vurify-offer-accordion .theme-vurify-offer-accordion__see-more {
+    margin-block-start: 0;
+  }
+
+  .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__body strong {
+    color: var(--theme-text);
+    font-weight: 700;
+  }
+
+  .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__body em {
+    font-style: normal;
+    font-weight: 600;
+    color: var(--theme-accent);
+  }
+
+  .theme
+    .theme-vurify-offer-accordion
+    .theme-webgpu-iso-accordion__row--active
+    .theme-webgpu-iso-accordion__body {
+    color: color-mix(in srgb, var(--theme-text) 88%, var(--theme-text-muted));
+    flex: 1 1 auto;
+    max-height: 8.5rem;
+    min-height: 0;
+    opacity: 1;
+    padding-block-start: 0.35rem;
+    overflow: hidden;
+    transition:
+      opacity calc(var(--webgpu-iso-accordion-duration) * 0.85) var(--webgpu-iso-accordion-ease),
+      max-height var(--webgpu-iso-accordion-duration) var(--webgpu-iso-accordion-ease),
+      padding-block-start var(--webgpu-iso-accordion-duration) var(--webgpu-iso-accordion-ease);
+  }
+
+  /* Active: chrome rises to top; detail grows so body + See more stay stacked. */
+  .theme
+    .theme-vurify-offer-accordion
+    .theme-webgpu-iso-accordion__row--active
+    .theme-webgpu-iso-accordion__copy {
+    justify-content: flex-start;
+    transition: justify-content var(--webgpu-iso-accordion-duration) var(--webgpu-iso-accordion-ease);
+  }
+
+  .theme
+    .theme-vurify-offer-accordion
+    .theme-webgpu-iso-accordion__row--active
+    .theme-webgpu-iso-accordion__detail {
+    flex: 1 1 auto;
+    min-height: 0;
+    grid-template-rows: none;
+  }
+
+  .theme
+    .theme-vurify-offer-accordion
+    .theme-webgpu-iso-accordion__row--active
+    .theme-webgpu-iso-accordion__detail-inner {
+    height: 100%;
+    overflow: hidden;
+    gap: 0.35rem;
+  }
+
+  /*
+   * Visual box locked — GSAP owns transform/opacity on `__visual`.
+   * No CSS transform/transition here (would fight scroll enter).
+   */
+  .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__visual,
+  .theme
+    .theme-vurify-offer-accordion
+    .theme-webgpu-iso-accordion__row--active
+    .theme-webgpu-iso-accordion__visual {
+    max-width: 20rem;
+    height: clamp(10rem, 18vh, 12.5rem);
+    justify-self: start;
+    align-self: center;
+    transition: none;
+    transform: none;
+  }
+
+  .theme
+    .theme-vurify-offer-accordion
+    .theme-webgpu-iso-accordion__row[data-layout='copy-right']
+    .theme-webgpu-iso-accordion__visual {
+    justify-self: end;
+  }
+
+  /*
+   * Deck: pointer-follow vars stay instant; hover grow via registered --offer-deck-scale
+   * so scale eases without adding a transform transition that lags follow.
+   */
+  .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__deck {
+    --offer-deck-scale: 1;
+    transition:
+      filter var(--webgpu-iso-accordion-duration) var(--webgpu-iso-accordion-leave-ease),
+      --offer-deck-scale var(--webgpu-iso-accordion-duration) var(--webgpu-iso-accordion-leave-ease);
+    transform:
+      rotateX(calc(var(--iso-follow-y) * 9deg))
+      rotateY(calc(var(--iso-follow-x) * 14deg))
+      translate3d(calc(var(--iso-follow-x) * 0.55rem), calc(var(--iso-follow-y) * -0.4rem), 0)
+      scale(var(--offer-deck-scale));
+  }
+
+  .theme
+    .theme-vurify-offer-accordion
+    .theme-webgpu-iso-accordion__row--active
+    .theme-webgpu-iso-accordion__deck {
+    --offer-deck-scale: 1.08;
+    transition:
+      filter var(--webgpu-iso-accordion-duration) var(--webgpu-iso-accordion-ease),
+      --offer-deck-scale var(--webgpu-iso-accordion-duration) var(--webgpu-iso-accordion-ease);
+  }
+
+  /* Soften card fan — same duration as type/detail so hover reads as one motion. */
+  .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__card {
+    transition:
+      transform var(--webgpu-iso-accordion-duration) var(--webgpu-iso-accordion-leave-ease),
+      filter var(--webgpu-iso-accordion-duration) var(--webgpu-iso-accordion-leave-ease);
+  }
+
+  .theme
+    .theme-vurify-offer-accordion
+    .theme-webgpu-iso-accordion__row--active
+    .theme-webgpu-iso-accordion__card {
+    transition:
+      transform var(--webgpu-iso-accordion-duration) var(--webgpu-iso-accordion-ease),
+      filter var(--webgpu-iso-accordion-duration) var(--webgpu-iso-accordion-ease);
+  }
+
+  /*
+   * Front illustration — freely floating art (no card chrome, no crop).
+   * Mid — WebP frame, cover-fit in the old video card box.
+   */
+  .theme
+    .theme-vurify-offer-accordion
+    .theme-webgpu-iso-accordion__card--front
+    .theme-webgpu-iso-accordion__media--still {
+    aspect-ratio: auto;
+    width: 100%;
+    height: auto;
+    max-height: none;
+    object-fit: contain;
+    object-position: center bottom;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .theme
+    .theme-vurify-offer-accordion
+    .theme-webgpu-iso-accordion__row--active
+    .theme-webgpu-iso-accordion__card--front
+    .theme-webgpu-iso-accordion__media--still {
+    box-shadow: none;
+  }
+
+  .theme
+    .theme-vurify-offer-accordion
+    .theme-webgpu-iso-accordion__card--front
+    .theme-webgpu-iso-accordion__plane.theme-isometric-plane {
+    overflow: visible;
+  }
+
+  .theme
+    .theme-vurify-offer-accordion
+    .theme-webgpu-iso-accordion__card--mid
+    .theme-webgpu-iso-accordion__media--still {
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 0.45rem;
+  }
+
+  .theme
+    .theme-vurify-offer-accordion
+    .theme-webgpu-iso-accordion__media--video {
+    aspect-ratio: 4 / 3;
+    background: color-mix(in srgb, var(--theme-text) 6%, var(--theme-surface));
+    border-radius: 0.45rem;
+    transition:
+      filter var(--webgpu-iso-accordion-duration) var(--webgpu-iso-accordion-leave-ease),
+      opacity var(--webgpu-iso-accordion-duration) var(--webgpu-iso-accordion-leave-ease),
+      box-shadow var(--webgpu-iso-accordion-duration) var(--webgpu-iso-accordion-leave-ease);
+  }
+
+  .theme
+    .theme-vurify-offer-accordion
+    .theme-webgpu-iso-accordion__media-poster,
+  .theme
+    .theme-vurify-offer-accordion
+    .theme-webgpu-iso-accordion__media-player {
+    object-fit: cover;
+    object-position: center;
+    border-radius: 0.45rem;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .theme
+      .theme-vurify-offer-accordion
+      .theme-webgpu-iso-accordion__row:not(.theme-webgpu-iso-accordion__row--active)
+      .theme-webgpu-iso-accordion__media--video {
+      filter: grayscale(1) brightness(0.9);
+      opacity: 0.62;
+    }
+
+    .theme
+      .theme-vurify-offer-accordion
+      .theme-webgpu-iso-accordion__row--active
+      .theme-webgpu-iso-accordion__media--video {
+      filter: none;
+      opacity: 1;
+      transition:
+        filter var(--webgpu-iso-accordion-duration) var(--webgpu-iso-accordion-ease),
+        opacity var(--webgpu-iso-accordion-duration) var(--webgpu-iso-accordion-ease),
+        box-shadow var(--webgpu-iso-accordion-duration) var(--webgpu-iso-accordion-ease);
+    }
+
+    .theme
+      .theme-vurify-offer-accordion[data-expand='open']
+      .theme-webgpu-iso-accordion__row:not([data-hover='true'])
+      .theme-webgpu-iso-accordion__media--video {
+      filter: grayscale(1) brightness(0.9);
+      opacity: 0.62;
+    }
+
+    .theme
+      .theme-vurify-offer-accordion[data-expand='open']
+      .theme-webgpu-iso-accordion__row[data-hover='true']
+      .theme-webgpu-iso-accordion__media--video {
+      filter: none;
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__copy,
+    .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__head,
+    .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__title,
+    .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__teaser,
+    .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__detail,
+    .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__action,
+    .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__deck,
+    .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__card {
+      transition: none;
+    }
+
+    .theme
+      .theme-vurify-offer-accordion
+      .theme-webgpu-iso-accordion__row--active
+      .theme-webgpu-iso-accordion__deck {
+      --offer-deck-scale: 1;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .theme .theme-vurify-offer-accordion.theme-webgpu-iso-accordion {
+      --vurify-offer-row-height: auto;
+      --webgpu-iso-accordion-pad-block: 1rem;
+    }
+
+    .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__article,
+    .theme
+      .theme-vurify-offer-accordion
+      .theme-webgpu-iso-accordion__row--active
+      .theme-webgpu-iso-accordion__article,
+    .theme
+      .theme-vurify-offer-accordion
+      .theme-webgpu-iso-accordion__row[data-layout='copy-right']
+      .theme-webgpu-iso-accordion__article,
+    .theme
+      .theme-vurify-offer-accordion
+      .theme-webgpu-iso-accordion__row--active[data-layout='copy-right']
+      .theme-webgpu-iso-accordion__article {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: auto auto;
+      row-gap: 0.85rem;
+      height: auto;
+      min-height: 0;
+      max-height: none;
+      align-items: start;
+      overflow: visible;
+    }
+
+    .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__row {
+      contain: none;
+    }
+
+    /* Copy band first, image band second — no overlap. */
+    .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__copy,
+    .theme
+      .theme-vurify-offer-accordion
+      .theme-webgpu-iso-accordion__row[data-layout='copy-right']
+      .theme-webgpu-iso-accordion__copy {
+      grid-row: 1;
+      grid-column: 1;
+      justify-self: stretch;
+      height: auto;
+      overflow: visible;
+      padding-inline: 0.15rem;
+    }
+
+    .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__visual,
+    .theme
+      .theme-vurify-offer-accordion
+      .theme-webgpu-iso-accordion__row--active
+      .theme-webgpu-iso-accordion__visual,
+    .theme
+      .theme-vurify-offer-accordion
+      .theme-webgpu-iso-accordion__row[data-layout='copy-right']
+      .theme-webgpu-iso-accordion__visual,
+    .theme
+      .theme-vurify-offer-accordion
+      .theme-webgpu-iso-accordion__row--active[data-layout='copy-right']
+      .theme-webgpu-iso-accordion__visual {
+      grid-row: 2;
+      grid-column: 1;
+      justify-self: center;
+      align-self: start;
+      max-width: min(26rem, 96vw);
+      width: 100%;
+      height: clamp(17rem, 58vw, 23rem);
+      margin-block-start: 0.45rem;
+      perspective: 900px;
+    }
+
+    /* Amplify scroll-driven follow so tilt reads without a mouse. */
+    .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__deck {
+      transform:
+        rotateX(calc(var(--iso-follow-y) * 22deg))
+        rotateY(calc(var(--iso-follow-x) * 32deg))
+        rotateZ(calc(var(--iso-follow-x) * -8deg))
+        translate3d(
+          calc(var(--iso-follow-x) * 0.85rem),
+          calc(var(--iso-follow-y) * -0.65rem),
+          0
+        )
+        scale(var(--offer-deck-scale));
+    }
+
+    .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__card--mid {
+      width: 78%;
+      left: 11%;
+      transform: translate3d(0, 0, 0) rotateZ(-4deg) scale(1.04);
+    }
+
+    .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__card--front {
+      width: 48%;
+      left: 0;
+      transform: translate3d(-1.1rem, 0.75rem, 2.2rem) rotateZ(-12deg) scale(1.02);
+    }
+
+    .theme
+      .theme-vurify-offer-accordion
+      .theme-webgpu-iso-accordion__row[data-layout='copy-right']
+      .theme-webgpu-iso-accordion__card--mid {
+      left: auto;
+      right: 11%;
+      transform: translate3d(0, 0, 0) rotateZ(4deg) scale(1.04);
+    }
+
+    .theme
+      .theme-vurify-offer-accordion
+      .theme-webgpu-iso-accordion__row[data-layout='copy-right']
+      .theme-webgpu-iso-accordion__card--front {
+      left: auto;
+      right: 0;
+      transform: translate3d(1.1rem, 0.75rem, 2.2rem) rotateZ(12deg) scale(1.02);
+    }
+
+    .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__title {
+      font-size: clamp(1.55rem, 6.5vw, 2rem);
+    }
+
+    .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__teaser {
+      font-size: clamp(0.98rem, 3.6vw, 1.15rem);
+      margin-block-start: 0.4rem;
+    }
+
+    .theme
+      .theme-vurify-offer-accordion
+      .theme-webgpu-iso-accordion__row--active
+      .theme-webgpu-iso-accordion__title {
+      font-size: clamp(1.15rem, 4.5vw, 1.35rem);
+    }
+
+    .theme
+      .theme-vurify-offer-accordion
+      .theme-webgpu-iso-accordion__row--active
+      .theme-webgpu-iso-accordion__teaser {
+      font-size: clamp(0.88rem, 3.2vw, 1rem);
+    }
+
+    .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__detail {
+      max-width: 100%;
+      margin-block-start: 0.25rem;
+    }
+
+    .theme .theme-vurify-offer-accordion .theme-webgpu-iso-accordion__body {
+      font-size: 0.88rem;
+      line-height: 1.4;
+    }
+
+    .theme
+      .theme-vurify-offer-accordion
+      .theme-webgpu-iso-accordion__row--active
+      .theme-webgpu-iso-accordion__deck {
+      --offer-deck-scale: 1.06;
+    }
+  }
+}

@@ -1,0 +1,73 @@
+/**
+ * Custom page scrollbar — --theme-* on <html> (ThemeColorProvider).
+ * Target html + body: Lenis and WebKit may attach the gutter to either.
+ */
+
+html[data-theme-palette],
+html[data-theme-palette] body {
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: var(--theme-accent) var(--theme-surface-inset);
+}
+
+html[data-theme-palette]::-webkit-scrollbar,
+html[data-theme-palette] body::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+
+html[data-theme-palette]::-webkit-scrollbar-track,
+html[data-theme-palette] body::-webkit-scrollbar-track {
+  background: var(--theme-surface-inset);
+  border-left: 1px solid var(--theme-border);
+}
+
+html[data-theme-palette]::-webkit-scrollbar-thumb,
+html[data-theme-palette] body::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    var(--theme-border-strong) 0%,
+    color-mix(in srgb, var(--theme-accent) 35%, var(--theme-border-strong)) 100%
+  );
+  border: 2px solid var(--theme-surface-inset);
+  border-radius: 2px;
+}
+
+html[data-theme-palette]::-webkit-scrollbar-thumb:hover,
+html[data-theme-palette] body::-webkit-scrollbar-thumb:hover {
+  background: var(--theme-accent);
+}
+
+html[data-theme-palette]::-webkit-scrollbar-corner,
+html[data-theme-palette] body::-webkit-scrollbar-corner {
+  background: var(--theme-page-bg);
+}
+
+/* Nested scroll areas (modals, tables) — not curved-scroll, picker wheels, or theme-scroll hosts */
+.theme
+  [data-lenis-prevent]:not(.theme-rounded-scroll__viewport):not(.theme-picker-carousel__scroll):not(
+    .theme-scroll__viewport
+  ),
+.theme .scroll-area {
+  scrollbar-width: thin;
+  scrollbar-color: var(--theme-border-strong) var(--theme-surface);
+}
+
+.theme
+  [data-lenis-prevent]:not(.theme-rounded-scroll__viewport):not(.theme-picker-carousel__scroll):not(
+    .theme-scroll__viewport
+  )::-webkit-scrollbar,
+.theme .scroll-area::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.theme
+  [data-lenis-prevent]:not(.theme-rounded-scroll__viewport):not(.theme-picker-carousel__scroll):not(
+    .theme-scroll__viewport
+  )::-webkit-scrollbar-thumb,
+.theme .scroll-area::-webkit-scrollbar-thumb {
+  background: var(--theme-border-strong);
+  border-radius: 2px;
+  border: 1px solid var(--theme-surface);
+}

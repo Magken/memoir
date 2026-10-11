@@ -1,0 +1,110 @@
+/**
+ * Tabbed menu — segmented tablist (RadioGroup-style pill) + optional expandable tab chips.
+ */
+
+@layer components {
+  .theme .theme-tmenu {
+    --theme-tmenu-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --theme-tmenu-divider: var(--theme-divider-line-strong);
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+  }
+
+  .theme .theme-tmenu--sm {
+    --theme-tmenu-bar-padding-block: calc(0.35rem * var(--theme-menu-scale));
+    --theme-tmenu-bar-padding-inline: calc(0.35rem * var(--theme-menu-scale));
+    --theme-tmenu-panel-padding: calc(0.75rem * var(--theme-menu-scale));
+    --theme-tmenu-expand-gap: calc(0.375rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-tmenu--md {
+    --theme-tmenu-bar-padding-block: calc(0.45rem * var(--theme-menu-scale));
+    --theme-tmenu-bar-padding-inline: calc(0.5rem * var(--theme-menu-scale));
+    --theme-tmenu-panel-padding: calc(0.875rem * var(--theme-menu-scale));
+    --theme-tmenu-expand-gap: calc(0.4375rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-tmenu--lg {
+    --theme-tmenu-bar-padding-block: calc(0.55rem * var(--theme-menu-scale));
+    --theme-tmenu-bar-padding-inline: calc(0.65rem * var(--theme-menu-scale));
+    --theme-tmenu-panel-padding: calc(1rem * var(--theme-menu-scale));
+    --theme-tmenu-expand-gap: calc(0.5rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-tmenu__bar {
+    flex: 0 0 auto;
+    padding: var(--theme-tmenu-bar-padding-block) var(--theme-tmenu-bar-padding-inline);
+    --theme-scroll-fade: color-mix(in srgb, var(--theme-surface-raised) 88%, var(--theme-page-bg));
+    background-color: color-mix(in srgb, var(--theme-surface-raised) 88%, var(--theme-page-bg));
+    border-bottom: var(--theme-tmenu-divider);
+  }
+
+  .theme .theme-tmenu__tablist {
+    display: inline-flex;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+  }
+
+  .theme .theme-tmenu--segmented .theme-tmenu__tablist.theme-choice-track {
+    width: auto;
+    max-width: 100%;
+  }
+
+  .theme .theme-tmenu__tab.theme-choice-option[role='tab'][aria-selected='true'] {
+    color: color-mix(in srgb, var(--theme-page-bg) 8%, white);
+  }
+
+  .theme
+    .theme-tmenu__tab.theme-choice-option[role='tab'][aria-selected='true']
+    .theme-choice-option__inner {
+    transform: scale(1.02);
+    transition: transform var(--theme-choice-duration) var(--theme-choice-spring);
+  }
+
+  .theme .theme-tmenu--expandable .theme-tmenu__expand-track {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--theme-tmenu-expand-gap);
+    max-width: 100%;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  .theme .theme-tmenu--expandable .theme-tmenu__tab.theme-btn--expandable {
+    flex: 0 0 auto;
+  }
+
+  .theme .theme-tmenu--expandable .theme-tmenu__tab.theme-btn--expandable:not(.is-expanded) {
+    opacity: 0.82;
+  }
+
+  .theme
+    .theme-tmenu--expandable
+    .theme-tmenu__tab.theme-btn--expandable:not(.is-expanded):is(:hover, :focus-visible):not(
+      :disabled
+    ) {
+    opacity: 1;
+  }
+
+  .theme .theme-tmenu__panels {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .theme .theme-tmenu__panel {
+    padding: var(--theme-tmenu-panel-padding);
+  }
+
+  .theme .theme-tmenu__panel[hidden] {
+    display: none;
+  }
+}

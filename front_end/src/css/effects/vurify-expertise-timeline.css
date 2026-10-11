@@ -1,0 +1,228 @@
+/**
+ * Vurify expertise timeline — big title / subtext / image cards.
+ * Rail, glow, and marker come from glow-timeline.css (shared scrub hook).
+ */
+
+@layer components {
+  .theme .theme-vurify-expertise-timeline {
+    width: 100%;
+    min-width: 0;
+    overflow: visible;
+  }
+
+  .theme .theme-vurify-expertise-timeline__shell.theme-glow-timeline__shell {
+    overflow: visible;
+  }
+
+  .theme .theme-vurify-expertise-timeline__list.theme-glow-timeline__list {
+    gap: clamp(1.75rem, 4vh, 2.75rem);
+  }
+
+  .theme .theme-vurify-expertise-timeline__item.theme-glow-timeline__item {
+    align-items: start;
+  }
+
+  .theme .theme-vurify-expertise-timeline__card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.85rem;
+    min-width: 0;
+  }
+
+  .theme .theme-vurify-expertise-timeline__media {
+    position: relative;
+    width: 100%;
+    overflow: visible;
+    border-radius: 0;
+    aspect-ratio: auto;
+    height: clamp(12rem, 28vh, 17.5rem);
+    min-height: clamp(12rem, 28vh, 17.5rem);
+    background: transparent;
+    perspective: 920px;
+  }
+
+  /* Beat pointer-follow-deck `height: 100%` (imported later) so absolute float cards have a box. */
+  .theme .theme-vurify-expertise-timeline__follow.theme-pointer-follow-deck {
+    height: 100%;
+    min-height: 100%;
+    overflow: visible;
+  }
+
+  .theme .theme-vurify-expertise-timeline__image {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    margin-inline: auto;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  .theme .theme-vurify-expertise-timeline__copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    min-width: 0;
+    will-change: transform;
+  }
+
+  .theme .theme-vurify-expertise-timeline__tags {
+    list-style: none;
+    margin: 0.15rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    min-width: 0;
+  }
+
+  .theme .theme-vurify-expertise-timeline__tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin: 0;
+    padding: 0.28rem 0.7rem 0.28rem 0.45rem;
+    border-radius: var(--theme-radius-pill, 9999px);
+    border: 1px solid color-mix(in srgb, var(--theme-border) 70%, transparent);
+    background: color-mix(in srgb, var(--theme-accent, var(--theme-text)) 8%, transparent);
+    color: var(--theme-text);
+  }
+
+  .theme .theme-vurify-expertise-timeline__tag-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.05rem;
+    height: 1.05rem;
+    color: var(--theme-accent, var(--theme-text));
+  }
+
+  .theme .theme-vurify-expertise-timeline__tag-icon svg {
+    width: 0.95rem;
+    height: 0.95rem;
+  }
+
+  .theme .theme-vurify-expertise-timeline__tag-label {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+
+  .theme .theme-vurify-expertise-timeline__title,
+  .theme .theme-vurify-expertise-timeline__body {
+    margin: 0;
+    will-change: transform, opacity;
+  }
+
+  .theme .theme-vurify-expertise-timeline__title {
+    color: var(--theme-text);
+    transition: color 0.65s ease;
+  }
+
+  .theme .theme-vurify-expertise-timeline__cta {
+    margin-block-start: 0.85rem;
+    /* Clear space under housing + underline so parents don’t crop the CTA. */
+    padding-block-end: clamp(1.25rem, 3vh, 2rem);
+    padding-inline-end: 0.25rem;
+    min-width: 0;
+    overflow: visible;
+  }
+
+  .theme .theme-vurify-expertise-timeline__note {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-width: 0;
+    max-width: 100%;
+    padding-block-end: 0.75rem;
+    overflow: visible;
+  }
+
+  .theme .theme-vurify-expertise-timeline__item--cta {
+    align-items: start;
+  }
+
+  .theme
+    .theme-vurify-expertise-timeline__item:has(.theme-glow-timeline__dot.is-glow-active)
+    .theme-vurify-expertise-timeline__title {
+    color: var(--theme-accent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-vurify-expertise-timeline__title {
+      transition: none;
+    }
+  }
+
+  @media (min-width: 40rem) {
+    .theme .theme-vurify-expertise-timeline__card {
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+      align-items: center;
+      gap: 1.1rem;
+    }
+  }
+
+  /* Scene 04 mobile band — stack cards; shared card scrub (not image↔copy drift). */
+  @media (max-width: 52rem) {
+    .theme .theme-vurify-expertise-timeline__card {
+      grid-template-columns: minmax(0, 1fr);
+      align-items: start;
+      gap: 0.75rem;
+      will-change: transform;
+    }
+
+    .theme .theme-vurify-expertise-timeline__image,
+    .theme .theme-vurify-expertise-timeline__copy {
+      will-change: auto;
+    }
+
+    .theme .theme-vurify-expertise-timeline__title,
+    .theme .theme-vurify-expertise-timeline__body {
+      will-change: opacity;
+    }
+  }
+}
+
+/*
+ * Unlayered — Get Started must size to its label. A forced narrow width +
+ * overflow:hidden was clipping “Started” and the accent underline.
+ */
+.theme .theme-vurify-expertise-timeline__cta-btn.theme-btn-fx--marquee-menu {
+  display: inline-flex;
+  justify-content: flex-start;
+  width: auto;
+  max-width: 100%;
+  box-sizing: border-box;
+  font-size: clamp(1.65rem, 2.8vw, 2.55rem);
+  line-height: 1.15;
+  overflow: visible;
+  cursor: pointer;
+}
+
+.theme
+  .theme-vurify-expertise-timeline__cta-btn.theme-btn-fx--marquee-menu.theme-btn-fx--housing {
+  /* Keep hover marquee inside the frame, but leave room for underline + glyphs. */
+  overflow: hidden;
+  padding-block: var(--btn-fx-housing-pad)
+    calc(var(--btn-fx-housing-pad) + 0.22em);
+}
+
+.theme .theme-vurify-expertise-timeline__cta-btn .theme-btn-fx__menu-label {
+  width: auto;
+  max-width: 100%;
+  justify-content: flex-start;
+  gap: 0.65rem;
+}
+
+.theme .theme-vurify-expertise-timeline__cta-btn .theme-btn-fx__menu-flag {
+  width: 2.35rem;
+  height: 2.35rem;
+}
+
+.theme .theme-vurify-expertise-timeline__cta-btn .theme-btn-fx__menu-label > span {
+  padding-bottom: 0.12em;
+  border-bottom-width: 0.11em;
+}

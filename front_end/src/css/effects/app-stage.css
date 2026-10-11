@@ -1,0 +1,146 @@
+/* App Stage — keep-alive Page Scene layers + curtain conductor.
+ * Pin-stack visual language matches ScaleCoverModal (stage 0.9 + cover z 140). */
+
+.app-stage {
+  position: relative;
+  min-height: 100dvh;
+  overflow: clip;
+  isolation: isolate;
+  background: var(--theme-page-bg, #fff);
+}
+
+/*
+ * Outflow routes (`/theme`, …) — keep layers mounted but out of document flow
+ * so a blank 100dvh stage cannot push the live page below the fold (refresh
+ * looked like “back to home”).
+ */
+.app-stage--parked {
+  position: fixed;
+  inset: 0;
+  min-height: 0;
+  height: 100dvh;
+  overflow: hidden;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Same tinted shell as `.theme-scale-cover-modal` while pinning. */
+.app-stage[data-app-stage-pinning='true'] {
+  background: color-mix(
+    in srgb,
+    var(--theme-complement, #888) 12%,
+    var(--theme-page-bg, #fff)
+  );
+}
+
+.app-stage[data-stage-navigating='true'] {
+  touch-action: none;
+}
+
+.app-stage[data-stage-navigating='true'] .app-stage__layer {
+  overflow: hidden;
+}
+
+/*
+ * Hide native / mini rails while the curtain or handoff owns the stage.
+ * Gutters stay (Home shell keeps scrollbar-gutter: stable) so layout does not shift.
+ */
+.app-stage[data-stage-loading='true'] .theme-scroll__viewport,
+.app-stage[data-stage-navigating='true'] .theme-scroll__viewport {
+  scrollbar-width: none;
+}
+
+.app-stage[data-stage-loading='true'] .theme-scroll__viewport::-webkit-scrollbar,
+.app-stage[data-stage-navigating='true'] .theme-scroll__viewport::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.app-stage__layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  min-height: 100%;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 0;
+  backface-visibility: hidden;
+}
+
+/*
+ * Active stays absolute (same box as during the slide).
+ * Switching absolute→relative after the handoff was a post-transition flash.
+ */
+.app-stage__layer.is-active {
+  position: absolute;
+  inset: 0;
+  visibility: visible;
+  pointer-events: auto;
+  z-index: 1;
+}
+
+.app-stage__layer.is-outgoing,
+.app-stage__layer.is-incoming,
+.app-stage__layer.is-transitioning {
+  position: absolute !important;
+  inset: 0;
+  width: 100%;
+  min-height: 100%;
+  visibility: visible;
+  pointer-events: none;
+  overflow: hidden;
+  will-change: transform;
+}
+
+/* Pinned stage — ScaleCoverModal `__stage` (z 1 + open shadow). */
+.app-stage__layer.is-outgoing {
+  z-index: 1;
+  background: var(--theme-page-bg, #fff);
+  box-shadow:
+    0 1.5rem 3rem color-mix(in srgb, var(--theme-text, #111) 18%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--theme-border, #ccc) 55%, transparent);
+}
+
+/*
+ * Incoming cover — z 140 only.
+ * Do NOT set transform here: GSAP owns xPercent. A CSS translateX(100%) plus
+ * clearProps('transform') at settle yanked the finished page off-screen for a frame.
+ */
+.app-stage__layer.is-incoming {
+  z-index: 140;
+  background: var(--theme-page-bg, #fff);
+}
+
+/*
+ * Hard park — must win over is-outgoing / is-transitioning leftovers.
+ */
+.app-stage__layer.is-parked,
+.app-stage__curtain.is-parked {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  z-index: -1 !important;
+  box-shadow: none !important;
+}
+
+.app-stage__curtain {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  min-height: 100dvh;
+  background: var(--theme-page-bg, #fff);
+  pointer-events: none;
+  backface-visibility: hidden;
+}
+
+/* First-boot pin: curtain is the ScaleCoverModal stage under the incoming cover. */
+.app-stage__curtain.is-transitioning:not(.is-parked) {
+  z-index: 1;
+  overflow: hidden;
+  will-change: transform;
+  box-shadow:
+    0 1.5rem 3rem color-mix(in srgb, var(--theme-text, #111) 18%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--theme-border, #ccc) 55%, transparent);
+}

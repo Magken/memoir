@@ -1,0 +1,330 @@
+/**
+ * Curved scroll bar — theme card integration.
+ * Accent thumb only; track path stays in DOM for sync math but is not painted.
+ */
+
+@layer components {
+  .theme {
+    --theme-rounded-scroll-path-radius: 22;
+    --theme-rounded-scroll-padding: 1.25rem;
+    --theme-rounded-scroll-stroke-width: 3;
+    --theme-rounded-scroll-thumb-size: 52;
+    --theme-rounded-scroll-gutter: 0.375rem;
+    --theme-rounded-scroll-track-length: 0;
+    --theme-rounded-scroll-dash-gap: 10000;
+    --theme-rounded-scroll-track-start: 0;
+    --theme-rounded-scroll-thumb-color: var(--theme-accent);
+    --theme-rounded-scroll-thumb-alpha: 1;
+    --theme-rounded-scroll-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --theme-rounded-scroll-bar-z: 2;
+    --theme-rounded-scroll-cloud-z: 4;
+  }
+
+  .theme .theme-rounded-scroll {
+    position: relative;
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    width: 100%;
+    min-height: 0;
+    overflow: hidden;
+    padding: 0;
+  }
+
+  /*
+   * Scroll-hosted menu lists — inset before first / after last item.
+   * Vertical: block padding on scroll content wrapper / list (both edge vars).
+   * Horizontal bar: inline row pads only — rail/track tokens on horizontal-menu.css (mirror vertical menu).
+   */
+  .theme :is(
+    .theme-menu__scroll,
+    .theme-tmap__scroll,
+    .theme-dnav__scroll,
+    .theme-dash__scroll,
+    .theme-dreorder__scroll,
+    .theme-card--rounded-scroll .theme-rounded-scroll,
+    .theme-glowstep__card--scroll-focus .theme-rounded-scroll,
+    .theme-hmenu__bar-scroll,
+    .theme-bmenu__scroll
+  ) {
+    --theme-scroll-list-edge-start: calc(0.35rem * var(--theme-menu-scale, 1));
+    --theme-scroll-list-edge-end: calc(0.35rem * var(--theme-menu-scale, 1));
+    --theme-scroll-list-pad-block-start: calc(
+      var(--theme-menu-panel-padding-block, 0px) + var(--theme-scroll-list-edge-start)
+    );
+    --theme-scroll-list-pad-block-end: calc(
+      var(--theme-menu-panel-padding-block-end, 0px) + var(--theme-scroll-list-edge-end)
+    );
+    /*
+     * Rail SVG inset from scroll-host edges (independent of list padding).
+     * Vertical: top / bottom · Horizontal: left / right
+     */
+    --theme-scroll-rail-edge-start: calc(0.25rem * var(--theme-menu-scale, 1));
+    --theme-scroll-rail-edge-end: calc(0.25rem * var(--theme-menu-scale, 1));
+    --theme-scroll-rail-edge-inline-end: calc(0.28rem * var(--theme-menu-scale, 1));
+    /*
+     * STANDARD curved-rail content reserve (viewport padding-inline-end).
+     * The painted rail line sits at the bar-box right edge — ≈ rail-edge-inline-end
+     * from the host border, independent of path radius — so reserve only that
+     * clearance, never the full bar-box width (path-radius * 2). Keeps the list end
+     * close to the rail with the rail sitting between list and border (dashboard /
+     * tree-map parity). Hosts must NOT re-derive this from path-radius.
+     */
+    --theme-scroll-rail-track: calc(
+      var(--theme-scroll-rail-edge-inline-end) + var(--theme-btn-shadow-offset-sm, 4px) +
+        (0.15rem * var(--theme-menu-scale, 1))
+    );
+  }
+
+  /* Vertical menu scroll rails — inset from host top/bottom (direct child bar; host = .theme-rounded-scroll) */
+  .theme
+    :is(
+      .theme-menu__scroll,
+      .theme-tmap__scroll,
+      .theme-dnav__scroll,
+      .theme-dash__scroll,
+      .theme-dreorder__scroll,
+      .theme-bmenu__scroll
+    ).theme-rounded-scroll:not(.theme-rounded-scroll--horizontal)
+    > .theme-rounded-scroll__bar,
+  .theme
+    .theme-card--rounded-scroll
+    > .theme-rounded-scroll:not(.theme-rounded-scroll--horizontal)
+    > .theme-rounded-scroll__bar {
+    top: var(--theme-scroll-rail-edge-start);
+    right: var(--theme-scroll-rail-edge-inline-end);
+    bottom: var(--theme-scroll-rail-edge-end);
+    width: calc(var(--theme-rounded-scroll-path-radius) * 2px);
+  }
+
+  .theme .theme-rounded-scroll__bar {
+    position: absolute;
+    top: var(--theme-rounded-scroll-gutter);
+    right: var(--theme-rounded-scroll-gutter);
+    bottom: var(--theme-rounded-scroll-gutter);
+    z-index: var(--theme-rounded-scroll-bar-z);
+    width: calc(var(--theme-rounded-scroll-path-radius) * 2px);
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  .theme .theme-rounded-scroll:not([data-rounded-scroll-overflow='true']) .theme-rounded-scroll__bar {
+    display: none;
+  }
+
+  .theme .theme-rounded-scroll[data-rounded-scroll-overflow='false'] .theme-rounded-scroll__bar {
+    display: none;
+  }
+
+  .theme .theme-rounded-scroll__viewport {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    overscroll-behavior: contain;
+    scroll-behavior: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    background: transparent;
+  }
+
+  .theme .theme-rounded-scroll__viewport::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+
+  .theme .theme-rounded-scroll path {
+    stroke-width: calc(var(--theme-rounded-scroll-stroke-width) * 1px);
+  }
+
+  .theme .theme-rounded-scroll__track {
+    stroke: none;
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .theme .theme-rounded-scroll__thumb {
+    stroke: color-mix(
+      in srgb,
+      var(--theme-rounded-scroll-thumb-color),
+      transparent calc((1 - var(--theme-rounded-scroll-thumb-alpha)) * 100%)
+    );
+    stroke-dasharray: var(--theme-rounded-scroll-thumb-size) var(--theme-rounded-scroll-dash-gap);
+    animation: none;
+  }
+
+  /*
+   * Horizontal menu bar scroll — mirror vertical dropdown (.theme-menu__scroll in button-extras.css):
+   *   vertical: viewport padding-inline-end = rail-track · bar right:0 · top/bottom = rail-edge
+   *   horizontal: viewport padding-bottom = rail-track · bar bottom:0 · left/right = rail-edge
+   * Bar geometry: .theme-hmenu__bar-scroll.theme-rounded-scroll--horizontal .theme-rounded-scroll__bar
+   */
+  .theme .theme-hmenu__bar-scroll.theme-rounded-scroll--horizontal .theme-rounded-scroll__bar {
+    top: auto;
+    left: var(--theme-scroll-rail-edge-start);
+    right: var(--theme-scroll-rail-edge-end);
+    bottom: 0;
+    width: auto;
+    height: calc(var(--theme-rounded-scroll-path-radius) * 2px);
+    overflow: hidden;
+  }
+
+  .theme .theme-rounded-scroll--horizontal {
+    flex-direction: column;
+  }
+
+  .theme .theme-rounded-scroll--horizontal .theme-rounded-scroll__bar {
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: var(--theme-rounded-scroll-bar-z);
+    width: 100%;
+    height: calc(var(--theme-rounded-scroll-path-radius) * 2px);
+  }
+
+  .theme .theme-rounded-scroll--horizontal .theme-rounded-scroll__viewport {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 0;
+  }
+
+  .theme .theme-rounded-scroll--horizontal .theme-rounded-scroll__content {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 1rem;
+    width: max-content;
+    min-height: 0;
+    padding: 0.625rem 1rem 0;
+  }
+
+  .theme .theme-card--rounded-scroll.theme-card--rounded-scroll--horizontal {
+    min-height: 0;
+    max-height: none;
+  }
+
+  .theme .theme-card--rounded-scroll--horizontal .theme-rounded-scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .theme .theme-card--rounded-scroll--horizontal .theme-card__content {
+    display: contents;
+    padding: 0;
+    min-height: 0;
+  }
+
+  .theme .theme-card--rounded-scroll--horizontal .theme-card__body {
+    display: contents;
+  }
+
+  .theme .theme-card--rounded-scroll--horizontal .theme-card__body > :not(:last-child) {
+    margin-bottom: 0;
+  }
+
+  .theme .theme-card__scroll-panel {
+    min-width: 9rem;
+    padding: 0.625rem 1rem 0.375rem;
+    border: 1px solid var(--theme-border);
+    border-radius: 0.125rem;
+    background-color: color-mix(in srgb, var(--theme-surface-inset) 40%, var(--theme-surface));
+  }
+
+  .theme .theme-card--rounded-scroll--horizontal .theme-card__scroll-panel {
+    padding-bottom: 0.25rem;
+  }
+
+  /*
+   * Horizontal menu bar scroll (horizontal rail host).
+   * Vertical dropdown counterpart: button-extras.css .theme-menu__panel .theme-menu__scroll
+   * Indexer: project_indexer/front_end/src/lib/roundedScroll.md — "Horizontal vs vertical rails"
+   */
+  .theme .theme-hmenu--bar-scroll .theme-hmenu__bar--scroll {
+    overflow: hidden;
+    width: 100%;
+  }
+
+  /* Hmenu scroll tokens + viewport/content — horizontal-menu.css (loads after generic horizontal rules). */
+
+  /* Card shell is the surface — scroll body uses normal card content */
+  .theme .theme-card--rounded-scroll {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .theme .theme-card--rounded-scroll:focus-within {
+    outline: none;
+  }
+
+  .theme .theme-card--rounded-scroll .theme-rounded-scroll__viewport:focus-visible {
+    outline: 2px solid var(--theme-focus);
+    outline-offset: -2px;
+  }
+
+  /*
+   * Text scroll cards — curved rail geometry (menu parity).
+   * JS: cardScrollConfig (trackFill 1) · indexer: lib/cardScroll.md
+   */
+  .theme .theme-card--rounded-scroll .theme-rounded-scroll {
+    overflow: visible;
+    --theme-rounded-scroll-gutter: 0.25rem;
+    --theme-rounded-scroll-stroke-width: 2;
+    --theme-scroll-rail-edge-start: calc(0.25rem * var(--theme-menu-scale, 1));
+    --theme-scroll-rail-edge-end: calc(0.22rem * var(--theme-menu-scale, 1));
+    --theme-card-scroll-rail-overlap: 8px;
+    --theme-card-scroll-rail-track: max(
+      0px,
+      calc(
+        var(--theme-scroll-rail-edge-inline-end) +
+          (var(--theme-rounded-scroll-path-radius) * 2px) + var(--theme-rounded-scroll-gutter) -
+          var(--theme-card-scroll-rail-overlap)
+      )
+    );
+  }
+
+  .theme .theme-card--rounded-scroll[data-scroll-rail='curved'] .theme-rounded-scroll__viewport {
+    padding-inline-end: var(--theme-card-scroll-rail-track);
+  }
+
+  .theme .theme-card--rounded-scroll .theme-card__content {
+    padding: 1.25rem;
+    padding-block-end: 1.25rem;
+    min-height: min-content;
+  }
+
+  .theme .theme-card--rounded-scroll .theme-card__body > :not(:last-child) {
+    margin-bottom: 1.25rem;
+  }
+
+  /* Scroll edge clouds — scroll-rail.css `.theme-scroll--clouds` */
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-rounded-scroll__bar {
+      display: none;
+    }
+
+    .theme .theme-rounded-scroll__viewport {
+      scroll-behavior: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--theme-accent) var(--theme-surface-inset);
+    }
+
+    .theme .theme-rounded-scroll__viewport::-webkit-scrollbar {
+      display: block;
+      width: 6px;
+      height: 6px;
+    }
+
+    .theme .theme-rounded-scroll--horizontal .theme-rounded-scroll__viewport::-webkit-scrollbar {
+      height: 6px;
+      width: auto;
+    }
+  }
+}

@@ -1,0 +1,286 @@
+/**
+ * Data grid editor — Glide Data Grid workbench chrome.
+ */
+
+@layer components {
+  .theme .theme-data-grid-editor {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 56rem;
+    height: 36rem;
+    min-width: 0;
+    min-height: 24rem;
+    border: 1px solid var(--theme-border);
+    border-radius: var(--theme-radius-control);
+    background: var(--theme-surface);
+    overflow: hidden;
+  }
+
+  .theme .theme-data-grid-editor--showcase {
+    max-width: none;
+    height: 40rem;
+  }
+
+  .theme .theme-data-grid-editor--headless {
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    min-height: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+  }
+
+  .theme .theme-data-grid-editor--headless .theme-data-grid-editor__stage {
+    height: 100%;
+  }
+
+  .theme .theme-data-grid-editor__chrome {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid var(--theme-border);
+    background: color-mix(in srgb, var(--theme-surface-raised) 55%, var(--theme-surface));
+  }
+
+  .theme .theme-data-grid-editor__titlebar {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    min-width: 0;
+    padding: 0.3125rem 0.5rem;
+    min-height: 2rem;
+  }
+
+  .theme .theme-data-grid-editor__history {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: 0.0625rem;
+  }
+
+  .theme .theme-data-grid-editor__tools {
+    padding: 0.3125rem 0.5rem;
+    border-top: 1px solid color-mix(in srgb, var(--theme-border) 55%, transparent);
+  }
+
+  .theme .theme-data-grid-editor__tools-scroll {
+    min-width: 0;
+  }
+
+  .theme .theme-data-grid-editor__tools-inner {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    width: max-content;
+    min-height: 1.75rem;
+  }
+
+  .theme .theme-data-grid-editor__toolbar-divider {
+    display: inline-block;
+    flex-shrink: 0;
+    width: 1px;
+    max-width: 1px;
+    height: 1.25rem;
+    margin: 0;
+    background: var(--theme-border);
+    opacity: 1;
+    overflow: hidden;
+  }
+
+  .theme .theme-data-grid-editor__stage {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
+    min-width: 0;
+    background: var(--theme-surface);
+  }
+
+  .theme .theme-data-grid-editor__find--sidebar {
+    position: static;
+    width: 100%;
+    max-height: none;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+    visibility: visible;
+    transition: none;
+  }
+
+  .theme .theme-data-grid-editor__find--sidebar .theme-data-grid-editor__find-form {
+    padding: 0;
+    border-bottom: 0;
+  }
+
+  .theme .theme-data-grid-editor__find--sidebar .theme-code-editor__search-scroll {
+    max-height: none;
+  }
+
+  .theme .theme-data-grid-editor__find {
+    --theme-data-grid-find-ease: cubic-bezier(0.33, 1, 0.48, 1);
+    --theme-data-grid-find-duration: 0.28s;
+    position: absolute;
+    top: 0.375rem;
+    right: 0.375rem;
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+    width: min(22rem, calc(100% - 0.75rem));
+    max-height: min(18rem, calc(100% - 0.75rem));
+    border: 1px solid var(--theme-border);
+    border-radius: 0.375rem;
+    background: color-mix(in srgb, var(--theme-surface-raised) 88%, var(--theme-surface));
+    box-shadow: 0 0.25rem 0.75rem color-mix(in srgb, var(--theme-shadow, #000) 12%, transparent);
+    overflow: hidden;
+    opacity: 0;
+    transform: translateX(0.5rem) scale(0.985);
+    transform-origin: 100% 0%;
+    pointer-events: none;
+    visibility: hidden;
+    transition:
+      opacity calc(var(--theme-data-grid-find-duration) * 0.78) var(--theme-data-grid-find-ease),
+      transform var(--theme-data-grid-find-duration) var(--theme-data-grid-find-ease),
+      visibility 0s linear var(--theme-data-grid-find-duration);
+  }
+
+  .theme .theme-data-grid-editor__find--open {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    pointer-events: auto;
+    visibility: visible;
+    transition:
+      opacity calc(var(--theme-data-grid-find-duration) * 0.78) var(--theme-data-grid-find-ease),
+      transform var(--theme-data-grid-find-duration) var(--theme-data-grid-find-ease),
+      visibility 0s linear 0s;
+  }
+
+  .theme .theme-data-grid-editor__find-form {
+    flex-shrink: 0;
+    padding: 0.25rem 0.375rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--theme-border) 55%, transparent);
+  }
+
+  .theme .theme-data-grid-editor__find .theme-code-editor__search-scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: 10.5rem;
+  }
+
+  .theme .theme-data-grid-editor__find--view .theme-find-replace-bar__expand,
+  .theme .theme-data-grid-editor__find--view .theme-find-replace-bar__replace-panel {
+    display: none;
+  }
+
+  .theme .theme-data-grid-editor__find--view .theme-find-replace-bar__expand-spacer {
+    display: none;
+  }
+
+  .theme .theme-data-grid-editor__grid-host {
+    position: absolute;
+    inset: 0;
+    min-width: 0;
+    min-height: 0;
+    --theme-straight-scroll-size: 1px;
+    --theme-straight-scroll-track: transparent;
+    --theme-straight-scroll-thumb: color-mix(
+      in srgb,
+      var(--theme-accent) 14%,
+      var(--theme-border-strong)
+    );
+    --theme-straight-scroll-thumb-active: color-mix(
+      in srgb,
+      var(--theme-accent) 40%,
+      var(--theme-border-strong)
+    );
+  }
+
+  /* Glide native scroller — nano rail (hidden until host hover/focus) */
+  .theme .theme-data-grid-editor__grid-host .dvn-scroller {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scrollbar-color: transparent transparent;
+  }
+
+  .theme .theme-data-grid-editor__grid-host:is(:hover, :focus-within) .dvn-scroller {
+    scrollbar-width: thin;
+    scrollbar-color: var(--theme-straight-scroll-thumb) transparent;
+  }
+
+  .theme .theme-data-grid-editor__grid-host .dvn-scroller::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    background: transparent;
+  }
+
+  .theme
+    .theme-data-grid-editor__grid-host:is(:hover, :focus-within)
+    .dvn-scroller::-webkit-scrollbar {
+    width: var(--theme-straight-scroll-size);
+    height: var(--theme-straight-scroll-size);
+  }
+
+  .theme .theme-data-grid-editor__grid-host .dvn-scroller::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .theme
+    .theme-data-grid-editor__grid-host:is(:hover, :focus-within)
+    .dvn-scroller::-webkit-scrollbar-thumb {
+    background: var(--theme-straight-scroll-thumb);
+    border: 0;
+    border-radius: 999px;
+    min-height: 1.25rem;
+    transition: background 0.18s ease;
+  }
+
+  .theme
+    .theme-data-grid-editor__grid-host:is(:hover, :focus-within)
+    .dvn-scroller::-webkit-scrollbar-thumb:hover {
+    background: var(--theme-straight-scroll-thumb-active);
+  }
+
+  .theme .theme-data-grid-editor__canvas {
+    --gdg-accent-color: var(--theme-accent);
+    --gdg-accent-fg: var(--theme-accent-text);
+    --gdg-accent-light: color-mix(in srgb, var(--theme-accent) 14%, transparent);
+    --gdg-link-color: var(--theme-accent);
+    --gdg-resize-indicator-color: var(--theme-accent);
+    --gdg-text-dark: var(--theme-text);
+    --gdg-text-medium: var(--theme-text-muted);
+    --gdg-bg-cell: var(--theme-surface);
+    --gdg-bg-header: var(--theme-surface-raised);
+    --gdg-border-color: var(--theme-border);
+  }
+
+  .theme .theme-data-grid-editor__status {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+    padding: 0.1875rem 0.5rem;
+    border-top: 1px solid var(--theme-border);
+    background: color-mix(in srgb, var(--theme-surface-raised) 42%, var(--theme-surface));
+    color: var(--type-muted);
+  }
+
+  .theme .theme-data-grid-editor__status-spacer {
+    flex: 1 1 auto;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-data-grid-editor__find {
+      transition: none;
+      transform: none;
+    }
+
+    .theme .theme-data-grid-editor__find--open {
+      transform: none;
+    }
+  }
+}

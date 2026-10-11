@@ -1,0 +1,101 @@
+import type { FlowDocument } from '../types'
+import { FLOW_SCHEMA_VERSION } from '../types'
+
+export const FLOW_WORKFLOW_MATH: FlowDocument = {
+  meta: {
+    schemaVersion: FLOW_SCHEMA_VERSION,
+    workflowId: 'math-solver',
+    prototype: 'math-solver',
+    notes: 'Reference prototype — multiply/divide pipeline with two inputs and a solver terminus.',
+  },
+  groups: [
+    {
+      id: 'group-pipeline',
+      label: 'Calculator pipeline',
+      nodeIds: ['input-a', 'input-b', 'multiply', 'divide', 'solver'],
+    },
+  ],
+  nodes: [
+    {
+      id: 'input-a',
+      kind: 'input.number',
+      label: 'Input A',
+      groupId: 'group-pipeline',
+      x: 0,
+      y: 80,
+      config: { defaultValue: 12 },
+    },
+    {
+      id: 'input-b',
+      kind: 'input.number',
+      label: 'Input B',
+      groupId: 'group-pipeline',
+      x: 0,
+      y: 200,
+      config: { defaultValue: 4 },
+    },
+    {
+      id: 'multiply',
+      kind: 'action.math.multiply',
+      label: '× Multiply',
+      groupId: 'group-pipeline',
+      x: 260,
+      y: 40,
+    },
+    {
+      id: 'divide',
+      kind: 'action.math.divide',
+      label: '÷ Divide',
+      groupId: 'group-pipeline',
+      x: 260,
+      y: 160,
+    },
+    {
+      id: 'solver',
+      kind: 'solver.math',
+      label: 'Math solver',
+      groupId: 'group-pipeline',
+      x: 520,
+      y: 120,
+      config: { mode: 'evaluate' },
+    },
+  ],
+  edges: [
+    {
+      id: 'edge-a-multiply',
+      label: 'maps value → a',
+      source: 'input-a',
+      sourceHandle: 'out',
+      target: 'multiply',
+      targetHandle: 'in-a',
+      mapping: { value: 'a' },
+    },
+    {
+      id: 'edge-b-divide',
+      label: 'maps value → b',
+      source: 'input-b',
+      sourceHandle: 'out',
+      target: 'divide',
+      targetHandle: 'in-b',
+      mapping: { value: 'b' },
+    },
+    {
+      id: 'edge-multiply-solver',
+      label: 'product',
+      source: 'multiply',
+      sourceHandle: 'out',
+      target: 'solver',
+      targetHandle: 'in',
+      mapping: { result: 'expression' },
+    },
+    {
+      id: 'edge-divide-solver',
+      label: 'quotient',
+      source: 'divide',
+      sourceHandle: 'out',
+      target: 'solver',
+      targetHandle: 'in',
+      mapping: { result: 'expression' },
+    },
+  ],
+}

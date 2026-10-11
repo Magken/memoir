@@ -1,0 +1,259 @@
+/**
+ * Nano menu — segmented color rail: thin strips; only hover / selected expand along the axis.
+ */
+
+@layer components {
+  .theme .theme-nmenu-dock {
+    position: relative;
+    display: flex;
+    padding: calc(0.5rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-nmenu-dock--vertical {
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  .theme .theme-nmenu-dock--horizontal {
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .theme .theme-nmenu {
+    --theme-nmenu-seg-ease: cubic-bezier(0.33, 1, 0.48, 1);
+    --theme-nmenu-seg-duration: 0.38s;
+    --theme-nmenu-segment-thin: calc(0.25rem * var(--theme-menu-scale));
+    --theme-nmenu-segment-fill: calc(1.25rem * var(--theme-menu-scale));
+    --theme-nmenu-segment-gap: calc(0.125rem * var(--theme-menu-scale));
+    --theme-nmenu-segment-pad: calc(0.1875rem * var(--theme-menu-scale));
+    display: flex;
+    width: max-content;
+  }
+
+  .theme .theme-nmenu__list {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .theme .theme-nmenu--vertical .theme-nmenu__list {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .theme .theme-nmenu--horizontal .theme-nmenu__list {
+    flex-flow: row nowrap;
+    align-items: stretch;
+  }
+
+  .theme .theme-nmenu__list:has(.theme-nmenu__trigger--swatch) {
+    gap: var(--theme-nmenu-segment-gap);
+    padding: var(--theme-nmenu-segment-pad);
+    border: 2px solid var(--theme-border-strong);
+    border-radius: var(--theme-radius-control);
+    background-color: var(--theme-surface-raised);
+    box-shadow: 3px 3px 0 var(--theme-shadow-brutal);
+  }
+
+  .theme .theme-nmenu__item {
+    position: relative;
+    display: flex;
+    flex: 0 0 auto;
+    align-items: stretch;
+  }
+
+  .theme .theme-nmenu__list:not(:has(.theme-nmenu__trigger--swatch)) {
+    gap: calc(0.22rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-nmenu__trigger.theme-btn {
+    --theme-nmenu-icon: calc(0.6875rem * var(--theme-menu-scale));
+    box-sizing: border-box;
+    padding: 0;
+    overflow: hidden;
+    opacity: 1;
+    border-radius: max(
+      0px,
+      calc(var(--theme-radius-control) - var(--theme-nmenu-segment-pad) - 1px)
+    );
+    line-height: 1;
+    transition:
+      width var(--theme-nmenu-seg-duration) var(--theme-nmenu-seg-ease),
+      min-width var(--theme-nmenu-seg-duration) var(--theme-nmenu-seg-ease),
+      height var(--theme-nmenu-seg-duration) var(--theme-nmenu-seg-ease),
+      min-height var(--theme-nmenu-seg-duration) var(--theme-nmenu-seg-ease);
+  }
+
+  .theme .theme-nmenu__list:not(:has(.theme-nmenu__trigger--swatch)) .theme-nmenu__trigger.theme-btn {
+    width: var(--theme-nmenu-segment-fill);
+    min-width: var(--theme-nmenu-segment-fill);
+    height: var(--theme-nmenu-segment-fill);
+    min-height: var(--theme-nmenu-segment-fill);
+  }
+
+  .theme .theme-nmenu__trigger.theme-btn .theme-btn__icon {
+    width: var(--theme-nmenu-icon);
+    height: var(--theme-nmenu-icon);
+    flex-shrink: 0;
+  }
+
+  .theme .theme-nmenu__trigger.theme-btn .theme-btn__icon svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Swatch — thin strip, no per-tile border; color is the fill */
+  .theme .theme-nmenu__trigger--swatch.theme-btn,
+  .theme .theme-nmenu__trigger--swatch.theme-btn--ghost,
+  .theme .theme-nmenu__trigger--swatch.theme-btn.is-active {
+    border: none;
+    background-color: transparent;
+    box-shadow: none;
+    outline: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .theme .theme-nmenu--horizontal .theme-nmenu__trigger--swatch.theme-btn {
+    width: var(--theme-nmenu-segment-thin);
+    min-width: var(--theme-nmenu-segment-thin);
+    height: var(--theme-nmenu-segment-fill);
+    min-height: var(--theme-nmenu-segment-fill);
+  }
+
+  .theme .theme-nmenu--vertical .theme-nmenu__trigger--swatch.theme-btn {
+    width: var(--theme-nmenu-segment-fill);
+    min-width: var(--theme-nmenu-segment-fill);
+    height: var(--theme-nmenu-segment-thin);
+    min-height: var(--theme-nmenu-segment-thin);
+  }
+
+  .theme .theme-nmenu__trigger--swatch.theme-btn--media-only .theme-btn__media {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    align-items: stretch;
+    justify-content: stretch;
+  }
+
+  .theme .theme-nmenu__trigger--swatch.theme-btn--media-only .theme-btn__media-frame {
+    width: 100%;
+    height: 100%;
+    min-width: 100%;
+    min-height: 100%;
+    border-radius: inherit;
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+  }
+
+  .theme .theme-nmenu__trigger--swatch.theme-btn--media-only .theme-btn__media-img,
+  .theme .theme-nmenu__trigger--swatch.theme-btn--media-only .theme-btn__media-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Only hover / focus / selected expand to full segment size */
+  .theme .theme-nmenu--horizontal .theme-nmenu__trigger--swatch.theme-btn:is(:hover, :focus-visible):not(
+      :disabled
+    ),
+  .theme
+    .theme-nmenu--horizontal
+    .theme-nmenu__trigger--swatch.theme-btn.theme-nmenu__trigger--selected:not(:disabled) {
+    width: var(--theme-nmenu-segment-fill);
+    min-width: var(--theme-nmenu-segment-fill);
+  }
+
+  .theme .theme-nmenu--vertical .theme-nmenu__trigger--swatch.theme-btn:is(:hover, :focus-visible):not(
+      :disabled
+    ),
+  .theme
+    .theme-nmenu--vertical
+    .theme-nmenu__trigger--swatch.theme-btn.theme-nmenu__trigger--selected:not(:disabled) {
+    height: var(--theme-nmenu-segment-fill);
+    min-height: var(--theme-nmenu-segment-fill);
+  }
+
+  .theme .theme-nmenu__more-trigger .theme-btn[data-size='xxs'] {
+    --theme-nmenu-more-icon: calc(0.5625rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-nmenu__more-trigger .theme-btn__icon {
+    width: var(--theme-nmenu-more-icon, calc(0.5625rem * var(--theme-menu-scale)));
+    height: var(--theme-nmenu-more-icon, calc(0.5625rem * var(--theme-menu-scale)));
+    flex-shrink: 0;
+  }
+
+  .theme .theme-nmenu__more-trigger .theme-btn__icon svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-nmenu__trigger.theme-btn,
+    .theme .theme-nmenu__item {
+      transition: none;
+    }
+  }
+}
+
+/* Beat Tailwind size-[1.375rem] + menu-scale fixed chips on swatch triggers */
+@layer utilities {
+  .theme .theme-nmenu--horizontal .theme-nmenu__trigger--swatch.theme-btn.theme-btn--media-only[data-size='xxs'] {
+    width: var(--theme-nmenu-segment-thin);
+    min-width: var(--theme-nmenu-segment-thin);
+    max-width: none;
+    height: var(--theme-nmenu-segment-fill);
+    min-height: var(--theme-nmenu-segment-fill);
+    padding: 0;
+  }
+
+  .theme
+    .theme-nmenu--horizontal
+    .theme-nmenu__trigger--swatch.theme-btn.theme-btn--media-only[data-size='xxs']:is(:hover, :focus-visible),
+  .theme
+    .theme-nmenu--horizontal
+    .theme-nmenu__trigger--swatch.theme-btn.theme-btn--media-only[data-size='xxs'].theme-nmenu__trigger--selected {
+    width: var(--theme-nmenu-segment-fill);
+    min-width: var(--theme-nmenu-segment-fill);
+  }
+
+  .theme .theme-nmenu--vertical .theme-nmenu__trigger--swatch.theme-btn.theme-btn--media-only[data-size='xxs'] {
+    width: var(--theme-nmenu-segment-fill);
+    min-width: var(--theme-nmenu-segment-fill);
+    height: var(--theme-nmenu-segment-thin);
+    min-height: var(--theme-nmenu-segment-thin);
+    padding: 0;
+  }
+
+  .theme
+    .theme-nmenu--vertical
+    .theme-nmenu__trigger--swatch.theme-btn.theme-btn--media-only[data-size='xxs']:is(:hover, :focus-visible),
+  .theme
+    .theme-nmenu--vertical
+    .theme-nmenu__trigger--swatch.theme-btn.theme-btn--media-only[data-size='xxs'].theme-nmenu__trigger--selected {
+    height: var(--theme-nmenu-segment-fill);
+    min-height: var(--theme-nmenu-segment-fill);
+  }
+
+  .theme .theme-nmenu__trigger--swatch.theme-btn.theme-btn--media-only[data-size='xxs'] .theme-btn__media-frame {
+    width: 100%;
+    min-width: 100%;
+    height: 100%;
+    min-height: 100%;
+  }
+
+  .theme .theme-nmenu__trigger--swatch.theme-btn:is(:hover, :focus-visible, .theme-nmenu__trigger--selected) {
+    outline: none;
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+    transform: none;
+  }
+}

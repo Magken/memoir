@@ -1,0 +1,191 @@
+/**
+ * Direction-aware 3D cube gallery — port of ref.image-carousel-11 (Noel Delgado).
+ * Each tile is a 2-face mini-cube (image front · title back) that flips toward the
+ * edge the pointer enters/leaves. `data-flip` (in/out-top|right|bottom|left) is set
+ * in JS via directionAwareCubeEdge; CSS drives the matching rotate3d keyframes.
+ */
+
+@layer components {
+  .theme .theme-dir-cube-gallery {
+    --dir-cube-size: 9.5rem;
+    --dir-cube-gap: 0.4rem;
+    --dir-cube-duration: 240ms;
+    --dir-cube-ease: ease-out;
+    --dir-cube-perspective: 320px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--dir-cube-gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .theme .theme-dir-cube-gallery__tile {
+    position: relative;
+    width: var(--dir-cube-size);
+    height: var(--dir-cube-size);
+    list-style: none;
+    perspective: var(--dir-cube-perspective);
+    transform-origin: 50% 50% calc(var(--dir-cube-size) / 2);
+  }
+
+  .theme .theme-dir-cube-gallery__inner {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    transform-style: preserve-3d;
+    transform-origin: 50% 50% calc(var(--dir-cube-size) / 2 * -1);
+    will-change: transform;
+    animation: var(--dir-cube-duration) var(--dir-cube-ease) 0ms 1 normal forwards paused;
+  }
+
+  .theme .theme-dir-cube-gallery__front,
+  .theme .theme-dir-cube-gallery__back {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    color: var(--theme-text);
+  }
+
+  .theme .theme-dir-cube-gallery__front {
+    background: linear-gradient(
+      var(--theme-accent),
+      color-mix(in srgb, var(--theme-accent) 35%, var(--theme-surface-inset))
+    );
+    transform: translate3d(0, 0, 0);
+  }
+
+  .theme .theme-dir-cube-gallery__front img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .theme .theme-dir-cube-gallery__back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    text-align: center;
+    background-color: var(--theme-surface-inset);
+    background-image: radial-gradient(
+      circle,
+      color-mix(in srgb, var(--theme-surface-raised) 70%, transparent),
+      var(--theme-surface-inset) 160%
+    );
+    transform: translate3d(0, 0, -1px);
+  }
+
+  .theme .theme-dir-cube-gallery__title {
+    margin: 0;
+  }
+
+  /* ── back-face placement per entry edge (substring match in/out) ── */
+  .theme .theme-dir-cube-gallery__tile[data-flip$='-top'] .theme-dir-cube-gallery__back {
+    transform-origin: 0% 100%;
+    transform: translate3d(0, -100%, 0) rotate3d(1, 0, 0, 90deg);
+  }
+
+  .theme .theme-dir-cube-gallery__tile[data-flip$='-right'] .theme-dir-cube-gallery__back {
+    transform-origin: 0% 0%;
+    transform: translate3d(100%, 0, 0) rotate3d(0, 1, 0, 90deg);
+  }
+
+  .theme .theme-dir-cube-gallery__tile[data-flip$='-bottom'] .theme-dir-cube-gallery__back {
+    transform-origin: 0% 0%;
+    transform: translate3d(0, 100%, 0) rotate3d(-1, 0, 0, 90deg);
+  }
+
+  .theme .theme-dir-cube-gallery__tile[data-flip$='-left'] .theme-dir-cube-gallery__back {
+    transform-origin: 100% 0;
+    transform: translate3d(-100%, 0, 0) rotate3d(0, -1, 0, 90deg);
+  }
+
+  /* ── animation bindings per flip phase ── */
+  .theme .theme-dir-cube-gallery__tile[data-flip='in-top'] .theme-dir-cube-gallery__inner {
+    animation-name: theme-dir-cube-in-top;
+    animation-play-state: running;
+  }
+  .theme .theme-dir-cube-gallery__tile[data-flip='in-right'] .theme-dir-cube-gallery__inner {
+    animation-name: theme-dir-cube-in-right;
+    animation-play-state: running;
+  }
+  .theme .theme-dir-cube-gallery__tile[data-flip='in-bottom'] .theme-dir-cube-gallery__inner {
+    animation-name: theme-dir-cube-in-bottom;
+    animation-play-state: running;
+  }
+  .theme .theme-dir-cube-gallery__tile[data-flip='in-left'] .theme-dir-cube-gallery__inner {
+    animation-name: theme-dir-cube-in-left;
+    animation-play-state: running;
+  }
+  .theme .theme-dir-cube-gallery__tile[data-flip='out-top'] .theme-dir-cube-gallery__inner {
+    animation-name: theme-dir-cube-out-top;
+    animation-play-state: running;
+  }
+  .theme .theme-dir-cube-gallery__tile[data-flip='out-right'] .theme-dir-cube-gallery__inner {
+    animation-name: theme-dir-cube-out-right;
+    animation-play-state: running;
+  }
+  .theme .theme-dir-cube-gallery__tile[data-flip='out-bottom'] .theme-dir-cube-gallery__inner {
+    animation-name: theme-dir-cube-out-bottom;
+    animation-play-state: running;
+  }
+  .theme .theme-dir-cube-gallery__tile[data-flip='out-left'] .theme-dir-cube-gallery__inner {
+    animation-name: theme-dir-cube-out-left;
+    animation-play-state: running;
+  }
+
+  @keyframes theme-dir-cube-in-top {
+    from { transform: rotate3d(0, 0, 0, 0deg); }
+    to { transform: rotate3d(-1, 0, 0, 90deg); }
+  }
+  @keyframes theme-dir-cube-out-top {
+    from { transform: rotate3d(-1, 0, 0, 90deg); }
+    to { transform: rotate3d(0, 0, 0, 0deg); }
+  }
+  @keyframes theme-dir-cube-in-right {
+    from { transform: rotate3d(0, 0, 0, 0deg); }
+    to { transform: rotate3d(0, -1, 0, 90deg); }
+  }
+  @keyframes theme-dir-cube-out-right {
+    from { transform: rotate3d(0, -1, 0, 90deg); }
+    to { transform: rotate3d(0, 0, 0, 0deg); }
+  }
+  @keyframes theme-dir-cube-in-bottom {
+    from { transform: rotate3d(0, 0, 0, 0deg); }
+    to { transform: rotate3d(1, 0, 0, 90deg); }
+  }
+  @keyframes theme-dir-cube-out-bottom {
+    from { transform: rotate3d(1, 0, 0, 90deg); }
+    to { transform: rotate3d(0, 0, 0, 0deg); }
+  }
+  @keyframes theme-dir-cube-in-left {
+    from { transform: rotate3d(0, 0, 0, 0deg); }
+    to { transform: rotate3d(0, 1, 0, 90deg); }
+  }
+  @keyframes theme-dir-cube-out-left {
+    from { transform: rotate3d(0, 1, 0, 90deg); }
+    to { transform: rotate3d(0, 0, 0, 0deg); }
+  }
+
+  /* reduced motion — drop the 3D spin, cross-fade the title overlay on hover/focus */
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-dir-cube-gallery__inner {
+      animation: none !important;
+      transform: none !important;
+    }
+
+    .theme .theme-dir-cube-gallery__back {
+      transform: none !important;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .theme .theme-dir-cube-gallery__tile:hover .theme-dir-cube-gallery__back,
+    .theme .theme-dir-cube-gallery__tile:focus-within .theme-dir-cube-gallery__back {
+      opacity: 1;
+    }
+  }
+}

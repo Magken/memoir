@@ -1,0 +1,22 @@
+{
+  "assetId": "fort-mason",
+  "units": "m",
+  "upAxis": "y",
+  "notes": "Niantic SPZ v3 with degree-3 spherical harmonics, in capture coordinates. SPZ is already y-up, so it is not turned. Home stands at the median of the cloud and looks outward. The file has no camera track.",
+  "annotations": [
+    {
+      "id": "viewpoint-home",
+      "kind": "viewpoint",
+      "label": "Home",
+      "position": [0.125, -0.04, -0.33],
+      "camera": [0.125, -0.04, -0.03],
+      "target": [0.125, -0.04, -0.33],
+      "orbit": {
+        "azimuth": 0,
+        "polar": 1.5707963267948966,
+        "radius": 0.3
+      },
+      "up": [0, 1, 0]
+    }
+  ]
+}

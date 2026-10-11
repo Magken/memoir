@@ -1,0 +1,114 @@
+/**
+ * Codrops Slideshow Animations — theme shell (MIT Codrops).
+ * Ref: item-reference/front-end/slideshow-animations/
+ */
+
+.theme-slideshow {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  max-height: 70vh;
+  overflow: hidden;
+  background: var(--theme-surface-inset);
+  color: var(--theme-text);
+  border-radius: 0.5rem;
+  border: 1px solid var(--theme-border);
+  touch-action: none;
+}
+
+.theme-slideshow__slides {
+  position: absolute;
+  inset: 0;
+}
+
+.theme-slideshow__slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.theme-slideshow__slide--current,
+.theme-slideshow__slide.slide--current {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 2;
+}
+
+.theme-slideshow__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  will-change: transform, opacity, filter;
+}
+
+.theme-slideshow--demo2 .theme-slideshow__img {
+  width: 120%;
+  height: 120%;
+  margin: -10%;
+}
+
+.theme-slideshow__deco {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background: var(--theme-accent);
+  opacity: 0;
+}
+
+.theme-slideshow__deco--1 { background: color-mix(in srgb, var(--theme-accent) 80%, #000); }
+.theme-slideshow__deco--2 { background: color-mix(in srgb, var(--theme-accent) 60%, #222); }
+.theme-slideshow__deco--3 { background: color-mix(in srgb, var(--theme-text) 40%, var(--theme-accent)); }
+.theme-slideshow__deco--4 { background: color-mix(in srgb, var(--theme-accent) 70%, #444); }
+.theme-slideshow__deco--5 { background: #34365c; }
+.theme-slideshow__deco--6 { background: #9f6794; }
+.theme-slideshow__deco--7 { background: color-mix(in srgb, var(--theme-accent) 50%, #9f6794); }
+
+.theme-slideshow__nav {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 10;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.theme-slideshow__nav::before {
+  content: 'scroll / drag';
+  margin-right: 0.75rem;
+  font-size: 0.7rem;
+  opacity: 0.7;
+  color: var(--theme-text);
+}
+
+.theme-slideshow__nav-btn {
+  border: 0;
+  background: var(--theme-page-bg);
+  color: var(--theme-text);
+  width: 2.75rem;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  cursor: pointer;
+  border: 1px solid var(--theme-border);
+}
+
+.theme-slideshow__nav-btn:hover,
+.theme-slideshow__nav-btn:focus-visible {
+  background: var(--theme-surface-raised);
+  outline: 2px solid var(--theme-focus);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-slideshow__slide,
+  .theme-slideshow__img,
+  .theme-slideshow__deco {
+    transition: none !important;
+  }
+}

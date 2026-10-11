@@ -1,0 +1,593 @@
+/**
+ * Dashboard menu — side rail with VurifyMenuButton rows (home submenu size).
+ * Flat link list. Collapse (panel layout) narrows to icon-only; page layout
+ * stays permanently open beside a scrollable main column.
+ */
+
+@layer components {
+  .theme .theme-dash {
+    --theme-dash-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --theme-dash-duration: 0.34s;
+    --theme-dash-divider: var(--theme-divider-line-strong);
+    --theme-dash-width: calc(16rem * var(--theme-menu-scale));
+    --theme-dash-rail-width: calc(3rem * var(--theme-menu-scale));
+    --theme-dash-body-max-height: calc(24rem * var(--theme-menu-scale));
+    --theme-menu-panel-padding-block: calc(0.28rem * var(--theme-menu-scale));
+    --theme-menu-panel-padding-block-end: calc(0.55rem * var(--theme-menu-scale));
+    --theme-menu-panel-padding-inline: calc(0.22rem * var(--theme-menu-scale));
+    --theme-dash-btn-gutter: calc(
+      0.2rem * var(--theme-menu-scale) + var(--theme-btn-shadow-offset-sm, 4px)
+    );
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 auto;
+    width: var(--theme-dash-width);
+    min-height: 0;
+    overflow: visible;
+    border-right: var(--theme-dash-divider);
+    --theme-scroll-fade: var(--theme-surface-raised);
+    background-color: var(--theme-surface-raised);
+    transition: width var(--theme-dash-duration) var(--theme-dash-ease);
+  }
+
+  .theme .theme-dash--sm {
+    --theme-dash-width: calc(14rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-dash--lg {
+    --theme-dash-width: calc(18rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-dash--body-max-16 {
+    --theme-dash-body-max-height: calc(16rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-dash--body-max-20 {
+    --theme-dash-body-max-height: calc(20rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-dash--body-max-24 {
+    --theme-dash-body-max-height: calc(24rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-dash--body-max-32 {
+    --theme-dash-body-max-height: calc(32rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-dash--collapsed {
+    width: var(--theme-dash-rail-width);
+  }
+
+  .theme .theme-dash__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: calc(0.5rem * var(--theme-menu-scale));
+    flex: 0 0 auto;
+    width: 100%;
+    padding: calc(0.65rem * var(--theme-menu-scale)) calc(0.75rem * var(--theme-menu-scale));
+    border-bottom: var(--theme-dash-divider);
+    background-color: var(--theme-surface-raised);
+  }
+
+  .theme .theme-dash--collapsed .theme-dash__head {
+    justify-content: center;
+    padding-inline: calc(0.5rem * var(--theme-menu-scale));
+    padding-block: calc(0.65rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-dash__title {
+    flex: 1 1 auto;
+    min-width: 0;
+    color: var(--theme-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: opacity calc(var(--theme-dash-duration) * 0.65) var(--theme-dash-ease);
+  }
+
+  .theme .theme-dash--collapsed .theme-dash__title {
+    display: none;
+  }
+
+  /* Tooltip host — keep icon rows start-aligned in the rail. */
+  .theme .theme-dash__tooltip.theme-tooltip-trigger {
+    display: inline-flex;
+    max-width: 100%;
+  }
+  .theme .theme-dash__title-btn.theme-vurify-menu-button {
+    flex: 0 0 auto;
+    width: auto;
+    max-width: 100%;
+    min-width: 0;
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .theme
+    .theme-dash__title-btn.theme-vurify-menu-button--housing.theme-vurify-menu-button--label {
+    /* Do not overflow:hidden on the framed control — it clips the top border. */
+    overflow: visible;
+    padding: var(--vurify-menu-housing-pad, 4px);
+    border: var(--vurify-menu-housing-width, 2px) solid
+      color-mix(in srgb, var(--theme-text) 22%, transparent);
+    transition:
+      border-color var(--vurify-menu-housing-duration, 0.3s)
+        var(--vurify-menu-housing-ease, cubic-bezier(0.2, 1, 0.8, 1)),
+      color var(--vurify-menu-fill-duration, 0.4s) var(--vurify-menu-fill-ease, ease),
+      padding var(--verify-label-collapse-duration, 0.52s)
+        var(--verify-label-collapse-ease, cubic-bezier(0.45, 0, 0.55, 1));
+  }
+
+  /* Keep a readable frame open + collapsed (aria-expanded flip must not kill the border mid-wipe). */
+  .theme
+    .theme-dash__title-btn.theme-vurify-menu-button--housing.theme-vurify-menu-button--label:is(
+      :hover,
+      :focus-visible,
+      [aria-expanded='true']
+    ):not(:disabled),
+  .theme
+    .theme-dash--labels-collapsed
+    .theme-dash__title-btn.theme-vurify-menu-button--housing.theme-vurify-menu-button--label:not(
+      :disabled
+    ) {
+    border-color: var(--vurify-menu-fill-color, var(--theme-text));
+  }
+
+  .theme
+    .theme-dash--labels-collapsed
+    .theme-dash__title-btn.theme-vurify-menu-button--housing.theme-vurify-menu-button--label:is(
+      :hover,
+      :focus-visible
+    ):not(:disabled) {
+    border-color: var(--theme-accent);
+  }
+
+  .theme
+    .theme-dash__title-btn.theme-vurify-menu-button--housing.theme-vurify-menu-button--label
+    > .theme-vurify-menu-button__content {
+    align-items: center;
+    gap: 0.32em;
+    transition: gap var(--verify-label-collapse-duration, 0.52s)
+      var(--verify-label-collapse-ease, cubic-bezier(0.45, 0, 0.55, 1));
+  }
+
+  .theme
+    .theme-dash__title-btn.theme-vurify-menu-button--housing.theme-vurify-menu-button--label
+    .theme-vurify-menu-button__icon {
+    align-self: center;
+    flex: 0 0 auto;
+    margin-top: 0;
+    width: 0.8em;
+    height: 0.8em;
+    transition: transform var(--verify-label-collapse-duration, 0.52s)
+      var(--verify-label-collapse-ease, cubic-bezier(0.45, 0, 0.55, 1));
+  }
+
+  /* Unframed rail — outer button owns housing; clip so the wipe reads clean. */
+  .theme
+    .theme-dash__title-btn.theme-vurify-menu-button--housing.theme-vurify-menu-button--label
+    .theme-vurify-menu-button__text-rail {
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    transition:
+      grid-template-columns var(--verify-label-collapse-duration, 0.52s)
+        var(--verify-label-collapse-ease, cubic-bezier(0.45, 0, 0.55, 1)),
+      opacity 0.2s ease;
+  }
+
+  .theme
+    .theme-dash__title-btn.theme-vurify-menu-button--housing.theme-vurify-menu-button--label
+    .theme-vurify-menu-button__text-rail.theme-link-fx--elara::before {
+    top: calc(100% + 2px);
+    left: 0;
+    right: 0;
+    width: auto;
+    transition: opacity 0.12s ease;
+  }
+
+  /* Collapse: fade label + underline with the wipe (not after), then ←→ rotate. */
+  .theme
+    .theme-dash--labels-collapsed
+    .theme-dash__title-btn.theme-vurify-menu-button--label
+    .theme-vurify-menu-button__text-rail {
+    grid-template-columns: 0fr;
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      grid-template-columns var(--verify-label-collapse-duration, 0.52s)
+        var(--verify-label-collapse-ease, cubic-bezier(0.45, 0, 0.55, 1)),
+      opacity 0.2s ease;
+  }
+
+  .theme
+    .theme-dash--labels-collapsed
+    .theme-dash__title-btn.theme-vurify-menu-button--label
+    .theme-vurify-menu-button__text-rail.theme-link-fx--elara::before {
+    opacity: 0;
+    transition: opacity 0.1s ease;
+  }
+
+  .theme
+    .theme-dash--labels-collapsed
+    .theme-dash__title-btn.theme-vurify-menu-button--label
+    > .theme-vurify-menu-button__content {
+    gap: 0;
+    justify-content: flex-start;
+  }
+
+  .theme .theme-dash--labels-collapsed .theme-dash__title-btn .theme-vurify-menu-button__icon {
+    transform: rotate(180deg);
+  }
+
+  /* Accent hover only while labels are collapsed (→ + icon rail). */
+  .theme
+    .theme-dash--labels-collapsed
+    .theme-dash__title-btn.theme-vurify-menu-button:is(:hover, :focus-visible):not(:disabled) {
+    --vurify-menu-fill-color: var(--theme-accent);
+    color: var(--theme-accent);
+  }
+
+  .theme
+    .theme-dash--labels-collapsed
+    .theme-dash__link-btn.theme-vurify-menu-button:is(:hover, :focus-visible):not(:disabled) {
+    --vurify-menu-fill-color: var(--theme-accent);
+    color: var(--theme-accent);
+  }
+
+  .theme .theme-dash__toggle.theme-btn {
+    flex: 0 0 auto;
+    align-items: center;
+    line-height: 1;
+    gap: calc(0.4rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-dash--collapsed .theme-dash__toggle.theme-btn {
+    margin: 0;
+    justify-content: center;
+  }
+
+  .theme .theme-dash__body {
+    display: flex;
+    flex-direction: column;
+    flex: 0 1 auto;
+    min-height: 0;
+    max-height: var(--theme-dash-body-max-height);
+    overflow: visible;
+  }
+
+  .theme .theme-dash__body-inner {
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .theme .theme-dash .theme-dash__scroll.theme-rounded-scroll {
+    overflow: visible;
+  }
+
+  .theme .theme-dash__scroll {
+    height: auto;
+    max-height: var(--theme-dash-body-max-height);
+  }
+
+  .theme .theme-dash__scroll .theme-rounded-scroll__viewport,
+  .theme .theme-dash__scroll .theme-scroll__viewport {
+    max-height: var(--theme-dash-body-max-height);
+    padding-inline-end: var(--theme-dash-btn-gutter);
+  }
+
+  .theme .theme-dash--collapsed .theme-dash__scroll .theme-rounded-scroll__viewport,
+  .theme .theme-dash--collapsed .theme-dash__scroll .theme-scroll__viewport {
+    padding-inline: calc(0.5rem * var(--theme-menu-scale));
+    padding-inline-end: calc(0.5rem * var(--theme-menu-scale) + var(--theme-dash-btn-gutter));
+  }
+
+  .theme .theme-dash__list {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    margin: 0;
+    padding-block-start: var(--theme-scroll-list-pad-block-start);
+    padding-block-end: var(--theme-scroll-list-pad-block-end);
+    padding-inline: var(--theme-menu-panel-padding-inline)
+      calc(var(--theme-menu-panel-padding-inline) + var(--theme-dash-btn-gutter));
+    list-style: none;
+  }
+
+  .theme .theme-dash--collapsed .theme-dash__list {
+    align-items: center;
+    padding-inline: calc(0.5rem * var(--theme-menu-scale));
+    padding-block-start: var(--theme-scroll-list-pad-block-start);
+    padding-block-end: var(--theme-scroll-list-pad-block-end);
+  }
+
+  .theme .theme-dash__list > li {
+    display: flex;
+    width: 100%;
+    min-width: 0;
+    justify-content: flex-start;
+    padding-block: 0.55rem;
+  }
+
+  .theme .theme-dash__list > li:not(:last-child) {
+    border-bottom: 1px solid var(--theme-border);
+  }
+
+  .theme .theme-dash--collapsed .theme-dash__list > li {
+    justify-content: center;
+  }
+
+  .theme .theme-dash__link-btn.theme-vurify-menu-button {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .theme .theme-dash__link-btn.is-selected {
+    color: var(--theme-accent);
+  }
+
+  .theme .theme-dash--collapsed .theme-dash__link-btn.theme-vurify-menu-button {
+    width: auto;
+    max-width: none;
+    min-width: 0;
+    flex: 0 0 auto;
+    align-self: center;
+    justify-content: center;
+  }
+
+  /*
+   * Page Scene fixed menu column — transparent underlay chrome.
+   * Menu column width animates; page flex-squishes (no translate).
+   * Width / motion synced to --dash-peel-*.
+   */
+  .theme .theme-dash--page {
+    --theme-dash-duration: var(--dash-peel-duration, 0.48s);
+    --theme-dash-ease: var(--dash-peel-ease, cubic-bezier(0.22, 1, 0.36, 1));
+    /* Tight inset — long labels (“Back home”) need the leftover column width. */
+    --theme-dash-sep-inset: 0.75rem;
+    --theme-scroll-fade: color-mix(
+      in srgb,
+      var(--theme-complement) 16%,
+      var(--theme-page-bg)
+    );
+    /* Column owns the width tween — nested width transitions fight and jitter. */
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+    min-height: 0;
+    flex: 1 1 auto;
+    align-self: stretch;
+    border-right: 0;
+    background-color: transparent;
+  }
+
+  .theme .theme-dash--page .theme-dash__body {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
+  }
+
+  .theme .theme-dash--page .theme-dash__body-inner {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+    height: 100%;
+  }
+
+  .theme .theme-dash--page .theme-dash__scroll {
+    flex: 1 1 auto;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+  }
+
+  /* Bottom dock — Back home + future utility actions. */
+  .theme .theme-dash__footer {
+    flex: 0 0 auto;
+    margin-top: auto;
+    /* End inset = breathing room to the page edge; label stays intrinsic width
+     * (max-content) so the last glyph is not squeezed/clipped. */
+    padding: 0.65rem var(--theme-dash-sep-inset, 0.75rem) 0.15rem 0;
+    border-top: 1px solid var(--theme-border);
+    overflow: visible;
+  }
+
+  .theme .theme-dash__footer-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.1rem;
+    margin: 0;
+    padding: 0.2rem 0 0;
+    list-style: none;
+    overflow: visible;
+  }
+
+  .theme .theme-dash__footer-item {
+    display: flex;
+    width: max-content;
+    max-width: none;
+    padding-block: 0.4rem;
+    overflow: visible;
+  }
+
+  .theme .theme-dash__footer .theme-dash__link-btn.theme-vurify-menu-button {
+    width: max-content;
+    max-width: none;
+  }
+
+  .theme .theme-dash--collapsed .theme-dash__footer {
+    padding-inline-end: 0;
+  }
+
+  .theme .theme-dash--collapsed .theme-dash__footer-list {
+    align-items: flex-start;
+  }
+
+  .theme .theme-dash--page .theme-dash__head {
+    justify-content: flex-start;
+    /* Stable pad — never flip to center (that teleports icons mid-peel).
+     * Extra block-start so the housing top border isn’t clipped by __menu overflow.
+     * Shared inset so Menu hairline matches row separators (not page-flush). */
+    padding: 0.35rem var(--theme-dash-sep-inset, 0.85rem) 0.85rem 0;
+    margin-bottom: 0.35rem;
+    border-bottom: 1px solid var(--theme-border);
+    background-color: transparent;
+    overflow: visible;
+  }
+
+  .theme .theme-dash--page.theme-dash--collapsed .theme-dash__head {
+    justify-content: flex-start;
+    padding: 0.35rem var(--theme-dash-sep-inset, 0.85rem) 0.85rem 0;
+    margin-bottom: 0.35rem;
+  }
+
+  .theme .theme-dash--page .theme-dash__scroll .theme-rounded-scroll__viewport,
+  .theme .theme-dash--page .theme-dash__scroll .theme-scroll__viewport,
+  .theme
+    .theme-dash--page
+    .theme-dash__scroll.theme-scroll[data-scroll-rail='hidden']
+    .theme-scroll__viewport,
+  .theme
+    .theme-dash--page
+    .theme-dash__scroll.theme-scroll[data-scroll-rail='straight']
+    .theme-scroll__viewport {
+    max-height: none;
+    height: 100%;
+    /* Beat scroll-rail hidden/straight edge inset — was extra right pad on expanded rows. */
+    padding-inline: 0;
+    padding-inline-end: 0;
+  }
+
+  /* Underlay pad owns L/R inset — keep rows start-aligned like the home submenu. */
+  .theme .theme-dash--page .theme-dash__list {
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 0;
+    height: auto;
+    padding-block: 0.15rem 0.35rem;
+    padding-inline: 0 var(--theme-dash-sep-inset);
+  }
+
+  .theme .theme-dash--page .theme-dash__list > li {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 100%;
+    /* Room under Elara so hairline does not sit on the active underline. */
+    padding-block: 0.5rem 0.62rem;
+  }
+
+  .theme .theme-dash--page .theme-dash__list > li:not(:last-child) {
+    border-bottom: 1px solid var(--theme-border);
+  }
+
+  /*
+   * Always auto-width on page — label wipe drives size.
+   * Stay start-aligned while peeling: the rail width + pads close around the
+   * icons (justify center mid-flight teleports them).
+   */
+  .theme .theme-dash--page .theme-dash__title-btn.theme-vurify-menu-button,
+  .theme .theme-dash--page .theme-dash__link-btn.theme-vurify-menu-button,
+  .theme .theme-dash--page.theme-dash--collapsed .theme-dash__title-btn.theme-vurify-menu-button,
+  .theme .theme-dash--page.theme-dash--collapsed .theme-dash__link-btn.theme-vurify-menu-button {
+    display: inline-flex;
+    width: auto;
+    max-width: 100%;
+    flex: 0 0 auto;
+    align-self: flex-start;
+    justify-content: flex-start;
+    margin-inline: 0;
+  }
+
+  /* Beat page max-width:100% — footer labels must size to glyph width. */
+  .theme .theme-dash--page .theme-dash__footer .theme-dash__tooltip.theme-tooltip-trigger,
+  .theme .theme-dash--page .theme-dash__footer .theme-dash__link-btn.theme-vurify-menu-button {
+    max-width: none;
+    width: max-content;
+  }
+
+  .theme .theme-dash--page .theme-dash__footer .theme-vurify-menu-button__content {
+    max-width: none;
+  }
+
+  .theme .theme-dash--page.theme-dash--collapsed .theme-dash__list {
+    align-items: stretch;
+    padding-inline-end: var(--theme-dash-sep-inset, 0.85rem);
+  }
+
+  .theme .theme-dash--page.theme-dash--collapsed .theme-dash__list > li {
+    justify-content: flex-start;
+  }
+
+  .theme
+    .theme-dash--page.theme-dash--collapsed
+    .theme-dash__title-btn.theme-vurify-menu-button
+    .theme-vurify-menu-button__content,
+  .theme
+    .theme-dash--page.theme-dash--collapsed
+    .theme-dash__link-btn.theme-vurify-menu-button
+    .theme-vurify-menu-button__content {
+    justify-content: flex-start;
+    width: auto;
+  }
+
+  /* Let grid 1fr→0fr own the wipe — max-width:0 snapped the bordered Menu shut. */
+  .theme
+    .theme-dash--page
+    .theme-dash__link-btn.theme-vurify-menu-button--label-collapsed
+    .theme-vurify-menu-button__text-rail {
+    min-width: 0;
+  }
+
+  .theme .theme-dash-shell {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    min-height: calc(24rem * var(--theme-menu-scale));
+    overflow: visible;
+  }
+
+  .theme .theme-dash-shell.theme-card {
+    padding: 0;
+    background-color: var(--theme-surface-raised);
+  }
+
+  .theme .theme-dash-shell .theme-card__body {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    padding: 0;
+    min-height: inherit;
+  }
+
+  .theme .theme-dash-shell .theme-card__body > .theme-dash {
+    align-self: flex-start;
+  }
+
+  .theme .theme-dash-page__body {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: calc(1.25rem * var(--theme-menu-scale)) calc(1.35rem * var(--theme-menu-scale))
+      calc(1.5rem * var(--theme-menu-scale));
+    background-color: color-mix(in srgb, var(--theme-surface) 92%, var(--theme-page-bg));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-dash {
+      transition-duration: 0.01ms;
+    }
+
+    .theme .theme-dash__title-text,
+    .theme .theme-dash__title-dots {
+      transition: none;
+    }
+  }
+}

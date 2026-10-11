@@ -1,0 +1,167 @@
+/**
+ * Paginator — invisible shell separates prev, pages, and next.
+ */
+
+@layer components {
+  .theme .theme-paginator__shell {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .theme .theme-paginator__prev,
+  .theme .theme-paginator__pages,
+  .theme .theme-paginator__next {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .theme .theme-paginator__pages-track {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .theme .theme-paginator__page-btn.theme-btn {
+    overflow: visible;
+    transition:
+      border-color 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+      color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .theme .theme-paginator__page-num,
+  .theme .theme-paginator__summary-page.type-anim {
+    --type-anim-duration: 0.44s;
+    --type-anim-depth: 0.24em;
+    --type-anim-unit-height: 1em;
+    --type-anim-stagger: 28ms;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+  }
+
+  .theme .theme-paginator__summary-page--editable,
+  .theme .theme-paginator__summary-input {
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    color: var(--theme-accent);
+  }
+
+  .theme .theme-paginator__summary-page--editable {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background: transparent;
+    cursor: text;
+    text-decoration: underline dotted;
+    text-underline-offset: 0.14em;
+    line-height: inherit;
+  }
+
+  .theme .theme-paginator__summary-page--editable:hover:not(:disabled) {
+    color: color-mix(in srgb, var(--theme-accent) 82%, var(--theme-text));
+  }
+
+  .theme .theme-paginator__summary-page--editable:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+  }
+
+  .theme .theme-paginator__summary-input {
+    box-sizing: content-box;
+    width: 2ch;
+    min-width: 1.5ch;
+    max-width: 4ch;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    border-bottom: 1px solid var(--theme-accent);
+    border-radius: 0;
+    background: transparent;
+    text-align: center;
+    font: inherit;
+    line-height: inherit;
+    outline: none;
+  }
+
+  .theme .theme-paginator__summary-total {
+    font-weight: 600;
+    color: var(--theme-text-muted);
+  }
+
+  .theme .theme-paginator__page-btn.is-active .theme-paginator__page-num,
+  .theme .theme-paginator__page-btn.is-active .theme-paginator__page-num.type-anim {
+    font-weight: 700;
+  }
+
+  .theme .theme-paginator__page-btn .type-anim,
+  .theme .theme-paginator__page-btn .type-anim__track {
+    overflow: visible;
+  }
+
+  .theme .theme-paginator--compact .theme-paginator__shell {
+    gap: 0.35rem;
+  }
+
+  .theme .theme-paginator--compact .theme-paginator__pages-track {
+    gap: 0.2rem;
+  }
+
+  .theme .theme-paginator__pages-track .theme-paginator__page-btn.is-active:not(:disabled) {
+    transform: none;
+    border-color: color-mix(in srgb, var(--theme-accent) 55%, var(--theme-border-strong));
+    background-color: color-mix(in srgb, var(--theme-accent) 14%, var(--theme-surface));
+    color: var(--theme-accent);
+    box-shadow:
+      2px 2px 0 color-mix(in srgb, var(--theme-accent) 32%, var(--theme-shadow-brutal)),
+      inset 0 1px 0 color-mix(in srgb, var(--theme-accent) 18%, transparent);
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .theme .theme-paginator__pages-track .theme-paginator__page-btn.is-active:hover:not(:disabled) {
+      transform: none;
+      border-color: color-mix(in srgb, var(--theme-accent) 68%, var(--theme-border-strong));
+      background-color: color-mix(in srgb, var(--theme-accent) 20%, var(--theme-surface));
+      box-shadow:
+        2px 2px 0 color-mix(in srgb, var(--theme-accent) 42%, var(--theme-shadow-brutal)),
+        inset 0 1px 0 color-mix(in srgb, var(--theme-accent) 24%, transparent);
+    }
+  }
+
+  .theme .theme-paginator__summary {
+    min-width: 5.5rem;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+    color: var(--theme-text-muted);
+  }
+
+  .theme .theme-paginator--minimal .theme-paginator__summary,
+  .theme .theme-paginator--arrows .theme-paginator__summary {
+    padding-inline: 0.25rem;
+  }
+
+  .theme .theme-paginator__ellipsis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.25rem;
+    padding-inline: 0.1rem;
+    color: var(--theme-text-muted);
+    user-select: none;
+  }
+
+  .theme .theme-paginator__summary-page.type-anim {
+    font-weight: 700;
+    color: var(--theme-accent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-paginator__page-btn.theme-btn {
+      transition-duration: 0.01ms;
+    }
+  }
+}

@@ -1,0 +1,484 @@
+/**
+ * force-graph renderer — split-pane source + diagram preview workbench.
+ */
+
+@layer components {
+  .theme .theme-force-graph-renderer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 56rem;
+    height: 40rem;
+    min-width: 0;
+    min-height: 28rem;
+    border: 1px solid var(--theme-border);
+    border-radius: var(--theme-radius-control);
+    background: var(--theme-surface);
+    /* Visible so source cast shadow (Code explorer / Flow palette) isn’t clipped */
+    overflow: visible;
+  }
+
+  .theme .theme-force-graph-renderer__chrome {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid var(--theme-border);
+    background: color-mix(in srgb, var(--theme-surface-raised) 55%, var(--theme-surface));
+  }
+
+  .theme .theme-force-graph-renderer__titlebar {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    min-width: 0;
+    padding: 0.3125rem 0.5rem;
+    min-height: 2rem;
+  }
+
+  .theme .theme-force-graph-renderer__history {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: 0.0625rem;
+  }
+
+  .theme .theme-force-graph-renderer__tools {
+    min-width: 0;
+    border-top: 1px solid color-mix(in srgb, var(--theme-border) 65%, transparent);
+  }
+
+  .theme .theme-force-graph-renderer__tools-inner {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    min-height: 2rem;
+  }
+
+  .theme .theme-force-graph-renderer__toolbar-divider {
+    display: inline-block;
+    flex-shrink: 0;
+    width: 1px;
+    max-width: 1px;
+    height: 1.25rem;
+    margin: 0;
+    background: var(--theme-border);
+    opacity: 1;
+    overflow: hidden;
+  }
+
+  .theme .theme-force-graph-renderer__body {
+    flex: 1 1 auto;
+    display: flex;
+    min-height: 0;
+    min-width: 0;
+    overflow: visible;
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+  }
+
+  .theme .theme-force-graph-renderer__source {
+    position: relative;
+    z-index: 2;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    width: var(--theme-force-graph-source-width, 18.75rem);
+    min-width: 0;
+    min-height: 0;
+    /* Visible so cast shadow isn’t self-clipped (Code explorer pattern) */
+    overflow: visible;
+    border-right: 1px solid var(--theme-border);
+    background: color-mix(in srgb, var(--theme-surface-raised) 22%, var(--theme-surface));
+    box-shadow: 6px 0 20px color-mix(in srgb, var(--theme-shadow-brutal) 12%, transparent);
+    transition:
+      width 0.28s cubic-bezier(0.33, 1, 0.48, 1),
+      border-color 0.2s ease,
+      opacity 0.22s ease,
+      background-color 0.2s ease,
+      box-shadow 0.28s ease;
+  }
+
+  .theme .theme-force-graph-renderer__source:focus-within {
+    background: color-mix(
+      in srgb,
+      var(--theme-accent) 5%,
+      var(--theme-surface-raised) 34%,
+      var(--theme-surface)
+    );
+  }
+
+  .theme .theme-force-graph-renderer__source:focus-within .theme-force-graph-renderer__pane-label {
+    color: var(--theme-text);
+  }
+
+  .theme .theme-force-graph-renderer__preview-pane {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .theme .theme-force-graph-renderer__pane-label {
+    flex-shrink: 0;
+    padding: 0.25rem 0.5rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--theme-border) 65%, transparent);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .theme .theme-force-graph-renderer__source-scroll,
+  .theme .theme-force-graph-renderer__preview-scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .theme .theme-force-graph-renderer__source-input {
+    display: block;
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+    padding: 0.625rem 0.75rem;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--theme-text);
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    resize: none;
+    overflow: hidden;
+    outline: none;
+    caret-color: var(--theme-accent);
+    box-shadow: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .theme .theme-force-graph-renderer__source-input::placeholder {
+    color: var(--theme-text-muted);
+  }
+
+  .theme .theme-force-graph-renderer__source-input::selection {
+    background: color-mix(in srgb, var(--theme-accent) 28%, transparent);
+  }
+
+  .theme .theme-force-graph-renderer__source-input:focus,
+  .theme .theme-force-graph-renderer__source-input:focus-visible {
+    outline: none;
+    box-shadow: none;
+  }
+
+  .theme .theme-force-graph-renderer__split {
+    flex-shrink: 0;
+    width: 0.25rem;
+    cursor: col-resize;
+    background: transparent;
+    touch-action: none;
+    transition:
+      width 0.28s cubic-bezier(0.33, 1, 0.48, 1),
+      opacity 0.2s ease;
+  }
+
+  .theme .theme-force-graph-renderer__split:hover,
+  .theme .theme-force-graph-renderer__split:active {
+    background: color-mix(in srgb, var(--theme-accent) 25%, var(--theme-border));
+  }
+
+  .theme .theme-force-graph-renderer__preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100%;
+    padding: 1rem;
+  }
+
+  .theme .theme-force-graph-renderer__preview svg {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .theme .theme-force-graph-renderer__status {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.1875rem 0.5rem;
+    min-height: 1.375rem;
+    border-top: 1px solid var(--theme-border);
+    background: color-mix(in srgb, var(--theme-surface-raised) 40%, var(--theme-surface));
+    color: var(--type-muted);
+  }
+
+  .theme .theme-force-graph-renderer__status-spacer {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .theme .theme-force-graph-renderer__status .type-caption:last-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .theme .theme-force-graph-renderer--source-closed .theme-force-graph-renderer__source {
+    width: 0;
+    overflow: hidden;
+    border-right-color: transparent;
+    opacity: 0;
+    pointer-events: none;
+    box-shadow: 6px 0 20px color-mix(in srgb, var(--theme-shadow-brutal) 0%, transparent);
+  }
+
+  .theme .theme-force-graph-renderer--source-closed .theme-force-graph-renderer__split {
+    width: 0;
+    opacity: 0;
+    pointer-events: none;
+    cursor: default;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-force-graph-renderer__source,
+    .theme .theme-force-graph-renderer__split,
+    .theme .theme-force-graph-renderer__node-scale,
+    .theme .theme-force-graph-renderer__node-group,
+    .theme .theme-force-graph-renderer__link,
+    .theme .theme-force-graph-renderer__label,
+    .theme .theme-force-graph-renderer__node-halo {
+      transition: none;
+    }
+  }
+
+  .theme .theme-force-graph-renderer__preview-canvas,
+  .theme .theme-force-graph-renderer__canvas-host {
+    flex: 1 1 auto;
+    position: relative;
+    min-height: 0;
+    min-width: 0;
+  }
+
+  .theme .theme-force-graph-renderer__canvas {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+    touch-action: none;
+    cursor: grab;
+    background:
+      radial-gradient(
+        ellipse 70% 55% at 50% 42%,
+        color-mix(in srgb, var(--theme-accent) 7%, transparent),
+        transparent 70%
+      ),
+      color-mix(in srgb, var(--theme-surface-raised) 22%, var(--theme-surface));
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .theme .theme-force-graph-renderer__canvas--dragging {
+    cursor: grabbing;
+  }
+
+  .theme .theme-force-graph-renderer__canvas:active {
+    cursor: grabbing;
+  }
+
+  .theme .theme-force-graph-renderer__canvas-stage,
+  .theme .theme-force-graph-renderer__canvas-content,
+  .theme .theme-force-graph-renderer__canvas-content svg,
+  .theme .theme-force-graph-renderer__canvas-content svg * {
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .theme .theme-force-graph-renderer__canvas-content {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .theme .theme-force-graph-renderer__canvas-content svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+  }
+
+  .theme .theme-force-graph-renderer__link {
+    fill: none;
+    stroke: color-mix(in srgb, var(--theme-text-muted) 55%, var(--theme-border));
+    stroke-opacity: 0.72;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
+    transition:
+      stroke-opacity 0.22s ease,
+      stroke 0.22s ease;
+  }
+
+  .theme .theme-force-graph-renderer__link--dim {
+    stroke-opacity: 0.14;
+  }
+
+  .theme .theme-force-graph-renderer__link--hot {
+    stroke: color-mix(in srgb, var(--theme-accent) 70%, var(--theme-border));
+    stroke-opacity: 0.95;
+  }
+
+  .theme .theme-force-graph-renderer__node-group {
+    transition: opacity 0.22s ease;
+  }
+
+  .theme .theme-force-graph-renderer__node-group--dim {
+    opacity: 0.22;
+  }
+
+  .theme .theme-force-graph-renderer__node-scale {
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: scale(1);
+    transition: transform 0.28s cubic-bezier(0.33, 1, 0.48, 1);
+  }
+
+  .theme .theme-force-graph-renderer__node-group--hovered .theme-force-graph-renderer__node-scale {
+    transform: scale(1.32);
+  }
+
+  .theme .theme-force-graph-renderer__node-group--selected .theme-force-graph-renderer__node-scale {
+    transform: scale(1.48);
+  }
+
+  .theme .theme-force-graph-renderer__node-halo {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.22s ease;
+  }
+
+  .theme .theme-force-graph-renderer__node-group--hovered .theme-force-graph-renderer__node-halo,
+  .theme .theme-force-graph-renderer__node-group--selected .theme-force-graph-renderer__node-halo {
+    opacity: 0.22;
+  }
+
+  .theme .theme-force-graph-renderer__node {
+    cursor: grab;
+    stroke-width: 2;
+    pointer-events: none;
+    transition: stroke-width 0.2s ease;
+  }
+
+  .theme .theme-force-graph-renderer__node-group--hovered .theme-force-graph-renderer__node,
+  .theme .theme-force-graph-renderer__node-group--selected .theme-force-graph-renderer__node {
+    stroke-width: 2.75;
+  }
+
+  .theme .theme-force-graph-renderer__node-core {
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
+  .theme .theme-force-graph-renderer__node-hit {
+    fill: transparent;
+    cursor: grab;
+    pointer-events: all;
+  }
+
+  .theme .theme-force-graph-renderer__node-hit:active {
+    cursor: grabbing;
+  }
+
+  .theme .theme-force-graph-renderer__label {
+    fill: var(--theme-text);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    pointer-events: none;
+    user-select: none;
+    paint-order: stroke fill;
+    stroke: color-mix(in srgb, var(--theme-surface) 88%, transparent);
+    stroke-width: 3.5px;
+    stroke-linejoin: round;
+    opacity: 0.88;
+    transition:
+      opacity 0.2s ease,
+      font-size 0.22s ease,
+      font-weight 0.22s ease;
+  }
+
+  .theme .theme-force-graph-renderer__node-group--dim .theme-force-graph-renderer__label {
+    opacity: 0.2;
+  }
+
+  .theme .theme-force-graph-renderer__node-group--hovered .theme-force-graph-renderer__label,
+  .theme .theme-force-graph-renderer__node-group--selected .theme-force-graph-renderer__label {
+    opacity: 1;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .theme .theme-force-graph-renderer__canvas-zoom {
+    position: absolute;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    z-index: 2;
+    pointer-events: auto;
+  }
+
+  .theme .theme-force-graph-renderer--embed {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 16rem;
+    min-height: 14rem;
+    max-height: 28rem;
+    max-width: none;
+    border: 0;
+    background: transparent;
+  }
+
+  .theme .theme-force-graph-renderer--embed .theme-force-graph-renderer__canvas-host {
+    flex: 1 1 auto;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    border-radius: var(--theme-radius-control);
+    border: 1px solid var(--theme-border);
+    overflow: hidden;
+  }
+
+  .theme .theme-force-graph-renderer--embed .theme-force-graph-renderer__canvas {
+    border: 0;
+    border-radius: 0;
+  }
+
+  .theme .theme-force-graph-renderer--doc-embed {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    max-width: none;
+    border: 0;
+    background: transparent;
+  }
+
+  .theme .theme-force-graph-renderer--doc-embed .theme-force-graph-renderer__canvas {
+    border: 0;
+    border-radius: 0;
+  }
+
+  .theme .theme-force-graph-renderer--showcase {
+    max-width: none;
+    height: 48rem;
+    min-height: 36rem;
+  }
+
+  .theme .theme-force-graph-renderer--showcase-embed {
+    height: 32rem;
+    min-height: 28rem;
+    max-height: 48rem;
+  }
+}

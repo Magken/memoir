@@ -1,0 +1,101 @@
+/**
+ * Stack nav menu — tiered site nav with icon-above-label bar tiles ([Button](Button.tsx) `stack` variant).
+ * Sub-panel structure matches [horizontal-menu.css](horizontal-menu.css).
+ */
+
+@layer components {
+  .theme .theme-snav {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+  }
+
+  /* Tighter bar / sub-panel tray than inset [horizontal-menu.css](horizontal-menu.css) triggers */
+  .theme .theme-snav.theme-hmenu--sm {
+    --theme-hmenu-bar-padding-block: calc(0.22rem * var(--theme-menu-scale));
+    --theme-hmenu-bar-padding-inline: calc(0.28rem * var(--theme-menu-scale));
+    --theme-hmenu-sub-padding: calc(0.35rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-snav.theme-hmenu--md {
+    --theme-hmenu-bar-padding-block: calc(0.28rem * var(--theme-menu-scale));
+    --theme-hmenu-bar-padding-inline: calc(0.35rem * var(--theme-menu-scale));
+    --theme-hmenu-sub-padding: calc(0.4rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-snav.theme-hmenu--lg {
+    --theme-hmenu-bar-padding-block: calc(0.32rem * var(--theme-menu-scale));
+    --theme-hmenu-bar-padding-inline: calc(0.4rem * var(--theme-menu-scale));
+    --theme-hmenu-sub-padding: calc(0.45rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-snav .theme-snav__list {
+    align-items: flex-end;
+    gap: calc(0.2rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-snav .theme-snav__item {
+    align-items: stretch;
+  }
+
+  .theme .theme-snav .theme-snav__trigger.theme-btn--stack {
+    width: max-content;
+    max-width: none;
+    min-width: calc(3.25rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-hmenu--sm .theme-snav .theme-snav__trigger.theme-btn--stack {
+    min-width: calc(2.85rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-hmenu--lg .theme-snav .theme-snav__trigger.theme-btn--stack {
+    min-width: calc(3.65rem * var(--theme-menu-scale));
+  }
+
+  .theme .theme-snav .theme-btn--stack .theme-btn__label,
+  .theme .theme-snav .theme-btn--stack .theme-btn__label--stack,
+  .theme .theme-snav .theme-btn--stack .type-anim--in-button.theme-btn__label,
+  .theme .theme-snav .theme-btn--stack .type-anim__track {
+    white-space: nowrap;
+    text-wrap: nowrap;
+  }
+
+  .theme .theme-snav .theme-hmenu__stack-sublink.theme-btn--stack {
+    width: max-content;
+    max-width: none;
+  }
+
+  /* Selected bar tile — `action` surface (horizontal menu parity) + `--theme-focus` ring */
+  .theme .theme-snav .theme-snav__trigger.theme-btn--stack.is-active:not(:disabled) {
+    border-color: color-mix(in srgb, var(--theme-accent) 88%, var(--theme-border-strong));
+    background-color: var(--theme-accent);
+    color: var(--theme-accent-text);
+    transform: translateY(1px);
+    box-shadow:
+      var(--theme-btn-shadow-offset-sm) var(--theme-btn-shadow-offset-sm) 0
+        color-mix(in srgb, var(--theme-shadow-brutal) 85%, black),
+      0 0 0 1px var(--theme-focus);
+  }
+
+  .theme .theme-snav .theme-snav__trigger.theme-btn--stack.is-active:active:not(:disabled) {
+    box-shadow:
+      inset 0 2px 6px var(--theme-shadow-inner),
+      0 0 0 1px var(--theme-focus);
+  }
+
+  .theme .theme-snav .theme-snav__trigger.theme-btn--stack:focus-visible:not(:disabled) {
+    outline: 2px solid var(--theme-focus);
+    outline-offset: 2px;
+  }
+
+  @media (hover: hover) {
+    .theme
+      .theme-snav
+      .theme-snav__trigger.theme-btn--stack:focus-visible:not(:disabled):not(.is-active) {
+      border-color: color-mix(in srgb, var(--theme-focus) 45%, var(--theme-border));
+      background-color: color-mix(in srgb, var(--theme-focus) 10%, var(--theme-surface));
+      color: var(--theme-text);
+    }
+  }
+}

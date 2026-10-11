@@ -1,0 +1,51 @@
+/**
+ * Named theme scroll-enter — Codrops Enter chars (y 100% + rotateX 60) on GSAP scroll.
+ */
+.theme {
+  --theme-scroll-enter-in: 1.2s;
+  --theme-scroll-enter-stagger: 35ms;
+  --theme-scroll-enter-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer components {
+  .theme .theme-scroll-enter {
+    display: inline-block;
+    max-width: 100%;
+  }
+
+  .theme .theme-scroll-enter__mask {
+    display: block;
+    overflow: hidden;
+    perspective: 1000px;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
+  .theme .theme-scroll-enter__line {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+  }
+
+  .theme .theme-scroll-enter__word {
+    display: inline-flex;
+  }
+
+  .theme .theme-scroll-enter__space {
+    white-space: pre;
+  }
+
+  .theme .theme-scroll-enter__char {
+    display: inline-block;
+    transform-origin: 50% 100%;
+    backface-visibility: hidden;
+    will-change: transform;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme .theme-scroll-enter__char {
+      transform: none;
+      will-change: auto;
+    }
+  }
+}
